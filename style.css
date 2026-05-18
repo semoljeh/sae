@@ -785,6 +785,9 @@ body{
 
     height:100vh;
 
+	padding-top:
+   env(safe-area-inset-top);
+
     background:#ffffff;
 
     border-radius:0;
