@@ -80,19 +80,6 @@ function closeDzikir(){
         'active'
     );
 
-    const accordions =
-    sheet.querySelectorAll(
-        '.accordion'
-    );
-
-    accordions.forEach(item=>{
-
-        item.classList.remove(
-            'active'
-        );
-
-    });
-
     document.body.classList.remove(
         'no-scroll'
     );
@@ -155,19 +142,6 @@ function closeMaulid(){
     overlay.classList.remove(
         'active'
     );
-
-    const accordions =
-    sheet.querySelectorAll(
-        '.accordion'
-    );
-
-    accordions.forEach(item=>{
-
-        item.classList.remove(
-            'active'
-        );
-
-    });
 
     document.body.classList.remove(
         'no-scroll'
@@ -372,13 +346,8 @@ sheet
 ){
 
     sessionStorage.setItem(
-        'lastSheet',
+        'restoreSheet',
         sheet
-    );
-
-    sessionStorage.setItem(
-        'fromReader',
-        'true'
     );
 
     window.location.href =
@@ -388,272 +357,105 @@ sheet
 
 
 /* =========================================
-   RESTORE SHEET
+   MOBILE HISTORY FIX
 ========================================= */
 
 window.addEventListener(
 'pageshow',
-(event)=>{
+()=>{
 
-    /* HANYA SAAT KEMBALI DARI READER */
-
-    const fromReader =
+    const restore =
 
     sessionStorage.getItem(
-        'fromReader'
+        'restoreSheet'
     );
 
-    if(fromReader !== 'true'){
-
-        sessionStorage.removeItem(
-            'lastSheet'
-        );
+    if(!restore){
 
         return;
 
     }
-
-
-    /* RESET FLAG */
 
     sessionStorage.removeItem(
-        'fromReader'
+        'restoreSheet'
     );
-
-
-    /* AMBIL SHEET */
-
-    const lastSheet =
-
-    sessionStorage.getItem(
-        'lastSheet'
-    );
-
-    if(!lastSheet){
-
-        return;
-
-    }
-
-
-    /* RESET */
-
-    document
-    .querySelectorAll(
-        '.bottom-sheet'
-    )
-    .forEach(sheet=>{
-
-        sheet.classList.remove(
-            'active'
-        );
-
-    });
-
-    document
-    .querySelectorAll(
-        '.sheet-overlay'
-    )
-    .forEach(overlay=>{
-
-        overlay.classList.remove(
-            'active'
-        );
-
-    });
-
-
-    /* RESTORE */
 
     const sheet =
     document.getElementById(
-        lastSheet
+        restore
     );
 
-    if(sheet){
+    if(!sheet){
 
-        sheet.style.transition =
-        'none';
-
-        sheet.style.bottom =
-        '0';
-
-        requestAnimationFrame(()=>{
-
-            sheet.classList.add(
-                'active'
-            );
-
-            requestAnimationFrame(()=>{
-
-                sheet.style.transition =
-                '';
-
-                sheet.style.bottom =
-                '';
-
-            });
-
-        });
+        return;
 
     }
 
+    const overlay =
+    document.querySelector(
+        '.sheet-overlay'
+    );
 
-    /* OVERLAY */
+    sheet.style.transition =
+    'none';
 
-    if(lastSheet === 'dzikirSheet'){
+    sheet.classList.add(
+        'active'
+    );
 
-        document
-        .getElementById(
-            'sheetOverlay'
-        )
-        ?.classList.add(
-            'active'
-        );
-
-    }
-
-    if(lastSheet === 'maulidSheet'){
-
-        document
-        .getElementById(
-            'maulidOverlay'
-        )
-        ?.classList.add(
-            'active'
-        );
-
-    }
-
-    if(lastSheet === 'ratibSheet'){
-
-        document
-        .getElementById(
-            'ratibOverlay'
-        )
-        ?.classList.add(
-            'active'
-        );
-
-    }
-
-    if(lastSheet === 'sholawatSheet'){
-
-        document
-        .getElementById(
-            'sholawatOverlay'
-        )
-        ?.classList.add(
-            'active'
-        );
-
-    }
-
+    overlay?.classList.add(
+        'active'
+    );
 
     document.body.classList.add(
         'no-scroll'
     );
 
+    requestAnimationFrame(()=>{
+
+        sheet.style.transition =
+        '';
+
+    });
+
 });
 
-
-/* =========================================
-   BACK BUTTON HP
-========================================= */
 
 window.addEventListener(
 'popstate',
 ()=>{
 
-    /* DZIKIR */
+    const openedSheet =
 
-    if(
-        document
-        .getElementById(
-            'dzikirSheet'
-        )
-        ?.classList.contains(
-            'active'
-        )
-    ){
+    document.querySelector(
+        '.bottom-sheet.active'
+    );
 
-        closeDzikir();
-
-        sessionStorage.removeItem(
-            'lastSheet'
-        );
+    if(!openedSheet){
 
         return;
 
     }
 
+    sessionStorage.setItem(
+        'restoreSheet',
+        openedSheet.id
+    );
 
-    /* MAULID */
+    openedSheet.classList.remove(
+        'active'
+    );
 
-    if(
-        document
-        .getElementById(
-            'maulidSheet'
-        )
-        ?.classList.contains(
-            'active'
-        )
-    ){
+    document
+    .querySelector(
+        '.sheet-overlay.active'
+    )
+    ?.classList.remove(
+        'active'
+    );
 
-        closeMaulid();
-
-        sessionStorage.removeItem(
-            'lastSheet'
-        );
-
-        return;
-
-    }
-
-
-    /* RATIB */
-
-    if(
-        document
-        .getElementById(
-            'ratibSheet'
-        )
-        ?.classList.contains(
-            'active'
-        )
-    ){
-
-        closeRatib();
-
-        sessionStorage.removeItem(
-            'lastSheet'
-        );
-
-        return;
-
-    }
-
-
-    /* SHOLAWAT */
-
-    if(
-        document
-        .getElementById(
-            'sholawatSheet'
-        )
-        ?.classList.contains(
-            'active'
-        )
-    ){
-
-        closeSholawat();
-
-        sessionStorage.removeItem(
-            'lastSheet'
-        );
-
-        return;
-
-    }
+    document.body.classList.remove(
+        'no-scroll'
+    );
 
 });
