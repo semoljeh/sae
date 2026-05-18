@@ -405,11 +405,18 @@ window.addEventListener(
     nav?.type ===
     'back_forward';
 
-    if(!isBack){
 
-        return;
+if(!isBack){
 
-    }
+    /* HAPUS CACHE SHEET */
+
+    sessionStorage.removeItem(
+        'lastSheet'
+    );
+
+    return;
+
+}
 
 
     /* AMBIL SHEET */
