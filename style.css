@@ -821,12 +821,8 @@ body{
     justify-content:space-between;
 
     padding:
-    calc(
-        env(safe-area-inset-top)
-        + 14px
-    )
-    18px
-    14px;
+    14px
+    18px;
 
     border-bottom:
     1px solid #e5e7eb;
