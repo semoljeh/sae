@@ -20,7 +20,7 @@ body{
 
     background:#e5e7eb;
 
-    min-height:100vh;
+    min-height:100dvh;
 
     display:flex;
     justify-content:center;
@@ -776,6 +776,8 @@ body{
     position:fixed;
 
     left:50%;
+
+    top:0;
     bottom:-120%;
 
     transform:translateX(-50%);
