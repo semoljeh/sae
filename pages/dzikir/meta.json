@@ -1,0 +1,27 @@
+{
+  "title": "Dzikir",
+
+  "files": [
+
+    {
+      "name": "Bab 1",
+      "file": "bab1.json"
+    },
+
+    {
+      "name": "Bab 2",
+      "file": "bab2.json"
+    },
+
+    {
+      "name": "Bab 3",
+      "file": "bab3.json"
+    },
+
+    {
+      "name": "Bab 4",
+      "file": "bab4.json"
+    }
+
+  ]
+}
