@@ -1,4 +1,3 @@
-
 // =========================================
 // SIMPLE INTERACTION
 // =========================================
@@ -377,6 +376,11 @@ sheet
         sheet
     );
 
+    sessionStorage.setItem(
+        'fromReader',
+        'true'
+    );
+
     window.location.href =
     `pages/reader.html?folder=${folder}&file=${file}`;
 
@@ -391,32 +395,30 @@ window.addEventListener(
 'pageshow',
 (event)=>{
 
-    /* HANYA SAAT BACK */
+    /* HANYA SAAT KEMBALI DARI READER */
 
-    const nav =
-    performance
-    .getEntriesByType(
-        'navigation'
-    )[0];
+    const fromReader =
 
-    const isBack =
-
-    event.persisted ||
-    nav?.type ===
-    'back_forward';
-
-
-if(!isBack){
-
-    /* HAPUS CACHE SHEET */
-
-    sessionStorage.removeItem(
-        'lastSheet'
+    sessionStorage.getItem(
+        'fromReader'
     );
 
-    return;
+    if(fromReader !== 'true'){
 
-}
+        sessionStorage.removeItem(
+            'lastSheet'
+        );
+
+        return;
+
+    }
+
+
+    /* RESET FLAG */
+
+    sessionStorage.removeItem(
+        'fromReader'
+    );
 
 
     /* AMBIL SHEET */
@@ -470,12 +472,8 @@ if(!isBack){
 
     if(sheet){
 
-        /* MATIKAN ANIMASI */
-
         sheet.style.transition =
         'none';
-
-        /* POSISI FINAL */
 
         sheet.style.bottom =
         '0';
@@ -487,8 +485,6 @@ if(!isBack){
             );
 
             requestAnimationFrame(()=>{
-
-                /* AKTIFKAN LAGI */
 
                 sheet.style.transition =
                 '';
