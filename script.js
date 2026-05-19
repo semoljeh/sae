@@ -22,6 +22,9 @@ document.addEventListener("DOMContentLoaded", function () {
         item.addEventListener('click', function () {
             navItems.forEach(nav => nav.classList.remove('active'));
             this.classList.add('active');
+            
+            const tabName = this.getAttribute('data-tab');
+            console.log("Tab aktif: " + tabName);
         });
     });
 
