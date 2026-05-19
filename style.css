@@ -1,5 +1,5 @@
 /* ==========================================================================
-   1. RESET CORE & INTEGRASI PROTEKSI UTAMA ANTI-COPAS KANAL CSS
+   1. RESET CORE & INTEGRASI FITUR PROTEKSI AMAN ANTI-COPAS CSS
    ========================================================================== */
 * {
     margin: 0;
@@ -7,7 +7,7 @@
     box-sizing: border-box;
     font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, sans-serif;
     
-    /* Mematikan pemicu sorotan warna biru/abu-abu bawaan browser saat layar HP diketuk jari */
+    /* Mematikan kilatan pemicu warna biru/abu-abu bawaan browser saat layar HP diketuk jari */
     -webkit-tap-highlight-color: transparent; 
 
     /* FITUR KUNCI ANTI-COPAS CSS: Mematikan kemampuan blok teks tulisan di semua browser */
@@ -24,10 +24,10 @@ body {
     align-items: center;
     min-height: 100vh;
     width: 100vw;
-    overflow-x: hidden; /* Menepis layar goyang kanan-kiri saat dicubit paksa jari */
+    overflow-x: hidden; /* Menepis layar goyang kanan-kiri saat dicubit zoom */
 }
 
-/* BINGKAI FRAME CONTAINER UTAMA */
+/* FRAME UTAMA WADAH WEB */
 .app-container {
     width: 100%;
     max-width: 412px; 
@@ -46,22 +46,21 @@ body {
     overflow-y: auto; /* Mengaktifkan sumbu gulir ke bawah alami */
     overflow-x: hidden;
     width: 100%;
-    padding-bottom: 100px; /* Bantalan sisa jarak aman bawah agar tidak terhalang menu nav bawah */
+    padding-bottom: 100px; /* Jarak aman terbawah dari kejaran menu navigasi */
     -webkit-overflow-scrolling: touch; /* Meminjam mesin akselerasi grafis perangkat bawaan */
 }
 
-/* Sembunyikan batang scrollbar bawaan Chrome agar visual bersih maksimal */
+/* Sembunyikan garis scrollbar bawaan Chrome agar visual bersih maksimal */
 .scrollable-content::-webkit-scrollbar {
     width: 0px;
 }
 
 /* ==========================================================================
-   2. STYLES STRUKTUR HEADER (DIKALIBRASI 100% PRESISI TEGAK LURUS)
+   2. STYLES STRUKTUR HEADER KALIBRASI 100% PRESISI TEGAK LURUS
    ========================================================================== */
 .main-header {
     background-color: #007A78;
-    /* padding atas 24px, padding kanan-kiri DIKUNCI 16px agar sejajar mutlak dengan margin kartu shalat (16px) */
-    padding: 24px 16px 85px 16px; 
+    padding: 24px 16px 85px 16px; /* Koordinat kanan-kiri 16px presisi meluruskan kartu */
 }
 
 .header-top {
@@ -69,12 +68,11 @@ body {
     justify-content: space-between;
     align-items: center;
     width: 100%;
-    /* Mengosongkan sisa ruang margin internal agar ujung tombol terluar menempel pas di koordinat 16px */
     margin: 0;
     padding: 0;
 }
 
-/* Desain tombol ikon bulat di atas */
+/* Desain tombol ikon bulat di header */
 .icon-btn {
     background-color: rgba(255, 255, 255, 0.15);
     border: none;
@@ -88,7 +86,6 @@ body {
     cursor: pointer;
     flex-shrink: 0;
 }
-/* Efek membal pegas mengecil saat ditekan jari pengguna */
 .icon-btn:active { transform: scale(0.92); }
 
 /* Aturan putaran roda ikon refresh data */
@@ -122,8 +119,7 @@ body {
    ========================================================================== */
 .prayer-card {
     background-color: white;
-    /* Margin kanan-kiri 16px, sinkron sempurna dengan padding header di atas */
-    margin: -60px 16px 0 16px; 
+    margin: -60px 16px 0 16px; /* Jarak tepi 16px lurus sejajar simetris dengan tombol header */
     border-radius: 16px;
     padding: 20px 16px;
     box-shadow: 0 8px 20px rgba(0, 0, 0, 0.04);
@@ -132,7 +128,6 @@ body {
 }
 
 .prayer-time-grid { display: grid; grid-template-columns: 1fr 1fr; position: relative; }
-/* Membuat garis pembatas vertikal lurus halus di tengah jam shalat */
 .prayer-time-grid::after { content: ""; position: absolute; left: 50%; top: 10%; height: 80%; width: 1px; background-color: #e2e8f0; transform: translateX(-50%); }
 .time-box { display: flex; flex-direction: column; align-items: center; justify-content: center; }
 .title-teal { color: #007A78; font-weight: 700; font-size: 12px; letter-spacing: 0.5px; }
@@ -164,32 +159,16 @@ body {
 .menu-label { font-size: 11px; font-weight: 700; color: #334155; text-align: center; }
 
 /* ==========================================================================
-   4. MODAL POPUP PROFIL VERTIVAL (MUNGIL & IMUT)
-   ========================================================================= */
+   4. MODAL POPUP PROFIL VERTIVAL IMUT (SQUIRCLE FLAT)
+   ========================================================================== */
 .info-wrapper-container { position: relative; display: inline-block; }
 .popup-backdrop { position: fixed; top: 0; left: 0; width: 100%; height: 100%; background-color: rgba(15, 23, 42, 0.05); backdrop-filter: blur(0.5px); z-index: 998; opacity: 0; pointer-events: none; transition: opacity 0.4s ease; }
 .popup-backdrop.show { opacity: 1; pointer-events: auto; }
 
 .popup-box {
-    position: absolute; 
-    top: 48px; 
-    left: 0px; 
-    background-color: white;
-    width: 180px; 
-    padding: 18px 14px; 
-    border-radius: 24px; 
-    border: 1px solid rgba(15, 23, 42, 0.05); 
-    box-shadow: 0 12px 30px rgba(15, 23, 42, 0.15);
-    z-index: 999;
-    text-align: center;
-    display: flex;
-    flex-direction: column;
-    align-items: center;
-    transform-origin: top left; 
-    opacity: 0;
-    transform: scale(0.5) translateY(-10px); 
-    visibility: hidden;
-    transition: transform 0.4s cubic-bezier(0.175, 0.885, 0.32, 1.275), opacity 0.3s ease, visibility 0.4s;
+    position: absolute; top: 48px; left: 0px; background-color: white; width: 180px; padding: 18px 14px; border-radius: 24px; border: 1px solid rgba(15, 23, 42, 0.05); box-shadow: 0 12px 30px rgba(15, 23, 42, 0.15); z-index: 999;
+    text-align: center; display: flex; flex-direction: column; align-items: center;
+    transform-origin: top left; opacity: 0; transform: scale(0.5) translateY(-10px); visibility: hidden; transition: transform 0.4s cubic-bezier(0.175, 0.885, 0.32, 1.275), opacity 0.3s ease, visibility 0.4s;
 }
 .popup-box.show { opacity: 1; transform: scale(1) translateY(0); visibility: visible; }
 
@@ -220,7 +199,62 @@ body {
 .nav-label { font-size: 10px; font-weight: 600; margin-top: 2px; }
 
 /* ==========================================================================
-   5. BREAKPOINT RESPONSIVITAS TOTAL LAYAR MINI / SMARTWATCH (max-width: 330px)
+   5. STYLES POPUP LOKASI (BOTTOM SHEET MODAL UTK HP MODERN & J2 PRO)
+   ========================================================================== */
+.location-backdrop {
+    position: fixed; top: 0; left: 50%; transform: translateX(-50%);
+    width: 100%; max-width: 412px; height: 100%;
+    background-color: rgba(15, 23, 42, 0.4); backdrop-filter: blur(1.5px);
+    z-index: 1000; opacity: 0; pointer-events: none; transition: opacity 0.3s ease;
+}
+.location-backdrop.show { opacity: 1; pointer-events: auto; }
+
+.location-sheet {
+    position: fixed; bottom: 0; left: 50%; transform: translate(-50%, 100%);
+    width: 100%; max-width: 412px; background-color: white;
+    border-radius: 24px 24px 0 0; padding: 16px 20px 24px 20px;
+    z-index: 1001; box-shadow: 0 -10px 30px rgba(0, 0, 0, 0.1);
+    transition: transform 0.4s cubic-bezier(0.175, 0.885, 0.32, 1.15);
+    max-height: 85vh; display: flex; flex-direction: column;
+}
+.location-sheet.show { transform: translate(-50%, 0); }
+
+.sheet-handle { width: 40px; height: 4px; background-color: #cbd5e1; border-radius: 2px; margin: 0 auto 16px auto; }
+.sheet-title { font-size: 17px; font-weight: 700; color: #0f172a; text-align: center; }
+.sheet-subtitle { font-size: 12px; color: #64748b; text-align: center; margin-top: 4px; margin-bottom: 16px; font-weight: 500; }
+
+.gps-btn {
+    width: 100%; background-color: #e0f2fe; color: #0369a1; border: none; padding: 12px; border-radius: 14px;
+    font-size: 14px; font-weight: 700; display: flex; align-items: center; justify-content: center; gap: 8px; cursor: pointer;
+}
+.gps-btn:active { background-color: #bae6fd; }
+
+.sheet-divider { text-align: center; margin: 14px 0; position: relative; }
+.sheet-divider::before { content: ""; position: absolute; left: 0; top: 50%; width: 100%; height: 1px; background-color: #e2e8f0; z-index: 1; }
+.sheet-divider span { position: relative; z-index: 2; background-color: white; padding: 0 10px; font-size: 11px; color: #94a3b8; text-transform: uppercase; font-weight: 700; }
+
+.search-location-wrapper { position: relative; width: 100%; margin-bottom: 12px; }
+.search-location-wrapper input {
+    width: 100%; background-color: #f1f5f9; border: 1.5px solid transparent; padding: 12px 40px; border-radius: 14px;
+    font-size: 13px; color: #0f172a; font-weight: 600; outline: none;
+}
+.search-location-wrapper input:focus { border-color: #007A78; background-color: white; }
+.search-input-icon { position: absolute; left: 12px; top: 50%; transform: translateY(-50%); color: #94a3b8; font-size: 20px !important; }
+.clear-input-icon { position: absolute; right: 12px; top: 50%; transform: translateY(-50%); color: #94a3b8; font-size: 20px !important; cursor: pointer; display: none; }
+
+.suggestion-list { list-style: none; max-height: 160px; overflow-y: auto; border-radius: 12px; margin-bottom: 16px; }
+.suggestion-list.has-items { border: 1px solid #e2e8f0; background-color: #fafafa; }
+.suggestion-item { padding: 12px 14px; font-size: 13px; color: #334155; font-weight: 600; cursor: pointer; border-bottom: 1px solid #f1f5f9; display: flex; align-items: center; gap: 8px; }
+.suggestion-item:last-child { border-bottom: none; }
+.suggestion-item:active { background-color: #e2e8f0; }
+.suggestion-item span.geo-mark { color: #007A78; font-size: 16px !important; }
+.no-match-item { padding: 14px; font-size: 12px; color: #64748b; text-align: center; font-style: italic; }
+
+.save-location-btn { width: 100%; background-color: #007A78; color: white; border: none; padding: 14px; border-radius: 14px; font-size: 14px; font-weight: 700; cursor: pointer; }
+.save-location-btn:disabled { background-color: #cbd5e1; color: #94a3b8; cursor: not-allowed; }
+
+/* ==========================================================================
+   6. BREAKPOINT RESPONSIVITAS TOTAL LAYAR MINI / SMARTWATCH (max-width: 330px)
    ========================================================================== */
 @media (max-width: 330px) {
     .app-container { height: auto !important; min-height: 100vh; overflow-y: visible !important; }
@@ -230,7 +264,8 @@ body {
         position: relative !important; bottom: auto !important; left: auto !important;
         transform: none !important; width: 100% !important; margin-top: 30px; border-top: 1px solid #e2e8f0;
     }
-    .popup-backdrop { display: none !important; pointer-events: none !important; }
+    .popup-backdrop, .location-backdrop { display: none !important; pointer-events: none !important; }
+    .location-sheet { position: relative !important; left: auto !important; transform: none !important; box-shadow: none; border-radius: 0; width: 100% !important; margin-top: 20px; border-top: 1px solid #e2e8f0; max-height: none; }
 
     .main-header { padding: 16px 10px 60px 10px; }
     .header-top { justify-content: center; }
