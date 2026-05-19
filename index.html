@@ -17,14 +17,34 @@
             
             <header class="main-header">
                 <div class="header-top">
-                    <button class="icon-btn" id="info-button">
-                        <span class="material-icons-outlined">info</span>
-                    </button>
+                    <div class="info-wrapper-container">
+                        <button class="icon-btn" id="info-button">
+                            <span class="material-icons-outlined">info</span>
+                        </button>
+                        
+                        <div class="popup-box" id="popup-box">
+                            <div class="popup-arrow"></div>
+                            <span class="material-icons-outlined popup-info-icon">info</span>
+                            <h3>Tentang Aplikasi</h3>
+                            <p class="author-text">Oleh Aron Kobama</p>
+                            
+                            <div class="social-wrapper">
+                                <a href="#" class="social-icon tiktok">
+                                    <i class="fa-brands fa-tiktok"></i>
+                                </a>
+                                <a href="#" class="social-icon instagram">
+                                    <i class="fa-brands fa-instagram"></i>
+                                </a>
+                            </div>
+                        </div>
+                    </div>
+
                     <div class="location-badge" id="location-button">
                         <span class="material-icons-outlined icon-left">location_on</span>
                         <span id="location-text">Pakis</span>
                         <span class="material-icons-outlined icon-right">expand_more</span>
                     </div>
+
                     <button class="icon-btn" id="refresh-button">
                         <span class="material-icons-outlined" id="refresh-icon">refresh</span>
                     </button>
@@ -100,22 +120,7 @@
                 </div>
             </main>
 
-        </div> <div class="popup-overlay" id="popup-overlay">
-            <div class="popup-box" id="popup-box">
-                <span class="material-icons-outlined popup-info-icon">info</span>
-                <h3>Tentang Aplikasi</h3>
-                <p class="author-text">Oleh Aron Kobama</p>
-                
-                <div class="social-wrapper">
-                    <a href="#" class="social-icon tiktok">
-                        <i class="fa-brands fa-tiktok"></i>
-                    </a>
-                    <a href="#" class="social-icon instagram">
-                        <i class="fa-brands fa-instagram"></i>
-                    </a>
-                </div>
-            </div>
-        </div>
+        </div> <div class="popup-backdrop" id="popup-backdrop"></div>
 
         <nav class="bottom-nav">
             <div class="nav-item active" data-tab="Sholat">
