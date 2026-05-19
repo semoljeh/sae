@@ -1,7 +1,7 @@
 document.addEventListener("DOMContentLoaded", function () {
     
     // ==========================================================================
-    // 1. INTERAKSI POPUP MODAL (KLIK DI MANA SAJA UNTUK CLOSE UTK SMARTWATCH)
+    // 1. POPUP CONTROL INTERAKTIF (KLIK DI MANA SAJA UNTUK MENUTUP MODAL)
     // ==========================================================================
     const infoButton = document.getElementById('info-button');
     const popupBox = document.getElementById('popup-box');
@@ -32,7 +32,7 @@ document.addEventListener("DOMContentLoaded", function () {
             history.back();
         });
 
-        // KLIK MANA SAJA UNTUK CLOSE (Sangat friendly untuk layar jam tangan pintar)
+        // Sentuh di koordinat layar mana saja untuk otomatis menyusutkan popup balik
         document.addEventListener('click', function (e) {
             if (popupBox.classList.contains('show') && !infoButton.contains(e.target)) {
                 if (e.target.closest('.social-icon')) {
