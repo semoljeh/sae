@@ -1,12 +1,20 @@
 /* ==========================================================================
-   1. Pengaturan Dasar Global & Performa Smooth Scroll HP
+   1. RESET CORE & ENGINE INTEGRASI FITUR ANTI-COPAS KANAL CSS
    ========================================================================== */
 * {
     margin: 0;
     padding: 0;
     box-sizing: border-box;
     font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, sans-serif;
+    
+    /* Menghapus kilatan warna abu-abu/biru bawaan browser saat komponen diklik di HP */
     -webkit-tap-highlight-color: transparent; 
+
+    /* FITUR KUNCI ANTI-COPAS: Mematikan kemampuan blok teks/seleksi tulisan di semua browser */
+    -webkit-user-select: none;  /* Pendeteksi Safari (iOS / Mac) */
+    -moz-user-select: none;     /* Pendeteksi Firefox */
+    -ms-user-select: none;      /* Pendeteksi Internet Explorer / Edge lama */
+    user-select: none;          /* Standar global Chrome, Opera, Android, dll. */
 }
 
 body {
@@ -16,42 +24,43 @@ body {
     align-items: center;
     min-height: 100vh;
     width: 100vw;
-    overflow-x: hidden;
+    overflow-x: hidden; /* Mencegah layar bergeser kiri-kanan saat sedang di-zoom jari */
 }
 
-/* Bingkai Kontainer Utama Terkunci Tinggi Layar HP */
+/* CONTAINER BINGKAI UTAMA APLIKASI */
 .app-container {
     width: 100%;
     max-width: 412px; 
-    height: 100vh;
+    height: 100vh; /* Mengunci tinggi pas satu layar penuh di HP modern */
     background-color: #f8fafc;
     position: relative;
     display: flex;
     flex-direction: column;
-    overflow: hidden;
+    overflow: hidden; /* Mengunci konten luar agar tidak meluber acak */
     box-shadow: 0 12px 40px rgba(0, 0, 0, 0.12);
 }
 
-/* Area Scroll Konten HP (Mulus & Lancar Tanpa Hambatan) */
+/* JALUR ENGINE SCROLL: Membuat gerakan gulir menu terasa licin dan sangat ringan */
 .scrollable-content {
     flex: 1;
-    overflow-y: auto;
+    overflow-y: auto; /* Mengaktifkan sumbu scroll ke bawah jika konten penuh */
     overflow-x: hidden;
     width: 100%;
-    padding-bottom: 100px; /* Bantalan sisa aman agar grid menu tidak tertutup nav bawah */
-    -webkit-overflow-scrolling: touch; /* Akselerasi hardware lancar */
+    padding-bottom: 100px; /* Bantalan ruang sisa aman di bawah agar tidak tertutup nav menu */
+    -webkit-overflow-scrolling: touch; /* Mengaktifkan akselerasi native kartu grafis HP */
 }
 
+/* Menyembunyikan batang scrollbar bawaan Chrome/Android agar UI bersih minimalis */
 .scrollable-content::-webkit-scrollbar {
     width: 0px;
 }
 
 /* ==========================================================================
-   2. HEADER & AREA TOMBOL
+   2. SEKSI TAMPILAN HEADER ATAS
    ========================================================================== */
 .main-header {
-    background-color: #007A78;
-    padding: 24px 16px 85px 16px;
+    background-color: #007A78; /* Hijau toska identitas Al-Mukhtar */
+    padding: 24px 16px 85px 16px; /* Jarak bawah sengaja longgar untuk bantalan kartu shalat */
 }
 
 .header-top {
@@ -62,6 +71,7 @@ body {
     gap: 10px;
 }
 
+/* Desain tombol kotak bulat transparan di atas */
 .icon-btn {
     background-color: rgba(255, 255, 255, 0.15);
     border: none;
@@ -75,8 +85,10 @@ body {
     cursor: pointer;
     flex-shrink: 0;
 }
+/* Efek membal memengecil seperti tombol aplikasi asli saat ditekan jari */
 .icon-btn:active { transform: scale(0.92); }
 
+/* Animasi lingkaran berputar untuk ikon refresh data */
 .spin-animation {
     display: inline-block;
     animation: spin 0.8s linear;
@@ -86,6 +98,7 @@ body {
     100% { transform: rotate(360deg); }
 }
 
+/* Badge penunjuk lokasi wilayah di bagian tengah */
 .location-badge {
     display: flex;
     align-items: center;
@@ -101,10 +114,12 @@ body {
 .icon-left { margin-right: 4px; font-size: 16px !important; }
 .icon-right { margin-left: 4px; font-size: 16px !important; }
 
-/* Kartu Jadwal Shalat */
+/* ==========================================================================
+   3. KOMPONEN DEKORATIF: KARTU JADWAL & BRAND LOGO
+   ========================================================================== */
 .prayer-card {
     background-color: white;
-    margin: -60px 16px 0 16px;
+    margin: -60px 16px 0 16px; /* Seretan minus memotong naik ke area hijau header */
     border-radius: 16px;
     padding: 20px 16px;
     box-shadow: 0 8px 20px rgba(0, 0, 0, 0.04);
@@ -113,6 +128,7 @@ body {
 }
 
 .prayer-time-grid { display: grid; grid-template-columns: 1fr 1fr; position: relative; }
+/* Membuat garis pembatas vertikal halus di tengah jam shalat */
 .prayer-time-grid::after { content: ""; position: absolute; left: 50%; top: 10%; height: 80%; width: 1px; background-color: #e2e8f0; transform: translateX(-50%); }
 .time-box { display: flex; flex-direction: column; align-items: center; justify-content: center; }
 .title-teal { color: #007A78; font-weight: 700; font-size: 12px; letter-spacing: 0.5px; }
@@ -123,19 +139,22 @@ body {
 .date-box .hijri-date { color: #007A78; font-size: 13px; font-weight: 700; }
 .date-box .masehi-date { color: #64748b; font-size: 11px; margin-top: 4px; font-weight: 500; }
 
-/* Logo Branding */
 .app-brand { text-align: center; margin: 20px 0; }
 .arabic-logo { font-family: Georgia, serif; font-size: 34px; color: #007A78; }
 .sub-logo { font-size: 10px; letter-spacing: 2.5px; color: #64748b; margin-top: 4px; font-weight: 600; }
 
-/* Grid Menu Utama (2x3 Layout HP) */
+/* ==========================================================================
+   4. SISTEM MENU GRID UTAMA (3 KOLOM DEFAULT HP)
+   ========================================================================== */
 .menu-grid { display: grid; grid-template-columns: repeat(3, 1fr); grid-template-rows: repeat(2, 1fr); gap: 12px; padding: 0 16px; margin-top: 10px; }
 .menu-item { background-color: white; border-radius: 16px; padding: 16px 4px; display: flex; flex-direction: column; align-items: center; justify-content: center; border: 1px solid #f1f5f9; cursor: pointer; transition: transform 0.1s ease; }
 .menu-item:active { transform: scale(0.95); }
 
+/* Desain squircle (kotak lingkaran halus) pembungkus ikon */
 .icon-wrapper { width: 48px; height: 48px; border-radius: 14px; display: flex; align-items: center; justify-content: center; margin-bottom: 8px; }
 .icon-wrapper span { font-size: 24px; }
 
+/* Variasi warna background pastel ikon menu utama */
 .bg-blue { background-color: #e0f2fe; color: #0284c7; }
 .bg-emerald { background-color: #d1fae5; color: #059669; }
 .bg-purple { background-color: #f3e8ff; color: #7c3aed; }
@@ -145,14 +164,17 @@ body {
 .menu-label { font-size: 11px; font-weight: 700; color: #334155; text-align: center; }
 
 /* ==========================================================================
-   3. ARSITEKTUR POPUP MODAL HALUS (SPRING PHYSICS METER)
+   5. DESAIN POPUP BOX MODAL & STRUKTUR HALUS BACKDROP
    ========================================================================== */
 .info-wrapper-container { position: relative; display: inline-block; }
 .popup-backdrop { position: fixed; top: 0; left: 0; width: 100%; height: 100%; background-color: rgba(15, 23, 42, 0.08); backdrop-filter: blur(1px); z-index: 998; opacity: 0; pointer-events: none; transition: opacity 0.4s ease; }
 .popup-backdrop.show { opacity: 1; pointer-events: auto; }
 
+/* Jendela box popup modal murni bulat minimalis tanpa tonjolan ekor segitiga */
 .popup-box {
     position: absolute; top: 48px; left: 0px; background-color: white; width: 245px; padding: 24px 20px; border-radius: 24px; border: 1px solid rgba(15, 23, 42, 0.05); box-shadow: 0 10px 30px rgba(15, 23, 42, 0.15); z-index: 999; text-align: center;
+    
+    /* Animasi kurva pegas iOS elastis membal (Zoom dari arah kiri-atas tombol i) */
     transform-origin: top left; opacity: 0; transform: scale(0.5) translateY(-12px); visibility: hidden; transition: transform 0.4s cubic-bezier(0.175, 0.885, 0.32, 1.275), opacity 0.3s ease, visibility 0.4s;
 }
 .popup-box.show { opacity: 1; transform: scale(1) translateY(0); visibility: visible; }
@@ -160,13 +182,14 @@ body {
 .popup-box h3 { font-size: 15px; color: #0f172a; font-weight: 700; letter-spacing: -0.2px; }
 .author-text { font-size: 12px; color: #64748b; margin-top: 3px; font-weight: 500; }
 
+/* Tombol Sosial Media Berwarna Terang */
 .social-wrapper { display: flex; justify-content: center; gap: 16px; margin-top: 20px; }
 .social-icon { width: 48px; height: 48px; border-radius: 16px; display: flex; align-items: center; justify-content: center; font-size: 20px; text-decoration: none; transition: transform 0.2s cubic-bezier(0.175, 0.885, 0.32, 1.275); }
 .social-icon:active { transform: scale(0.88); }
 .social-icon.tiktok { background-color: #e2e8f0; color: #000000; text-shadow: 1px 1px #25f4ee, -1px -1px #fe0979; }
 .social-icon.instagram { background: linear-gradient(45deg, #f09433, #e6683c, #dc2743, #cc2366, #bc1888); color: #ffffff; box-shadow: 0 4px 14px rgba(220, 39, 67, 0.25); }
 
-/* Navigasi Menu Bawah (HP Default) */
+/* MENU NAVIGASI BAWAH FIXED STICKY (HP MODE) */
 .bottom-nav { 
     position: fixed; bottom: 0; left: 50%; transform: translateX(-50%); 
     width: 100%; max-width: 412px; background-color: white; 
@@ -179,23 +202,22 @@ body {
 .nav-label { font-size: 10px; font-weight: 600; margin-top: 2px; }
 
 /* ==========================================================================
-   4. SOLUSI TOTAL RESPONSIVITAS SMARTWATCH (max-width: 330px)
+   6. JALUR ENGINES RESPONSIVITAS TOTAL SMARTWATCH / GALAXY J2 PRO (Di bawah 330px)
    ========================================================================== */
 @media (max-width: 330px) {
-    /* MEROMBAK FRAME: Melepas kuncian 100vh agar mengalir alami mengikuti isi konten jam */
+    /* Melepaskan kuncian tinggi frame kaku agar memanjang luwes mengikuti isi gulungan jam */
     .app-container {
         height: auto !important; 
         min-height: 100vh;
         overflow-y: visible !important;
     }
 
-    /* MENGAKTIFKAN SCROLL ENGINE: Isi halaman jam bisa digulung bebas tanpa macet */
     .scrollable-content {
         overflow-y: visible !important;
-        padding-bottom: 20px !important; /* Dirapatkan karena nav bawah ikut terdorong mundur */
+        padding-bottom: 20px !important; 
     }
 
-    /* MEMBEBASKAN NAV BAWAH: Di jam tangan, hilangkan posisi fixed agar meluncur ke bawah */
+    /* Mengubah posisi nav bawah menjadi relatif agar meluncur jujur paling bawah layar jam */
     .bottom-nav {
         position: relative !important;
         bottom: auto !important;
@@ -206,7 +228,7 @@ body {
         border-top: 1px solid #e2e8f0;
     }
 
-    /* Hilangkan backdrop tipis pembatas */
+    /* Mematikan backdrop penutup di smartwatch bulat agar responsif menerima geseran jari */
     .popup-backdrop { display: none !important; pointer-events: none !important; }
 
     .main-header { padding: 16px 10px 60px 10px; }
@@ -215,17 +237,15 @@ body {
     .info-wrapper-container { order: 2; }
     #refresh-button { order: 3; }
 
-    /* Pengecilan Dimensi Kotak Popup Khusus Jam */
-    .popup-box {
-        top: 44px; left: -4px; width: 165px; padding: 14px 10px; border-radius: 18px; transform-origin: top center; 
-    }
+    /* Penyesuaian Dimensi Mini Popup Box Di Smartwatch */
+    .popup-box { top: 44px; left: -4px; width: 165px; padding: 14px 10px; border-radius: 18px; transform-origin: top center; }
     .popup-info-icon { font-size: 22px !important; margin-bottom: 4px; }
     .popup-box h3 { font-size: 13px; letter-spacing: -0.3px; }
     .author-text { font-size: 11px; margin-top: 1px; }
     .social-wrapper { gap: 12px; margin-top: 12px; }
     .social-icon { width: 36px; height: 36px; font-size: 15px; border-radius: 11px; }
 
-    /* Komponen Skala Jam Tangan */
+    /* Pengecilan Skala Layout Komponen Jam */
     .prayer-card { margin: -40px 10px 0 10px; padding: 16px 8px; }
     .prayer-time-grid { grid-template-columns: 1fr; gap: 12px; }
     .prayer-time-grid::after { display: none; }
@@ -235,7 +255,7 @@ body {
     .arabic-logo { font-size: 26px; }
     .sub-logo { font-size: 9px; }
 
-    /* Grid Menu 2 Kolom Padat Rapat */
+    /* MENU GRID OTOMATIS SEIMBANG JADI 2 KOLOM (SANGAT PRESISI UNTUK JAM) */
     .menu-grid { 
         grid-template-columns: repeat(2, 1fr) !important; 
         grid-template-rows: auto !important; 
