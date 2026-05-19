@@ -1,16 +1,15 @@
 document.addEventListener("DOMContentLoaded", function () {
     
-    // 1. Logika Klik Tombol Refresh (Update / Sinkron Data)
+    // 1. Fungsi Klik Tombol Refresh / Sinkron Data Berputar
     const refreshButton = document.getElementById('refresh-button');
-    if (refreshButton) {
+    const refreshIcon = document.getElementById('refresh-icon');
+
+    if (refreshButton && refreshIcon) {
         refreshButton.addEventListener('click', function () {
-            // Mengambil elemen ikon di dalam tombol
-            const icon = this.querySelector('span');
+            // Pasang class animasi berputar tepat pada target icon
+            refreshIcon.classList.add('spin-animation');
             
-            // Tambahkan class animasi berputar dari CSS
-            icon.classList.add('spin-animation');
-            
-            // Jalankan fungsi refresh halaman penuh setelah 600 milidetik (efek visual berputar selesai)
+            // Refresh halaman setelah animasi berputar selesai (0.6 detik)
             setTimeout(() => {
                 location.reload();
             }, 600);
