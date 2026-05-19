@@ -9,7 +9,7 @@
     
     <title>Al-Mukhtar Digital Library</title>
     
-    <link rel="stylesheet" href="style.css?v=14.0">
+    <link rel="stylesheet" href="style.css?v=15.0">
     
     <link href="https://fonts.googleapis.com/icon?family=Material+Icons+Outlined" rel="stylesheet">
     
@@ -25,14 +25,16 @@
                 <div class="header-top">
                     
                     <div class="info-wrapper-container">
-                        <button class="icon-btn" id="info-button" aria-label="Informasi Aplikasi">
+                        <button class="icon-btn" id="info-button" aria-label="Informasi Developer">
                             <span class="material-icons-outlined">info</span>
                         </button>
                         
                         <div class="popup-box" id="popup-box">
-                            <span class="material-icons-outlined popup-info-icon">info</span>
-                            <h3>Tentang Aplikasi</h3>
-                            <p class="author-text">Oleh Aron Kobama</p>
+                            <div class="profile-avatar-wrapper">
+                                <img src="https://via.placeholder.com/150" alt="Foto Profil" class="profile-img">
+                            </div>
+                            
+                            <h3 class="developer-name">Aron Kobama</h3>
                             
                             <div class="social-wrapper">
                                 <a href="https://www.tiktok.com" target="_blank" rel="noopener" class="social-icon tiktok">
@@ -42,6 +44,10 @@
                                     <i class="fa-brands fa-instagram"></i>
                                 </a>
                             </div>
+
+                            <p class="app-description-text">Tentang Aplikasi</p>
+                            
+                            <button class="close-profile-btn" id="close-profile-btn">Tutup Profil</button>
                         </div>
                     </div>
 
@@ -149,6 +155,6 @@
 
     </div>
 
-    <script src="script.js?v=14.0"></script>
+    <script src="script.js?v=15.0"></script>
 </body>
 </html>
