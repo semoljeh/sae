@@ -1169,29 +1169,24 @@ body.modal-open .scrollable-content{
    ========================================================================== */
 
 @media (max-height:740px){
+    .location-sheet{
+        /* Mengubah top dari 50% ke 20% agar saat keyboard muncul, 
+           popup tidak terdorong terlalu ke atas hingga terpotong */
+        top: 20%; 
+        
+        /* Menghilangkan translateY agar posisi tetap relatif terhadap 20% */
+        transform: translateX(-50%) scale(1);
 
-.location-sheet{
-
-    top:35%;
-
-    transform:
-    translate(-50%,-50%)
-    scale(1);
-
-    max-height:
-    calc(100dvh - 16px);
-
-    padding:12px;
-
-}
+        max-height: 60dvh; /* Membatasi tinggi agar tidak menabrak keyboard */
+        padding: 12px;
+    }
 
     .location-sheet.show{
-        transform:translate(-50%, -50%) scale(1);
+        transform: translateX(-50%) scale(1);
     }
 
     .suggestion-list-wrapper{
-        min-height:80px;
-        max-height:140px;
+        min-height: 80px;
+        max-height: 140px;
     }
-
 }
