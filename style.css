@@ -16,7 +16,7 @@ body {
     overflow: hidden;
 }
 
-/* Bingkai HP */
+/* Bingkai HP Rata Tengah */
 .app-container {
     width: 100%;
     max-width: 412px; 
@@ -29,13 +29,13 @@ body {
     box-shadow: 0 12px 40px rgba(0, 0, 0, 0.12);
 }
 
-/* Area Scroll */
+/* Konten yang Bisa Di-scroll */
 .scrollable-content {
     flex: 1;
     overflow-y: auto;
     overflow-x: hidden;
     width: 100%;
-    padding-bottom: 80px;
+    padding-bottom: 90px; /* Ditambah ruang aman agar tidak tertutup menu bawah */
 }
 
 .scrollable-content::-webkit-scrollbar {
@@ -70,9 +70,10 @@ body {
     flex-shrink: 0;
 }
 
-/* EFEK CLIP/ANIMASI BERPUTAR SINKRONISASI DATA */
+/* KEYFRAMES ANIMASI BERPUTAR REFRESH ICON */
 .spin-animation {
-    animation: spin 0.8s linear infinite;
+    display: inline-block;
+    animation: spin 0.8s linear;
 }
 
 @keyframes spin {
@@ -239,19 +240,21 @@ body {
     text-align: center;
 }
 
-/* Navigasi Bawah */
+/* NAVIGASI BAWAH FIXED STICKY (TIDAK AKAN BERGESER/HILANG) */
 .bottom-nav {
-    position: absolute;
+    position: fixed;
     bottom: 0;
-    left: 0;
-    right: 0;
+    left: 50%;
+    transform: translateX(-50%);
+    width: 100%;
+    max-width: 412px;
     background-color: white;
     border-top: 1px solid #e2e8f0;
     padding: 12px 16px;
     display: flex;
     justify-content: space-between;
     align-items: center;
-    z-index: 99;
+    z-index: 999;
 }
 
 .nav-item {
@@ -267,7 +270,7 @@ body {
 .nav-item.active { color: #007A78; }
 .nav-label { font-size: 10px; font-weight: 600; margin-top: 2px; }
 
-/* Smartwatch Responsive Media Query */
+/* Smartwatch Responsive Mode */
 @media (max-width: 330px) {
     .main-header { padding: 16px 10px 60px 10px; }
     .header-top { justify-content: center; }
@@ -279,6 +282,7 @@ body {
     .prayer-time-grid { grid-template-columns: 1fr; gap: 12px; }
     .prayer-time-grid::after { display: none; }
     .time-display { font-size: 24px; }
+
     .date-box .hijri-date { font-size: 11px; }
     .date-box .masehi-date { font-size: 10px; }
     .arabic-logo { font-size: 26px; }
