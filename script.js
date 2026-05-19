@@ -53,7 +53,7 @@ function openDzikir(){
     );
 
     history.pushState(
-        {sheet:'dzikir'},
+        {sheet:'dzikirSheet'},
         ''
     );
 
@@ -62,21 +62,19 @@ function openDzikir(){
 
 function closeDzikir(){
 
-    const sheet =
-    document.getElementById(
+    document
+    .getElementById(
         'dzikirSheet'
-    );
-
-    const overlay =
-    document.getElementById(
-        'sheetOverlay'
-    );
-
-    sheet.classList.remove(
+    )
+    ?.classList.remove(
         'active'
     );
 
-    overlay.classList.remove(
+    document
+    .getElementById(
+        'sheetOverlay'
+    )
+    ?.classList.remove(
         'active'
     );
 
@@ -116,7 +114,7 @@ function openMaulid(){
     );
 
     history.pushState(
-        {sheet:'maulid'},
+        {sheet:'maulidSheet'},
         ''
     );
 
@@ -125,21 +123,19 @@ function openMaulid(){
 
 function closeMaulid(){
 
-    const sheet =
-    document.getElementById(
+    document
+    .getElementById(
         'maulidSheet'
-    );
-
-    const overlay =
-    document.getElementById(
-        'maulidOverlay'
-    );
-
-    sheet.classList.remove(
+    )
+    ?.classList.remove(
         'active'
     );
 
-    overlay.classList.remove(
+    document
+    .getElementById(
+        'maulidOverlay'
+    )
+    ?.classList.remove(
         'active'
     );
 
@@ -179,7 +175,7 @@ function openRatib(){
     );
 
     history.pushState(
-        {sheet:'ratib'},
+        {sheet:'ratibSheet'},
         ''
     );
 
@@ -188,21 +184,19 @@ function openRatib(){
 
 function closeRatib(){
 
-    const sheet =
-    document.getElementById(
+    document
+    .getElementById(
         'ratibSheet'
-    );
-
-    const overlay =
-    document.getElementById(
-        'ratibOverlay'
-    );
-
-    sheet.classList.remove(
+    )
+    ?.classList.remove(
         'active'
     );
 
-    overlay.classList.remove(
+    document
+    .getElementById(
+        'ratibOverlay'
+    )
+    ?.classList.remove(
         'active'
     );
 
@@ -242,7 +236,7 @@ function openSholawat(){
     );
 
     history.pushState(
-        {sheet:'sholawat'},
+        {sheet:'sholawatSheet'},
         ''
     );
 
@@ -251,21 +245,19 @@ function openSholawat(){
 
 function closeSholawat(){
 
-    const sheet =
-    document.getElementById(
+    document
+    .getElementById(
         'sholawatSheet'
-    );
-
-    const overlay =
-    document.getElementById(
-        'sholawatOverlay'
-    );
-
-    sheet.classList.remove(
+    )
+    ?.classList.remove(
         'active'
     );
 
-    overlay.classList.remove(
+    document
+    .getElementById(
+        'sholawatOverlay'
+    )
+    ?.classList.remove(
         'active'
     );
 
@@ -345,9 +337,9 @@ file,
 sheet
 ){
 
-    sessionStorage.setItem(
-        'restoreSheet',
-        sheet
+    history.replaceState(
+        {sheet:sheet},
+        ''
     );
 
     window.location.href =
@@ -357,105 +349,90 @@ sheet
 
 
 /* =========================================
-   MOBILE HISTORY FIX
+   BACK BUTTON HP
 ========================================= */
 
 window.addEventListener(
-'pageshow',
-()=>{
-
-    const restore =
-
-    sessionStorage.getItem(
-        'restoreSheet'
-    );
-
-    if(!restore){
-
-        return;
-
-    }
-
-    sessionStorage.removeItem(
-        'restoreSheet'
-    );
-
-    const sheet =
-    document.getElementById(
-        restore
-    );
-
-    if(!sheet){
-
-        return;
-
-    }
-
-    const overlay =
-    document.querySelector(
-        '.sheet-overlay'
-    );
-
-    sheet.style.transition =
-    'none';
-
-    sheet.classList.add(
-        'active'
-    );
-
-    overlay?.classList.add(
-        'active'
-    );
-
-    document.body.classList.add(
-        'no-scroll'
-    );
-
-    requestAnimationFrame(()=>{
-
-        sheet.style.transition =
-        '';
-
-    });
-
-});
-
-
-window.addEventListener(
 'popstate',
-()=>{
+(event)=>{
 
-    const openedSheet =
+    const activeSheet =
 
     document.querySelector(
         '.bottom-sheet.active'
     );
 
-    if(!openedSheet){
+    /* TUTUP SHEET */
+
+    if(activeSheet){
+
+        activeSheet.classList.remove(
+            'active'
+        );
+
+        document
+        .querySelectorAll(
+            '.sheet-overlay'
+        )
+        .forEach(overlay=>{
+
+            overlay.classList.remove(
+                'active'
+            );
+
+        });
+
+        document.body.classList.remove(
+            'no-scroll'
+        );
 
         return;
 
     }
 
-    sessionStorage.setItem(
-        'restoreSheet',
-        openedSheet.id
-    );
 
-    openedSheet.classList.remove(
-        'active'
-    );
+    /* RESTORE SHEET */
 
-    document
-    .querySelector(
-        '.sheet-overlay.active'
-    )
-    ?.classList.remove(
-        'active'
-    );
+    if(event.state?.sheet){
 
-    document.body.classList.remove(
-        'no-scroll'
-    );
+        const sheet =
+        document.getElementById(
+            event.state.sheet
+        );
+
+        if(!sheet){
+
+            return;
+
+        }
+
+        const overlay =
+        document.querySelector(
+            '.sheet-overlay'
+        );
+
+        sheet.style.transition =
+        'none';
+
+        sheet.classList.add(
+            'active'
+        );
+
+        overlay?.classList.add(
+            'active'
+        );
+
+        document.body.classList.add(
+            'no-scroll'
+        );
+
+        requestAnimationFrame(()=>{
+
+            sheet.style.transition =
+            '';
+
+        });
+
+    }
 
 });
