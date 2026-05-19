@@ -4,17 +4,17 @@ document.addEventListener("DOMContentLoaded", function () {
     // 1. FUNGSIONALITAS TRIPLE-LOCK ANTI COPAS (MURNI PROTEKSI JAVASCRIPT)
     // ==========================================================================
 
-    // Mematikan menu klik kanan mouse dan menonaktifkan gerakan tahan layar lama (long press) di HP
+    // Fungsi mematikan klik kanan mouse dan mematikan perintah tahan layar lama (long press) di HP
     document.addEventListener('contextmenu', function (e) {
-        e.preventDefault(); // Menggagalkan instruksi dasar bawaan sistem operasi untuk mengeluarkan instruksi copy
+        e.preventDefault(); // Menggagalkan instruksi dasar sistem operasi untuk mengeluarkan opsi salin/copy
     });
 
-    // Mematikan instruksi awal pemblokan seleksi baris teks tulisan
+    // Fungsi mematikan instruksi awal penyeretan/pemblokan teks tulisan
     document.addEventListener('selectstart', function (e) {
         e.preventDefault(); // Menggagalkan instruksi saat jari mendeteksi seretan seleksi halaman
     });
 
-    // Mematikan pintasan kombinasi tombol salin pada keyboard komputer
+    // Fungsi mematikan pintasan kombinasi tombol salin pada keyboard komputer
     document.addEventListener('keydown', function (e) {
         // Melarang total tombol kombinasi Ctrl+C (Salin), Ctrl+A (Pilih Semua), Ctrl+U (Source Code)
         if (e.ctrlKey && (e.keyCode === 67 || e.keyCode === 65 || e.keyCode === 85 || e.keyCode === 83)) {
@@ -25,20 +25,25 @@ document.addEventListener("DOMContentLoaded", function () {
 
 
     // ==========================================================================
-    // 2. KENDALI KAPSUL POPUP PROFIL VERTIVAL (SISTEM AUTOMATIC MUTUAL CLOSE)
+    // 2. KENDALI KAPSUL POPUP PROFIL (SISTEM KUNCI TOMBOL REKBALI HP ANTI-KELUAR)
     // ==========================================================================
     const infoButton = document.getElementById('info-button');
     const popupBox = document.getElementById('popup-box');
     const popupBackdrop = document.getElementById('popup-backdrop');
-    const closeProfileBtn = document.getElementById('close-profile-btn'); // Detektor tombol Tutup Profil bawah
+    const closeProfileBtn = document.getElementById('close-profile-btn'); 
 
-    // Fungsi membuka jendela modal profile
+    // FUNGSI UTAMA: Membuka jendela modal profile dan mengunci riwayat browser HP
     function openPopup() {
         popupBox.classList.add('show'); // Menyuntikkan kelas 'show' untuk memicu kurva pegas CSS
         popupBackdrop.classList.add('show'); // Membuka tirai redup belakang
+        
+        // TRIK KUNCI: Menyisipkan state riwayat palsu ke browser agar tombol back HP terkunci di dalam popup
+        if (!history.state || !history.state.popupActive) {
+            history.pushState({ popupActive: true }, "");
+        }
     }
 
-    // Fungsi menutup jendela modal profile secara internal (Anti-Keluar Aplikasi)
+    // FUNGSI UTAMA: Menutup jendela modal profile secara internal secara bersih
     function closePopup() {
         popupBox.classList.remove('show'); // Mencopot kelas 'show' agar jendela menyusut mengecil
         popupBackdrop.classList.remove('show'); // Mematikan tirai redup belakang
@@ -51,36 +56,41 @@ document.addEventListener("DOMContentLoaded", function () {
         infoButton.addEventListener('click', function (e) {
             e.stopPropagation(); // Menahan gelembung klik agar tidak menyengat sensor dokumen global
             if (popupBox.classList.contains('show')) {
-                closePopup(); // Menutup normal jika sedang terbuka
+                history.back(); // Jika sedang terbuka, paksa mundur riwayat (otomatis memicu penutupan lewat popstate)
             } else {
-                openPopup(); // Membuka normal jika sedang tertutup
+                openPopup(); // Jika sedang tertutup, jalankan fungsi buka
             }
         });
 
-        // BARU: Sinyal sentuh langsung pada tombol "Tutup Profil" di bagian paling bawah popup
+        // Sinyal sentuh langsung pada tombol "Tutup Profil" di bagian bawah popup
         closeProfileBtn.addEventListener('click', function (e) {
             e.stopPropagation();
-            closePopup(); // Langsung eksekusi penutupan murni
+            if (popupBox.classList.contains('show')) {
+                history.back(); // Memaksa mundur riwayat agar sinkron dengan sistem tombol back HP
+            }
         });
 
         // Sinyal ketuk pada tirai backdrop redup belakang untuk menutup modal balik (Mode HP)
         popupBackdrop.addEventListener('click', function () {
-            closePopup();
+            if (popupBox.classList.contains('show')) {
+                history.back();
+            }
         });
 
-        // Ketuk di koordinat layar mana saja secara bebas otomatis meredupkan popup info kembali
+        // Ketuk di koordinat layar kosong mana saja otomatis memicu kemunduran riwayat
         document.addEventListener('click', function (e) {
-            // Jika popup sedang aktif mekar, dan jari mengetuk area yang BUKAN bagian dari tombol info utama
             if (popupBox.classList.contains('show') && !infoButton.contains(e.target)) {
-                
-                // Mencegah penutupan sepihak jika user terdeteksi mengetuk tautan akun medsos tiktok/ig
                 if (e.target.closest('.social-icon')) {
-                    return; 
+                    return; // Abaikan jika yang diklik link sosmed
                 }
-                
-                // Menutup popup secara murni lewat internal program (Aman & Tidak keluar halaman web)
-                closePopup();
+                history.back(); // Mundurkan riwayat browser
             }
+        });
+
+        // FIX MUTLAK J2 PRO & ANDROID SYSTEM: Menangkap sinyal tombol "Back" fisik/gesture HP
+        window.addEventListener('popstate', function (event) {
+            // Jika state palsu 'popupActive' terdeteksi hilang akibat user pencet tombol back di HP
+            closePopup(); // Jalankan perintah tutup popup secara murni di dalam internal web tanpa keluar aplikasi
         });
     }
 
