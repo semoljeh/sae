@@ -12,7 +12,7 @@
 
     /* FITUR KUNCI ANTI-COPAS CSS: Mematikan kemampuan blok teks tulisan di semua browser */
     -webkit-user-select: none;  /* Engine Safari (iOS / Mac) */
-    -moz-user-select: none;     /* Engine Firefox kuno */
+    -moz-user-select: none;     /* Engine Firefox */
     -ms-user-select: none;      /* Engine Internet Explorer lama */
     user-select: none;          /* Aturan umum Google Chrome, Opera, Android WebView */
 }
@@ -24,7 +24,7 @@ body {
     align-items: center;
     min-height: 100vh;
     width: 100vw;
-    overflow-x: hidden; /* Mencegah layar goyang kanan-kiri saat dicubit paksa jari */
+    overflow-x: hidden; /* Menepis layar goyang kanan-kiri saat dicubit paksa jari */
 }
 
 /* BINGKAI FRAME CONTAINER UTAMA */
@@ -50,25 +50,28 @@ body {
     -webkit-overflow-scrolling: touch; /* Meminjam mesin akselerasi grafis perangkat bawaan */
 }
 
-/* Sembunyikan batang scrollbar bawaan Chrome/Android agar UI bersih minimalis */
+/* Sembunyikan batang scrollbar bawaan Chrome agar visual bersih maksimal */
 .scrollable-content::-webkit-scrollbar {
     width: 0px;
 }
 
 /* ==========================================================================
-   2. STYLES STRUKTUR HEADER (TOSKA)
+   2. STYLES STRUKTUR HEADER (DIKALIBRASI 100% PRESISI TEGAK LURUS)
    ========================================================================== */
 .main-header {
     background-color: #007A78;
-    padding: 24px 16px 85px 16px; /* Jarak bawah longgar untuk sandaran kartu jadwal */
+    /* padding atas 24px, padding kanan-kiri DIKUNCI 16px agar sejajar mutlak dengan margin kartu shalat (16px) */
+    padding: 24px 16px 85px 16px; 
 }
 
 .header-top {
     display: flex;
     justify-content: space-between;
     align-items: center;
-    flex-wrap: wrap;
-    gap: 10px;
+    width: 100%;
+    /* Mengosongkan sisa ruang margin internal agar ujung tombol terluar menempel pas di koordinat 16px */
+    margin: 0;
+    padding: 0;
 }
 
 /* Desain tombol ikon bulat di atas */
@@ -119,7 +122,8 @@ body {
    ========================================================================== */
 .prayer-card {
     background-color: white;
-    margin: -60px 16px 0 16px; /* Nilai minus menyeret posisi kartu memotong header toska */
+    /* Margin kanan-kiri 16px, sinkron sempurna dengan padding header di atas */
+    margin: -60px 16px 0 16px; 
     border-radius: 16px;
     padding: 20px 16px;
     box-shadow: 0 8px 20px rgba(0, 0, 0, 0.04);
@@ -160,21 +164,20 @@ body {
 .menu-label { font-size: 11px; font-weight: 700; color: #334155; text-align: center; }
 
 /* ==========================================================================
-   4. NEW DESIGN UPDATE: MODAL POPUP PROFIL VERTIVAL (MUNGIL & IMUT)
-   ========================================================================== */
+   4. MODAL POPUP PROFIL VERTIVAL (MUNGIL & IMUT)
+   ========================================================================= */
 .info-wrapper-container { position: relative; display: inline-block; }
 .popup-backdrop { position: fixed; top: 0; left: 0; width: 100%; height: 100%; background-color: rgba(15, 23, 42, 0.05); backdrop-filter: blur(0.5px); z-index: 998; opacity: 0; pointer-events: none; transition: opacity 0.4s ease; }
 .popup-backdrop.show { opacity: 1; pointer-events: auto; }
 
-/* Desain Jendela Struktur Vertikal Imut Sesuai Gambar Sketsa */
 .popup-box {
     position: absolute; 
-    top: 48px; /* Menggantung pas di bawah tombol info */
+    top: 48px; 
     left: 0px; 
     background-color: white;
-    width: 180px; /* Dikunci langsing agar tampak sangat mungil */
+    width: 180px; 
     padding: 18px 14px; 
-    border-radius: 24px; /* Kelengkungan rounded tebal premium */
+    border-radius: 24px; 
     border: 1px solid rgba(15, 23, 42, 0.05); 
     box-shadow: 0 12px 30px rgba(15, 23, 42, 0.15);
     z-index: 999;
@@ -182,78 +185,27 @@ body {
     display: flex;
     flex-direction: column;
     align-items: center;
-    
-    /* Efek kurva pegas elastis membal (Zoom dari arah pojok kiri atas arah tombol i) */
     transform-origin: top left; 
     opacity: 0;
     transform: scale(0.5) translateY(-10px); 
     visibility: hidden;
     transition: transform 0.4s cubic-bezier(0.175, 0.885, 0.32, 1.275), opacity 0.3s ease, visibility 0.4s;
 }
-/* Menyuntikkan efek mekar saat popup aktif dipanggil */
 .popup-box.show { opacity: 1; transform: scale(1) translateY(0); visibility: visible; }
 
-/* 1. Pembungkus Foto Lingkaran Profil */
-.profile-avatar-wrapper {
-    width: 60px;
-    height: 60px;
-    border-radius: 50%; /* Bulat murni */
-    overflow: hidden;
-    border: 2px solid #007A78; /* Bingkai toska halus melingkari foto */
-    margin-bottom: 8px;
-    background-color: #f1f5f9;
-}
-.profile-img {
-    width: 100%;
-    height: 100%;
-    object-fit: cover;
-}
+.profile-avatar-wrapper { width: 60px; height: 60px; border-radius: 50%; overflow: hidden; border: 2px solid #007A78; margin-bottom: 8px; background-color: #f1f5f9; }
+.profile-img { width: 100%; height: 100%; object-fit: cover; }
+.developer-name { font-size: 14px; color: #0f172a; font-weight: 700; letter-spacing: -0.2px; margin-bottom: 10px; }
 
-/* 2. Teks Nama Developer */
-.developer-name {
-    font-size: 14px;
-    color: #0f172a;
-    font-weight: 700;
-    letter-spacing: -0.2px;
-    margin-bottom: 10px;
-}
-
-/* 3. Baris Tombol Sosmed Squircle Mungil */
 .social-wrapper { display: flex; justify-content: center; gap: 10px; margin-bottom: 12px; }
-.social-icon { 
-    width: 36px; height: 36px; border-radius: 11px; /* Kapsul squircle mini */
-    display: flex; align-items: center; justify-content: center; font-size: 15px; 
-    text-decoration: none; transition: transform 0.2s cubic-bezier(0.175, 0.885, 0.32, 1.275); 
-}
+.social-icon { width: 36px; height: 36px; border-radius: 11px; display: flex; align-items: center; justify-content: center; font-size: 15px; text-decoration: none; transition: transform 0.2s cubic-bezier(0.175, 0.885, 0.32, 1.275); }
 .social-icon:active { transform: scale(0.88); }
 .social-icon.tiktok { background-color: #e2e8f0; color: #000000; text-shadow: 1px 1px #25f4ee, -1px -1px #fe0979; }
 .social-icon.instagram { background: linear-gradient(45deg, #f09433, #e6683c, #dc2743, #cc2366, #bc1888); color: #ffffff; }
+.app-description-text { font-size: 11px; color: #64748b; font-weight: 600; margin-bottom: 14px; }
 
-/* 4. Teks Deskripsi Pelengkap */
-.app-description-text {
-    font-size: 11px;
-    color: #64748b;
-    font-weight: 600;
-    margin-bottom: 14px;
-}
-
-/* 5. Tombol Pintas Tutup Profil Paling Bawah */
-.close-profile-btn {
-    width: 100%;
-    background-color: #f1f5f9;
-    border: none;
-    padding: 8px 12px;
-    border-radius: 12px;
-    color: #475569;
-    font-size: 11px;
-    font-weight: 700;
-    cursor: pointer;
-    transition: background-color 0.2s ease;
-}
-.close-profile-btn:active {
-    background-color: #e2e8f0;
-    color: #0f172a;
-}
+.close-profile-btn { width: 100%; background-color: #f1f5f9; border: none; padding: 8px 12px; border-radius: 12px; color: #475569; font-size: 11px; font-weight: 700; cursor: pointer; transition: background-color 0.2s ease; }
+.close-profile-btn:active { background-color: #e2e8f0; color: #0f172a; }
 
 /* NAVIGASI MENU BAWAH FIXED STICKY */
 .bottom-nav { 
@@ -286,7 +238,6 @@ body {
     .info-wrapper-container { order: 2; }
     #refresh-button { order: 3; }
 
-    /* Penyesuaian Skala Kapsul Profil di Jam Tangan Pintar agar Seimbang */
     .popup-box { top: 44px; left: -4px; width: 155px; padding: 14px 10px; border-radius: 20px; transform-origin: top center; }
     .profile-avatar-wrapper { width: 50px; height: 50px; }
     .developer-name { font-size: 12px; margin-bottom: 8px; }
@@ -295,7 +246,6 @@ body {
     .app-description-text { font-size: 10px; margin-bottom: 10px; }
     .close-profile-btn { padding: 6px 10px; font-size: 10px; border-radius: 10px; }
 
-    /* Komponen Kalibrasi Jalur Jam */
     .prayer-card { margin: -40px 10px 0 10px; padding: 16px 8px; }
     .prayer-time-grid { grid-template-columns: 1fr; gap: 12px; }
     .prayer-time-grid::after { display: none; }
