@@ -1,38 +1,54 @@
 document.addEventListener("DOMContentLoaded", function () {
     
     // ==========================================================================
-    // 1. LOGIKA POPUP MODAL (ZOOM IN / ZOOM OUT DARI TOMBOL INFO)
+    // 1. POPUP INTERAKTIF (ZOOM IN/OUT DARI ICON I + DETEKSI TOMBOL BACK HP)
     // ==========================================================================
     const infoButton = document.getElementById('info-button');
-    const popupOverlay = document.getElementById('popup-overlay');
     const popupBox = document.getElementById('popup-box');
+    const popupBackdrop = document.getElementById('popup-backdrop');
 
-    if (infoButton && popupOverlay && popupBox) {
-        // Membuka Popup (Zoom In)
+    // Fungsi membuka popup
+    function openPopup() {
+        popupBox.classList.add('show');
+        popupBackdrop.classList.add('show');
+
+        // Menyisipkan state bayangan ke history browser Android/HP
+        // Tujuannya agar saat tombol back HP ditekan, aplikasi tidak langsung keluar
+        history.pushState({ popupActive: true }, "");
+    }
+
+    // Fungsi menutup popup (Menyusut/Zoom Out kembali ke icon i)
+    function closePopup() {
+        popupBox.classList.remove('show');
+        popupBackdrop.classList.remove('show');
+    }
+
+    if (infoButton && popupBox && popupBackdrop) {
+        // Klik tombol i untuk membuka atau menutup
         infoButton.addEventListener('click', function (e) {
-            e.stopPropagation(); // Mencegah bentrokan event click global
-            popupOverlay.classList.add('show');
-        });
-
-        // Menutup Popup jika Area Luar / Overlay Hitam diklik (Zoom Out)
-        popupOverlay.addEventListener('click', function (e) {
-            // Memastikan klik benar-benar di luar kotak putih popup
-            if (e.target === popupOverlay) {
-                popupOverlay.classList.remove('show');
+            e.stopPropagation();
+            if (popupBox.classList.contains('show')) {
+                // Jika sudah terbuka, tekan tombol i lagi untuk menutup (menyusut balik)
+                history.back(); 
+            } else {
+                openPopup();
             }
         });
-        
-        // Menutup otomatis jika pengguna menekan kembali tombol info saat popup terbuka
-        window.addEventListener('click', function () {
-            popupOverlay.classList.remove('show');
+
+        // Klik area luar/latar blur untuk menyusutkan balik popup
+        popupBackdrop.addEventListener('click', function () {
+            history.back();
         });
-        popupBox.addEventListener('click', function (e) {
-            e.stopPropagation(); // Menjaga agar isi didalam popup tetap bisa diklik bebas
+
+        // MENDETEKSI TOMBOL BACK SPESIFIK SMARTPHONE / HP
+        window.addEventListener('popstate', function () {
+            // Ketika tombol back fisik HP ditekan, tutup popup secara halus
+            closePopup();
         });
     }
 
     // ==========================================================================
-    // 2. FUNGSI KLIK SINKRONISASI DATA REFRESH BERPUTAR
+    // 2. FUNGSIONALITAS REFRESH SINKRONISASI DATA BERPUTAR
     // ==========================================================================
     const refreshButton = document.getElementById('refresh-button');
     const refreshIcon = document.getElementById('refresh-icon');
@@ -58,7 +74,7 @@ document.addEventListener("DOMContentLoaded", function () {
     });
 
     // ==========================================================================
-    // 4. DETEKSI KLIK MENU UTAMA GRID
+    // 4. DETEKSI KLIK MENU UTAMA
     // ==========================================================================
     const menuItems = document.querySelectorAll('.menu-item');
     menuItems.forEach(item => {
