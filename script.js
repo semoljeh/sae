@@ -1,20 +1,20 @@
 document.addEventListener("DOMContentLoaded", function () {
     
     // ==========================================================================
-    // 1. SISTEM BLOKIR TRIPLE-LAYER ANTI COPAS (MURNI JAVASCRIPT PROTEKSI)
+    // 1. FUNGSIONALITAS TRIPLE-LOCK ANTI COPAS (MURNI PROTEKSI JAVASCRIPT)
     // ==========================================================================
 
-    // Fungsi mematikan klik kanan mouse dan mematikan perintah tahan layar lama (long press) di HP
+    // Mematikan menu klik kanan mouse dan menonaktifkan gerakan tahan layar lama (long press) di HP
     document.addEventListener('contextmenu', function (e) {
-        e.preventDefault(); // Menggagalkan instruksi dasar sistem operasi untuk mengeluarkan opsi salin/copy
+        e.preventDefault(); // Menggagalkan instruksi dasar bawaan sistem operasi untuk mengeluarkan instruksi copy
     });
 
-    // Fungsi mematikan instruksi awal penyeretan/pemblokan teks tulisan
+    // Mematikan instruksi awal pemblokan seleksi baris teks tulisan
     document.addEventListener('selectstart', function (e) {
-        e.preventDefault(); // Menggagalkan instruksi saat jari mendeteksi seretan teks halaman
+        e.preventDefault(); // Menggagalkan instruksi saat jari mendeteksi seretan seleksi halaman
     });
 
-    // Fungsi mematikan pintasan tombol salin keyboard komputer
+    // Mematikan pintasan kombinasi tombol salin pada keyboard komputer
     document.addEventListener('keydown', function (e) {
         // Melarang total tombol kombinasi Ctrl+C (Salin), Ctrl+A (Pilih Semua), Ctrl+U (Source Code)
         if (e.ctrlKey && (e.keyCode === 67 || e.keyCode === 65 || e.keyCode === 85 || e.keyCode === 83)) {
@@ -25,30 +25,31 @@ document.addEventListener("DOMContentLoaded", function () {
 
 
     // ==========================================================================
-    // 2. KENDALI JENDELA POPUP MODAL IMUT (SISTEM KLIK GLOBAL CLOSE NATAL)
+    // 2. KENDALI KAPSUL POPUP PROFIL VERTIVAL (SISTEM AUTOMATIC MUTUAL CLOSE)
     // ==========================================================================
     const infoButton = document.getElementById('info-button');
     const popupBox = document.getElementById('popup-box');
     const popupBackdrop = document.getElementById('popup-backdrop');
+    const closeProfileBtn = document.getElementById('close-profile-btn'); // Detektor tombol Tutup Profil bawah
 
-    // Fungsi menyuntikkan kelas CSS aktif untuk memekarkan jendela popup info
+    // Fungsi membuka jendela modal profile
     function openPopup() {
-        popupBox.classList.add('show'); 
-        popupBackdrop.classList.add('show'); 
+        popupBox.classList.add('show'); // Menyuntikkan kelas 'show' untuk memicu kurva pegas CSS
+        popupBackdrop.classList.add('show'); // Membuka tirai redup belakang
     }
 
-    // Fungsi mencopot kelas CSS aktif untuk menyusutkan kembali jendela popup
+    // Fungsi menutup jendela modal profile secara internal (Anti-Keluar Aplikasi)
     function closePopup() {
-        popupBox.classList.remove('show'); 
-        popupBackdrop.classList.remove('show'); 
+        popupBox.classList.remove('show'); // Mencopot kelas 'show' agar jendela menyusut mengecil
+        popupBackdrop.classList.remove('show'); // Mematikan tirai redup belakang
     }
 
-    // Memastikan elemen sukses terpasang di dokumen sebelum menyuntik logis klik sentuhan
-    if (infoButton && popupBox && popupBackdrop) {
+    // Memastikan seluruh elemen sukses dimuat sistem sebelum mengunci sensor klik sentuhan
+    if (infoButton && popupBox && popupBackdrop && closeProfileBtn) {
         
-        // Klik pada ikon i bulat toska
+        // Sinyal sentuh pada tombol info i kiri atas
         infoButton.addEventListener('click', function (e) {
-            e.stopPropagation(); // Menahan gelembung klik agar tidak memicu detektor dokumen global
+            e.stopPropagation(); // Menahan gelembung klik agar tidak menyengat sensor dokumen global
             if (popupBox.classList.contains('show')) {
                 closePopup(); // Menutup normal jika sedang terbuka
             } else {
@@ -56,12 +57,18 @@ document.addEventListener("DOMContentLoaded", function () {
             }
         });
 
-        // Klik area tirai redup belakang untuk menutup popup balik (Mode HP)
+        // BARU: Sinyal sentuh langsung pada tombol "Tutup Profil" di bagian paling bawah popup
+        closeProfileBtn.addEventListener('click', function (e) {
+            e.stopPropagation();
+            closePopup(); // Langsung eksekusi penutupan murni
+        });
+
+        // Sinyal ketuk pada tirai backdrop redup belakang untuk menutup modal balik (Mode HP)
         popupBackdrop.addEventListener('click', function () {
             closePopup();
         });
 
-        // KUNCI UTAMA: Ketuk di koordinat layar mana saja secara bebas otomatis meredupkan popup info kembali (Anti Keluar Aplikasi)
+        // Ketuk di koordinat layar mana saja secara bebas otomatis meredupkan popup info kembali
         document.addEventListener('click', function (e) {
             // Jika popup sedang aktif mekar, dan jari mengetuk area yang BUKAN bagian dari tombol info utama
             if (popupBox.classList.contains('show') && !infoButton.contains(e.target)) {
@@ -79,7 +86,7 @@ document.addEventListener("DOMContentLoaded", function () {
 
 
     // ==========================================================================
-    // 3. LOGIKA REFRESH DATA HALAMAN BERPUTAR
+    // 3. LOGIKA REFRESH DATA HALAMAN BERPUTAR (KEMBALI DI POJOK KANAN ATAS)
     // ==========================================================================
     const refreshButton = document.getElementById('refresh-button');
     const refreshIcon = document.getElementById('refresh-icon');
@@ -88,14 +95,14 @@ document.addEventListener("DOMContentLoaded", function () {
         refreshButton.addEventListener('click', function () {
             refreshIcon.classList.add('spin-animation'); // Memutar ikon refresh lewat kelas roda animasi CSS
             setTimeout(() => {
-                location.reload(); // Memuat ulang halaman web secara utuh dan segar setelah 0.6 detik
+                location.reload(); // Memuat ulang halaman web secara utuh setelah 0.6 detik
             }, 600);
         });
     }
 
 
     // ==========================================================================
-    // 4. ANIMASI PINDAH TOMBOL TAB NAVIGASI BAWAH AKTIF
+    // 4. ANIMASI TAB MENU NAVIGASI BAWAH AKTIF
     // ==========================================================================
     const navItems = document.querySelectorAll('.nav-item');
     navItems.forEach(item => {
@@ -109,7 +116,7 @@ document.addEventListener("DOMContentLoaded", function () {
 
 
     // ==========================================================================
-    // 5. NOTIFIKASI EVENT KLIK KOTAK MENU GRID UTAMA
+    // 5. DETEKTOR KLIK FITUR ITEM MENU GRID UTAMA 
     // ==========================================================================
     const menuItems = document.querySelectorAll('.menu-item');
     menuItems.forEach(item => {
