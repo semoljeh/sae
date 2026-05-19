@@ -6,10 +6,7 @@ document.addEventListener("DOMContentLoaded", function () {
 
     if (refreshButton && refreshIcon) {
         refreshButton.addEventListener('click', function () {
-            // Pasang class animasi berputar tepat pada target icon
             refreshIcon.classList.add('spin-animation');
-            
-            // Refresh halaman setelah animasi berputar selesai (0.6 detik)
             setTimeout(() => {
                 location.reload();
             }, 600);
@@ -22,9 +19,6 @@ document.addEventListener("DOMContentLoaded", function () {
         item.addEventListener('click', function () {
             navItems.forEach(nav => nav.classList.remove('active'));
             this.classList.add('active');
-            
-            const tabName = this.getAttribute('data-tab');
-            console.log("Tab aktif: " + tabName);
         });
     });
 
