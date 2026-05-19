@@ -1,104 +1,168 @@
-/* ==========================================================================
-   1. RESET CORE & ENGINE INTEGRASI FITUR ANTI-COPAS KANAL CSS
-   ========================================================================== */
+/* --- RESET & LAYOUT DASAR --- */
 * {
     margin: 0;
     padding: 0;
     box-sizing: border-box;
     font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, sans-serif;
-    
-    /* Menghapus kilatan warna abu-abu/biru bawaan browser saat komponen diklik di HP */
-    -webkit-tap-highlight-color: transparent; 
-
-    /* FITUR KUNCI ANTI-COPAS: Mematikan kemampuan blok teks/seleksi tulisan di semua browser */
-    -webkit-user-select: none;  /* Pendeteksi Safari (iOS / Mac) */
-    -moz-user-select: none;     /* Pendeteksi Firefox */
-    -ms-user-select: none;      /* Pendeteksi Internet Explorer / Edge lama */
-    user-select: none;          /* Standar global Chrome, Opera, Android, dll. */
 }
 
 body {
     background-color: #e2e8f0;
     display: flex;
     justify-content: center;
-    align-items: center;
+    align-items: flex-start;
     min-height: 100vh;
-    width: 100vw;
-    overflow-x: hidden; /* Mencegah layar bergeser kiri-kanan saat sedang di-zoom jari */
 }
 
-/* CONTAINER BINGKAI UTAMA APLIKASI */
 .app-container {
     width: 100%;
-    max-width: 412px; 
-    height: 100vh; /* Mengunci tinggi pas satu layar penuh di HP modern */
+    max-width: 412px;
+    height: 100vh;
     background-color: #f8fafc;
     position: relative;
     display: flex;
     flex-direction: column;
-    overflow: hidden; /* Mengunci konten luar agar tidak meluber acak */
-    box-shadow: 0 12px 40px rgba(0, 0, 0, 0.12);
-}
-
-/* JALUR ENGINE SCROLL: Membuat gerakan gulir menu terasa licin dan sangat ringan */
-.scrollable-content {
-    flex: 1;
-    overflow-y: auto; /* Mengaktifkan sumbu scroll ke bawah jika konten penuh */
+    overflow-y: auto;
     overflow-x: hidden;
-    width: 100%;
-    padding-bottom: 100px; /* Bantalan ruang sisa aman di bawah agar tidak tertutup nav menu */
-    -webkit-overflow-scrolling: touch; /* Mengaktifkan akselerasi native kartu grafis HP */
 }
 
-/* Menyembunyikan batang scrollbar bawaan Chrome/Android agar UI bersih minimalis */
-.scrollable-content::-webkit-scrollbar {
+.app-container::-webkit-scrollbar {
     width: 0px;
 }
 
-/* ==========================================================================
-   2. SEKSI TAMPILAN HEADER ATAS
-   ========================================================================== */
+/* --- HEADER --- */
 .main-header {
-    background-color: #007A78; /* Hijau toska identitas Al-Mukhtar */
-    padding: 24px 16px 85px 16px; /* Jarak bawah sengaja longgar untuk bantalan kartu shalat */
+    background-color: #007A78;
+    padding: 24px 20px 95px 20px;
 }
 
 .header-top {
     display: flex;
     justify-content: space-between;
     align-items: center;
-    flex-wrap: wrap;
-    gap: 10px;
+    position: relative; /* Penting untuk popup anchor */
 }
 
-/* Desain tombol kotak bulat transparan di atas */
 .icon-btn {
     background-color: rgba(255, 255, 255, 0.15);
     border: none;
     color: white;
-    width: 40px;
-    height: 40px;
+    width: 42px;
+    height: 42px;
     border-radius: 12px;
     display: flex;
     align-items: center;
     justify-content: center;
     cursor: pointer;
-    flex-shrink: 0;
 }
-/* Efek membal memengecil seperti tombol aplikasi asli saat ditekan jari */
-.icon-btn:active { transform: scale(0.92); }
 
-/* Animasi lingkaran berputar untuk ikon refresh data */
-.spin-animation {
+/* --- LOGIKA POPUP (MUNGIL & MENEMPEL) --- */
+
+/* Wrapper untuk tombol dan popup agar menempel */
+.info-wrapper-container {
+    position: relative; /* Menjadi anchor untuk popup-box */
     display: inline-block;
-    animation: spin 0.8s linear;
-}
-@keyframes spin {
-    0% { transform: rotate(0deg); }
-    100% { transform: rotate(360deg); }
 }
 
-/* Badge penunjuk lokasi wilayah di bagian tengah */
+/* Box Popup Mungil (Posisi menggantung tepat di bawah tombol info) */
+.popup-box {
+    position: absolute;
+    top: 50px;       /* Muncul 50px di bawah tombol */
+    left: 0px;       /* Rata kiri dengan tombol info */
+    background-color: white;
+    width: 200px;    /* Lebar mungil */
+    padding: 16px;
+    border-radius: 16px;
+    box-shadow: 0 10px 25px rgba(0, 0, 0, 0.15);
+    z-index: 100;    /* Tampil di atas segalanya */
+    
+    text-align: center;
+    
+    /* Animasi semunyi/muncul halus */
+    opacity: 0;
+    transform: translateY(-10px) scale(0.95);
+    visibility: hidden;
+    transition: all 0.3s ease-out;
+}
+
+/* State saat popup aktif (ditambahkan lewat JS) */
+.popup-box.active {
+    opacity: 1;
+    transform: translateY(0) scale(1);
+    visibility: visible;
+}
+
+/* Elemen di dalam popup */
+.popup-info-icon {
+    font-size: 24px !important;
+    color: #007A78;
+    margin-bottom: 8px;
+}
+
+.popup-box h3 {
+    font-size: 14px;
+    color: #1e293b;
+    margin-bottom: 4px;
+    font-weight: 600;
+}
+
+.author-text {
+    font-size: 11px;
+    color: #64748b;
+    margin-bottom: 14px;
+}
+
+/* Tombol Medsos squircle Berwarna flat */
+.social-wrapper {
+    display: flex;
+    justify-content: center;
+    gap: 12px;
+}
+
+.social-icon {
+    width: 38px;
+    height: 38px;
+    border-radius: 12px; /* Squircle */
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    color: white;
+    text-decoration: none;
+    font-size: 18px;
+    transition: transform 0.2s ease;
+}
+
+.social-icon:hover {
+    transform: scale(1.05);
+}
+
+/* Warna medsos flat */
+.tiktok {
+    background-color: #111111; /* Flat black */
+}
+
+.instagram {
+    background-color: #E1306C; /* Flat Insta */
+}
+
+/* Backdrop transparan untuk menutup saat klik luar */
+.popup-backdrop {
+    position: fixed;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    background-color: transparent; /* Tetap transparan */
+    z-index: 90; /* Di bawah popup, di atas konten lain */
+    display: none;
+}
+
+.popup-backdrop.active {
+    display: block;
+}
+
+
+/* --- SISA CSS (Sama seperti sebelumnya) --- */
 .location-badge {
     display: flex;
     align-items: center;
@@ -108,167 +172,172 @@ body {
     color: white;
     font-weight: 600;
     font-size: 14px;
-    cursor: pointer;
 }
-.location-badge:active { transform: scale(0.95); }
-.icon-left { margin-right: 4px; font-size: 16px !important; }
-.icon-right { margin-left: 4px; font-size: 16px !important; }
 
-/* ==========================================================================
-   3. KOMPONEN DEKORATIF: KARTU JADWAL & BRAND LOGO
-   ========================================================================== */
+.icon-left { margin-right: 6px; font-size: 18px !important; }
+.icon-right { margin-left: 4px; font-size: 18px !important; }
+
 .prayer-card {
     background-color: white;
-    margin: -60px 16px 0 16px; /* Seretan minus memotong naik ke area hijau header */
-    border-radius: 16px;
-    padding: 20px 16px;
-    box-shadow: 0 8px 20px rgba(0, 0, 0, 0.04);
+    margin: -70px 16px 0 16px;
+    border-radius: 18px;
+    padding: 24px 16px;
+    box-shadow: 0 10px 25px rgba(0, 0, 0, 0.05);
+    text-align: center;
+    position: relative;
     z-index: 5;
+}
+
+.prayer-time-grid {
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    position: relative;
+}
+
+.prayer-time-grid::after {
+    content: "";
+    position: absolute;
+    left: 50%;
+    top: 10%;
+    height: 80%;
+    width: 1px;
+    background-color: #e2e8f0;
+    transform: translateX(-50%);
+}
+
+.time-box {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+}
+
+.title-teal {
+    color: #007A78;
+    font-weight: 700;
+    font-size: 12px;
+    letter-spacing: 0.8px;
+}
+
+.time-display {
+    font-size: 34px;
+    font-weight: 700;
+    color: #0f172a;
+    margin-top: 8px;
+}
+
+.dashed-line {
+    border-top: 1.5px dashed #cbd5e1;
+    margin: 18px 0;
+}
+
+.hijri-date {
+    color: #007A78;
+    font-size: 14px;
+    font-weight: 700;
+}
+
+.masehi-date {
+    color: #64748b;
+    font-size: 11px;
+    font-weight: 600;
+    margin-top: 5px;
+}
+
+.app-brand {
+    text-align: center;
+    margin: 24px 0 20px 0;
+}
+
+.arabic-logo {
+    font-family: serif;
+    font-size: 38px;
+    color: #007A78;
+}
+
+.sub-logo {
+    font-size: 10px;
+    letter-spacing: 3px;
+    color: #64748b;
+    margin-top: 6px;
+}
+
+.menu-grid {
+    display: grid;
+    grid-template-columns: repeat(3, 1fr);
+    gap: 14px;
+    padding: 0 16px;
+    margin-bottom: 90px;
+}
+
+.menu-item {
+    background-color: white;
+    border-radius: 18px;
+    padding: 22px 8px;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
     border: 1px solid #f1f5f9;
 }
 
-.prayer-time-grid { display: grid; grid-template-columns: 1fr 1fr; position: relative; }
-/* Membuat garis pembatas vertikal halus di tengah jam shalat */
-.prayer-time-grid::after { content: ""; position: absolute; left: 50%; top: 10%; height: 80%; width: 1px; background-color: #e2e8f0; transform: translateX(-50%); }
-.time-box { display: flex; flex-direction: column; align-items: center; justify-content: center; }
-.title-teal { color: #007A78; font-weight: 700; font-size: 12px; letter-spacing: 0.5px; }
-.time-display { font-size: 28px; font-weight: 700; color: #0f172a; margin-top: 4px; }
-.dashed-line { border-top: 1.5px dashed #cbd5e1; margin: 15px 0; }
+.icon-wrapper {
+    width: 54px;
+    height: 54px;
+    border-radius: 18px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    margin-bottom: 12px;
+}
 
-.date-box { text-align: center; display: flex; flex-direction: column; align-items: center; justify-content: center; width: 100%; }
-.date-box .hijri-date { color: #007A78; font-size: 13px; font-weight: 700; }
-.date-box .masehi-date { color: #64748b; font-size: 11px; margin-top: 4px; font-weight: 500; }
+.icon-wrapper span {
+    font-size: 26px;
+}
 
-.app-brand { text-align: center; margin: 20px 0; }
-.arabic-logo { font-family: Georgia, serif; font-size: 34px; color: #007A78; }
-.sub-logo { font-size: 10px; letter-spacing: 2.5px; color: #64748b; margin-top: 4px; font-weight: 600; }
-
-/* ==========================================================================
-   4. SISTEM MENU GRID UTAMA (3 KOLOM DEFAULT HP)
-   ========================================================================== */
-.menu-grid { display: grid; grid-template-columns: repeat(3, 1fr); grid-template-rows: repeat(2, 1fr); gap: 12px; padding: 0 16px; margin-top: 10px; }
-.menu-item { background-color: white; border-radius: 16px; padding: 16px 4px; display: flex; flex-direction: column; align-items: center; justify-content: center; border: 1px solid #f1f5f9; cursor: pointer; transition: transform 0.1s ease; }
-.menu-item:active { transform: scale(0.95); }
-
-/* Desain squircle (kotak lingkaran halus) pembungkus ikon */
-.icon-wrapper { width: 48px; height: 48px; border-radius: 14px; display: flex; align-items: center; justify-content: center; margin-bottom: 8px; }
-.icon-wrapper span { font-size: 24px; }
-
-/* Variasi warna background pastel ikon menu utama */
 .bg-blue { background-color: #e0f2fe; color: #0284c7; }
 .bg-emerald { background-color: #d1fae5; color: #059669; }
 .bg-purple { background-color: #f3e8ff; color: #7c3aed; }
 .bg-lime { background-color: #f0fdf4; color: #16a34a; }
 .bg-pink { background-color: #ffe4e6; color: #e11d48; }
 .bg-orange { background-color: #ffedd5; color: #ea580c; }
-.menu-label { font-size: 11px; font-weight: 700; color: #334155; text-align: center; }
 
-/* ==========================================================================
-   5. DESAIN POPUP BOX MODAL & STRUKTUR HALUS BACKDROP
-   ========================================================================== */
-.info-wrapper-container { position: relative; display: inline-block; }
-.popup-backdrop { position: fixed; top: 0; left: 0; width: 100%; height: 100%; background-color: rgba(15, 23, 42, 0.08); backdrop-filter: blur(1px); z-index: 998; opacity: 0; pointer-events: none; transition: opacity 0.4s ease; }
-.popup-backdrop.show { opacity: 1; pointer-events: auto; }
-
-/* Jendela box popup modal murni bulat minimalis tanpa tonjolan ekor segitiga */
-.popup-box {
-    position: absolute; top: 48px; left: 0px; background-color: white; width: 245px; padding: 24px 20px; border-radius: 24px; border: 1px solid rgba(15, 23, 42, 0.05); box-shadow: 0 10px 30px rgba(15, 23, 42, 0.15); z-index: 999; text-align: center;
-    
-    /* Animasi kurva pegas iOS elastis membal (Zoom dari arah kiri-atas tombol i) */
-    transform-origin: top left; opacity: 0; transform: scale(0.5) translateY(-12px); visibility: hidden; transition: transform 0.4s cubic-bezier(0.175, 0.885, 0.32, 1.275), opacity 0.3s ease, visibility 0.4s;
+.menu-label {
+    font-size: 11px;
+    font-weight: 700;
+    color: #334155;
 }
-.popup-box.show { opacity: 1; transform: scale(1) translateY(0); visibility: visible; }
-.popup-info-icon { font-size: 28px !important; color: #007A78; margin-bottom: 8px; }
-.popup-box h3 { font-size: 15px; color: #0f172a; font-weight: 700; letter-spacing: -0.2px; }
-.author-text { font-size: 12px; color: #64748b; margin-top: 3px; font-weight: 500; }
 
-/* Tombol Sosial Media Berwarna Terang */
-.social-wrapper { display: flex; justify-content: center; gap: 16px; margin-top: 20px; }
-.social-icon { width: 48px; height: 48px; border-radius: 16px; display: flex; align-items: center; justify-content: center; font-size: 20px; text-decoration: none; transition: transform 0.2s cubic-bezier(0.175, 0.885, 0.32, 1.275); }
-.social-icon:active { transform: scale(0.88); }
-.social-icon.tiktok { background-color: #e2e8f0; color: #000000; text-shadow: 1px 1px #25f4ee, -1px -1px #fe0979; }
-.social-icon.instagram { background: linear-gradient(45deg, #f09433, #e6683c, #dc2743, #cc2366, #bc1888); color: #ffffff; box-shadow: 0 4px 14px rgba(220, 39, 67, 0.25); }
-
-/* MENU NAVIGASI BAWAH FIXED STICKY (HP MODE) */
-.bottom-nav { 
-    position: fixed; bottom: 0; left: 50%; transform: translateX(-50%); 
-    width: 100%; max-width: 412px; background-color: white; 
-    border-top: 1px solid #e2e8f0; padding: 12px 16px; 
-    display: flex; justify-content: space-between; align-items: center; z-index: 999; 
+.bottom-nav {
+    position: absolute;
+    bottom: 0;
+    left: 0;
+    right: 0;
+    background-color: white;
+    border-top: 1px solid #e2e8f0;
+    padding: 10px 16px;
+    display: flex;
+    justify-content: space-between;
+    z-index: 10;
 }
-.nav-item { display: flex; flex-direction: column; align-items: center; color: #94a3b8; cursor: pointer; flex: 1; }
-.nav-item span:first-child { font-size: 22px; }
-.nav-item.active { color: #007A78; }
-.nav-label { font-size: 10px; font-weight: 600; margin-top: 2px; }
 
-/* ==========================================================================
-   6. JALUR ENGINES RESPONSIVITAS TOTAL SMARTWATCH / GALAXY J2 PRO (Di bawah 330px)
-   ========================================================================== */
-@media (max-width: 330px) {
-    /* Melepaskan kuncian tinggi frame kaku agar memanjang luwes mengikuti isi gulungan jam */
-    .app-container {
-        height: auto !important; 
-        min-height: 100vh;
-        overflow-y: visible !important;
-    }
+.nav-item {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    color: #94a3b8;
+    flex: 1;
+}
 
-    .scrollable-content {
-        overflow-y: visible !important;
-        padding-bottom: 20px !important; 
-    }
+.nav-item span:first-child {
+    font-size: 24px;
+}
 
-    /* Mengubah posisi nav bawah menjadi relatif agar meluncur jujur paling bawah layar jam */
-    .bottom-nav {
-        position: relative !important;
-        bottom: auto !important;
-        left: auto !important;
-        transform: none !important;
-        width: 100% !important;
-        margin-top: 30px;
-        border-top: 1px solid #e2e8f0;
-    }
+.nav-item.active {
+    color: #007A78;
+}
 
-    /* Mematikan backdrop penutup di smartwatch bulat agar responsif menerima geseran jari */
-    .popup-backdrop { display: none !important; pointer-events: none !important; }
-
-    .main-header { padding: 16px 10px 60px 10px; }
-    .header-top { justify-content: center; }
-    .location-badge { width: 100%; order: 1; justify-content: center; }
-    .info-wrapper-container { order: 2; }
-    #refresh-button { order: 3; }
-
-    /* Penyesuaian Dimensi Mini Popup Box Di Smartwatch */
-    .popup-box { top: 44px; left: -4px; width: 165px; padding: 14px 10px; border-radius: 18px; transform-origin: top center; }
-    .popup-info-icon { font-size: 22px !important; margin-bottom: 4px; }
-    .popup-box h3 { font-size: 13px; letter-spacing: -0.3px; }
-    .author-text { font-size: 11px; margin-top: 1px; }
-    .social-wrapper { gap: 12px; margin-top: 12px; }
-    .social-icon { width: 36px; height: 36px; font-size: 15px; border-radius: 11px; }
-
-    /* Pengecilan Skala Layout Komponen Jam */
-    .prayer-card { margin: -40px 10px 0 10px; padding: 16px 8px; }
-    .prayer-time-grid { grid-template-columns: 1fr; gap: 12px; }
-    .prayer-time-grid::after { display: none; }
-    .time-display { font-size: 24px; }
-    .date-box .hijri-date { font-size: 11px; }
-    .date-box .masehi-date { font-size: 10px; }
-    .arabic-logo { font-size: 26px; }
-    .sub-logo { font-size: 9px; }
-
-    /* MENU GRID OTOMATIS SEIMBANG JADI 2 KOLOM (SANGAT PRESISI UNTUK JAM) */
-    .menu-grid { 
-        grid-template-columns: repeat(2, 1fr) !important; 
-        grid-template-rows: auto !important; 
-        gap: 8px !important; 
-        padding: 0 10px !important; 
-        margin-bottom: 10px !important;
-    }
-    .menu-item { padding: 14px 4px; }
-    .icon-wrapper { width: 40px; height: 40px; }
-    .icon-wrapper span { font-size: 20px; }
-    .menu-label { font-size: 10px; }
-
-    .bottom-nav { padding: 8px 4px; }
-    .nav-item span:first-child { font-size: 18px; }
-    .nav-label { font-size: 9px; }
+.nav-label {
+    font-size: 10px;
+    font-weight: 600;
 }
