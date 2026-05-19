@@ -1,5 +1,5 @@
 /* ==========================================================================
-   1. RESET CORE & INTEGRASI FITUR AMAN ANTI-COPAS KANAL CSS
+   1. RESET CORE & INTEGRASI PROTEKSI UTAMA ANTI-COPAS KANAL CSS
    ========================================================================== */
 * {
     margin: 0;
@@ -7,14 +7,14 @@
     box-sizing: border-box;
     font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, sans-serif;
     
-    /* Mematikan pemicu warna abu-abu/biru sekilas saat layar diketuk di HP Android & iOS */
+    /* Mematikan pemicu sorotan warna biru/abu-abu bawaan browser saat layar HP diketuk jari */
     -webkit-tap-highlight-color: transparent; 
 
-    /* FITUR KUNCI ANTI-COPAS CSS: Mematikan fungsi blok teks di semua browser web */
+    /* FITUR KUNCI ANTI-COPAS CSS: Mematikan kemampuan blok teks tulisan di semua browser */
     -webkit-user-select: none;  /* Engine Safari (iOS / Mac) */
-    -moz-user-select: none;     /* Engine Firefox */
+    -moz-user-select: none;     /* Engine Firefox kuno */
     -ms-user-select: none;      /* Engine Internet Explorer lama */
-    user-select: none;          /* Standar umum Chrome, Opera, Android WebView */
+    user-select: none;          /* Aturan umum Google Chrome, Opera, Android WebView */
 }
 
 body {
@@ -24,43 +24,43 @@ body {
     align-items: center;
     min-height: 100vh;
     width: 100vw;
-    overflow-x: hidden; /* Menepis layar goyang kanan-kiri saat dicubit zoom */
+    overflow-x: hidden; /* Mencegah layar goyang kanan-kiri saat dicubit paksa jari */
 }
 
-/* FRAME UTAMA WADAH WEB */
+/* BINGKAI FRAME CONTAINER UTAMA */
 .app-container {
     width: 100%;
     max-width: 412px; 
-    height: 100vh; /* Kunci tinggi pas satu layar di smartphone modern */
+    height: 100vh; /* Kunci tinggi pas satu layar penuh di ponsel pintar modern */
     background-color: #f8fafc;
     position: relative;
     display: flex;
     flex-direction: column;
-    overflow: hidden; /* Mengunci konten agar tidak meluber keluar frame */
+    overflow: hidden; /* Mengunci konten agar tidak bocor keluar area kontainer */
     box-shadow: 0 12px 40px rgba(0, 0, 0, 0.12);
 }
 
-/* JALUR FLUIDA SCROLL: Membuat scroll sangat licin, mulus, ringan, anti patah-patah */
+/* AREA ENGINE SCROLL: Membuat geseran halaman terasa sangat licin, mulus, dan ringan */
 .scrollable-content {
     flex: 1;
-    overflow-y: auto; /* Mengizinkan gulir ke bawah alami */
+    overflow-y: auto; /* Mengaktifkan sumbu gulir ke bawah alami */
     overflow-x: hidden;
     width: 100%;
-    padding-bottom: 100px; /* Jarak aman terbawah dari kejaran menu navigasi */
-    -webkit-overflow-scrolling: touch; /* Meminjam mesin akselerasi grafis perangkat */
+    padding-bottom: 100px; /* Bantalan sisa jarak aman bawah agar tidak terhalang menu nav bawah */
+    -webkit-overflow-scrolling: touch; /* Meminjam mesin akselerasi grafis perangkat bawaan */
 }
 
-/* Sembunyikan batang scrollbar bawaan Chrome agar visual bersih maksimal */
+/* Sembunyikan batang scrollbar bawaan Chrome/Android agar UI bersih minimalis */
 .scrollable-content::-webkit-scrollbar {
     width: 0px;
 }
 
 /* ==========================================================================
-   2. SEKSI STRUKTUR HEADER (TOSKA)
+   2. STYLES STRUKTUR HEADER (TOSKA)
    ========================================================================== */
 .main-header {
     background-color: #007A78;
-    padding: 24px 16px 85px 16px; /* Jarak longgar bawah untuk dudukan kartu jadwal */
+    padding: 24px 16px 85px 16px; /* Jarak bawah longgar untuk sandaran kartu jadwal */
 }
 
 .header-top {
@@ -71,7 +71,7 @@ body {
     gap: 10px;
 }
 
-/* Desain tombol ikon bulat di header */
+/* Desain tombol ikon bulat di atas */
 .icon-btn {
     background-color: rgba(255, 255, 255, 0.15);
     border: none;
@@ -88,7 +88,7 @@ body {
 /* Efek membal pegas mengecil saat ditekan jari pengguna */
 .icon-btn:active { transform: scale(0.92); }
 
-/* Aturan putaran roda ikon refresh saat ditekan */
+/* Aturan putaran roda ikon refresh data */
 .spin-animation {
     display: inline-block;
     animation: spin 0.8s linear;
@@ -98,7 +98,7 @@ body {
     100% { transform: rotate(360deg); }
 }
 
-/* Badge nama daerah lokasi tengah */
+/* Badge penunjuk lokasi wilayah tengah */
 .location-badge {
     display: flex;
     align-items: center;
@@ -119,7 +119,7 @@ body {
    ========================================================================== */
 .prayer-card {
     background-color: white;
-    margin: -60px 16px 0 16px; /* Nilai minus mengangkat kartu memotong header toska */
+    margin: -60px 16px 0 16px; /* Nilai minus menyeret posisi kartu memotong header toska */
     border-radius: 16px;
     padding: 20px 16px;
     box-shadow: 0 8px 20px rgba(0, 0, 0, 0.04);
@@ -128,7 +128,7 @@ body {
 }
 
 .prayer-time-grid { display: grid; grid-template-columns: 1fr 1fr; position: relative; }
-/* Membuat sekat pembatas vertikal tipis di antara waktu shalat */
+/* Membuat garis pembatas vertikal lurus halus di tengah jam shalat */
 .prayer-time-grid::after { content: ""; position: absolute; left: 50%; top: 10%; height: 80%; width: 1px; background-color: #e2e8f0; transform: translateX(-50%); }
 .time-box { display: flex; flex-direction: column; align-items: center; justify-content: center; }
 .title-teal { color: #007A78; font-weight: 700; font-size: 12px; letter-spacing: 0.5px; }
@@ -143,18 +143,14 @@ body {
 .arabic-logo { font-family: Georgia, serif; font-size: 34px; color: #007A78; }
 .sub-logo { font-size: 10px; letter-spacing: 2.5px; color: #64748b; margin-top: 4px; font-weight: 600; }
 
-/* ==========================================================================
-   4. SISTEM MENU GRID UTAMA (3 KOLOM DEFAULT HP)
-   ========================================================================== */
+/* Grid Menu Utama (2 Baris x 3 Kolom) */
 .menu-grid { display: grid; grid-template-columns: repeat(3, 1fr); grid-template-rows: repeat(2, 1fr); gap: 12px; padding: 0 16px; margin-top: 10px; }
 .menu-item { background-color: white; border-radius: 16px; padding: 16px 4px; display: flex; flex-direction: column; align-items: center; justify-content: center; border: 1px solid #f1f5f9; cursor: pointer; transition: transform 0.1s ease; }
 .menu-item:active { transform: scale(0.95); }
 
-/* Pembungkus lingkaran ikon berbentuk squircle (kotak bersudut bulat halus) */
 .icon-wrapper { width: 48px; height: 48px; border-radius: 14px; display: flex; align-items: center; justify-content: center; margin-bottom: 8px; }
 .icon-wrapper span { font-size: 24px; }
 
-/* Palet pewarnaan latar belakang pastel ikon menu utama */
 .bg-blue { background-color: #e0f2fe; color: #0284c7; }
 .bg-emerald { background-color: #d1fae5; color: #059669; }
 .bg-purple { background-color: #f3e8ff; color: #7c3aed; }
@@ -164,53 +160,102 @@ body {
 .menu-label { font-size: 11px; font-weight: 700; color: #334155; text-align: center; }
 
 /* ==========================================================================
-   5. UPGRADE: DESAIN JENDELA POPUP BARU (KECIL, IMUT, NO ARROW)
+   4. NEW DESIGN UPDATE: MODAL POPUP PROFIL VERTIVAL (MUNGIL & IMUT)
    ========================================================================== */
 .info-wrapper-container { position: relative; display: inline-block; }
-.popup-backdrop { position: fixed; top: 0; left: 0; width: 100%; height: 100%; background-color: rgba(15, 23, 42, 0.08); backdrop-filter: blur(1px); z-index: 998; opacity: 0; pointer-events: none; transition: opacity 0.4s ease; }
+.popup-backdrop { position: fixed; top: 0; left: 0; width: 100%; height: 100%; background-color: rgba(15, 23, 42, 0.05); backdrop-filter: blur(0.5px); z-index: 998; opacity: 0; pointer-events: none; transition: opacity 0.4s ease; }
 .popup-backdrop.show { opacity: 1; pointer-events: auto; }
 
-/* Kalibrasi skala baru kotak info agar terlihat kecil mungil dan imut */
+/* Desain Jendela Struktur Vertikal Imut Sesuai Gambar Sketsa */
 .popup-box {
     position: absolute; 
-    top: 48px; /* Menggantung pas di bawah tombol i */
+    top: 48px; /* Menggantung pas di bawah tombol info */
     left: 0px; 
     background-color: white;
-    width: 195px; /* Dipersempit agar berkesan imut minimalis */
-    padding: 16px 14px; /* Padding dipadatkan */
-    border-radius: 18px; /* Sudut lengkung rounded diserasikan */
+    width: 180px; /* Dikunci langsing agar tampak sangat mungil */
+    padding: 18px 14px; 
+    border-radius: 24px; /* Kelengkungan rounded tebal premium */
     border: 1px solid rgba(15, 23, 42, 0.05); 
-    box-shadow: 0 10px 25px rgba(15, 23, 42, 0.12);
+    box-shadow: 0 12px 30px rgba(15, 23, 42, 0.15);
     z-index: 999;
     text-align: center;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
     
-    /* Animasi mekar (bounce) dari arah pojok kiri atas arah tombol info */
+    /* Efek kurva pegas elastis membal (Zoom dari arah pojok kiri atas arah tombol i) */
     transform-origin: top left; 
     opacity: 0;
     transform: scale(0.5) translateY(-10px); 
     visibility: hidden;
     transition: transform 0.4s cubic-bezier(0.175, 0.885, 0.32, 1.275), opacity 0.3s ease, visibility 0.4s;
 }
-/* Menyuntikkan efek mekar saat popup di-klik aktif */
+/* Menyuntikkan efek mekar saat popup aktif dipanggil */
 .popup-box.show { opacity: 1; transform: scale(1) translateY(0); visibility: visible; }
 
-.popup-info-icon { font-size: 22px !important; color: #007A78; margin-bottom: 6px; }
-.popup-box h3 { font-size: 13px; color: #0f172a; font-weight: 700; letter-spacing: -0.2px; }
-.author-text { font-size: 11px; color: #64748b; margin-top: 2px; font-weight: 500; }
+/* 1. Pembungkus Foto Lingkaran Profil */
+.profile-avatar-wrapper {
+    width: 60px;
+    height: 60px;
+    border-radius: 50%; /* Bulat murni */
+    overflow: hidden;
+    border: 2px solid #007A78; /* Bingkai toska halus melingkari foto */
+    margin-bottom: 8px;
+    background-color: #f1f5f9;
+}
+.profile-img {
+    width: 100%;
+    height: 100%;
+    object-fit: cover;
+}
 
-/* Area Sosmed Mungil di Dalam Popup */
-.social-wrapper { display: flex; justify-content: center; gap: 12px; margin-top: 14px; }
+/* 2. Teks Nama Developer */
+.developer-name {
+    font-size: 14px;
+    color: #0f172a;
+    font-weight: 700;
+    letter-spacing: -0.2px;
+    margin-bottom: 10px;
+}
+
+/* 3. Baris Tombol Sosmed Squircle Mungil */
+.social-wrapper { display: flex; justify-content: center; gap: 10px; margin-bottom: 12px; }
 .social-icon { 
-    width: 38px; height: 38px; border-radius: 12px; /* Model kapsul squircle imut */
-    display: flex; align-items: center; justify-content: center; font-size: 16px; 
+    width: 36px; height: 36px; border-radius: 11px; /* Kapsul squircle mini */
+    display: flex; align-items: center; justify-content: center; font-size: 15px; 
     text-decoration: none; transition: transform 0.2s cubic-bezier(0.175, 0.885, 0.32, 1.275); 
 }
 .social-icon:active { transform: scale(0.88); }
-
 .social-icon.tiktok { background-color: #e2e8f0; color: #000000; text-shadow: 1px 1px #25f4ee, -1px -1px #fe0979; }
-.social-icon.instagram { background: linear-gradient(45deg, #f09433, #e6683c, #dc2743, #cc2366, #bc1888); color: #ffffff; box-shadow: 0 4px 10px rgba(220, 39, 67, 0.2); }
+.social-icon.instagram { background: linear-gradient(45deg, #f09433, #e6683c, #dc2743, #cc2366, #bc1888); color: #ffffff; }
 
-/* MENU NAVIGASI BAWAH HP STICKY */
+/* 4. Teks Deskripsi Pelengkap */
+.app-description-text {
+    font-size: 11px;
+    color: #64748b;
+    font-weight: 600;
+    margin-bottom: 14px;
+}
+
+/* 5. Tombol Pintas Tutup Profil Paling Bawah */
+.close-profile-btn {
+    width: 100%;
+    background-color: #f1f5f9;
+    border: none;
+    padding: 8px 12px;
+    border-radius: 12px;
+    color: #475569;
+    font-size: 11px;
+    font-weight: 700;
+    cursor: pointer;
+    transition: background-color 0.2s ease;
+}
+.close-profile-btn:active {
+    background-color: #e2e8f0;
+    color: #0f172a;
+}
+
+/* NAVIGASI MENU BAWAH FIXED STICKY */
 .bottom-nav { 
     position: fixed; bottom: 0; left: 50%; transform: translateX(-50%); 
     width: 100%; max-width: 412px; background-color: white; 
@@ -223,33 +268,16 @@ body {
 .nav-label { font-size: 10px; font-weight: 600; margin-top: 2px; }
 
 /* ==========================================================================
-   6. JALUR ENGINES RESPONSIVITAS TOTAL SMARTWATCH / GALAXY J2 PRO (Di bawah 330px)
+   5. BREAKPOINT RESPONSIVITAS TOTAL LAYAR MINI / SMARTWATCH (max-width: 330px)
    ========================================================================== */
 @media (max-width: 330px) {
-    /* Melepaskan kuncian tinggi kaku 100vh agar halaman mengalir luwes di jam pintar */
-    .app-container {
-        height: auto !important; 
-        min-height: 100vh;
-        overflow-y: visible !important;
-    }
-
-    .scrollable-content {
-        overflow-y: visible !important;
-        padding-bottom: 20px !important; 
-    }
-
-    /* Mengubah posisi nav bawah menjadi relatif agar ikut meluncur ke paling bawah halaman jam */
+    .app-container { height: auto !important; min-height: 100vh; overflow-y: visible !important; }
+    .scrollable-content { overflow-y: visible !important; padding-bottom: 20px !important; }
+    
     .bottom-nav {
-        position: relative !important;
-        bottom: auto !important;
-        left: auto !important;
-        transform: none !important;
-        width: 100% !important;
-        margin-top: 30px;
-        border-top: 1px solid #e2e8f0;
+        position: relative !important; bottom: auto !important; left: auto !important;
+        transform: none !important; width: 100% !important; margin-top: 30px; border-top: 1px solid #e2e8f0;
     }
-
-    /* Mematikan total backdrop pelindung klik agar sensor geser jari jam tangan lancar */
     .popup-backdrop { display: none !important; pointer-events: none !important; }
 
     .main-header { padding: 16px 10px 60px 10px; }
@@ -258,11 +286,16 @@ body {
     .info-wrapper-container { order: 2; }
     #refresh-button { order: 3; }
 
-    /* Penyesuaian Titik Mekar Popup Box di Layar Sumbu Jam Tangan */
-    .popup-box { top: 44px; left: -4px; width: 165px; padding: 12px 10px; border-radius: 16px; transform-origin: top center; }
-    .social-icon { width: 34px; height: 34px; font-size: 14px; border-radius: 10px; }
+    /* Penyesuaian Skala Kapsul Profil di Jam Tangan Pintar agar Seimbang */
+    .popup-box { top: 44px; left: -4px; width: 155px; padding: 14px 10px; border-radius: 20px; transform-origin: top center; }
+    .profile-avatar-wrapper { width: 50px; height: 50px; }
+    .developer-name { font-size: 12px; margin-bottom: 8px; }
+    .social-wrapper { gap: 8px; margin-bottom: 10px; }
+    .social-icon { width: 32px; height: 32px; font-size: 13px; border-radius: 9px; }
+    .app-description-text { font-size: 10px; margin-bottom: 10px; }
+    .close-profile-btn { padding: 6px 10px; font-size: 10px; border-radius: 10px; }
 
-    /* Skala Komponen Jam Tangan */
+    /* Komponen Kalibrasi Jalur Jam */
     .prayer-card { margin: -40px 10px 0 10px; padding: 16px 8px; }
     .prayer-time-grid { grid-template-columns: 1fr; gap: 12px; }
     .prayer-time-grid::after { display: none; }
@@ -272,14 +305,7 @@ body {
     .arabic-logo { font-size: 26px; }
     .sub-logo { font-size: 9px; }
 
-    /* MENU GRID OTOMATIS SEIMBANG JADI 2 KOLOM (SANGAT COMPATIBLE UNTUK JAM) */
-    .menu-grid { 
-        grid-template-columns: repeat(2, 1fr) !important; 
-        grid-template-rows: auto !important; 
-        gap: 8px !important; 
-        padding: 0 10px !important; 
-        margin-bottom: 10px !important;
-    }
+    .menu-grid { grid-template-columns: repeat(2, 1fr) !important; grid-template-rows: auto !important; gap: 8px !important; padding: 0 10px !important; margin-bottom: 10px !important; }
     .menu-item { padding: 14px 4px; }
     .icon-wrapper { width: 40px; height: 40px; }
     .icon-wrapper span { font-size: 20px; }
