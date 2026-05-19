@@ -35,7 +35,7 @@ body {
     overflow-y: auto;
     overflow-x: hidden;
     width: 100%;
-    padding-bottom: 90px; /* Ditambah ruang aman agar tidak tertutup menu bawah */
+    padding-bottom: 90px;
 }
 
 .scrollable-content::-webkit-scrollbar {
@@ -70,7 +70,7 @@ body {
     flex-shrink: 0;
 }
 
-/* KEYFRAMES ANIMASI BERPUTAR REFRESH ICON */
+/* Keyframes Animasi Berputar Refresh Icon */
 .spin-animation {
     display: inline-block;
     animation: spin 0.8s linear;
@@ -240,7 +240,7 @@ body {
     text-align: center;
 }
 
-/* NAVIGASI BAWAH FIXED STICKY (TIDAK AKAN BERGESER/HILANG) */
+/* NAVIGASI BAWAH FIXED STICKY */
 .bottom-nav {
     position: fixed;
     bottom: 0;
