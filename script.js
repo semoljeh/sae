@@ -337,9 +337,9 @@ file,
 sheet
 ){
 
-    history.replaceState(
-        {sheet:sheet},
-        ''
+    sessionStorage.setItem(
+        'lastSheet',
+        sheet
     );
 
     window.location.href =
@@ -352,35 +352,6 @@ sheet
    BACK BUTTON HP
 ========================================= */
 
-window.addEventListener(
-'popstate',
-(event)=>{
-
-    const activeSheet =
-
-    document.querySelector(
-        '.bottom-sheet.active'
-    );
-
-    /* TUTUP SHEET */
-
-    if(activeSheet){
-
-        activeSheet.classList.remove(
-            'active'
-        );
-
-        document
-        .querySelectorAll(
-            '.sheet-overlay'
-        )
-        .forEach(overlay=>{
-
-            overlay.classList.remove(
-                'active'
-            );
-
-        });
 
         document.body.classList.remove(
             'no-scroll'
@@ -434,5 +405,79 @@ window.addEventListener(
         });
 
     }
+
+});
+
+
+/* =========================================
+   MOBILE BACK FIX
+========================================= */
+
+window.addEventListener(
+'pageshow',
+(event)=>{
+
+    if(
+        performance
+        .navigation
+        .type !== 2
+    ){
+
+        sessionStorage.removeItem(
+            'lastSheet'
+        );
+
+        return;
+
+    }
+
+    const lastSheet =
+
+    sessionStorage.getItem(
+        'lastSheet'
+    );
+
+    if(!lastSheet){
+
+        return;
+
+    }
+
+    const sheet =
+    document.getElementById(
+        lastSheet
+    );
+
+    if(!sheet){
+
+        return;
+
+    }
+
+    document
+    .querySelectorAll(
+        '.bottom-sheet'
+    )
+    .forEach(item=>{
+
+        item.classList.remove(
+            'active'
+        );
+
+    });
+
+    sheet.style.transition =
+    'none';
+
+    sheet.classList.add(
+        'active'
+    );
+
+    requestAnimationFrame(()=>{
+
+        sheet.style.transition =
+        '';
+
+    });
 
 });
