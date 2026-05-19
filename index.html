@@ -9,7 +9,7 @@
     
     <title>Al-Mukhtar Digital Library</title>
     
-    <link rel="stylesheet" href="style.css?v=15.0">
+    <link rel="stylesheet" href="style.css?v=16.0">
     
     <link href="https://fonts.googleapis.com/icon?family=Material+Icons+Outlined" rel="stylesheet">
     
@@ -34,7 +34,7 @@
                                 <img src="https://via.placeholder.com/150" alt="Foto Profil" class="profile-img">
                             </div>
                             
-                            <h3 class="developer-name">Arom Kobama</h3>
+                            <h3 class="developer-name">Aron Kobama</h3>
                             
                             <div class="social-wrapper">
                                 <a href="https://www.tiktok.com" target="_blank" rel="noopener" class="social-icon tiktok">
@@ -45,7 +45,7 @@
                                 </a>
                             </div>
 
-                            <p class="app-description-text">Semoga Aplikasi Ini <br> Bermanfaat Untuk Ummat</p>
+                            <p class="app-description-text">Tentang Aplikasi</p>
                             
                             <button class="close-profile-btn" id="close-profile-btn">Tutup Profil</button>
                         </div>
@@ -153,8 +153,34 @@
             </div>
         </nav>
 
+        <div class="location-backdrop" id="location-backdrop"></div>
+
+        <div class="location-sheet" id="location-sheet">
+            <div class="sheet-handle"></div>
+            
+            <h3 class="sheet-title">Pilih Lokasi Anda</h3>
+            <p class="sheet-subtitle">Sesuaikan lokasi agar jadwal shalat akurat hingga tingkat desa.</p>
+
+            <button class="gps-btn" id="gps-detect-btn">
+                <span class="material-icons-outlined">my_location</span>
+                <span id="gps-btn-text">Deteksi Otomatis (GPS)</span>
+            </button>
+
+            <div class="sheet-divider"><span>atau cari manual</span></div>
+
+            <div class="search-location-wrapper">
+                <span class="material-icons-outlined search-input-icon">search</span>
+                <input type="text" id="location-search-input" placeholder="Ketik nama desa atau kelurahan..." autocomplete="off">
+                <span class="material-icons-outlined clear-input-icon" id="clear-search-btn">cancel</span>
+            </div>
+
+            <ul class="suggestion-list" id="suggestion-list"></ul>
+
+            <button class="save-location-btn" id="save-location-btn" disabled>Simpan Lokasi</button>
+        </div>
+
     </div>
 
-    <script src="script.js?v=15.0"></script>
+    <script src="script.js?v=16.0"></script>
 </body>
 </html>
