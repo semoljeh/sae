@@ -1,7 +1,7 @@
 document.addEventListener("DOMContentLoaded", function () {
     
     // ==========================================================================
-    // 1. POPUP INTERAKTIF KANAN-BAWAH + HANDLER TOMBOL BACK SMARTPHONE
+    // 1. LOGIKA INTERAKTIF POPUP (KLIK DI MANA SAJA UNTUK MENUTUP)
     // ==========================================================================
     const infoButton = document.getElementById('info-button');
     const popupBox = document.getElementById('popup-box');
@@ -10,7 +10,7 @@ document.addEventListener("DOMContentLoaded", function () {
     function openPopup() {
         popupBox.classList.add('show');
         popupBackdrop.classList.add('show');
-        // Menyisipkan state history agar tombol back fisik HP hanya menutup popup
+        // Menyisipkan state history agar tombol back fisik HP hanya menutup modal
         history.pushState({ popupActive: true }, "");
     }
 
@@ -20,8 +20,9 @@ document.addEventListener("DOMContentLoaded", function () {
     }
 
     if (infoButton && popupBox && popupBackdrop) {
+        // Tombol info diklik
         infoButton.addEventListener('click', function (e) {
-            e.stopPropagation();
+            e.stopPropagation(); // Mencegah event klik global langsung menutup popup saat baru dibuka
             if (popupBox.classList.contains('show')) {
                 history.back(); 
             } else {
@@ -29,17 +30,29 @@ document.addEventListener("DOMContentLoaded", function () {
             }
         });
 
-        popupBackdrop.addEventListener('click', function () {
-            history.back();
+        // SOLUSI MUTLAK: Klik di mana saja di seluruh area layar untuk menutup popup
+        document.addEventListener('click', function (e) {
+            // Jika popup sedang terbuka, dan yang diklik BUKAN bagian dari tombol info itu sendiri
+            if (popupBox.classList.contains('show') && !infoButton.contains(e.target)) {
+                
+                // Jika yang diklik adalah tombol sosmed, biarkan dia membuka link terlebih dahulu
+                if (e.target.closest('.social-icon')) {
+                    return; 
+                }
+                
+                // Jika mengetuk di mana saja selain tombol sosmed, tutup popup secara halus
+                history.back();
+            }
         });
 
+        // Sinkronisasi dengan tombol back sistem perangkat (Android/Smartwatch gesture)
         window.addEventListener('popstate', function () {
             closePopup();
         });
     }
 
     // ==========================================================================
-    // 2. FUNGSIONALITAS REFRESH SINKRONISASI DATA BERPUTAR
+    // 2. FUNGSIONALITAS REFRESH UPDATE DATA BERPUTAR
     // ==========================================================================
     const refreshButton = document.getElementById('refresh-button');
     const refreshIcon = document.getElementById('refresh-icon');
@@ -54,7 +67,7 @@ document.addEventListener("DOMContentLoaded", function () {
     }
 
     // ==========================================================================
-    // 3. NAVIGASI BAWAH AKTIF
+    // 3. LOGIKA INTERAKTIF MENYALAKAN MENU NAVIGASI BAWAH AKTIF
     // ==========================================================================
     const navItems = document.querySelectorAll('.nav-item');
     navItems.forEach(item => {
@@ -65,12 +78,12 @@ document.addEventListener("DOMContentLoaded", function () {
     });
 
     // ==========================================================================
-    // 4. DETEKSI KLIK MENU UTAMA
+    // 4. EVENT DETEKSI KLIK BANNER MENU UTAMA GRID 2x3
     // ==========================================================================
     const menuItems = document.querySelectorAll('.menu-item');
     menuItems.forEach(item => {
         item.addEventListener('click', function () {
-            alert("Membuka: " + this.getAttribute('data-menu'));
+            alert("Membuka Fitur: " + this.getAttribute('data-menu'));
         });
     });
 });
