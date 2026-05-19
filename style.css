@@ -1,5 +1,5 @@
 /* ==========================================================================
-   1. RESET CORE & OPTIMALISASI LAYAR SEAMLESS
+   1. RESET CORE & HARDWARE ACCELERATED SCROLLING
    ========================================================================== */
 * {
     margin: 0;
@@ -19,7 +19,7 @@ body {
     overflow: hidden;
 }
 
-/* Bingkai Kontainer Utama */
+/* Kontainer Frame Utama */
 .app-container {
     width: 100%;
     max-width: 412px; 
@@ -32,14 +32,14 @@ body {
     box-shadow: 0 12px 40px rgba(0, 0, 0, 0.12);
 }
 
-/* Area Scroll Fleksibel HP */
+/* JALUR SCROLL UTAMA: Dibuat lentur dan mulus di semua mesin browser */
 .scrollable-content {
     flex: 1;
-    overflow-y: auto;
+    overflow-y: auto !important;
     overflow-x: hidden;
     width: 100%;
-    padding-bottom: 95px; /* Jarak aman di layar HP */
-    -webkit-overflow-scrolling: touch;
+    padding-bottom: 100px; /* Bantalan aman di HP agar grid tidak tertutup nav-bottom */
+    -webkit-overflow-scrolling: touch; /* Mengaktifkan akselerasi scroll native iOS/Android */
 }
 
 .scrollable-content::-webkit-scrollbar {
@@ -47,7 +47,7 @@ body {
 }
 
 /* ==========================================================================
-   2. HEADER STYLES (TOSKA)
+   2. STYLES HEADER KONTEN
    ========================================================================== */
 .main-header {
     background-color: #007A78;
@@ -104,7 +104,7 @@ body {
 .icon-right { margin-left: 4px; font-size: 16px !important; }
 
 /* ==========================================================================
-   3. KARTU JADWAL SHALAT & MENU GRID 2x3
+   3. JADWAL SHALAT & TATA LETAK MENU GRID 2x3
    ========================================================================== */
 .prayer-card {
     background-color: white;
@@ -134,8 +134,10 @@ body {
 .menu-grid { display: grid; grid-template-columns: repeat(3, 1fr); grid-template-rows: repeat(2, 1fr); gap: 12px; padding: 0 16px; margin-top: 10px; }
 .menu-item { background-color: white; border-radius: 16px; padding: 16px 4px; display: flex; flex-direction: column; align-items: center; justify-content: center; border: 1px solid #f1f5f9; cursor: pointer; transition: transform 0.1s ease; }
 .menu-item:active { transform: scale(0.95); }
+
+/* FIX SINTAKS ERROR: Penghapusan tanda "=" ilegal yang menyabotase pembacaan CSS kemarin */
 .icon-wrapper { width: 48px; height: 48px; border-radius: 14px; display: flex; align-items: center; justify-content: center; margin-bottom: 8px; }
-.icon-wrapper span = { font-size: 24px; }
+.icon-wrapper span { font-size: 24px; }
 
 .bg-blue { background-color: #e0f2fe; color: #0284c7; }
 .bg-emerald { background-color: #d1fae5; color: #059669; }
@@ -146,7 +148,7 @@ body {
 .menu-label { font-size: 11px; font-weight: 700; color: #334155; text-align: center; }
 
 /* ==========================================================================
-   4. KOTAK POPUP MODAL STANDARD (HP MODE)
+   4. KOTAK POPUP MODAL (MINIMALIS BULAT NO ARROW)
    ========================================================================== */
 .info-wrapper-container {
     position: relative; 
@@ -206,7 +208,7 @@ body {
 .social-icon.tiktok { background-color: #e2e8f0; color: #000000; text-shadow: 1px 1px #25f4ee, -1px -1px #fe0979; }
 .social-icon.instagram { background: linear-gradient(45deg, #f09433, #e6683c, #dc2743, #cc2366, #bc1888); color: #ffffff; box-shadow: 0 4px 14px rgba(220, 39, 67, 0.25); }
 
-/* NAVIGASI BAWAH HP */
+/* STICKY BOTTOM NAV */
 .bottom-nav { position: fixed; bottom: 0; left: 50%; transform: translateX(-50%); width: 100%; max-width: 412px; background-color: white; border-top: 1px solid #e2e8f0; padding: 12px 16px; display: flex; justify-content: space-between; align-items: center; z-index: 999; }
 .nav-item { display: flex; flex-direction: column; align-items: center; color: #94a3b8; cursor: pointer; flex: 1; }
 .nav-item span:first-child { font-size: 22px; }
@@ -214,24 +216,23 @@ body {
 .nav-label { font-size: 10px; font-weight: 600; margin-top: 2px; }
 
 /* ==========================================================================
-   5. PERBAIKAN TOTAL SCROLL ENGINE SMARTWATCH (WEARABLE MECHANISM)
+   5. WEARABLE ENGINE: RESOLUSI KHUSUS SMARTWATCH (max-width: 330px)
    ========================================================================== */
 @media (max-width: 330px) {
-    /* Menghapus sistem kuncian luar layar jam */
+    /* Mencegah frame luar memotong sumbu scroll */
     .app-container {
         height: 100vh !important;
         overflow: hidden !important;
     }
 
-    /* FIX UTAMA: Mengaktifkan jalur gulir paksa & menambahkan ruang napas melimpah */
+    /* SISTEM BYPASS SCROLL BARU: Membuka paksa gerak scroll roda jam tangan */
     .scrollable-content {
         height: 100% !important;
-        overflow-y: scroll !important;     /* Menghidupkan paksa engine scroll jam */
-        padding-bottom: 140px !important;  /* Bantalan ekstra agar baris menu terbawah bisa diseret penuh ke atas */
-        -webkit-overflow-scrolling: touch;
+        overflow-y: scroll !important;     /* Memaksa engine scroll browser aktif */
+        padding-bottom: 140px !important;  /* Ruang sisa ekstra melimpah anti-kepotong menu baris ke-2 */
     }
 
-    /* Mematikan total sistem backdrop penghalang */
+    /* Menonaktifkan backdrop penghalang klik di smartwatch */
     .popup-backdrop {
         display: none !important;
         pointer-events: none !important;
@@ -243,18 +244,17 @@ body {
     .info-wrapper-container { order: 2; }
     #refresh-button { order: 3; }
 
-    /* Ukuran Popup Modifikasi Jam */
+    /* Pengecilan Skala Kotak Popup Modal di Jam */
     .popup-box {
         top: 44px; left: -4px; width: 165px; padding: 14px 10px; border-radius: 18px; transform-origin: top center; 
     }
     .popup-info-icon { font-size: 22px !important; margin-bottom: 4px; }
     .popup-box h3 { font-size: 13px; letter-spacing: -0.3px; }
     .author-text { font-size: 11px; margin-top: 1px; }
-    
     .social-wrapper { gap: 12px; margin-top: 12px; }
     .social-icon { width: 36px; height: 36px; font-size: 15px; border-radius: 11px; }
 
-    /* Komponen Kalibrasi Jam Tangan */
+    /* Komponen Kalibrasi Sumbu Jam Tangan */
     .prayer-card { margin: -40px 10px 0 10px; padding: 16px 8px; }
     .prayer-time-grid { grid-template-columns: 1fr; gap: 12px; }
     .prayer-time-grid::after { display: none; }
@@ -264,13 +264,13 @@ body {
     .arabic-logo { font-size: 26px; }
     .sub-logo { font-size: 9px; }
 
-    /* Grid menu dirapatkan penuh agar hemat tempat */
+    /* Merubah Grid Menjadi 2 Kolom Padat Rapat agar Hemat Layar Jam */
     .menu-grid { 
-        grid-template-columns: repeat(2, 1fr); 
-        grid-template-rows: auto; 
-        gap: 8px; 
-        padding: 0 10px; 
-        margin-bottom: 40px !important; /* Mendorong area terbawah melewati garis navigasi */
+        grid-template-columns: repeat(2, 1fr) !important; 
+        grid-template-rows: auto !important; 
+        gap: 8px !important; 
+        padding: 0 10px !important; 
+        margin-bottom: 20px !important;
     }
     .menu-item { padding: 14px 4px; }
     .icon-wrapper { width: 40px; height: 40px; }
