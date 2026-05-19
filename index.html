@@ -4,10 +4,10 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <meta name="theme-color" content="#007A78">
-    
     <title>Al-Mukhtar Digital Library</title>
     <link rel="stylesheet" href="style.css">
     <link href="https://fonts.googleapis.com/icon?family=Material+Icons+Outlined" rel="stylesheet">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.2/css/all.min.css">
 </head>
 <body>
 
@@ -100,7 +100,24 @@
                 </div>
             </main>
 
-        </div> <nav class="bottom-nav">
+        </div> <div class="popup-overlay" id="popup-overlay">
+            <div class="popup-box" id="popup-box">
+                <span class="material-icons-outlined popup-info-icon">info</span>
+                <h3>Tentang Aplikasi</h3>
+                <p class="author-text">Oleh Aron Kobama</p>
+                
+                <div class="social-wrapper">
+                    <a href="#" class="social-icon tiktok">
+                        <i class="fa-brands fa-tiktok"></i>
+                    </a>
+                    <a href="#" class="social-icon instagram">
+                        <i class="fa-brands fa-instagram"></i>
+                    </a>
+                </div>
+            </div>
+        </div>
+
+        <nav class="bottom-nav">
             <div class="nav-item active" data-tab="Sholat">
                 <span class="material-icons-outlined">place</span>
                 <span class="nav-label">Sholat</span>
