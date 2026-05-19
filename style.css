@@ -529,7 +529,7 @@ body{
 
     position:fixed;
 
-    top:15%;
+    top:50%;
 
     left:50%;
 
@@ -1172,7 +1172,7 @@ body.modal-open .scrollable-content{
 
 .location-sheet{
 
-    top:15%;
+    top:50%;
 
     transform:
     translate(-50%,-50%)
@@ -1186,7 +1186,7 @@ body.modal-open .scrollable-content{
 }
 
     .location-sheet.show{
-        transform:translateX(-50%) scale(1);
+        transform:translate(-50%, -50%) scale(1);
     }
 
     .suggestion-list-wrapper{
