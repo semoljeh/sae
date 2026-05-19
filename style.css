@@ -1,0 +1,1108 @@
+/* ==========================================================================
+   RESET & GLOBAL
+   ========================================================================== */
+
+*{
+    margin:0;
+    padding:0;
+    box-sizing:border-box;
+    font-family:-apple-system,BlinkMacSystemFont,"Segoe UI",Roboto,sans-serif;
+    -webkit-tap-highlight-color:transparent;
+    -webkit-user-select:none;
+    user-select:none;
+}
+
+html,
+body{
+    width:100%;
+    min-height:100%;
+    overflow-x:hidden;
+}
+
+body{
+    background:#e2e8f0;
+    display:flex;
+    justify-content:center;
+    align-items:center;
+}
+
+/* ==========================================================================
+   APP CONTAINER
+   ========================================================================== */
+
+.app-container{
+    width:100%;
+    max-width:412px;
+    height:100dvh;
+    background:#f8fafc;
+    position:relative;
+    display:flex;
+    flex-direction:column;
+    overflow:hidden;
+    box-shadow:0 12px 40px rgba(0,0,0,0.12);
+}
+
+.scrollable-content{
+    flex:1;
+    overflow-y:auto;
+    overflow-x:hidden;
+    width:100%;
+    padding-bottom:90px;
+    -webkit-overflow-scrolling:touch;
+}
+
+.scrollable-content::-webkit-scrollbar{
+    width:0;
+}
+
+/* ==========================================================================
+   HEADER
+   ========================================================================== */
+
+.main-header{
+    background:#007A78;
+    padding:24px 16px 85px;
+}
+
+.header-top{
+    display:flex;
+    justify-content:space-between;
+    align-items:center;
+    gap:8px;
+}
+
+.icon-btn{
+    width:40px;
+    height:40px;
+    border:none;
+    border-radius:12px;
+    background:rgba(255,255,255,0.15);
+    color:white;
+    display:flex;
+    align-items:center;
+    justify-content:center;
+    cursor:pointer;
+    flex-shrink:0;
+}
+
+.icon-btn:active{
+    transform:scale(0.95);
+}
+
+.location-badge{
+    flex:1;
+    min-width:0;
+    max-width:65%;
+    display:flex;
+    align-items:center;
+    justify-content:center;
+    gap:4px;
+    padding:8px 12px;
+    border-radius:14px;
+    background:rgba(255,255,255,0.2);
+    color:white;
+    font-size:14px;
+    font-weight:600;
+    cursor:pointer;
+}
+
+.location-badge:active{
+    transform:scale(0.96);
+}
+
+#location-text{
+    overflow:hidden;
+    white-space:nowrap;
+    text-overflow:ellipsis;
+}
+
+.icon-left,
+.icon-right{
+    font-size:16px !important;
+    flex-shrink:0;
+}
+
+/* ==========================================================================
+   SPIN
+   ========================================================================== */
+
+.spin-animation{
+    display:inline-block;
+    animation:spin .8s linear;
+}
+
+@keyframes spin{
+
+    0%{
+        transform:rotate(0deg);
+    }
+
+    100%{
+        transform:rotate(360deg);
+    }
+
+}
+
+/* ==========================================================================
+   PRAYER CARD
+   ========================================================================== */
+
+.prayer-card{
+    background:white;
+    margin:-70px 16px 0;
+    border-radius:18px;
+    padding:24px 16px;
+    box-shadow:0 10px 25px rgba(0,0,0,0.04);
+    border:1px solid #f1f5f9;
+    z-index:5;
+    text-align:center;
+}
+
+.prayer-time-grid{
+    display:grid;
+    grid-template-columns:1fr 1fr;
+    gap:8px;
+    position:relative;
+}
+
+.prayer-time-grid::after{
+    content:"";
+    position:absolute;
+    left:50%;
+    top:10%;
+    width:1px;
+    height:80%;
+    background:#e2e8f0;
+    transform:translateX(-50%);
+}
+
+.time-box{
+    overflow:hidden;
+}
+
+.title-teal{
+    color:#007A78;
+    font-size:12px;
+    font-weight:700;
+    letter-spacing:0.5px;
+}
+
+.time-display{
+    margin-top:6px;
+    font-size:clamp(24px,6vw,34px);
+    font-weight:700;
+    color:#0f172a;
+    line-height:1.1;
+    word-break:break-word;
+    overflow-wrap:break-word;
+    overflow:hidden;
+}
+
+.dashed-line{
+    border-top:1.5px dashed #cbd5e1;
+    margin:15px 0;
+}
+
+.date-box{
+    display:flex;
+    flex-direction:column;
+    align-items:center;
+    overflow:hidden;
+}
+
+.hijri-date{
+    color:#007A78;
+    font-size:13px;
+    font-weight:700;
+    line-height:1.4;
+    text-align:center;
+    word-break:break-word;
+}
+
+.masehi-date{
+    margin-top:4px;
+    color:#64748b;
+    font-size:11px;
+    font-weight:500;
+    line-height:1.4;
+    text-align:center;
+    word-break:break-word;
+}
+
+/* ==========================================================================
+   BRAND
+   ========================================================================== */
+
+.app-brand{
+    text-align:center;
+    margin:20px 0;
+}
+
+.arabic-logo{
+    font-family:Georgia,serif;
+    font-size:34px;
+    color:#007A78;
+}
+
+.sub-logo{
+    margin-top:4px;
+    font-size:10px;
+    font-weight:600;
+    letter-spacing:2px;
+    color:#64748b;
+}
+
+/* ==========================================================================
+   MENU GRID
+   ========================================================================== */
+
+.menu-grid{
+    display:grid;
+    grid-template-columns:repeat(3,1fr);
+    gap:12px;
+    padding:0 16px;
+    margin-bottom:20px;
+}
+
+.menu-item{
+    background:white;
+    border-radius:16px;
+    padding:16px 4px;
+    display:flex;
+    flex-direction:column;
+    align-items:center;
+    justify-content:center;
+    border:1px solid #f1f5f9;
+    cursor:pointer;
+}
+
+.menu-item:active{
+    transform:scale(0.96);
+}
+
+.icon-wrapper{
+    width:48px;
+    height:48px;
+    border-radius:14px;
+    display:flex;
+    justify-content:center;
+    align-items:center;
+    margin-bottom:8px;
+}
+
+.icon-wrapper span{
+    font-size:24px;
+}
+
+.menu-label{
+    font-size:11px;
+    font-weight:700;
+    color:#334155;
+    text-align:center;
+}
+
+.bg-blue{
+    background:#e0f2fe;
+    color:#0284c7;
+}
+
+.bg-emerald{
+    background:#d1fae5;
+    color:#059669;
+}
+
+.bg-purple{
+    background:#f3e8ff;
+    color:#7c3aed;
+}
+
+.bg-lime{
+    background:#f0fdf4;
+    color:#16a34a;
+}
+
+.bg-pink{
+    background:#ffe4e6;
+    color:#e11d48;
+}
+
+.bg-orange{
+    background:#ffedd5;
+    color:#ea580c;
+}
+
+/* ==========================================================================
+   BOTTOM NAV
+   ========================================================================== */
+
+.bottom-nav{
+    position:fixed;
+    bottom:0;
+    left:50%;
+    transform:translateX(-50%);
+    width:100%;
+    max-width:412px;
+    background:white;
+    border-top:1px solid #e2e8f0;
+    padding:12px 16px;
+    display:flex;
+    justify-content:space-between;
+    align-items:center;
+    z-index:20;
+}
+
+.nav-item{
+    flex:1;
+    display:flex;
+    flex-direction:column;
+    align-items:center;
+    color:#94a3b8;
+    cursor:pointer;
+}
+
+.nav-item.active{
+    color:#007A78;
+}
+
+.nav-item span:first-child{
+    font-size:22px;
+}
+
+.nav-label{
+    margin-top:2px;
+    font-size:10px;
+    font-weight:600;
+}
+
+/* ==========================================================================
+   POPUP PROFILE
+   ========================================================================== */
+
+.popup-backdrop{
+    position:fixed;
+    inset:0;
+    background:rgba(15,23,42,0.05);
+    opacity:0;
+    pointer-events:none;
+    transition:.3s;
+    z-index:998;
+}
+
+.popup-backdrop.show{
+    opacity:1;
+    pointer-events:auto;
+}
+
+.popup-box{
+    position:absolute;
+    top:48px;
+    left:0;
+    width:180px;
+    background:white;
+    padding:18px 14px;
+    border-radius:24px;
+    box-shadow:0 12px 30px rgba(0,0,0,0.15);
+    z-index:999;
+    display:flex;
+    flex-direction:column;
+    align-items:center;
+    opacity:0;
+    visibility:hidden;
+    transform:scale(.5) translateY(-10px);
+    transform-origin:top left;
+    transition:.3s cubic-bezier(.175,.885,.32,1.275);
+}
+
+.popup-box.show{
+    opacity:1;
+    visibility:visible;
+    transform:scale(1) translateY(0);
+}
+
+.profile-avatar-wrapper{
+    width:60px;
+    height:60px;
+    border-radius:50%;
+    overflow:hidden;
+    border:2px solid #007A78;
+    margin-bottom:8px;
+}
+
+.profile-img{
+    width:100%;
+    height:100%;
+    object-fit:cover;
+}
+
+.developer-name{
+    font-size:14px;
+    font-weight:700;
+    margin-bottom:10px;
+    text-align:center;
+}
+
+.social-wrapper{
+    display:flex;
+    gap:10px;
+    margin-bottom:12px;
+}
+
+.social-icon{
+    width:36px;
+    height:36px;
+    border-radius:11px;
+    display:flex;
+    align-items:center;
+    justify-content:center;
+    color:white;
+    text-decoration:none;
+}
+
+.social-icon.tiktok{
+    background:#111;
+}
+
+.social-icon.instagram{
+    background:linear-gradient(45deg,#f09433,#dc2743,#bc1888);
+}
+
+.app-description-text{
+    font-size:11px;
+    color:#64748b;
+    font-weight:600;
+    margin-bottom:14px;
+    text-align:center;
+}
+
+.close-profile-btn{
+    width:100%;
+    border:none;
+    background:#f1f5f9;
+    padding:8px;
+    border-radius:12px;
+    font-weight:700;
+    color:#475569;
+    cursor:pointer;
+}
+
+/* ==========================================================================
+   LOCATION MODAL
+   ========================================================================== */
+
+.location-backdrop{
+    position:fixed;
+    inset:0;
+    background:rgba(0,0,0,0.5);
+    backdrop-filter:blur(2px);
+    opacity:0;
+    pointer-events:none;
+    transition:.3s;
+    z-index:1000;
+}
+
+.location-backdrop.show{
+    opacity:1;
+    pointer-events:auto;
+}
+
+.location-sheet{
+    position:fixed;
+    top:50%;
+    left:50%;
+    transform:translate(-50%,-50%) scale(.8);
+
+    width:90%;
+    max-width:320px;
+
+    background:white;
+
+    border-radius:20px;
+
+    padding:20px;
+
+    z-index:1001;
+
+    opacity:0;
+    visibility:hidden;
+
+    transition:.3s cubic-bezier(.175,.885,.32,1.275);
+
+    display:flex;
+    flex-direction:column;
+
+    max-height:85dvh;
+
+    overflow-y:auto;
+    overflow-x:hidden;
+
+    -webkit-overflow-scrolling:touch;
+}
+
+.location-sheet::-webkit-scrollbar{
+    width:0;
+}
+
+.location-sheet.show{
+    opacity:1;
+    visibility:visible;
+    transform:translate(-50%,-50%) scale(1);
+}
+
+.sheet-title{
+    font-size:17px;
+    font-weight:700;
+    text-align:center;
+    color:#0f172a;
+    margin-bottom:4px;
+}
+
+.sheet-subtitle{
+    text-align:center;
+    font-size:11px;
+    color:#64748b;
+    margin-bottom:15px;
+    line-height:1.4;
+}
+
+.gps-btn{
+    width:100%;
+    border:none;
+    background:#e0f2fe;
+    color:#0369a1;
+    padding:12px;
+    border-radius:12px;
+    font-weight:700;
+    display:flex;
+    align-items:center;
+    justify-content:center;
+    gap:8px;
+    cursor:pointer;
+    flex-shrink:0;
+}
+
+.sheet-divider{
+    position:relative;
+    text-align:center;
+    margin:12px 0;
+    font-size:11px;
+    color:#94a3b8;
+    font-weight:bold;
+    flex-shrink:0;
+}
+
+.sheet-divider::before{
+    content:"";
+    position:absolute;
+    left:0;
+    top:50%;
+    width:100%;
+    height:1px;
+    background:#e2e8f0;
+    z-index:-1;
+}
+
+.sheet-divider span{
+    background:white;
+    padding:0 10px;
+}
+
+.search-location-wrapper{
+    position:relative;
+    margin-bottom:10px;
+    flex-shrink:0;
+}
+
+.search-location-wrapper input{
+    width:100%;
+    background:#f1f5f9;
+    border:none;
+    padding:12px 36px;
+    border-radius:10px;
+    font-size:13px;
+    font-weight:600;
+    outline:none;
+}
+
+.search-input-icon{
+    position:absolute;
+    left:10px;
+    top:50%;
+    transform:translateY(-50%);
+    font-size:18px !important;
+    color:#94a3b8;
+}
+
+.clear-input-icon{
+    position:absolute;
+    right:10px;
+    top:50%;
+    transform:translateY(-50%);
+    font-size:18px !important;
+    color:#94a3b8;
+    cursor:pointer;
+    display:none;
+}
+
+/* ==========================================================================
+   SUGGESTION LIST
+   ========================================================================== */
+
+.suggestion-list-wrapper{
+    flex:1;
+    overflow-y:auto;
+    overflow-x:hidden;
+    min-height:60px;
+    max-height:30dvh;
+    margin-bottom:12px;
+    -webkit-overflow-scrolling:touch;
+    padding-right:2px;
+}
+
+.suggestion-list-wrapper::-webkit-scrollbar{
+    width:0;
+}
+
+.suggestion-list{
+    list-style:none;
+}
+
+.suggestion-item{
+    padding:10px;
+    font-size:12px;
+    font-weight:600;
+    color:#334155;
+    border-bottom:1px solid #f1f5f9;
+    cursor:pointer;
+    display:flex;
+    align-items:center;
+    gap:6px;
+    line-height:1.4;
+    word-break:break-word;
+}
+
+.geo-mark{
+    color:#007A78;
+    flex-shrink:0;
+}
+
+.no-match-item{
+    padding:10px;
+    font-size:11px;
+    color:#64748b;
+    text-align:center;
+}
+
+.save-location-btn{
+    width:100%;
+    border:none;
+    background:#007A78;
+    color:white;
+    padding:12px;
+    border-radius:12px;
+    font-weight:700;
+    cursor:pointer;
+    flex-shrink:0;
+}
+
+.save-location-btn:disabled{
+    background:#cbd5e1;
+}
+
+/* ==========================================================================
+   CUSTOM ALERT
+   ========================================================================== */
+
+.custom-alert-backdrop{
+    position:fixed;
+    inset:0;
+    background:rgba(0,0,0,0.3);
+    display:flex;
+    justify-content:center;
+    align-items:center;
+    opacity:0;
+    pointer-events:none;
+    transition:.3s;
+    z-index:2000;
+}
+
+.custom-alert-backdrop.show{
+    opacity:1;
+    pointer-events:auto;
+}
+
+.custom-alert-box{
+    width:280px;
+
+    max-width:90%;
+
+    max-height:85dvh;
+
+    overflow-y:auto;
+    overflow-x:hidden;
+
+    background:white;
+
+    padding:24px;
+
+    border-radius:20px;
+
+    text-align:center;
+
+    transform:scale(.8);
+
+    transition:.3s cubic-bezier(.175,.885,.32,1.275);
+
+    -webkit-overflow-scrolling:touch;
+}
+
+.custom-alert-box::-webkit-scrollbar{
+    width:0;
+}
+
+.custom-alert-backdrop.show .custom-alert-box{
+    transform:scale(1);
+}
+
+.alert-icon-circle{
+    width:50px;
+    height:50px;
+    border-radius:50%;
+    background:#e0f2fe;
+    color:#007A78;
+    display:flex;
+    justify-content:center;
+    align-items:center;
+    margin:0 auto 15px;
+}
+
+.custom-alert-box h4{
+    margin-bottom:5px;
+    color:#0f172a;
+}
+
+.custom-alert-box p{
+    font-size:13px;
+    color:#64748b;
+    margin-bottom:20px;
+    line-height:1.4;
+}
+
+.alert-confirm-btn{
+    width:100%;
+    border:none;
+    background:#007A78;
+    color:white;
+    padding:10px;
+    border-radius:10px;
+    font-weight:bold;
+    cursor:pointer;
+}
+
+/* ==========================================================================
+   LOCK BACKGROUND
+   ========================================================================== */
+
+body.modal-open{
+    overflow:hidden;
+}
+
+body.modal-open .scrollable-content{
+    overflow:hidden;
+}
+
+/* ==========================================================================
+   HP KECIL
+   ========================================================================== */
+
+@media (max-width:340px){
+
+    .main-header{
+        padding:16px 10px 60px;
+    }
+
+    .icon-btn{
+        width:34px;
+        height:34px;
+    }
+
+    .location-badge{
+        font-size:11px;
+        padding:6px 10px;
+        max-width:58%;
+    }
+
+    .prayer-card{
+        margin:-45px 10px 0;
+        padding:14px 10px;
+    }
+
+    .time-display{
+        font-size:22px;
+    }
+
+    .menu-grid{
+        grid-template-columns:repeat(2,1fr);
+        gap:8px;
+        padding:0 10px;
+    }
+
+    .location-sheet{
+        width:94%;
+    }
+
+}
+
+/* ==========================================================================
+   SMARTWATCH FINAL FIX
+   ========================================================================== */
+
+@media (max-width:220px){
+
+    .main-header{
+        padding:10px 8px 40px;
+    }
+
+    .icon-btn{
+        width:26px;
+        height:26px;
+        border-radius:8px;
+    }
+
+    .icon-btn span{
+        font-size:14px !important;
+    }
+
+    .location-badge{
+        padding:4px 6px;
+        border-radius:8px;
+        font-size:8px;
+        max-width:52%;
+    }
+
+    /* PRAYER CARD */
+
+    .prayer-card{
+        margin:-28px 6px 0 6px;
+        padding:10px 6px;
+        border-radius:12px;
+    }
+
+    .prayer-time-grid{
+        grid-template-columns:1fr 1fr;
+        gap:4px;
+        align-items:start;
+    }
+
+    .prayer-time-grid::after{
+        display:none;
+    }
+
+    .time-box{
+        overflow:hidden;
+    }
+
+    .title-teal{
+        font-size:7px;
+        line-height:1.2;
+        letter-spacing:0;
+    }
+
+    .time-display{
+        font-size:14px;
+        line-height:1.1;
+        letter-spacing:-1px;
+        word-break:break-word;
+        overflow-wrap:break-word;
+        white-space:normal;
+        margin-top:4px;
+    }
+
+    .dashed-line{
+        margin:8px 0;
+    }
+
+    .hijri-date{
+        font-size:8px;
+        line-height:1.3;
+    }
+
+    .masehi-date{
+        font-size:6px;
+        line-height:1.3;
+        margin-top:3px;
+    }
+
+    /* MENU */
+
+    .menu-grid{
+        grid-template-columns:1fr;
+        gap:6px;
+        padding:0 6px;
+    }
+
+    .menu-item{
+        padding:10px 4px;
+    }
+
+    .menu-label{
+        font-size:8px;
+    }
+
+    /* NAV */
+
+    .bottom-nav{
+        padding:5px 2px;
+    }
+
+    .nav-item span:first-child{
+        font-size:13px;
+    }
+
+    .nav-label{
+        font-size:6px;
+    }
+
+    /* GPS MODAL */
+
+    .location-sheet{
+        width:92%;
+        max-width:170px;
+        padding:10px;
+        border-radius:16px;
+        max-height:85vh;
+    }
+
+    .sheet-title{
+        font-size:11px;
+        margin-bottom:2px;
+    }
+
+    .sheet-subtitle{
+        font-size:7px;
+        line-height:1.4;
+        margin-bottom:8px;
+    }
+
+    .gps-btn{
+        padding:8px;
+        font-size:9px;
+        gap:4px;
+        border-radius:10px;
+    }
+
+    .gps-btn span{
+        font-size:12px !important;
+    }
+
+    .sheet-divider{
+        margin:8px 0;
+        font-size:7px;
+    }
+
+    .search-location-wrapper{
+        margin-bottom:6px;
+    }
+
+    .search-location-wrapper input{
+        padding:8px 24px;
+        font-size:9px;
+        border-radius:8px;
+    }
+
+    .search-input-icon{
+        left:7px;
+        font-size:12px !important;
+    }
+
+    .clear-input-icon{
+        right:7px;
+        font-size:12px !important;
+    }
+
+    .suggestion-list-wrapper{
+        min-height:80px;
+        max-height:120px;
+        margin-bottom:8px;
+    }
+
+    .suggestion-item{
+        padding:6px;
+        font-size:8px;
+        gap:4px;
+    }
+
+    .save-location-btn{
+        padding:8px;
+        font-size:9px;
+        border-radius:10px;
+    }
+
+    /* ALERT */
+
+    .custom-alert-box{
+        width:92%;
+        padding:14px;
+        border-radius:16px;
+        max-height:80vh;
+    }
+
+    .alert-icon-circle{
+        width:38px;
+        height:38px;
+        margin-bottom:10px;
+    }
+
+    .alert-icon-circle span{
+        font-size:20px !important;
+    }
+
+    .custom-alert-box h4{
+        font-size:13px;
+        margin-bottom:4px;
+    }
+
+    .custom-alert-box p{
+        font-size:10px;
+        line-height:1.4;
+        margin-bottom:14px;
+    }
+
+    .alert-confirm-btn{
+        padding:8px;
+        font-size:10px;
+        border-radius:10px;
+    }
+
+}
+
+/* ==========================================================================
+   KEYBOARD FIX
+   ========================================================================== */
+
+@media (max-height:740px){
+
+    .location-sheet{
+
+        top:8px;
+
+        transform:translateX(-50%) scale(1);
+
+        max-height:calc(100dvh - 16px);
+
+        padding:12px;
+
+    }
+
+    .location-sheet.show{
+        transform:translateX(-50%) scale(1);
+    }
+
+    .suggestion-list-wrapper{
+
+        min-height:80px;
+
+        max-height:140px;
+
+    }
+
+}
