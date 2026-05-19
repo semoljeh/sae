@@ -1,4 +1,6 @@
-/* Pengaturan Dasar Global */
+/* ==========================================================================
+   1. RESET CORE & OPTIMALISASI LAYAR SEAMLESS
+   ========================================================================== */
 * {
     margin: 0;
     padding: 0;
@@ -17,7 +19,7 @@ body {
     overflow: hidden;
 }
 
-/* Bingkai Kontainer Utama */
+/* Bingkai Kontainer Utama Terkunci */
 .app-container {
     width: 100%;
     max-width: 412px; 
@@ -44,7 +46,9 @@ body {
     width: 0px;
 }
 
-/* Header */
+/* ==========================================================================
+   2. HEADER STYLES (TOSKA)
+   ========================================================================== */
 .main-header {
     background-color: #007A78;
     padding: 24px 16px 85px 16px;
@@ -99,7 +103,9 @@ body {
 .icon-left { margin-right: 4px; font-size: 16px !important; }
 .icon-right { margin-left: 4px; font-size: 16px !important; }
 
-/* Kartu Jadwal */
+/* ==========================================================================
+   3. KARTU JADWAL SHALAT & MENU GRID 2x3
+   ========================================================================== */
 .prayer-card {
     background-color: white;
     margin: -60px 16px 0 16px;
@@ -121,12 +127,10 @@ body {
 .date-box .hijri-date { color: #007A78; font-size: 13px; font-weight: 700; }
 .date-box .masehi-date { color: #64748b; font-size: 11px; margin-top: 4px; font-weight: 500; }
 
-/* Logo */
 .app-brand { text-align: center; margin: 20px 0; }
 .arabic-logo { font-family: Georgia, serif; font-size: 34px; color: #007A78; }
 .sub-logo { font-size: 10px; letter-spacing: 2.5px; color: #64748b; margin-top: 4px; font-weight: 600; }
 
-/* Grid Menu Utama */
 .menu-grid { display: grid; grid-template-columns: repeat(3, 1fr); grid-template-rows: repeat(2, 1fr); gap: 12px; padding: 0 16px; margin-top: 10px; }
 .menu-item { background-color: white; border-radius: 16px; padding: 16px 4px; display: flex; flex-direction: column; align-items: center; justify-content: center; border: 1px solid #f1f5f9; cursor: pointer; transition: transform 0.1s ease; }
 .menu-item:active { transform: scale(0.95); }
@@ -141,27 +145,68 @@ body {
 .bg-orange { background-color: #ffedd5; color: #ea580c; }
 .menu-label { font-size: 11px; font-weight: 700; color: #334155; text-align: center; }
 
-/* Popup Box Base */
-.info-wrapper-container { position: relative; display: inline-block; }
-.popup-backdrop { position: fixed; top: 0; left: 0; width: 100%; height: 100%; background-color: rgba(15, 23, 42, 0.08); backdrop-filter: blur(1px); z-index: 998; opacity: 0; pointer-events: none; transition: opacity 0.4s ease; }
+/* ==========================================================================
+   4. KOTAK POPUP MODAL STANDARD (HP MODE)
+   ========================================================================== */
+.info-wrapper-container {
+    position: relative; 
+    display: inline-block;
+}
+
+.popup-backdrop {
+    position: fixed;
+    top: 0; left: 0; width: 100%; height: 100%;
+    background-color: rgba(15, 23, 42, 0.08); 
+    backdrop-filter: blur(1px);
+    z-index: 998;
+    opacity: 0;
+    pointer-events: none; 
+    transition: opacity 0.4s ease;
+}
 .popup-backdrop.show { opacity: 1; pointer-events: auto; }
 
 .popup-box {
-    position: absolute; top: 48px; left: 0px; background-color: white; width: 245px; padding: 24px 20px; border-radius: 24px; border: 1px solid rgba(15, 23, 42, 0.05); box-shadow: 0 10px 30px rgba(15, 23, 42, 0.15); z-index: 999; text-align: center;
-    transform-origin: top left; opacity: 0; transform: scale(0.5) translateY(-12px); visibility: hidden; transition: transform 0.4s cubic-bezier(0.175, 0.885, 0.32, 1.275), opacity 0.3s ease, visibility 0.4s;
+    position: absolute;
+    top: 48px;       
+    left: 0px; 
+    background-color: white;
+    width: 245px;
+    padding: 24px 20px;
+    border-radius: 24px; 
+    border: 1px solid rgba(15, 23, 42, 0.05); 
+    box-shadow: 0 10px 30px rgba(15, 23, 42, 0.15);
+    z-index: 999;
+    text-align: center;
+    
+    transform-origin: top left; 
+    opacity: 0;
+    transform: scale(0.5) translateY(-12px); 
+    visibility: hidden;
+    transition: transform 0.4s cubic-bezier(0.175, 0.885, 0.32, 1.275), opacity 0.3s ease, visibility 0.4s;
 }
-.popup-box.show { opacity: 1; transform: scale(1) translateY(0); visibility: visible; }
+
+.popup-box.show {
+    opacity: 1;
+    transform: scale(1) translateY(0);
+    visibility: visible;
+}
+
 .popup-info-icon { font-size: 28px !important; color: #007A78; margin-bottom: 8px; }
 .popup-box h3 { font-size: 15px; color: #0f172a; font-weight: 700; letter-spacing: -0.2px; }
 .author-text { font-size: 12px; color: #64748b; margin-top: 3px; font-weight: 500; }
 
 .social-wrapper { display: flex; justify-content: center; gap: 16px; margin-top: 20px; }
-.social-icon { width: 48px; height: 48px; border-radius: 16px; display: flex; align-items: center; justify-content: center; font-size: 20px; text-decoration: none; transition: transform 0.2s cubic-bezier(0.175, 0.885, 0.32, 1.275); }
+.social-icon { 
+    width: 48px; height: 48px; border-radius: 16px; 
+    display: flex; align-items: center; justify-content: center; font-size: 20px; 
+    text-decoration: none; transition: transform 0.2s cubic-bezier(0.175, 0.885, 0.32, 1.275); 
+}
 .social-icon:active { transform: scale(0.88); }
+
 .social-icon.tiktok { background-color: #e2e8f0; color: #000000; text-shadow: 1px 1px #25f4ee, -1px -1px #fe0979; }
 .social-icon.instagram { background: linear-gradient(45deg, #f09433, #e6683c, #dc2743, #cc2366, #bc1888); color: #ffffff; box-shadow: 0 4px 14px rgba(220, 39, 67, 0.25); }
 
-/* Bottom Nav */
+/* NAVIGASI BAWAH HP */
 .bottom-nav { position: fixed; bottom: 0; left: 50%; transform: translateX(-50%); width: 100%; max-width: 412px; background-color: white; border-top: 1px solid #e2e8f0; padding: 12px 16px; display: flex; justify-content: space-between; align-items: center; z-index: 999; }
 .nav-item { display: flex; flex-direction: column; align-items: center; color: #94a3b8; cursor: pointer; flex: 1; }
 .nav-item span:first-child { font-size: 22px; }
@@ -169,24 +214,27 @@ body {
 .nav-label { font-size: 10px; font-weight: 600; margin-top: 2px; }
 
 /* ==========================================================================
-   5. PERBAIKAN SCROLL JALUR TOTAL SMARTWATCH (WEARABLE SCROLL UNLOCKED)
+   5. REPARASI TOTAL SCROLL ENGINE SMARTWATCH (max-width: 330px)
    ========================================================================== */
 @media (max-width: 330px) {
-    /* 1. KUNCI UTAMA: Membebaskan kontainer luar jam dari jeratan tinggi 100vh mati */
+    /* 1. Mencegah container utama memotong sumbu scroll */
     .app-container {
-        height: auto !important; /* Membuat tinggi container fleksibel mengikuti konten */
-        min-height: 100vh;
-        overflow-y: visible !important; /* Mengaktifkan sumbu scroll alami jam */
+        height: 100vh !important;
+        overflow: hidden !important;
     }
 
-    /* 2. Mengizinkan jalur scroll mengalir lancar */
+    /* 2. FIX UTAMA: Mengaktifkan Scroll Mekanis Bawaan Hardware Jam */
     .scrollable-content {
-        overflow-y: visible !important;
-        padding-bottom: 110px; /* Jarak aman tambahan di jam agar baris kedua grid tidak terpotong nav bawah */
+        height: 100% !important;
+        overflow-y: auto !important; /* Solusi ampuh mengembalikan scroll */
+        padding-bottom: 120px !important; /* Ruang napas agar grid terbawah lolos dari nav menu */
     }
 
-    /* Mematikan total sistem backdrop pemblokir klik */
-    .popup-backdrop { display: none !important; pointer-events: none !important; }
+    /* Mematikan backdrop penutup */
+    .popup-backdrop {
+        display: none !important;
+        pointer-events: none !important;
+    }
 
     .main-header { padding: 16px 10px 60px 10px; }
     .header-top { justify-content: center; }
@@ -201,10 +249,11 @@ body {
     .popup-info-icon { font-size: 22px !important; margin-bottom: 4px; }
     .popup-box h3 { font-size: 13px; letter-spacing: -0.3px; }
     .author-text { font-size: 11px; margin-top: 1px; }
+    
     .social-wrapper { gap: 12px; margin-top: 12px; }
     .social-icon { width: 36px; height: 36px; font-size: 15px; border-radius: 11px; }
 
-    /* Layout Menu Jam Tangan Pintar */
+    /* Layout responsive komponen */
     .prayer-card { margin: -40px 10px 0 10px; padding: 16px 8px; }
     .prayer-time-grid { grid-template-columns: 1fr; gap: 12px; }
     .prayer-time-grid::after { display: none; }
@@ -214,13 +263,13 @@ body {
     .arabic-logo { font-size: 26px; }
     .sub-logo { font-size: 9px; }
 
-    /* Merapatkan grid menu agar pas dengan resolusi jam tangan */
+    /* Grid menu diatur rapat padat */
     .menu-grid { 
-        grid-template-columns: repeat(2, 1fr); /* 2 Kolom menyamping */
+        grid-template-columns: repeat(2, 1fr); 
         grid-template-rows: auto; 
         gap: 8px; 
         padding: 0 10px; 
-        margin-bottom: 40px;
+        margin-bottom: 20px;
     }
     .menu-item { padding: 14px 4px; }
     .icon-wrapper { width: 40px; height: 40px; }
