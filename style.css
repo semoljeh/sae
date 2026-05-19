@@ -1,14 +1,11 @@
-/* ==========================================================================
-   1. RESET GLOBAL & BASE STYLES
-   ========================================================================== */
+/* Pengaturan Dasar Global */
 * {
     margin: 0;
     padding: 0;
     box-sizing: border-box;
-    font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, Helvetica, Arial, sans-serif;
+    font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, sans-serif;
 }
 
-/* Memaksa seluruh kerangka web berada tepat di tengah monitor PC/Laptop */
 body {
     background-color: #e2e8f0;
     display: flex;
@@ -19,53 +16,46 @@ body {
     overflow: hidden;
 }
 
-/* ==========================================================================
-   2. APP CONTAINER LAYOUT (BINGKAI HP SMARTPHONE)
-   ========================================================================== */
+/* Bingkai HP */
 .app-container {
     width: 100%;
-    max-width: 412px; /* Dimensi lebar standar smartphone modern */
+    max-width: 412px; 
     height: 100vh;
     background-color: #f8fafc;
     position: relative;
     display: flex;
     flex-direction: column;
     overflow: hidden;
-    box-shadow: 0 12px 40px rgba(0, 0, 0, 0.15);
+    box-shadow: 0 12px 40px rgba(0, 0, 0, 0.12);
 }
 
-/* Area Konten Utama yang Dapat Di-scroll Bebas */
+/* Area Scroll */
 .scrollable-content {
     flex: 1;
     overflow-y: auto;
     overflow-x: hidden;
     width: 100%;
-    padding-bottom: 80px; /* Jarak aman agar konten tidak tertutup bottom nav */
+    padding-bottom: 80px;
 }
 
-/* Menyembunyikan scrollbar bawaan agar visual tetap bersih */
 .scrollable-content::-webkit-scrollbar {
     width: 0px;
 }
 
-/* ==========================================================================
-   3. HEADER SECTION (TOSKA)
-   ========================================================================== */
+/* Header */
 .main-header {
     background-color: #007A78;
     padding: 24px 16px 85px 16px;
-    transition: all 0.3s ease;
 }
 
 .header-top {
     display: flex;
     justify-content: space-between;
     align-items: center;
-    flex-wrap: wrap; /* Mengizinkan elemen turun ke bawah jika layar terlalu sempit */
+    flex-wrap: wrap;
     gap: 10px;
 }
 
-/* Tombol Ikon Kotak Transparan */
 .icon-btn {
     background-color: rgba(255, 255, 255, 0.15);
     border: none;
@@ -78,14 +68,18 @@ body {
     justify-content: center;
     cursor: pointer;
     flex-shrink: 0;
-    transition: background 0.2s ease;
 }
 
-.icon-btn:hover {
-    background-color: rgba(255, 255, 255, 0.25);
+/* EFEK CLIP/ANIMASI BERPUTAR SINKRONISASI DATA */
+.spin-animation {
+    animation: spin 0.8s linear infinite;
 }
 
-/* Badge Lokasi Pakis di Tengah */
+@keyframes spin {
+    0% { transform: rotate(0deg); }
+    100% { transform: rotate(360deg); }
+}
+
 .location-badge {
     display: flex;
     align-items: center;
@@ -95,20 +89,12 @@ body {
     color: white;
     font-weight: 600;
     font-size: 14px;
-    cursor: pointer;
-    transition: background 0.2s ease;
-}
-
-.location-badge:hover {
-    background-color: rgba(255, 255, 255, 0.3);
 }
 
 .icon-left { margin-right: 4px; font-size: 16px !important; }
 .icon-right { margin-left: 4px; font-size: 16px !important; }
 
-/* ==========================================================================
-   4. PRAYER CARD SECTION (KARTU JADWAL SHALAT)
-   ========================================================================== */
+/* Kartu Jadwal */
 .prayer-card {
     background-color: white;
     margin: -60px 16px 0 16px;
@@ -119,14 +105,12 @@ body {
     border: 1px solid #f1f5f9;
 }
 
-/* Pembagian area jam menjadi 2 kolom simetris */
 .prayer-time-grid {
     display: grid;
     grid-template-columns: 1fr 1fr;
     position: relative;
 }
 
-/* Garis pembatas vertikal halus tepat di tengah jam */
 .prayer-time-grid::after {
     content: "";
     position: absolute;
@@ -159,13 +143,12 @@ body {
     margin-top: 4px;
 }
 
-/* Pembatas Garis Putus-putus Horisontal */
 .dashed-line {
     border-top: 1.5px dashed #cbd5e1;
     margin: 15px 0;
 }
 
-/* Area Informasi Tanggal (SUDAH FIX RATA TENGAH) */
+/* Tanggal Rata Tengah */
 .date-box {
     text-align: center;
     display: flex;
@@ -179,7 +162,6 @@ body {
     color: #007A78;
     font-size: 13px;
     font-weight: 700;
-    text-align: center;
 }
 
 .date-box .masehi-date {
@@ -187,12 +169,9 @@ body {
     font-size: 11px;
     margin-top: 4px;
     font-weight: 500;
-    text-align: center;
 }
 
-/* ==========================================================================
-   5. BRANDING LOGO SECTION
-   ========================================================================== */
+/* Logo */
 .app-brand {
     text-align: center;
     margin: 20px 0;
@@ -212,13 +191,11 @@ body {
     font-weight: 600;
 }
 
-/* ==========================================================================
-   6. MAIN MENU GRID SECTION (TATA LETAK DEFAULT 2x3)
-   ========================================================================== */
+/* Grid Menu Utama */
 .menu-grid {
     display: grid;
-    grid-template-columns: repeat(3, 1fr); /* 3 Kolom Sejajar */
-    grid-template-rows: repeat(2, 1fr);    /* 2 Baris ke Bawah */
+    grid-template-columns: repeat(3, 1fr);
+    grid-template-rows: repeat(2, 1fr);
     gap: 12px;
     padding: 0 16px;
     margin-top: 10px;
@@ -234,14 +211,8 @@ body {
     justify-content: center;
     border: 1px solid #f1f5f9;
     cursor: pointer;
-    transition: transform 0.1s ease;
 }
 
-.menu-item:active {
-    transform: scale(0.96); /* Efek membal saat ditekan jari */
-}
-
-/* Lingkaran pembungkus background ikon */
 .icon-wrapper {
     width: 48px;
     height: 48px;
@@ -254,7 +225,6 @@ body {
 
 .icon-wrapper span { font-size: 24px; }
 
-/* Pewarnaan Soft Ikon Menu */
 .bg-blue { background-color: #e0f2fe; color: #0284c7; }
 .bg-emerald { background-color: #d1fae5; color: #059669; }
 .bg-purple { background-color: #f3e8ff; color: #7c3aed; }
@@ -269,24 +239,19 @@ body {
     text-align: center;
 }
 
-/* ==========================================================================
-   7. FIXED BOTTOM NAVIGATION (TERKUNCI SELALU MUNCUL DI LAYAR)
-   ========================================================================== */
+/* Navigasi Bawah */
 .bottom-nav {
-    position: fixed; /* Mengunci komponen melayang di atas konten */
+    position: absolute;
     bottom: 0;
-    left: 50%; /* Trik menjaga agar navigasi tetap ikut rata tengah di PC */
-    transform: translateX(-50%);
-    width: 100%;
-    max-width: 412px; /* Menyesuaikan lebar maksimal bingkai HP */
+    left: 0;
+    right: 0;
     background-color: white;
     border-top: 1px solid #e2e8f0;
     padding: 12px 16px;
     display: flex;
     justify-content: space-between;
     align-items: center;
-    z-index: 999; /* Memaksa berada di lapisan paling depan */
-    flex-shrink: 0;
+    z-index: 99;
 }
 
 .nav-item {
@@ -302,70 +267,30 @@ body {
 .nav-item.active { color: #007A78; }
 .nav-label { font-size: 10px; font-weight: 600; margin-top: 2px; }
 
-/* ==========================================================================
-   8. MEDIA QUERY: ADAPTIVE SMARTWATCH LAYOUT (Maksimal Lebar 330px)
-   STRATEGI: STACKED VERTICAL MENGALIR KE BAWAH (TANPA BUANG ELEMEN)
-   ========================================================================== */
+/* Smartwatch Responsive Media Query */
 @media (max-width: 330px) {
-    
-    /* Atur Ulang Header Atas */
-    .main-header {
-        padding: 16px 10px 60px 10px;
-    }
-    .header-top {
-        justify-content: center;
-    }
-    .location-badge {
-        width: 100%; /* Memaksa lencana lokasi berdiri sendiri di atas */
-        order: 1;    /* Berada di urutan pertama */
-        justify-content: center;
-    }
-    #info-button { order: 2; }   /* Menjatuhkan tombol info ke bawah sebelah kiri */
-    #search-button { order: 3; } /* Menjatuhkan tombol cari ke bawah sebelah kanan */
+    .main-header { padding: 16px 10px 60px 10px; }
+    .header-top { justify-content: center; }
+    .location-badge { width: 100%; order: 1; justify-content: center; }
+    #info-button { order: 2; }
+    #refresh-button { order: 3; }
 
-    /* Atur Ulang Kartu Waktu Shalat */
-    .prayer-card {
-        margin: -40px 10px 0 10px;
-        padding: 16px 8px;
-    }
-    .prayer-time-grid {
-        grid-template-columns: 1fr; /* Berubah menjadi 1 kolom bertumpuk vertikal */
-        gap: 12px;
-    }
-    .prayer-time-grid::after {
-        display: none; /* Menghilangkan garis pembatas vertikal tengah */
-    }
-    .time-box {
-        padding: 2px 0;
-    }
-    .time-display {
-        font-size: 24px; /* Penyesuaian ukuran angka agar tidak luber */
-    }
-
-    /* Penyesuaian Ruang Teks Tanggal Lengkap */
+    .prayer-card { margin: -40px 10px 0 10px; padding: 16px 8px; }
+    .prayer-time-grid { grid-template-columns: 1fr; gap: 12px; }
+    .prayer-time-grid::after { display: none; }
+    .time-display { font-size: 24px; }
     .date-box .hijri-date { font-size: 11px; }
     .date-box .masehi-date { font-size: 10px; }
-
-    /* Penyesuaian Ukuran Branding Logo */
     .arabic-logo { font-size: 26px; }
     .sub-logo { font-size: 9px; }
 
-    /* Mengubah Susunan Grid Menu Menjadi 2 Kolom Agar Teks Tidak Rusak/Terpotong */
-    .menu-grid {
-        grid-template-columns: repeat(2, 1fr);
-        grid-template-rows: auto;
-        gap: 8px;
-        padding: 0 10px;
-    }
+    .menu-grid { grid-template-columns: repeat(2, 1fr); grid-template-rows: auto; gap: 8px; padding: 0 10px; }
     .menu-item { padding: 14px 4px; }
     .icon-wrapper { width: 40px; height: 40px; }
     .icon-wrapper span { font-size: 20px; }
     .menu-label { font-size: 10px; }
 
-    /* Mengompres Ukuran Navigasi Bawah Agar Pas di Layar Jam */
-    .bottom-nav { 
-        padding: 8px 4px; 
-    }
+    .bottom-nav { padding: 8px 4px; }
     .nav-item span:first-child { font-size: 18px; }
     .nav-label { font-size: 9px; }
 }
