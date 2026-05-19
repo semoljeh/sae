@@ -2,10 +2,12 @@
 <html lang="id">
 <head>
     <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
     <meta name="theme-color" content="#007A78">
     <title>Al-Mukhtar Digital Library</title>
-    <link rel="stylesheet" href="style.css">
+    
+    <link rel="stylesheet" href="style.css?v=7.0">
+    
     <link href="https://fonts.googleapis.com/icon?family=Material+Icons+Outlined" rel="stylesheet">
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.2/css/all.min.css">
 </head>
@@ -13,27 +15,25 @@
 
     <div class="app-container">
         
-        <div class="scrollable-content">
+        <div class="scrollable-content" id="main-scroll-zone">
             
             <header class="main-header">
                 <div class="header-top">
                     <div class="info-wrapper-container">
-                        <button class="icon-btn" id="info-button">
+                        <button class="icon-btn" id="info-button" aria-label="Informasi Aplikasi">
                             <span class="material-icons-outlined">info</span>
                         </button>
                         
                         <div class="popup-box" id="popup-box">
-                            <div class="popup-arrow"></div>
-                            
                             <span class="material-icons-outlined popup-info-icon">info</span>
                             <h3>Tentang Aplikasi</h3>
                             <p class="author-text">Oleh Aron Kobama</p>
                             
                             <div class="social-wrapper">
-                                <a href="https://www.tiktok.com/@username_kamu" target="_blank" class="social-icon tiktok">
+                                <a href="https://www.tiktok.com" target="_blank" rel="noopener" class="social-icon tiktok">
                                     <i class="fa-brands fa-tiktok"></i>
                                 </a>
-                                <a href="https://www.instagram.com/username_kamu" target="_blank" class="social-icon instagram">
+                                <a href="https://www.instagram.com" target="_blank" rel="noopener" class="social-icon instagram">
                                     <i class="fa-brands fa-instagram"></i>
                                 </a>
                             </div>
@@ -46,7 +46,7 @@
                         <span class="material-icons-outlined icon-right">expand_more</span>
                     </div>
 
-                    <button class="icon-btn" id="refresh-button">
+                    <button class="icon-btn" id="refresh-button" aria-label="Refresh Data">
                         <span class="material-icons-outlined" id="refresh-icon">refresh</span>
                     </button>
                 </div>
@@ -144,6 +144,6 @@
 
     </div>
 
-    <script src="script.js"></script>
+    <script src="script.js?v=7.0"></script>
 </body>
 </html>
