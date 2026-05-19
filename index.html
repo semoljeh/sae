@@ -2,135 +2,153 @@
 <html lang="id">
 <head>
     <meta charset="UTF-8">
+    
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    
+    <meta name="theme-color" content="#007A78">
+    
     <title>Al-Mukhtar Digital Library</title>
-    <link rel="stylesheet" href="style.css">
+    
+    <link rel="stylesheet" href="style.css?v=14.0">
+    
     <link href="https://fonts.googleapis.com/icon?family=Material+Icons+Outlined" rel="stylesheet">
+    
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.2/css/all.min.css">
 </head>
 <body>
 
     <div class="app-container">
         
-        <header class="main-header">
-            <div class="header-top">
-                <div class="info-wrapper-container">
-                    <button class="icon-btn" id="info-button">
-                        <span class="material-icons-outlined">info</span>
-                    </button>
+        <div class="scrollable-content">
+            
+            <header class="main-header">
+                <div class="header-top">
                     
-                    <div class="popup-box" id="popup-box">
-                        <span class="material-icons-outlined popup-info-icon">info</span>
-                        <h3>Tentang Aplikasi</h3>
-                        <p class="author-text">Oleh Aron Kobama</p>
+                    <div class="info-wrapper-container">
+                        <button class="icon-btn" id="info-button" aria-label="Informasi Aplikasi">
+                            <span class="material-icons-outlined">info</span>
+                        </button>
                         
-                        <div class="social-wrapper">
-                            <a href="#" class="social-icon tiktok">
-                                <i class="fa-brands fa-tiktok"></i>
-                            </a>
-                            <a href="#" class="social-icon instagram">
-                                <i class="fa-brands fa-instagram"></i>
-                            </a>
+                        <div class="popup-box" id="popup-box">
+                            <span class="material-icons-outlined popup-info-icon">info</span>
+                            <h3>Tentang Aplikasi</h3>
+                            <p class="author-text">Oleh Aron Kobama</p>
+                            
+                            <div class="social-wrapper">
+                                <a href="https://www.tiktok.com" target="_blank" rel="noopener" class="social-icon tiktok">
+                                    <i class="fa-brands fa-tiktok"></i>
+                                </a>
+                                <a href="https://www.instagram.com" target="_blank" rel="noopener" class="social-icon instagram">
+                                    <i class="fa-brands fa-instagram"></i>
+                                </a>
+                            </div>
                         </div>
                     </div>
+
+                    <div class="location-badge" id="location-button">
+                        <span class="material-icons-outlined icon-left">location_on</span>
+                        <span id="location-text">Pakis</span>
+                        <span class="material-icons-outlined icon-right">expand_more</span>
+                    </div>
+
+                    <button class="icon-btn" id="refresh-button" aria-label="Refresh Halaman">
+                        <span class="material-icons-outlined" id="refresh-icon">refresh</span>
+                    </button>
+                </div>
+            </header>
+
+            <section class="prayer-card">
+                <div class="prayer-time-grid">
+                    <div class="time-box">
+                        <p class="title-teal">DZUHUR</p>
+                        <p class="time-display">11:26</p>
+                    </div>
+                    <div class="time-box">
+                        <p class="title-teal">MENDATANG</p>
+                        <p class="time-display">-01:52:54</p>
+                    </div>
+                </div>
+                
+                <div class="dashed-line"></div>
+                
+                <div class="date-box">
+                    <p class="hijri-date">2 Dhu al-Hijjah 1447 H</p>
+                    <p class="masehi-date">SELASA LEGI, 19 MEI 2026 M</p>
+                </div>
+            </section>
+
+            <div class="app-brand">
+                <h1 class="arabic-logo">المختار</h1>
+                <p class="sub-logo">DIGITAL LIBRARY</p>
+            </div>
+
+            <main class="menu-grid">
+                <div class="menu-item" data-menu="Jadwal">
+                    <div class="icon-wrapper bg-blue">
+                        <span class="material-icons-outlined">layers</span>
+                    </div>
+                    <span class="menu-label">JADWAL</span>
+                </div>
+                
+                <div class="menu-item" data-menu="Dzikir">
+                    <div class="icon-wrapper bg-emerald">
+                        <span class="material-icons-outlined">gite</span>
+                    </div>
+                    <span class="menu-label">DZIKIR</span>
                 </div>
 
-                <div class="location-badge" id="location-button">
-                    <span class="material-icons-outlined icon-left">location_on</span>
-                    <span id="location-text">Pakis</span>
-                    <span class="material-icons-outlined icon-right">expand_more</span>
+                <div class="menu-item" data-menu="Yasin Tahlil">
+                    <div class="icon-wrapper bg-purple">
+                        <span class="material-icons-outlined">menu_book</span>
+                    </div>
+                    <span class="menu-label">YASIN</span>
                 </div>
-                <button class="icon-btn" id="search-button">
-                    <span class="material-icons-outlined">search</span>
-                </button>
-            </div>
-        </header>
 
-        <section class="prayer-card">
-            <div class="prayer-time-grid">
-                <div class="time-box">
-                    <p class="title-teal">DZUHUR</p>
-                    <p class="time-display">11:26</p>
+                <div class="menu-item" data-menu="Maulid">
+                    <div class="icon-wrapper bg-lime">
+                        <span class="material-icons-outlined">clean_hands</span>
+                    </div>
+                    <span class="menu-label">MAULID</span>
                 </div>
-                <div class="time-box">
-                    <p class="title-teal">MENDATANG</p>
-                    <p class="time-display">-01:52:54</p>
-                </div>
-            </div>
-            <div class="dashed-line"></div>
-            <div class="date-box">
-                <p class="hijri-date">2 Dhu al-Hijjah 1447 H</p>
-                <p class="masehi-date">SELASA LEGI, 19 MEI 2026 M</p>
-            </div>
-        </section>
 
-        <div class="app-brand">
-            <h1 class="arabic-logo">المختار</h1>
-            <p class="sub-logo">DIGITAL LIBRARY</p>
-        </div>
+                <div class="menu-item" data-menu="Sholawat">
+                    <div class="icon-wrapper bg-pink">
+                        <span class="material-icons-outlined">favorite</span>
+                    </div>
+                    <span class="menu-label">SHOLAWAT</span>
+                </div>
 
-        <main class="menu-grid">
-            <div class="menu-item">
-                <div class="icon-wrapper bg-blue">
-                    <span class="material-icons-outlined">layers</span>
+                <div class="menu-item" data-menu="Ratib">
+                    <div class="icon-wrapper bg-orange">
+                        <span class="material-icons-outlined">description</span>
+                    </div>
+                    <span class="menu-label">RATIB</span>
                 </div>
-                <span class="menu-label">JADWAL</span>
-            </div>
-            <div class="menu-item">
-                <div class="icon-wrapper bg-emerald">
-                    <span class="material-icons-outlined">gite</span>
-                </div>
-                <span class="menu-label">DZIKIR</span>
-            </div>
-            <div class="menu-item">
-                <div class="icon-wrapper bg-purple">
-                    <span class="material-icons-outlined">menu_book</span>
-                </div>
-                <span class="menu-label">YASIN TAHLIL</span>
-            </div>
-            <div class="menu-item">
-                <div class="icon-wrapper bg-lime">
-                    <span class="material-icons-outlined">clean_hands</span>
-                </div>
-                <span class="menu-label">MAULID</span>
-            </div>
-            <div class="menu-item">
-                <div class="icon-wrapper bg-pink">
-                    <span class="material-icons-outlined">favorite</span>
-                </div>
-                <span class="menu-label">SHOLAWAT</span>
-            </div>
-            <div class="menu-item">
-                <div class="icon-wrapper bg-orange">
-                    <span class="material-icons-outlined">description</span>
-                </div>
-                <span class="menu-label">RATIB</span>
-            </div>
-        </main>
+            </main>
+
+        </div> <div class="popup-backdrop" id="popup-backdrop"></div>
 
         <nav class="bottom-nav">
-            <div class="nav-item active">
-                <span class="material-icons-outlined">home</span>
-                <span class="nav-label">Beranda</span>
+            <div class="nav-item active" data-tab="Sholat">
+                <span class="material-icons-outlined">place</span>
+                <span class="nav-label">Sholat</span>
             </div>
-            <div class="nav-item">
+            <div class="nav-item" data-tab="Quran">
                 <span class="material-icons-outlined">auto_stories</span>
                 <span class="nav-label">Quran</span>
             </div>
-            <div class="nav-item">
+            <div class="nav-item" data-tab="Kalender">
                 <span class="material-icons-outlined">calendar_month</span>
                 <span class="nav-label">Kalender</span>
             </div>
-            <div class="nav-item">
+            <div class="nav-item" data-tab="Doa">
                 <span class="material-icons-outlined">front_hand</span>
                 <span class="nav-label">Doa</span>
             </div>
         </nav>
-        
-        <div class="popup-backdrop" id="popup-backdrop"></div>
 
     </div>
 
-    <script src="script.js"></script>
+    <script src="script.js?v=14.0"></script>
 </body>
 </html>
