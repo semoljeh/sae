@@ -72,9 +72,7 @@ body {
     transition: transform 0.1s ease;
 }
 
-.icon-btn:active {
-    transform: scale(0.92);
-}
+.icon-btn:active { transform: scale(0.92); }
 
 /* Animasi Berputar Ikon Refresh */
 .spin-animation {
@@ -101,7 +99,6 @@ body {
 }
 
 .location-badge:active { transform: scale(0.95); }
-
 .icon-left { margin-right: 4px; font-size: 16px !important; }
 .icon-right { margin-left: 4px; font-size: 16px !important; }
 
@@ -133,42 +130,13 @@ body {
     transform: translateX(-50%);
 }
 
-.time-box {
-    display: flex;
-    flex-direction: column;
-    align-items: center;
-    justify-content: center;
-}
-
-.title-teal {
-    color: #007A78;
-    font-weight: 700;
-    font-size: 12px;
-    letter-spacing: 0.5px;
-}
-
-.time-display {
-    font-size: 28px;
-    font-weight: 700;
-    color: #0f172a;
-    margin-top: 4px;
-}
-
-.dashed-line {
-    border-top: 1.5px dashed #cbd5e1;
-    margin: 15px 0;
-}
+.time-box { display: flex; flex-direction: column; align-items: center; justify-content: center; }
+.title-teal { color: #007A78; font-weight: 700; font-size: 12px; letter-spacing: 0.5px; }
+.time-display { font-size: 28px; font-weight: 700; color: #0f172a; margin-top: 4px; }
+.dashed-line { border-top: 1.5px dashed #cbd5e1; margin: 15px 0; }
 
 /* Tanggal Rata Tengah */
-.date-box {
-    text-align: center;
-    display: flex;
-    flex-direction: column;
-    align-items: center;
-    justify-content: center;
-    width: 100%;
-}
-
+.date-box { text-align: center; display: flex; flex-direction: column; align-items: center; justify-content: center; width: 100%; }
 .date-box .hijri-date { color: #007A78; font-size: 13px; font-weight: 700; }
 .date-box .masehi-date { color: #64748b; font-size: 11px; margin-top: 4px; font-weight: 500; }
 
@@ -178,28 +146,8 @@ body {
 .sub-logo { font-size: 10px; letter-spacing: 2.5px; color: #64748b; margin-top: 4px; font-weight: 600; }
 
 /* Grid Menu Utama */
-.menu-grid {
-    display: grid;
-    grid-template-columns: repeat(3, 1fr);
-    grid-template-rows: repeat(2, 1fr);
-    gap: 12px;
-    padding: 0 16px;
-    margin-top: 10px;
-}
-
-.menu-item {
-    background-color: white;
-    border-radius: 16px;
-    padding: 16px 4px;
-    display: flex;
-    flex-direction: column;
-    align-items: center;
-    justify-content: center;
-    border: 1px solid #f1f5f9;
-    cursor: pointer;
-    transition: transform 0.1s ease;
-}
-
+.menu-grid { display: grid; grid-template-columns: repeat(3, 1fr); grid-template-rows: repeat(2, 1fr); gap: 12px; padding: 0 16px; margin-top: 10px; }
+.menu-item { background-color: white; border-radius: 16px; padding: 16px 4px; display: flex; flex-direction: column; align-items: center; justify-content: center; border: 1px solid #f1f5f9; cursor: pointer; transition: transform 0.1s ease; }
 .menu-item:active { transform: scale(0.95); }
 .icon-wrapper { width: 48px; height: 48px; border-radius: 14px; display: flex; align-items: center; justify-content: center; margin-bottom: 8px; }
 .icon-wrapper span { font-size: 24px; }
@@ -213,123 +161,107 @@ body {
 .menu-label { font-size: 11px; font-weight: 700; color: #334155; text-align: center; }
 
 /* ==========================================================================
-   9. DESAIN POPUP MODAL MODERN (ZOOM IN & ZOOM OUT ANIMATION)
+   9. KONSTRUKSI POPUP ANCHOR (KELUAR DARI ICON I / TOP LEFT ZOOM)
    ========================================================================== */
-.popup-overlay {
+.info-wrapper-container {
+    position: relative; /* Menjadi jangkar posisi bagi popup box */
+    display: inline-block;
+}
+
+/* Latar belakang transparan halus penutup konten belakang */
+.popup-backdrop {
     position: fixed;
-    top: 0;
-    left: 0;
-    width: 100%;
-    height: 100%;
-    background-color: rgba(15, 23, 42, 0.4); /* Transparansi gelap modern */
-    backdrop-filter: blur(4px); /* Efek blur estetik */
-    z-index: 9999;
-    display: flex;
-    justify-content: center;
-    align-items: center;
+    top: 0; left: 0; width: 100%; height: 100%;
+    background-color: rgba(15, 23, 42, 0.15);
+    backdrop-filter: blur(2px);
+    z-index: 998;
     opacity: 0;
     pointer-events: none;
     transition: opacity 0.3s ease;
 }
+.popup-backdrop.show { opacity: 1; pointer-events: auto; }
 
-/* Jendela Box Informasi Mungil */
+/* Jendela Kotak Informasi Melekat di Tombol Info */
 .popup-box {
+    position: absolute;
+    top: 52px; /* Diletakkan tepat di bawah tombol i */
+    left: 0;
     background-color: white;
-    width: 260px; /* Ukuran mungil ideal untuk HP & smartwatch */
-    padding: 22px;
-    border-radius: 24px;
-    text-align: center;
-    box-shadow: 0 20px 40px rgba(0, 0, 0, 0.15);
-    
-    /* Titik Origin Zoom diset di pojok kiri atas (dekat tombol i) */
-    transform-origin: top left; 
-    transform: scale(0); /* Default mengecil/hilang */
-    transition: transform 0.3s cubic-bezier(0.34, 1.56, 0.64, 1); /* Efek membal elastis */
-}
-
-/* State ketika aktif (Zoom In) */
-.popup-overlay.show {
-    opacity: 1;
-    pointer-events: auto;
-}
-.popup-overlay.show .popup-box {
-    transform: scale(1);
-}
-
-/* Elemen Di Dalam Popup */
-.popup-info-icon {
-    font-size: 32px !important;
-    color: #007A78;
-    margin-bottom: 8px;
-}
-
-.popup-box h3 {
-    font-size: 16px;
-    color: #1e293b;
-    font-weight: 700;
-}
-
-.author-text {
-    font-size: 13px;
-    color: #64748b;
-    margin-top: 4px;
-    font-weight: 500;
-}
-
-/* Pembungkus Ikon Sosial Media Mungil */
-.social-wrapper {
-    display: flex;
-    justify-content: center;
-    gap: 16px;
-    margin-top: 18px;
-}
-
-.social-icon {
-    width: 42px;
-    height: 42px;
-    border-radius: 50%;
-    display: flex;
-    align-items: center;
-    justify-content: center;
-    font-size: 18px;
-    color: white;
-    text-decoration: none;
-    transition: transform 0.2s ease, box-shadow 0.2s ease;
-}
-
-.social-icon:hover { transform: translateY(-3px); }
-.social-icon.tiktok { background: linear-gradient(45deg, #010101, #25f4ee, #fe0979); box-shadow: 0 4px 12px rgba(1, 1, 1, 0.2); }
-.social-icon.instagram { background: linear-gradient(45deg, #f09433, #e6683c, #dc2743, #cc2366, #bc1888); box-shadow: 0 4px 12px rgba(220, 39, 67, 0.2); }
-
-/* Navigasi Bawah FIXED STICKY */
-.bottom-nav {
-    position: fixed;
-    bottom: 0;
-    left: 50%;
-    transform: translateX(-50%);
-    width: 100%;
-    max-width: 412px;
-    background-color: white;
-    border-top: 1px solid #e2e8f0;
-    padding: 12px 16px;
-    display: flex;
-    justify-content: space-between;
-    align-items: center;
+    width: 250px;
+    padding: 20px;
+    border-radius: 20px;
+    box-shadow: 0 15px 35px rgba(0, 0, 0, 0.15);
     z-index: 999;
+    text-align: center;
+    
+    /* STRATEGI KUNCI: Titik pembesaran dikunci di KIRI ATAS (Sesuai posisi Icon i) */
+    transform-origin: top left;
+    transform: scale(0); /* Default mengecil masuk ke dalam tombol */
+    visibility: hidden;
+    transition: transform 0.3s cubic-bezier(0.34, 1.56, 0.64, 1), visibility 0.3s;
 }
 
+/* State Aktif (Membesar / Zoom In dari tombol i) */
+.popup-box.show {
+    transform: scale(1);
+    visibility: visible;
+}
+
+/* Segitiga kecil di atas popup mengarah ke icon i */
+.popup-arrow {
+    position: absolute;
+    top: -6px;
+    left: 14px;
+    width: 12px;
+    height: 12px;
+    background-color: white;
+    transform: rotate(45deg);
+    border-left: 1px solid rgba(0,0,0,0.02);
+    border-top: 1px solid rgba(0,0,0,0.02);
+}
+
+.popup-info-icon { font-size: 30px !important; color: #007A78; margin-bottom: 6px; }
+.popup-box h3 { font-size: 15px; color: #1e293b; font-weight: 700; }
+.author-text { font-size: 13px; color: #64748b; margin-top: 2px; font-weight: 500; }
+
+/* Pembungkus Sosial Media */
+.social-wrapper { display: flex; justify-content: center; gap: 14px; margin-top: 16px; }
+.social-icon { width: 40px; height: 40px; border-radius: 50%; display: flex; align-items: center; justify-content: center; font-size: 16px; color: white; text-decoration: none; transition: transform 0.2s ease; }
+.social-icon:hover { transform: scale(1.1); }
+.social-icon.tiktok { background: linear-gradient(45deg, #010101, #25f4ee, #fe0979); }
+.social-icon.instagram { background: linear-gradient(45deg, #f09433, #e6683c, #dc2743, #cc2366, #bc1888); }
+
+/* NAVIGASI BAWAH FIXED STICKY */
+.bottom-nav {
+    position: fixed; bottom: 0; left: 50%; transform: translateX(-50%);
+    width: 100%; max-width: 412px; background-color: white;
+    border-top: 1px solid #e2e8f0; padding: 12px 16px;
+    display: flex; justify-content: space-between; align-items: center; z-index: 999;
+}
 .nav-item { display: flex; flex-direction: column; align-items: center; color: #94a3b8; cursor: pointer; flex: 1; }
 .nav-item span:first-child { font-size: 22px; }
 .nav-item.active { color: #007A78; }
 .nav-label { font-size: 10px; font-weight: 600; margin-top: 2px; }
 
-/* Smartwatch Responsive Layout */
+/* ==========================================================================
+   10. MEDIA QUERY RESPONSIVITAS SMARTWATCH (Maksimal Lebar 330px)
+   ========================================================================== */
 @media (max-width: 330px) {
     .main-header { padding: 16px 10px 60px 10px; }
     .header-top { justify-content: center; }
     .location-badge { width: 100%; order: 1; justify-content: center; }
-    #info-button { order: 2; }
+    .info-wrapper-container { order: 2; }
     #refresh-button { order: 3; }
+
+    /* Di smartwatch, biarkan tumpuan pembesaran bergeser ke tengah atas layar */
+    .popup-box {
+        top: 52px;
+        left: -15px;
+        width: 195px;
+        padding: 12px;
+        transform-origin: top center;
+    }
+    .popup-arrow { left: 45px; }
 
     .prayer-card { margin: -40px 10px 0 10px; padding: 16px 8px; }
     .prayer-time-grid { grid-template-columns: 1fr; gap: 12px; }
@@ -345,13 +277,6 @@ body {
     .icon-wrapper { width: 40px; height: 40px; }
     .icon-wrapper span { font-size: 20px; }
     .menu-label { font-size: 10px; }
-
-    /* Atur popup box agar menyesuaikan layar smartwatch super mini */
-    .popup-box { width: 200px; padding: 14px; }
-    .popup-info-icon { font-size: 24px !important; }
-    .popup-box h3 { font-size: 14px; }
-    .author-text { font-size: 11px; }
-    .social-icon { width: 34px; height: 34px; font-size: 15px; }
 
     .bottom-nav { padding: 8px 4px; }
     .nav-item span:first-child { font-size: 18px; }
