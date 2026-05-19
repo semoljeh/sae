@@ -291,7 +291,7 @@ body {
     .menu-grid { grid-template-columns: repeat(2, 1fr); grid-template-rows: auto; gap: 8px; padding: 0 10px; }
     .menu-item { padding: 14px 4px; }
     .icon-wrapper { width: 40px; height: 40px; }
-    .icon-wrapper span { font-size: 20px; }
+    .icon-wrapper span = { font-size: 20px; }
     .menu-label { font-size: 10px; }
 
     .bottom-nav { padding: 8px 4px; }
