@@ -1,113 +1,350 @@
 <!DOCTYPE html>
 <html lang="id">
 <head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
-    <meta name="theme-color" content="#007A78">
-    <title>Al-Mukhtar Digital Library</title>
-    <link rel="stylesheet" href="style.css?v=27.0">
-    <link href="https://fonts.googleapis.com/icon?family=Material+Icons+Outlined" rel="stylesheet">
-    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.2/css/all.min.css">
+<meta charset="UTF-8" />
+<meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+
+<title>Quran App</title>
+
+<style>
+
+/* =========================
+   RESET
+========================= */
+*{
+    margin:0;
+    padding:0;
+    box-sizing:border-box;
+}
+
+body{
+    background:#f8fafc;
+    font-family:sans-serif;
+    color:#111827;
+}
+
+/* =========================
+   FONT QURAN
+========================= */
+@font-face{
+    font-family:'Quran';
+    src:url('https://cdn.jsdelivr.net/gh/quran/quran.com-frontend-next@master/public/fonts/UthmanicHafs1Ver18.woff2') format('woff2');
+}
+
+/* =========================
+   HEADER
+========================= */
+.header{
+    background:#0f766e;
+    color:white;
+    padding:20px;
+    text-align:center;
+    position:sticky;
+    top:0;
+    z-index:99;
+}
+
+.header h1{
+    font-size:22px;
+    font-weight:800;
+}
+
+/* =========================
+   CONTAINER
+========================= */
+.container{
+    padding:18px;
+}
+
+/* =========================
+   SURAH CARD
+========================= */
+.surah-card{
+    background:white;
+    border-radius:24px;
+    padding:18px;
+    margin-bottom:16px;
+    box-shadow:0 4px 15px rgba(0,0,0,.05);
+    border:1px solid #eef2f7;
+    cursor:pointer;
+    transition:.2s;
+}
+
+.surah-card:active{
+    transform:scale(.98);
+}
+
+.surah-top{
+    display:flex;
+    justify-content:space-between;
+    align-items:center;
+}
+
+.surah-name{
+    font-size:18px;
+    font-weight:800;
+}
+
+.surah-arab{
+    font-family:'Quran';
+    font-size:28px;
+    direction:rtl;
+}
+
+/* =========================
+   AYAT
+========================= */
+.ayah-box{
+    background:white;
+    border-radius:28px;
+    padding:22px;
+    margin-bottom:18px;
+    border:1px solid #eef2f7;
+    box-shadow:0 4px 15px rgba(0,0,0,.04);
+}
+
+.arabic{
+    font-family:'Quran';
+    font-size:40px;
+    line-height:2.2;
+    direction:rtl;
+    text-align:right;
+    letter-spacing:0;
+    word-spacing:0;
+    font-feature-settings:
+        "liga" 1,
+        "calt" 1,
+        "kern" 1;
+}
+
+.translation{
+    margin-top:18px;
+    font-size:16px;
+    color:#475569;
+    line-height:1.8;
+}
+
+.ayah-number{
+    color:#0f766e;
+    font-size:22px;
+}
+
+/* =========================
+   LOADING
+========================= */
+.loading{
+    text-align:center;
+    padding:40px;
+    font-weight:700;
+    color:#0f766e;
+}
+
+/* =========================
+   BACK BUTTON
+========================= */
+.back-btn{
+    background:#0f766e;
+    color:white;
+    border:none;
+    padding:12px 20px;
+    border-radius:100px;
+    font-weight:700;
+    margin-bottom:20px;
+    cursor:pointer;
+}
+
+/* =========================
+   RESPONSIVE
+========================= */
+@media(max-width:480px){
+
+    .arabic{
+        font-size:34px;
+        line-height:2.1;
+    }
+
+}
+
+</style>
 </head>
 <body>
 
-    <div class="app-container">
-        <div class="scrollable-content">
-            
-            <header class="main-header">
-                <div class="header-top">
-                    <div class="info-wrapper-container">
-                        <button class="icon-btn" id="info-button"><span class="material-icons-outlined">info</span></button>
-                        <div class="popup-box" id="popup-box">
-                            <div class="profile-avatar-wrapper"><img src="https://via.placeholder.com/150" alt="Avatar" class="profile-img"></div>
-                            <h3 class="developer-name">Aron Kobama</h3>
-                            <div class="social-wrapper">
-                                <a href="#" class="social-icon tiktok"><i class="fa-brands fa-tiktok"></i></a>
-                                <a href="#" class="social-icon instagram"><i class="fa-brands fa-instagram"></i></a>
-                            </div>
-                            <p class="app-description-text">Tentang Aplikasi</p>
-                            <button class="close-profile-btn" id="close-profile-btn">Tutup Profil</button>
-                        </div>
-                    </div>
-                    
-                    <div class="location-badge" id="location-button">
-                        <span class="material-icons-outlined icon-left">location_on</span>
-                        <span id="location-text">Cari Lokasi</span>
-                        <span class="material-icons-outlined icon-right">expand_more</span>
-                    </div>
-                    
-                    <button class="icon-btn" id="refresh-button"><span class="material-icons-outlined" id="refresh-icon">refresh</span></button>
-                </div>
-            </header>
+<div class="header">
+    <h1>Al-Qur'an</h1>
+</div>
 
-            <section class="prayer-card">
-                <div class="prayer-time-grid">
-                    <div class="time-box"><p class="title-teal">DZUHUR</p><p class="time-display">11:26</p></div>
-                    <div class="time-box"><p class="title-teal">MENDATANG</p><p class="time-display">-01:52:54</p></div>
-                </div>
-                <div class="dashed-line"></div>
-                <div class="date-box">
-                    <p class="hijri-date">2 Dhu al-Hijjah 1447 H</p>
-                    <p class="masehi-date">SELASA LEGI, 19 MEI 2026 M</p>
-                </div>
-            </section>
+<div class="container" id="app">
 
-            <div class="app-brand"><h1 class="arabic-logo">المختار</h1><p class="sub-logo">DIGITAL LIBRARY</p></div>
-
-            <main class="menu-grid">
-                <div class="menu-item" data-menu="Jadwal"><div class="icon-wrapper bg-blue"><span class="material-icons-outlined">layers</span></div><span class="menu-label">JADWAL</span></div>
-                <div class="menu-item" data-menu="Dzikir"><div class="icon-wrapper bg-emerald"><span class="material-icons-outlined">gite</span></div><span class="menu-label">DZIKIR</span></div>
-                <div class="menu-item" data-menu="Yasin Tahlil"><div class="icon-wrapper bg-purple"><span class="material-icons-outlined">menu_book</span></div><span class="menu-label">YASIN</span></div>
-                <div class="menu-item" data-menu="Maulid"><div class="icon-wrapper bg-lime"><span class="material-icons-outlined">clean_hands</span></div><span class="menu-label">MAULID</span></div>
-                <div class="menu-item" data-menu="Sholawat"><div class="icon-wrapper bg-pink"><span class="material-icons-outlined">favorite</span></div><span class="menu-label">SHOLAWAT</span></div>
-                <div class="menu-item" data-menu="Ratib"><div class="icon-wrapper bg-orange"><span class="material-icons-outlined">description</span></div><span class="menu-label">RATIB</span></div>
-            </main>
-        </div>
-
-        <div class="popup-backdrop" id="popup-backdrop"></div>
-
-        <div class="location-backdrop" id="location-backdrop"></div>
-        <div class="location-sheet" id="location-sheet">
-            <h3 class="sheet-title">Pilih Lokasi</h3>
-            <p class="sheet-subtitle">Cari otomatis via GPS atau ketik manual.</p>
-            
-            <button class="gps-btn" id="gps-detect-btn">
-                <span class="material-icons-outlined" id="gps-icon-spin">my_location</span>
-                <span id="gps-btn-text">Deteksi GPS</span>
-            </button>
-            
-            <div class="sheet-divider"><span>atau cari manual</span></div>
-            
-            <div class="search-location-wrapper">
-                <span class="material-icons-outlined search-input-icon">search</span>
-                <input type="text" id="location-search-input" placeholder="Ketik desa/kota..." autocomplete="off">
-                <span class="material-icons-outlined clear-input-icon" id="clear-search-btn">cancel</span>
-            </div>
-            
-            <div class="suggestion-list-wrapper">
-                <ul class="suggestion-list" id="suggestion-list"></ul>
-            </div>
-            
-            <button class="save-location-btn" id="save-location-btn" disabled>Simpan Lokasi</button>
-        </div>
-
-        <div class="custom-alert-backdrop" id="custom-alert-backdrop">
-            <div class="custom-alert-box" id="custom-alert-box">
-                <div class="alert-icon-circle"><span class="material-icons-outlined" id="custom-alert-icon">check_circle</span></div>
-                <h4 id="custom-alert-title">Notifikasi</h4>
-                <p id="custom-alert-message">Pesan notifikasi.</p>
-                <button class="alert-confirm-btn" id="alert-confirm-btn">Mengerti</button>
-            </div>
-        </div>
-
-        <nav class="bottom-nav">
-            <div class="nav-item active"><span class="material-icons-outlined">place</span><span class="nav-label">Sholat</span></div>
-            <div class="nav-item"><span class="material-icons-outlined">auto_stories</span><span class="nav-label">Quran</span></div>
-            <div class="nav-item"><span class="material-icons-outlined">calendar_month</span><span class="nav-label">Kalender</span></div>
-            <div class="nav-item"><span class="material-icons-outlined">front_hand</span><span class="nav-label">Doa</span></div>
-        </nav>
+    <div class="loading">
+        Memuat Surah...
     </div>
 
-    <script src="script.js?v=27.0"></script>
+</div>
+
+<script>
+
+/* =========================
+   API
+========================= */
+const API = "https://api.quran.com/api/v4";
+
+/* =========================
+   APP
+========================= */
+const app = document.getElementById("app");
+
+/* =========================
+   LOAD SURAH
+========================= */
+async function loadSurahList(){
+
+    app.innerHTML = `
+        <div class="loading">
+            Memuat Surah...
+        </div>
+    `;
+
+    try{
+
+        const res = await fetch(
+            `${API}/chapters`
+        );
+
+        const data = await res.json();
+
+        renderSurah(data.chapters);
+
+    }catch(err){
+
+        app.innerHTML = `
+            <div class="loading">
+                Gagal memuat data
+            </div>
+        `;
+    }
+}
+
+/* =========================
+   RENDER SURAH
+========================= */
+function renderSurah(chapters){
+
+    app.innerHTML = "";
+
+    chapters.forEach(surah=>{
+
+        app.innerHTML += `
+
+            <div class="surah-card"
+                 onclick="openSurah(${surah.id}, '${surah.name_simple}')">
+
+                <div class="surah-top">
+
+                    <div>
+                        <div class="surah-name">
+                            ${surah.id}. ${surah.name_simple}
+                        </div>
+                    </div>
+
+                    <div class="surah-arab">
+                        ${surah.name_arabic}
+                    </div>
+
+                </div>
+
+            </div>
+
+        `;
+    });
+
+}
+
+/* =========================
+   OPEN SURAH
+========================= */
+async function openSurah(id,name){
+
+    app.innerHTML = `
+        <div class="loading">
+            Memuat Ayat...
+        </div>
+    `;
+
+    try{
+
+        const arabRes = await fetch(
+            `${API}/quran/verses/uthmani?chapter_number=${id}`
+        );
+
+        const arabData = await arabRes.json();
+
+        const indoRes = await fetch(
+            `${API}/quran/translations/33?chapter_number=${id}`
+        );
+
+        const indoData = await indoRes.json();
+
+        let html = `
+
+            <button class="back-btn"
+                    onclick="loadSurahList()">
+
+                ← Kembali
+
+            </button>
+
+        `;
+
+        arabData.verses.forEach((ayah,index)=>{
+
+            const translation =
+                indoData.translations[index];
+
+            html += `
+
+                <div class="ayah-box">
+
+                    <div class="arabic">
+
+                        ${ayah.text_uthmani}
+
+                        <span class="ayah-number">
+                            ۝${ayah.verse_key.split(':')[1]}
+                        </span>
+
+                    </div>
+
+                    <div class="translation">
+
+                        ${translation.text}
+
+                    </div>
+
+                </div>
+
+            `;
+
+        });
+
+        app.innerHTML = html;
+
+    }catch(err){
+
+        app.innerHTML = `
+            <div class="loading">
+                Gagal memuat ayat
+            </div>
+        `;
+    }
+
+}
+
+/* =========================
+   START APP
+========================= */
+loadSurahList();
+
+</script>
+
 </body>
 </html>
