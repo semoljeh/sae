@@ -1,16 +1,25 @@
 <!DOCTYPE html>
 <html lang="id">
 <head>
-<meta charset="UTF-8" />
-<meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
 
-<title>Quran App</title>
+<title>Quran.com Style</title>
 
+<!-- FONT QURAN.COM ORIGINAL -->
 <style>
 
-/* =========================
+/* =========================================================
+   FONT ORIGINAL QURAN.COM
+========================================================= */
+@font-face {
+    font-family: 'QCF';
+    src: url('https://static.qurancdn.com/fonts/quran/hafs/v2/woff2/p1.woff2') format('woff2');
+}
+
+/* =========================================================
    RESET
-========================= */
+========================================================= */
 *{
     margin:0;
     padding:0;
@@ -19,29 +28,22 @@
 
 body{
     background:#f8fafc;
-    font-family:sans-serif;
+    font-family:system-ui;
     color:#111827;
 }
 
-/* =========================
-   FONT QURAN
-========================= */
-@font-face{
-    font-family:'Quran';
-    src:url('https://cdn.jsdelivr.net/gh/quran/quran.com-frontend-next@master/public/fonts/UthmanicHafs1Ver18.woff2') format('woff2');
-}
-
-/* =========================
+/* =========================================================
    HEADER
-========================= */
+========================================================= */
 .header{
     background:#0f766e;
     color:white;
-    padding:20px;
+    padding:22px;
     text-align:center;
     position:sticky;
     top:0;
-    z-index:99;
+    z-index:999;
+    box-shadow:0 4px 15px rgba(0,0,0,.08);
 }
 
 .header h1{
@@ -49,23 +51,23 @@ body{
     font-weight:800;
 }
 
-/* =========================
+/* =========================================================
    CONTAINER
-========================= */
+========================================================= */
 .container{
-    padding:18px;
+    padding:16px;
 }
 
-/* =========================
+/* =========================================================
    SURAH CARD
-========================= */
+========================================================= */
 .surah-card{
     background:white;
     border-radius:24px;
     padding:18px;
-    margin-bottom:16px;
-    box-shadow:0 4px 15px rgba(0,0,0,.05);
+    margin-bottom:14px;
     border:1px solid #eef2f7;
+    box-shadow:0 4px 12px rgba(0,0,0,.04);
     cursor:pointer;
     transition:.2s;
 }
@@ -86,81 +88,113 @@ body{
 }
 
 .surah-arab{
-    font-family:'Quran';
-    font-size:28px;
+    font-family:'QCF';
+    font-size:32px;
     direction:rtl;
 }
 
-/* =========================
-   AYAT
-========================= */
+/* =========================================================
+   AYAT CARD
+========================================================= */
 .ayah-box{
     background:white;
     border-radius:28px;
-    padding:22px;
+    padding:24px;
     margin-bottom:18px;
     border:1px solid #eef2f7;
     box-shadow:0 4px 15px rgba(0,0,0,.04);
 }
 
+/* =========================================================
+   FONT QURAN ORIGINAL
+========================================================= */
 .arabic{
-    font-family:'Quran';
-    font-size:40px;
-    line-height:2.2;
+
+    font-family:'QCF';
+
     direction:rtl;
+
     text-align:right;
+
+    unicode-bidi:plaintext;
+
+    font-size:42px;
+
+    line-height:2.25;
+
     letter-spacing:0;
+
     word-spacing:0;
+
     font-feature-settings:
         "liga" 1,
         "calt" 1,
         "kern" 1;
+
+    font-variant-ligatures:contextual;
+
+    text-rendering:optimizeLegibility;
+
+    -webkit-font-smoothing:antialiased;
+
+    color:#111827;
 }
 
+/* =========================================================
+   TERJEMAHAN
+========================================================= */
 .translation{
-    margin-top:18px;
-    font-size:16px;
+    margin-top:20px;
     color:#475569;
     line-height:1.8;
+    font-size:16px;
 }
 
+/* =========================================================
+   NOMOR AYAT
+========================================================= */
 .ayah-number{
     color:#0f766e;
     font-size:22px;
+    vertical-align:middle;
 }
 
-/* =========================
-   LOADING
-========================= */
-.loading{
-    text-align:center;
-    padding:40px;
-    font-weight:700;
-    color:#0f766e;
-}
-
-/* =========================
-   BACK BUTTON
-========================= */
+/* =========================================================
+   BUTTON
+========================================================= */
 .back-btn{
     background:#0f766e;
     color:white;
     border:none;
-    padding:12px 20px;
-    border-radius:100px;
+    padding:12px 22px;
+    border-radius:999px;
     font-weight:700;
     margin-bottom:20px;
     cursor:pointer;
 }
 
-/* =========================
+/* =========================================================
+   LOADING
+========================================================= */
+.loading{
+    text-align:center;
+    padding:50px;
+    color:#0f766e;
+    font-weight:700;
+}
+
+/* =========================================================
    RESPONSIVE
-========================= */
+========================================================= */
 @media(max-width:480px){
 
     .arabic{
-        font-size:34px;
-        line-height:2.1;
+        font-size:36px;
+        line-height:2.15;
+    }
+
+    .surah-arab{
+        font-size:28px;
     }
 
 }
@@ -176,26 +210,26 @@ body{
 <div class="container" id="app">
 
     <div class="loading">
-        Memuat Surah...
+        Memuat Quran...
     </div>
 
 </div>
 
 <script>
 
-/* =========================
-   API
-========================= */
+/* =========================================================
+   API QURAN.COM
+========================================================= */
 const API = "https://api.quran.com/api/v4";
 
-/* =========================
-   APP
-========================= */
+/* =========================================================
+   ELEMENT
+========================================================= */
 const app = document.getElementById("app");
 
-/* =========================
+/* =========================================================
    LOAD SURAH
-========================= */
+========================================================= */
 async function loadSurahList(){
 
     app.innerHTML = `
@@ -214,7 +248,7 @@ async function loadSurahList(){
 
         renderSurah(data.chapters);
 
-    }catch(err){
+    }catch(error){
 
         app.innerHTML = `
             <div class="loading">
@@ -224,9 +258,9 @@ async function loadSurahList(){
     }
 }
 
-/* =========================
+/* =========================================================
    RENDER SURAH
-========================= */
+========================================================= */
 function renderSurah(chapters){
 
     app.innerHTML = "";
@@ -236,7 +270,7 @@ function renderSurah(chapters){
         app.innerHTML += `
 
             <div class="surah-card"
-                 onclick="openSurah(${surah.id}, '${surah.name_simple}')">
+                 onclick="openSurah(${surah.id})">
 
                 <div class="surah-top">
 
@@ -256,13 +290,12 @@ function renderSurah(chapters){
 
         `;
     });
-
 }
 
-/* =========================
+/* =========================================================
    OPEN SURAH
-========================= */
-async function openSurah(id,name){
+========================================================= */
+async function openSurah(id){
 
     app.innerHTML = `
         <div class="loading">
@@ -323,12 +356,11 @@ async function openSurah(id,name){
                 </div>
 
             `;
-
         });
 
         app.innerHTML = html;
 
-    }catch(err){
+    }catch(error){
 
         app.innerHTML = `
             <div class="loading">
@@ -336,12 +368,11 @@ async function openSurah(id,name){
             </div>
         `;
     }
-
 }
 
-/* =========================
-   START APP
-========================= */
+/* =========================================================
+   START
+========================================================= */
 loadSurahList();
 
 </script>
