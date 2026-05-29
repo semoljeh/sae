@@ -951,7 +951,7 @@ function createAyatCardQuran(ayat, nomorSurah) {
                 </button>
             </div>
             
-            <div class="ayat-arabic">${ayat.teksArab.replace(/ࣖ/g, '<span style="font-family: \'Arial\', sans-serif; font-size: 0.75em; color: #007A78; margin-right: 8px;"> ؏ </span>')}</div>
+            <div class="ayat-arabic">${ayat.teksArab.replace(/ࣖ/g, '<span style="font-family: \'Arial\', sans-serif; font-size: 0.55em; color: #007A78; position: relative; bottom: 0.6em; margin-right: 5px;"> ؏ </span>')}</div>
             <div class="translation-read-text text-slate-500 italic leading-relaxed text-justify ${hiddenClass}">${ayat.teksIndonesia}</div>
         </div>
     `;
