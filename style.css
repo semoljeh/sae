@@ -44,7 +44,15 @@ body{ display:flex; justify-content:center; align-items:center; }
 .menu-item{ background:white; border-radius:16px; padding:16px 4px; display:flex; flex-direction:column; align-items:center; justify-content:center; border:1px solid #f1f5f9; cursor:pointer; transition:.2s ease; }
 .menu-item:active{ transform:scale(.96); }
 .icon-wrapper{ display:flex; justify-content:center; align-items:center; margin-bottom:8px; }
-.menu-label{ font-weight:700; color:#334155; text-align:center; }
+.menu-label { 
+    /* MENGECILKAN UKURAN TEKS MENU UTAMA */
+    font-size: 8px !important; /* Ubah angka 8px ini menjadi lebih kecil/besar sesuai selera */
+    
+    font-weight: 800 !important; 
+    letter-spacing: 0.3px; 
+    color: #475569; 
+    text-align: center;
+}
 .bg-blue{ background:#e0f2fe; color:#0284c7; } .bg-emerald{ background:#d1fae5; color:#059669; } .bg-purple{ background:#f3e8ff; color:#7c3aed; }
 .bg-lime{ background:#f0fdf4; color:#16a34a; } .bg-pink{ background:#ffe4e6; color:#e11d48; } .bg-orange{ background:#ffedd5; color:#ea580c; }
 
@@ -66,7 +74,14 @@ body{ display:flex; justify-content:center; align-items:center; }
 .nav-item:active { transform: scale(0.85); }
 .nav-item span:first-child { transition: transform 0.3s ease; }
 .nav-item.active span:first-child { transform: scale(1.15); }
-.nav-label { font-weight:700; }
+.nav-label { 
+    /* MENGECILKAN UKURAN TEKS MENU BAWAH */
+    font-size: 8px !important; /* Ubah angka 8px menjadi 7px jika ingin lebih kecil lagi */
+    
+    margin-top: 3px !important; /* Jarak antara ikon dan teks */
+    font-weight: 800 !important; 
+    letter-spacing: 0.3px; 
+}
 
 /* POPUPS & ALERTS */
 .popup-backdrop, .location-backdrop, .custom-alert-backdrop { position: fixed; inset: 0; background: rgba(0,0,0,.5); opacity: 0; pointer-events: none; transition: .3s; z-index: 1000; }
@@ -165,7 +180,16 @@ body.modal-open{ overflow:hidden; }
 .calendar-date { aspect-ratio: 1/1.2; display: flex; flex-direction: column; align-items: center; justify-content: center; background: #ffffff; border-right: 0.5px solid #f1f5f9; border-bottom: 0.5px solid #f1f5f9; position: relative; transition: background 0.2s; }
 .calendar-date:nth-child(7n) { border-right: none; }
 .date-masehi { font-weight: 700; color: #334155; }
-.date-pasaran { color: #94a3b8; text-transform: uppercase; margin-top: 1px; }
+.date-pasaran { 
+    color: #94a3b8; 
+    text-transform: uppercase; 
+    margin-top: 1px; 
+    
+    /* KODE UNTUK MENGECILKAN UKURAN WETON */
+    font-size: 7px !important; /* Ubah angka 7px ini menjadi 6px jika dirasa masih kurang kecil */
+    font-weight: 800;
+    letter-spacing: 0.5px; /* Memberi sedikit jarak antar huruf agar tidak dempet */
+}
 .date-today { background: #f0fdfa !important; } .date-today::after { content: ''; position: absolute; top: 5px; right: 5px; width: 6px; height: 6px; background: #007A78; border-radius: 50%; }
 .is-real-holiday { background: #fff1f2 !important; } .is-real-holiday .date-masehi { color: #e11d48 !important; font-weight: 800; }
 .is-cuti-bersama { background: #fffbeb !important; } .is-cuti-bersama .date-masehi { color: #d97706 !important; font-weight: 800; }
@@ -289,12 +313,41 @@ h1.font-kufi { font-size: clamp(24px, 9vw, 40px) !important; }
     font-weight: normal !important; transition: font-size 0.3s ease; color: #007A78; margin-left: 8px; display: inline-block; vertical-align: middle; 
 }
 
-/* 5. Kotak Angka (List Surah / List Doa) */
+/* ==========================================================================
+   PERBAIKAN BACKGROUND KOTAK NOMOR URUT ARAB (PRESISI 100%)
+   ========================================================================== */
 .arab-box-number { 
-    font-family: 'Amiri', serif !important; 
-    font-weight: normal !important; width: clamp(28px, 8vw, 38px); height: clamp(28px, 8vw, 38px); font-size: calc(clamp(10px, 4vw, 14px) * var(--font-scale)) !important; border-radius: clamp(8px, 3vw, 12px); transition: font-size 0.3s ease; 
+    background-color: #f0fdfa !important; /* Warna latar hijau muda (sama dengan kiri) */
+    color: #0f766e !important; /* Warna angka hijau tua */
+    border: none !important; /* Menghilangkan garis tepi agar persis seperti kotak kiri */
+    
+    display: flex !important;
+    align-items: center !important;
+    justify-content: center !important;
+    
+    /* Mengunci ukuran secara mutlak agar tidak lonjong/melar */
+    border-radius: 12px !important; 
+    width: 36px !important; 
+    min-width: 36px !important;
+    max-width: 36px !important;
+    height: 36px !important; 
+    min-height: 36px !important;
+    max-height: 36px !important;
+    
+    padding: 0 !important;
+    margin: 0 !important;
+    margin-left: 12px !important; /* Memberi jarak nafas dengan teks Arab di sebelahnya */
+    flex-shrink: 0 !important;
+    
+    font-family: 'Amiri', serif !important;
+    font-size: calc(clamp(14px, 4vw, 18px) * var(--font-scale)) !important; 
 }
-.arab-side-wrapper span.font-arab { font-size: calc(clamp(14px, 4.5vw, 20px) * var(--font-scale)) !important; line-height: 1.5 !important; }
+.arab-side-wrapper span.font-arab { 
+    /* Angka diperkecil menjadi 10px dan 14px */
+    font-size: calc(clamp(11px, 3vw, 15px) * var(--font-scale)) !important; 
+    line-height: 1.5 !important; 
+    font-weight: normal !important;
+}
 
 .latin-read-text { font-size: calc(clamp(13px, 4vw, 17px) * var(--font-scale)) !important; transition: font-size 0.3s ease; }
 .translation-read-text { font-size: calc(clamp(12px, 3.8vw, 16px) * var(--font-scale)) !important; transition: font-size 0.3s ease; }
@@ -305,3 +358,22 @@ h1.font-kufi { font-size: clamp(24px, 9vw, 40px) !important; }
 }
 #global-zoom-btn.show { opacity: 1; transform: scale(1); }
 #global-zoom-btn:active { cursor: grabbing; background: #005f5d; }
+
+/* ==========================================================================
+   PERBAIKAN BACKGROUND KOTAK NOMOR URUT ARAB
+   ========================================================================== */
+.arab-box-number { 
+    background-color: #f0fdfa !important; /* Warna latar hijau muda (sama dengan kiri) */
+    color: #0f766e !important; /* Warna angka hijau tua */
+    border: 1px solid #ccfbf1 !important; /* Garis bingkai tipis */
+    display: flex !important;
+    align-items: center !important;
+    justify-content: center !important;
+    border-radius: 12px !important; /* Sudut melengkung (rounded-xl) */
+    width: 36px !important; /* Lebar kotak presisi */
+    height: 36px !important; /* Tinggi kotak presisi */
+    flex-shrink: 0 !important;
+    font-family: 'Amiri', serif !important;
+    font-size: calc(clamp(12px, 4vw, 16px) * var(--font-scale)) !important; 
+    margin-left: 4px !important;
+}

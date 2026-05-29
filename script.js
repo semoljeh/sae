@@ -77,7 +77,7 @@ function checkZoomBtnVisibility() {
 }
 
 /* ==========================================================================
-   GLOBAL HISTORY ROUTING (SINKRONISASI TOMBOL BACK ANDROID)
+   GLOBAL HISTORY ROUTING (ANTI-BLOAT & NATIVE EXIT)
    ========================================================================== */
 let isPopping = false;
 let currentSchedule = null;
@@ -98,63 +98,40 @@ function resetNavToBeranda() {
     else if (navItems.length > 0) navItems[0].classList.add('active');
 }
 
-// MESIN ROUTING BACK BUTTON
 window.addEventListener('popstate', function(event) {
     isPopping = true;
+    const openModals = document.querySelectorAll('.modal-show, .popup-backdrop.show, .location-backdrop.show, .custom-alert-backdrop.show');
+    const isAnyModalOpen = openModals.length > 0;
 
-    // 1. LAPISAN PALING ATAS: Custom Alert
-    const alertBackdrop = document.getElementById('custom-alert-backdrop');
-    if (alertBackdrop && alertBackdrop.classList.contains('show')) {
-        alertBackdrop.classList.remove('show');
-        isPopping = false; return;
-    }
-
-    // 2. LAPISAN KEDUA: Tafsir Modal
-    const tafsirModal = document.getElementById('tafsir-modal');
-    if (tafsirModal && tafsirModal.style.display !== 'none') {
-        closeTafsir();
-        isPopping = false; return;
-    }
-
-    // 3. LAPISAN KETIGA: Profile Popup
-    const popProfile = document.getElementById('popup-box');
-    if (popProfile && popProfile.classList.contains('show')) {
-        popProfile.classList.remove('show');
-        document.getElementById('popup-backdrop').classList.remove('show');
-        isPopping = false; return;
-    }
-
-    // 4. LAPISAN KEEMPAT: Location Sheet
-    const locModal = document.getElementById('location-sheet');
-    if (locModal && locModal.classList.contains('show')) {
-        locModal.classList.remove('show');
-        document.getElementById('location-backdrop').classList.remove('show');
-        isPopping = false; return;
-    }
-
-    // 5. LAPISAN UTAMA: Modals (Quran, Doa, Sholat, App Menu, Kalender)
-    const openModals = document.querySelectorAll('.modal-show');
-    if (openModals.length > 0) {
-        if (document.getElementById('quran-modal').classList.contains('modal-show')) { goBackQuran(); }
-        else if (document.getElementById('doa-modal').classList.contains('modal-show')) { goBackDoa(); }
-        else if (document.getElementById('panduan-sholat-modal').classList.contains('modal-show')) { goBackPanduanSholat(); }
-        else if (document.getElementById('calendar-modal').classList.contains('modal-show')) { toggleCalendar(); }
-        else if (document.getElementById('sholat-modal').classList.contains('modal-show')) { goBackSholat(); }
-        else if (document.getElementById('app-modal').classList.contains('modal-show')) { goBackAppMenu(); }
-        isPopping = false; 
+    if (!isAnyModalOpen) {
+        if (!exitTimer) {
+            showToast("Tekan sekali lagi untuk keluar", "info");
+            history.pushState({ page: 'exit_trap' }, '', '#exit');
+            exitTimer = setTimeout(() => { exitTimer = null; }, 2000);
+        } else {
+            if (typeof Android !== 'undefined' && Android.exitApp) { Android.exitApp(); } 
+            else { history.go(-100); }
+        }
+        isPopping = false;
         checkZoomBtnVisibility();
-        return;
+        return; 
     }
 
-    // 6. LAPISAN DASAR: Keluar dari Aplikasi
-    if (!exitTimer) {
-        showToast("Tekan sekali lagi untuk keluar", "info");
-        history.pushState({ page: 'exit_trap' }, '', '#exit');
-        exitTimer = setTimeout(() => { exitTimer = null; }, 2000);
-    } else {
-        if (typeof Android !== 'undefined' && Android.exitApp) { Android.exitApp(); } 
-        else { history.go(-100); }
-    }
+    if (exitTimer) { clearTimeout(exitTimer); exitTimer = null; }
+
+    const popProfile = document.getElementById('popup-box'); const popBackdrop = document.getElementById('popup-backdrop');
+    if (popProfile && popProfile.classList.contains('show')) { popProfile.classList.remove('show'); if(popBackdrop) popBackdrop.classList.remove('show'); isPopping = false; return; }
+    
+    const locModal = document.getElementById('location-sheet'); const locBackdrop = document.getElementById('location-backdrop');
+    if (locModal && locModal.classList.contains('show')) { locModal.classList.remove('show'); if(locBackdrop) locBackdrop.classList.remove('show'); isPopping = false; return; }
+
+    if (document.getElementById('quran-modal') && document.getElementById('quran-modal').classList.contains('modal-show')) { goBackQuran(); } 
+    else if (document.getElementById('doa-modal') && document.getElementById('doa-modal').classList.contains('modal-show')) { goBackDoa(); } 
+    else if (document.getElementById('panduan-sholat-modal') && document.getElementById('panduan-sholat-modal').classList.contains('modal-show')) { goBackPanduanSholat(); } 
+    else if (document.getElementById('calendar-modal') && document.getElementById('calendar-modal').classList.contains('modal-show')) { toggleCalendar(); }
+    else if (document.getElementById('sholat-modal') && document.getElementById('sholat-modal').classList.contains('modal-show')) { goBackSholat(); }
+    else if (document.getElementById('app-modal') && document.getElementById('app-modal').classList.contains('modal-show')) { goBackAppMenu(); }
+    
     isPopping = false;
     checkZoomBtnVisibility();
 });
@@ -267,14 +244,11 @@ document.addEventListener("DOMContentLoaded", async function () {
 
     const alertBackdrop = document.getElementById('custom-alert-backdrop');
     window.tampilNotif = function(judul, pesan, icon = "check_circle", color = "#007A78") {
-        if (!isPopping && !alertBackdrop.classList.contains('show')) history.pushState({ modal: 'alert' }, '', '#alert');
         document.getElementById('custom-alert-title').innerText = judul; document.getElementById('custom-alert-message').innerText = pesan;
         document.getElementById('custom-alert-icon').innerText = icon; document.querySelector('.alert-icon-circle').style.color = color;
         alertBackdrop.classList.add('show');
     };
-    document.getElementById('alert-confirm-btn').onclick = () => {
-        if (!isPopping) history.back(); else alertBackdrop.classList.remove('show');
-    };
+    document.getElementById('alert-confirm-btn').onclick = () => alertBackdrop.classList.remove('show');
 
     const btnLoc = document.getElementById('location-button'); const locText = document.getElementById('location-text');
     const locModal = document.getElementById('location-sheet'); const locBack = document.getElementById('location-backdrop');
@@ -285,8 +259,7 @@ document.addEventListener("DOMContentLoaded", async function () {
     if(localStorage.getItem('al_mukhtar_loc_short')) { locText.innerText = localStorage.getItem('al_mukhtar_loc_short'); }
 
     function toggleLocModal(show) { if (show && !isPopping) history.pushState({ modal: 'location' }, '', '#lokasi'); locModal.classList.toggle('show', show); locBack.classList.toggle('show', show); }
-    btnLoc.onclick = (e) => { e.stopPropagation(); toggleLocModal(true); }; 
-    locBack.onclick = () => { if(!isPopping) history.back(); else toggleLocModal(false); };
+    btnLoc.onclick = (e) => { e.stopPropagation(); toggleLocModal(true); }; locBack.onclick = () => { if(!isPopping) history.back(); else toggleLocModal(false); };
 
     document.getElementById('gps-detect-btn').onclick = () => {
         if(!navigator.geolocation) return tampilNotif("Error", "GPS tidak didukung", "error", "#dc2626");
@@ -327,8 +300,7 @@ document.addEventListener("DOMContentLoaded", async function () {
     const popProfile = document.getElementById('popup-box'); const popBackdrop = document.getElementById('popup-backdrop');
     function toggleProfile(show) { if (show && !isPopping) history.pushState({ modal: 'profile' }, '', '#profil'); popProfile.classList.toggle('show', show); popBackdrop.classList.toggle('show', show); }
     document.getElementById('info-button').onclick = (e) => { e.stopPropagation(); toggleProfile(!popProfile.classList.contains('show')); };
-    document.getElementById('close-profile-btn').onclick = () => { if(!isPopping) history.back(); else toggleProfile(false); }; 
-    popBackdrop.onclick = () => { if(!isPopping) history.back(); else toggleProfile(false); };
+    document.getElementById('close-profile-btn').onclick = () => { if(!isPopping) history.back(); else toggleProfile(false); }; popBackdrop.onclick = () => { if(!isPopping) history.back(); else toggleProfile(false); };
 
     document.getElementById('refresh-button').onclick = async () => { 
         const icon = document.getElementById('refresh-icon');
@@ -664,7 +636,7 @@ window.toggleCalendar = function() {
 
 
 /* ==========================================================================
-   AL-QURAN PRO (EQURAN.ID V2 API)
+   AL-QURAN PRO (EQURAN.ID V2 API) & NAMA JUZ BAHASA ARAB
    ========================================================================== */
 const quranBaseUrl = 'https://equran.id/api/v2';
 let currentQuranTab = 'surah';
@@ -674,7 +646,7 @@ let currentAudio = null;
 let isTranslationVisible = true;
 window.ayatData = {}; 
 let quranBookmarks = JSON.parse(localStorage.getItem('quranBookmarks')) || [];
-window.currentlyPlayingAyatKey = null; 
+window.currentlyPlayingAyatKey = null;
 
 const quranJuzMapping = [
     { juz: 1, start: { s: 1, a: 1 }, end: { s: 2, a: 141 } },
@@ -707,6 +679,16 @@ const quranJuzMapping = [
     { juz: 28, start: { s: 58, a: 1 }, end: { s: 66, a: 12 } },
     { juz: 29, start: { s: 67, a: 1 }, end: { s: 77, a: 50 } },
     { juz: 30, start: { s: 78, a: 1 }, end: { s: 114, a: 6 } }
+];
+
+/* KAMUS NAMA JUZ DALAM BAHASA ARAB YANG BENAR */
+const namaJuzArab = [
+    "الجزء الأول", "الجزء الثاني", "الجزء الثالث", "الجزء الرابع", "الجزء الخامس",
+    "الجزء السادس", "الجزء السابع", "الجزء الثامن", "الجزء التاسع", "الجزء العاشر",
+    "الجزء الحادي عشر", "الجزء الثاني عشر", "الجزء الثالث عشر", "الجزء الرابع عشر", "الجزء الخامس عشر",
+    "الجزء السادس عشر", "الجزء السابع عشر", "الجزء الثامن عشر", "الجزء التاسع عشر", "الجزء العشرون",
+    "الجزء الحادي والعشرون", "الجزء الثاني والعشرون", "الجزء الثالث والعشرون", "الجزء الرابع والعشرون", "الجزء الخامس والعشرون",
+    "الجزء السادس والعشرون", "الجزء السابع والعشرون", "الجزء الثامن والعشرون", "الجزء التاسع والعشرون", "الجزء الثلاثون"
 ];
 
 window.handleQuranScroll = function(el) { 
@@ -799,6 +781,7 @@ async function loadSurahList() {
     checkZoomBtnVisibility(); 
 }
 
+/* FUNGSI YANG DIUBAH: MENAMPILKAN NAMA JUZ ARAB */
 async function loadJuzList() { 
     const c = document.getElementById('quran-content'); 
     document.getElementById('surah-title-arab').innerText = ""; 
@@ -807,7 +790,7 @@ async function loadJuzList() {
     
     let html = ''; 
     for (let i = 1; i <= 30; i++) { 
-        html += `<div onclick="loadDetailQuran(${i}, 'juz')" class="quran-item"><div class="flex items-center gap-3 overflow-hidden flex-1 min-w-0"><span class="w-9 h-9 bg-teal-50 text-teal-700 rounded-xl flex items-center justify-center text-xs font-bold shrink-0">${i}</span><div class="truncate"><h4 class="font-bold text-[13px] text-slate-700 uppercase truncate">Juz ${i}</h4></div></div><div class="arab-side-wrapper"><div class="arab-box-number font-arab">${toArDigits(i)}</div><span class="font-arab text-lg text-teal-600" dir="rtl">الجزء ${toArDigits(i)}</span></div></div>`; 
+        html += `<div onclick="loadDetailQuran(${i}, 'juz')" class="quran-item"><div class="flex items-center gap-3 overflow-hidden flex-1 min-w-0"><span class="w-9 h-9 bg-teal-50 text-teal-700 rounded-xl flex items-center justify-center text-xs font-bold shrink-0">${i}</span><div class="truncate"><h4 class="font-bold text-[13px] text-slate-700 uppercase truncate">Juz ${i}</h4></div></div><div class="arab-side-wrapper"><div class="arab-box-number font-arab">${toArDigits(i)}</div><span class="font-arab text-[15px] text-teal-600" dir="rtl">${namaJuzArab[i-1]}</span></div></div>`; 
     } 
     c.innerHTML = html; 
     checkZoomBtnVisibility(); 
@@ -877,8 +860,9 @@ async function renderSurah(nomorSurah, container) {
     container.innerHTML = html;
 }
 
+/* FUNGSI YANG DIUBAH: MENAMPILKAN NAMA JUZ ARAB DI HEADER */
 async function renderJuz(nomorJuz, container) {
-    document.getElementById('surah-title-arab').innerText = `الجزء ${toArDigits(nomorJuz)}`; 
+    document.getElementById('surah-title-arab').innerText = namaJuzArab[nomorJuz - 1]; 
     document.getElementById('surah-title-latin').innerText = `Juz ${nomorJuz}`; 
     document.getElementById('surah-subtitle').innerText = ""; 
     document.getElementById('surah-meta-info').classList.add('hidden'); 
@@ -1079,7 +1063,6 @@ window.bookmarkAyatQuran = function(nomorSurah, nomorAyat) {
 }
 
 window.showTafsirQuran = async function(nomorSurah, nomorAyat) {
-    if (!isPopping) history.pushState({ modal: 'tafsir' }, '', '#tafsir');
     const modal = document.getElementById('tafsir-modal');
     document.getElementById('tafsir-title').innerText = `Tafsir QS. ${nomorSurah}:${nomorAyat}`;
     const bodyText = document.getElementById('tafsir-body');
@@ -1105,7 +1088,6 @@ window.showTafsirQuran = async function(nomorSurah, nomorAyat) {
 }
 
 window.closeTafsir = function() {
-    if (!isPopping) { history.back(); return; }
     const modal = document.getElementById('tafsir-modal');
     modal.style.opacity = '0';
     modal.querySelector('.modal-content').style.transform = 'translateY(20px)';
@@ -1113,9 +1095,7 @@ window.closeTafsir = function() {
 }
 
 document.getElementById('tafsir-modal').addEventListener('click', function(e) {
-    if (e.target === this) {
-        if (!isPopping) history.back(); else closeTafsir();
-    }
+    if (e.target === this) closeTafsir();
 });
 
 /* ==========================================================================
