@@ -1,16 +1,14 @@
 /* ==========================================================================
    RESET & GLOBAL (TERMASUK FONT ARAB)
    ========================================================================== */
-
-/* 1. FONT KEMENAG (WAJIB UNTUK AL-QURAN) */
 /* 1. FONT KEMENAG (ALTERNATIF CDN GITHUB - LEBIH STABIL) */
 @font-face {
     font-family: 'LPMQ Isep Misbah';
     src: url('https://cdn.jsdelivr.net/gh/sutanlab/quran-api@master/public/fonts/LPMQ.woff') format('woff'),
-         url('https://cdn.jsdelivr.net/gh/sutanlab/quran-api@master/public/fonts/LPMQ.ttf') format('truetype');
+         url('https://cdn.jsdelivr.net/gh/sutanlab/quran-api@master/public/fonts/lpmq.woff') format('woff');
     font-weight: normal;
     font-style: normal;
-    font-display: swap;
+    font-display: block; /* Memaksa HP untuk memuat font ini, bukan langsung menggantinya */
 }
 
 /* 2. FONT AMIRI (UNTUK DOA) */
@@ -187,10 +185,11 @@ body.modal-open{ overflow:hidden; }
 
 /* FONT QURAN KHUSUS (MENGGUNAKAN LPMQ KEMENAG) */
 .ayat-arabic {
-    font-family: 'LPMQ Isep Misbah', 'Amiri', 'Scheherazade New', serif !important;
+    /* Font Amiri dihapus dari sini agar HP tidak tergiur menggunakannya */
+    font-family: 'LPMQ Isep Misbah', 'Scheherazade New', serif !important;
+    
     font-weight: normal !important; 
     font-style: normal !important;
-    
     font-feature-settings: "liga" 1, "dlig" 1, "kern" 1 !important;
     text-rendering: optimizeLegibility !important;
     word-spacing: normal !important;
@@ -204,7 +203,6 @@ body.modal-open{ overflow:hidden; }
     line-height: 2.7 !important; 
     font-size: calc(clamp(26px, 7vw, 34px) * var(--font-scale)) !important;
     transition: font-size 0.3s ease;
-}
 
 /* KARTU AYAT & ACTION BAR */
 .ayat-card { padding: 25px 0; border-bottom: 1px solid #f1f5f9; }
@@ -275,13 +273,11 @@ html, body { background-color: #ffffff !important; background-image: none !impor
 :root { --font-scale: 1; }
 
 .font-arab { 
-    /* Wajib LPMQ Isep Misbah di urutan pertama */
-    font-family: 'LPMQ Isep Misbah', 'Amiri', 'Scheherazade New', serif !important; 
+    /* Font Amiri dihapus dari sini agar HP tidak tergiur menggunakannya */
+    font-family: 'LPMQ Isep Misbah', 'Scheherazade New', serif !important; 
     
     font-weight: normal !important; 
     font-style: normal !important;
-    
-    /* Gunakan setelan ini agar font Kemenag merender titik dan harakat dengan pas */
     font-feature-settings: "liga" 1, "dlig" 1, "kern" 1 !important;
     text-rendering: optimizeLegibility !important;
     word-spacing: normal !important;
