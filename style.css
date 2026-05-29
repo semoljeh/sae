@@ -180,16 +180,19 @@ body.modal-open{ overflow:hidden; }
 
 /* FONT QURAN KHUSUS (MENGGUNAKAN LPMQ KEMENAG) */
 .ayat-arabic {
-    font-family: 'LPMQ Isep Misbah', 'Scheherazade New', serif !important;
+    font-family: 'LPMQ Isep Misbah', 'Scheherazade New', 'Amiri', serif !important;
     text-align: right;
     direction: rtl;
     color: #1e293b;
     margin-bottom: 20px;
-    line-height: 2.6 !important; 
-    font-feature-settings: "liga" 1, "dlig" 1, "kern" 1;
-    text-rendering: optimizeLegibility;
+    
+    /* PERBAIKAN HARAKAT TUMPANG TINDIH DI HP: */
+    line-height: 2.8 !important; /* Diperlebar sedikit agar harakat tidak berdempetan */
+    font-feature-settings: normal !important; /* Mematikan ligatur yang membuat harakat HP error */
+    text-rendering: auto !important; /* Mengubah dari optimizeLegibility menjadi auto */
+    word-spacing: normal !important; /* Menghapus spasi buatan yang mengganggu sambungan huruf */
+    
     -webkit-font-smoothing: antialiased;
-    word-spacing: 2px;
     font-size: calc(clamp(26px, 7vw, 34px) * var(--font-scale)) !important;
     transition: font-size 0.3s ease;
 }
