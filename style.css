@@ -1,22 +1,25 @@
 /* ==========================================================================
-   1. FONT DEFINITIONS (DIKUNCI KE AMIRI LOKAL WOFF2)
+   RESET & GLOBAL (TERMASUK FONT ARAB)
    ========================================================================== */
 @font-face {
     font-family: 'Amiri';
     src: url('./font/Amiri-Regular.woff2') format('woff2');
-    font-weight: normal;
+    font-weight: 400;
     font-style: normal;
-    font-display: block; /* Mencegah teks berkedip saat dimuat */
+    font-display: block; /* Mencegah font berkedip saat pertama kali dimuat */
+}
+
+@font-face {
+    font-family: 'LPMQ Isep Misbah';
+    src: url('./font/lpmq.woff2') format('woff2'); /* Cadangan */
+    font-display: swap;
 }
 
 .font-kufi { font-family: 'Reem Kufi', sans-serif; }
 
-/* ==========================================================================
-   2. RESET & GLOBAL
-   ========================================================================== */
 *{ margin:0; padding:0; box-sizing:border-box; font-family:-apple-system,BlinkMacSystemFont,"Segoe UI",Roboto,sans-serif; -webkit-tap-highlight-color:transparent; -webkit-user-select:none; user-select:none; }
-html, body{ width:100%; min-height:100%; overflow-x:hidden; scroll-behavior:smooth; background-color: #ffffff !important; }
-body{ display:flex; justify-content:center; align-items:center; }
+html, body{ width:100%; min-height:100%; overflow-x:hidden; scroll-behavior:smooth; }
+body{ background:#e2e8f0; display:flex; justify-content:center; align-items:center; }
 
 /* APP CONTAINER */
 .app-container{ width:100%; max-width:412px; height:100dvh; background:#f8fafc; position:relative; display:flex; flex-direction:column; overflow:hidden; box-shadow:0 12px 40px rgba(0,0,0,.12); }
@@ -26,6 +29,7 @@ body{ display:flex; justify-content:center; align-items:center; }
 /* HEADER UTAMA */
 .main-header{ background:#007A78; padding:50px 30px 85px; position:relative; }
 .header-top{ display:flex; justify-content:space-between; align-items:center; gap:8px; }
+
 .icon-btn{ width:32px; height:32px; font-size:13px; border:none; border-radius:10px; background:rgba(255,255,255,.15); color:white; display:flex; align-items:center; justify-content:center; cursor:pointer; flex-shrink:0; transition:.2s ease; }
 .icon-btn:active{ transform:scale(.95); }
 .location-badge{ max-width:65%; display:flex; align-items:center; justify-content:center; gap:4px; padding:6px 12px; border-radius:14px; background:rgba(255,255,255,.2); color:white; font-weight:600; cursor:pointer; transition:.2s ease; margin: 0 auto; width: max-content; }
@@ -84,19 +88,40 @@ body{ display:flex; justify-content:center; align-items:center; }
 body.modal-open{ overflow:hidden; }
 
 /* ==========================================================================
-   ALARM SYSTEM & TOAST NOTIFICATION
+   ALARM SYSTEM CSS (RESPONSIVE & INSTAN)
    ========================================================================== */
 #sholat-content button { color: #94a3b8 !important; transition: all 0.05s ease !important; }
 #sholat-content button.alarm-active { color: #0d9488 !important; transform: scale(1.15); filter: drop-shadow(0 0 4px rgba(13,148,136,0.3)); }
 
+/* ==========================================================================
+   MODERN TOAST NOTIFICATION
+   ========================================================================== */
 #app-toast { 
-    position: fixed; bottom: clamp(90px, 15vh, 110px); left: 50%; transform: translate(-50%, 20px) scale(0.9); opacity: 0; visibility: hidden;
-    background: rgba(15, 23, 42, 0.85); backdrop-filter: blur(12px); -webkit-backdrop-filter: blur(12px);
-    border: 1px solid rgba(255, 255, 255, 0.15); border-radius: 100px;
-    box-shadow: 0 10px 30px rgba(0, 0, 0, 0.15), 0 4px 12px rgba(0, 0, 0, 0.1); color: #ffffff; 
-    font-size: clamp(10px, 3vw, 13px); font-weight: 700; letter-spacing: 0.5px; 
-    padding: clamp(10px, 2.5vw, 12px) clamp(20px, 5vw, 24px); display: flex; align-items: center; justify-content: center;
-    gap: 10px; white-space: nowrap; z-index: 10000; pointer-events: none; transition: all 0.5s cubic-bezier(0.34, 1.56, 0.64, 1); 
+    position: fixed; 
+    bottom: clamp(90px, 15vh, 110px);
+    left: 50%; 
+    transform: translate(-50%, 20px) scale(0.9); 
+    opacity: 0;
+    visibility: hidden;
+    background: rgba(15, 23, 42, 0.85);
+    backdrop-filter: blur(12px); 
+    -webkit-backdrop-filter: blur(12px);
+    border: 1px solid rgba(255, 255, 255, 0.15);
+    border-radius: 100px;
+    box-shadow: 0 10px 30px rgba(0, 0, 0, 0.15), 0 4px 12px rgba(0, 0, 0, 0.1); 
+    color: #ffffff; 
+    font-size: clamp(10px, 3vw, 13px);
+    font-weight: 700; 
+    letter-spacing: 0.5px; 
+    padding: clamp(10px, 2.5vw, 12px) clamp(20px, 5vw, 24px);
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    gap: 10px; 
+    white-space: nowrap;
+    z-index: 10000; 
+    pointer-events: none; 
+    transition: all 0.5s cubic-bezier(0.34, 1.56, 0.64, 1); 
 }
 #app-toast.show { opacity: 1; visibility: visible; transform: translate(-50%, 0) scale(1); }
 #app-toast i { font-size: clamp(12px, 3.5vw, 15px); }
@@ -109,19 +134,19 @@ body.modal-open{ overflow:hidden; }
 .modal-full { position: absolute; top: 0; left: 0; width: 100%; height: 100%; z-index: 3000; display: flex; flex-direction: column; transform: translateY(100%); transition: transform 0.35s cubic-bezier(0.4, 0, 0.2, 1); font-family: 'Inter', sans-serif; }
 .modal-full.modal-show { transform: translateY(0); }
 
+/* --- HEADER PREMIUM & GLASSBOX --- */
 .doa-header-premium, .panduan-sholat-header-premium, .quran-header-premium { background: linear-gradient(135deg, #007A78 0%, #0f766e 100%); padding: calc(20px + env(safe-area-inset-top)) 20px 25px 20px; border-bottom-left-radius: 40px; border-bottom-right-radius: 40px; box-shadow: 0 10px 25px -5px rgba(13, 148, 136, 0.3); z-index: 50; position: sticky; top: 0; transition: all 0.4s cubic-bezier(0.4, 0, 0.2, 1); }
 .doa-header-slim, .panduan-sholat-header-slim, .header-slim { padding: calc(15px + env(safe-area-inset-top)) 20px 8px 20px; border-bottom-left-radius: 20px; border-bottom-right-radius: 20px; }
 .doa-glassbox, .panduan-sholat-glassbox, .quran-glassbox { background: rgba(255, 255, 255, 0.15); backdrop-filter: blur(10px); -webkit-backdrop-filter: blur(10px); border: 1px solid rgba(255, 255, 255, 0.2); border-radius: 25px; padding: 15px; text-align: center; transition: all 0.3s ease; display: flex; justify-content: center; align-items: center; }
 .doa-header-slim .doa-glassbox, .panduan-sholat-header-slim .panduan-sholat-glassbox { padding: 8px 15px; border-radius: 15px; }
 
+/* ITEM CARD LIST UMUM (DOA, SHOLAT, MENU) */
 .doa-item-card, .panduan-sholat-item-card { background: white; display: flex; align-items: center; cursor: pointer; transition: all 0.2s; box-shadow: 0 2px 4px rgba(0,0,0,0.02); border: 1px solid #f1f5f9; }
 .doa-item-card:active, .panduan-sholat-item-card:active { transform: scale(0.97); background: #fafafa; }
 .doa-number, .panduan-sholat-number { background: #f0fdfa; color: #007A78; display: flex; align-items: center; justify-content: center; font-weight: 800; border: 1px solid #ccfbf1; flex-shrink: 0; }
 .doa-title-text, .panduan-sholat-title-text { flex: 1; font-weight: 700; color: #334155; text-transform: uppercase; white-space: nowrap; overflow: hidden; text-overflow: ellipsis; }
 
-/* ==========================================================================
-   KALENDER PREMIUM
-   ========================================================================== */
+/* --- KALENDER PREMIUM CSS --- */
 .calendar-header-premium { background: #007A78; padding: 25px 20px 35px 20px; color: white; border-bottom-left-radius: 30px; border-bottom-right-radius: 30px; z-index: 20; position: relative; }
 #calendar-month-name { font-weight: 800; text-transform: uppercase; letter-spacing: 2px; }
 .header-detail-info { background: rgba(255, 255, 255, 0.1); backdrop-filter: blur(10px); padding: 15px; border-radius: 20px; text-align: center; border: 1px solid rgba(255, 255, 255, 0.2); margin-top: 15px; }
@@ -139,127 +164,43 @@ body.modal-open{ overflow:hidden; }
 .holiday-card { display: flex; align-items: center; gap: 15px; background: #ffffff; padding: 14px; border-radius: 16px; border-left: 4px solid #e11d48; box-shadow: 0 2px 5px rgba(0,0,0,0.02); }
 .cuti-card { display: flex; align-items: center; gap: 15px; background: #ffffff; padding: 14px; border-radius: 16px; border-left: 4px solid #d97706; box-shadow: 0 2px 5px rgba(0,0,0,0.02); }
 
-/* KUNCI FONT ARAB UNTUK KALENDER HIJRIYAH */
-.date-hijri { 
-    color: #007A78; 
-    font-family: 'Amiri', serif !important; 
-    font-size: 13px; 
-    font-weight: normal; 
-    margin-top: 1px; 
-    line-height: 1; 
-}
-
 /* ==========================================================================
-   AL-QURAN PRO UI & ORNAMEN EMAS
-   ========================================================================== */
-.quran-glassbox { flex-direction: column; max-height: 500px; opacity: 1; overflow: hidden; }
-.header-slim .quran-glassbox { max-height: 0; margin-top: 0; padding-top: 0; padding-bottom: 0; opacity: 0; border: none; pointer-events: none; }
-.quran-tab-container { display: flex; background: rgba(0,0,0,0.1); border-radius: 12px; padding: 4px; margin-top: 10px; width:100%; }
-.quran-tab { flex: 1; text-align: center; font-weight: 800; text-transform: uppercase; color: white; cursor: pointer; border-radius: 8px; transition: 0.3s; }
-.quran-tab.active { background: white; color: #0f766e; box-shadow: 0 2px 8px rgba(0,0,0,0.1); }
-.quran-item { display: flex; justify-content: space-between; align-items: center; background: white; border-radius: 1.25rem; border: 1px solid #f1f5f9; box-shadow: 0 2px 4px rgba(0,0,0,0.02); transition: all 0.2s; cursor: pointer; }
-.quran-item:active { transform: scale(0.97); background: #fafafa; }
-.arab-side-wrapper { display: flex; align-items: center; gap: 12px; flex-direction: row-reverse; flex-shrink: 0; }
-
-.ayat-card { padding: 25px 0; border-bottom: 1px solid #f1f5f9; }
-.ayat-card:last-child { border-bottom: none; }
-.action-bar { display: flex; align-items: center; gap: 8px; margin-bottom: 20px; flex-wrap: wrap; }
-.action-btn { background: transparent; border: none; color: #94a3b8; cursor: pointer; padding: 8px; border-radius: 50%; display: flex; align-items: center; justify-content: center; transition: all 0.2s ease; }
-.action-btn:hover { background-color: #f1f5f9; color: #007A78; }
-.action-btn.play-btn { background-color: #e6f4f3; color: #007A78; }
-.action-btn.play-btn:hover { background-color: #007A78; color: white; }
-.bookmark-active { color: #007A78 !important; fill: #007A78; }
-
-.surah-separator { margin: 25px 0 15px 0; text-align: center; }
-.surah-frame { border: 2px solid #d4b572; border-radius: 12px; padding: 4px; background: white; box-shadow: 0 4px 10px rgba(0,0,0,0.03); }
-.surah-frame-inner { border: 1px solid #d4b572; border-radius: 8px; padding: 12px 15px; display: flex; justify-content: space-between; align-items: center; background-color: #fcfcfc; }
-.surah-badge-gold { border: 1px solid #d4b572; border-radius: 20px; padding: 4px 12px; font-size: 11px; font-weight: 700; color: #b38b3b; text-transform: capitalize; }
-.juz-continue-header { background: #f1f5f9; padding: 12px; border-radius: 8px; text-align: center; font-weight: 600; font-size: 13px; color: #007A78; margin: 20px 0; }
-
-.qari-container { margin-bottom: 15px; background-color: white; padding: 12px; border-radius: 12px; border: 1px solid #e2e8f0; }
-.qari-select { padding: 8px; font-size: 13px; border-radius: 8px; border: 1px solid #cbd5e1; cursor: pointer; background-color: #f8fafc; margin-top: 5px; width: 100%; outline: none; }
-.audio-player { width: 100%; height: 35px; margin-top: 10px; outline: none; }
-
-/* ==========================================================================
-   RESPONSIVE & FLUID SCALING 
-   ========================================================================== */
-#prayer-time { font-size: clamp(20px, 8vw, 36px) !important; }
-#countdown { font-size: clamp(14px, 6vw, 22px) !important; }
-#prayer-name, .info-capsule p:not(#prayer-time, #countdown) { font-size: clamp(9px, 3vw, 13px) !important; }
-h1.font-kufi { font-size: clamp(24px, 9vw, 40px) !important; }
-.text-center.px-8 p.tracking-\[0\.3em\] { font-size: clamp(7px, 2.5vw, 10px) !important; }
-.icon-left, .icon-right { font-size: clamp(12px, 3.5vw, 14px) !important; }
-.location-badge { font-size: clamp(9px, 2.5vw, 11px) !important; padding: clamp(4px, 1.5vw, 6px) clamp(10px, 3vw, 16px) !important; }
-
-.menu-grid { display: grid; grid-template-columns: repeat(3, 1fr); gap: clamp(12px, 3.5vw, 18px); padding: 0 clamp(16px, 5vw, 24px); margin-bottom: clamp(15px, 4vw, 25px); }
-.menu-item { aspect-ratio: 1 / 1.15; padding: 0; border-radius: clamp(16px, 4vw, 22px); box-shadow: 0 4px 15px -3px rgba(0,0,0,0.04); display: flex; flex-direction: column; align-items: center; justify-content: center; }
-.icon-wrapper { width: clamp(40px, 11vw, 52px); height: clamp(40px, 11vw, 52px); border-radius: clamp(12px, 3vw, 16px); margin-bottom: clamp(8px, 2.5vw, 12px); }
-.icon-wrapper span, .icon-wrapper i { font-size: clamp(20px, 5.5vw, 24px) !important; }
-.menu-label { font-size: clamp(9px, 2.8vw, 11px); font-weight: 800; letter-spacing: 0.3px; color: #475569; }
-
-.bottom-nav { padding: clamp(8px, 2vw, 12px) clamp(8px, 3vw, 16px); }
-.nav-item span:first-child, .nav-item span i { font-size: clamp(16px, 5vw, 22px) !important; height: clamp(16px, 5vw, 22px) !important; display: flex; align-items: center; justify-content: center; }
-.nav-label { font-size: clamp(8px, 2.5vw, 10px); margin-top: clamp(2px, 1vw, 4px); }
-
-.doa-item-card, .panduan-sholat-item-card, .quran-item { padding: clamp(10px, 3vw, 14px) clamp(10px, 3vw, 16px); gap: clamp(8px, 2vw, 12px); border-radius: clamp(12px, 4vw, 20px); margin-bottom: clamp(8px, 2vw, 12px); }
-.doa-number, .panduan-sholat-number, .quran-item span.shrink-0 { width: clamp(24px, 8vw, 32px); height: clamp(24px, 8vw, 32px); font-size: clamp(10px, 3vw, 12px); border-radius: clamp(6px, 2vw, 10px); }
-.doa-title-text, .panduan-sholat-title-text, .quran-item h4 { font-size: clamp(11px, 3.5vw, 13px) !important; }
-.quran-tab { padding: clamp(6px, 2vw, 8px); font-size: clamp(8px, 2.5vw, 10px); }
-.quran-tab-container { padding: clamp(2px, 1vw, 4px); margin-top: clamp(6px, 2vw, 10px); }
-
-.doa-glassbox h2, .panduan-sholat-glassbox h2, .quran-glassbox h2 { font-size: clamp(9px, 3vw, 12px) !important; }
-#sholat-content, #app-modal-content, #quran-content, #doa-content, #panduan-sholat-content { padding: clamp(10px, 4vw, 20px) !important; padding-bottom: 100px !important; }
-.popup-box > div { width: clamp(180px, 85vw, 240px) !important; padding: clamp(12px, 4vw, 20px) !important; }
-.location-sheet { width: clamp(200px, 85vw, 270px) !important; padding: clamp(10px, 3vw, 14px) !important; max-height: 80dvh; }
-
-@media (max-width: 320px) { .info-capsule { margin: -40px 8px 0; padding: 30px 8px; border-radius: 24px; } .main-header { padding: 20px 8px 60px; } .menu-grid { grid-template-columns: repeat(2, 1fr); } }
-@media (max-width: 250px) { .info-capsule { margin: -20px 4px 0; padding: 12px 4px; border-radius: 16px; } .main-header { padding: 15px 4px 40px; } .menu-grid { grid-template-columns: repeat(1, 1fr); } .icon-btn { width: clamp(28px, 8vw, 32px); height: clamp(28px, 8vw, 32px); border-radius: 8px; } }
-@media (max-height: 400px) { .location-sheet { top: 50%; max-height: 85dvh; } .scrollable-content { padding-bottom: 70px; } .main-header { padding-bottom: 60px; } }
-
-/* ==========================================================================
-   SISTEM ZOOM / FLUID SCALING (KUNCI MUTLAK FONT AMIRI)
+   SISTEM ZOOM / FLUID SCALING (HANYA INI YANG DIUBAH KE AMIRI WOFF2)
    ========================================================================== */
 :root { --font-scale: 1; }
 
-/* 1. Pengaturan Utama Teks Arab (Quran, Doa, Panduan) */
 .font-arab, .ayat-arabic { 
     font-family: 'Amiri', serif !important; 
-    font-weight: 400 !important; font-style: normal !important;
-    font-feature-settings: "kern" 0, "liga" 0 !important; /* Mencegah harakat berantakan */
-    text-rendering: auto !important; -webkit-font-smoothing: antialiased !important; -webkit-text-size-adjust: 100% !important;
-    word-spacing: 0.1em !important; letter-spacing: normal !important;
-    line-height: 2.5 !important; direction: rtl; text-align: right;
+    font-weight: 400 !important; 
+    font-style: normal !important;
+    font-feature-settings: "kern" 0, "liga" 0 !important;
+    text-rendering: auto !important;
+    -webkit-font-smoothing: antialiased !important;
+    -webkit-text-size-adjust: 100% !important;
+    word-spacing: 0.1em !important;
+    letter-spacing: normal !important;
+    line-height: 2.5 !important; 
+    direction: rtl; 
+    text-align: right;
     color: #1e293b;
-    font-size: calc(clamp(20px, 7vw, 30px) * var(--font-scale)) !important; transition: font-size 0.3s ease;
+    font-size: calc(clamp(20px, 7vw, 30px) * var(--font-scale)) !important; 
+    transition: font-size 0.3s ease;
 }
 
-/* 2. Judul Surah Arab di dalam Frame */
-.surah-arabic-name { 
-    font-family: 'Amiri', serif !important; 
-    font-size: calc(24px * var(--font-scale)); 
-    font-weight: normal !important; color: #1e293b; 
+.ayat-arabic {
+    margin-bottom: 20px;
+    font-size: calc(clamp(26px, 7vw, 34px) * var(--font-scale)) !important;
 }
 
-/* 3. Teks Bismillah */
-.bismillah-text { 
-    font-family: 'Amiri', serif !important; 
-    font-size: calc(28px * var(--font-scale)) !important; 
-    font-weight: normal !important; color: #1e293b; text-align: center; margin: 25px 0 35px 0; word-spacing: 2px; 
-}
+.surah-arabic-name { font-family: 'Amiri', serif !important; font-size: calc(24px * var(--font-scale)) !important; font-weight: normal !important; color: #1e293b; }
+.bismillah-text { font-family: 'Amiri', serif !important; font-size: calc(28px * var(--font-scale)) !important; font-weight: normal !important; color: #1e293b; text-align: center; margin: 25px 0 35px 0; word-spacing: 2px; }
 
-/* 4. Nomor Akhir Ayat (Dalam Teks Arab) */
-.ayah-end-number { 
-    font-family: 'Amiri', serif !important; 
-    font-size: calc(clamp(18px, 6vw, 24px) * var(--font-scale)) !important; 
-    font-weight: normal !important; transition: font-size 0.3s ease; color: #007A78; margin-left: 8px; display: inline-block; vertical-align: middle; 
-}
+/* KUNCI FONT ARAB UNTUK KALENDER HIJRIYAH */
+.date-hijri { color: #007A78; font-family: 'Amiri', serif !important; font-size: 13px; font-weight: normal; margin-top: 1px; line-height: 1; }
 
-/* 5. Kotak Angka (List Surah / List Doa) */
-.arab-box-number { 
-    font-family: 'Amiri', serif !important; 
-    font-weight: normal !important; width: clamp(28px, 8vw, 38px); height: clamp(28px, 8vw, 38px); font-size: calc(clamp(10px, 4vw, 14px) * var(--font-scale)) !important; border-radius: clamp(8px, 3vw, 12px); transition: font-size 0.3s ease; 
-}
+.arab-box-number { width: clamp(28px, 8vw, 38px); height: clamp(28px, 8vw, 38px); font-size: calc(clamp(10px, 4vw, 14px) * var(--font-scale)) !important; border-radius: clamp(8px, 3vw, 12px); transition: font-size 0.3s ease; font-family: 'Amiri', serif !important; }
 .arab-side-wrapper span.font-arab { font-size: calc(clamp(14px, 4.5vw, 20px) * var(--font-scale)) !important; line-height: 1.5 !important; }
+.ayah-end-number { font-size: calc(clamp(18px, 6vw, 24px) * var(--font-scale)) !important; transition: font-size 0.3s ease; font-family: 'Amiri', serif !important; color: #007A78; margin-left: 8px; display: inline-block; vertical-align: middle; }
 
 .latin-read-text { font-size: calc(clamp(13px, 4vw, 17px) * var(--font-scale)) !important; transition: font-size 0.3s ease; }
 .translation-read-text { font-size: calc(clamp(12px, 3.8vw, 16px) * var(--font-scale)) !important; transition: font-size 0.3s ease; }
