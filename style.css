@@ -1,36 +1,29 @@
 /* ==========================================================================
-   1. FONT DEFINITIONS (LOKAL)
+   RESET & GLOBAL (TERMASUK FONT ARAB)
    ========================================================================== */
-/* Font Utama Al-Quran (Paling Bagus & Ringan) */
+@font-face {
+    font-family: 'LPMQ Isep Misbah';
+    src: url('./font/lpmq.woff2') format('woff2');
+    font-weight: normal; font-style: normal; font-display: block;
+}
+
 @font-face {
     font-family: 'UthmanicHafs';
     src: url('./font/UthmanicHafs1Ver18.woff2') format('woff2');
-    font-weight: normal; 
-    font-style: normal; 
-    font-display: block; /* Block mencegah teks berubah wujud tiba-tiba */
-}
-
-/* Font Cadangan & Font Doa */
-@font-face {
-    font-family: 'LPMQ Isep Misbah';
-    src: url('./font/lpmq.ttf') format('truetype');
     font-weight: normal; font-style: normal; font-display: swap;
 }
 
 @font-face {
     font-family: 'Amiri';
-    src: url('./font/Amiri-Regular.ttf') format('truetype');
+    src: url('./font/Amiri-Regular.woff2') format('woff2');
     font-weight: 400; font-style: normal; font-display: swap;
 }
 
 .font-kufi { font-family: 'Reem Kufi', sans-serif; }
 
-/* ==========================================================================
-   2. RESET & GLOBAL
-   ========================================================================== */
 *{ margin:0; padding:0; box-sizing:border-box; font-family:-apple-system,BlinkMacSystemFont,"Segoe UI",Roboto,sans-serif; -webkit-tap-highlight-color:transparent; -webkit-user-select:none; user-select:none; }
-html, body{ width:100%; min-height:100%; overflow-x:hidden; scroll-behavior:smooth; background-color: #ffffff !important; }
-body{ display:flex; justify-content:center; align-items:center; }
+html, body{ width:100%; min-height:100%; overflow-x:hidden; scroll-behavior:smooth; }
+body{ background:#e2e8f0; display:flex; justify-content:center; align-items:center; }
 
 /* APP CONTAINER */
 .app-container{ width:100%; max-width:412px; height:100dvh; background:#f8fafc; position:relative; display:flex; flex-direction:column; overflow:hidden; box-shadow:0 12px 40px rgba(0,0,0,.12); }
@@ -189,6 +182,24 @@ body.modal-open{ overflow:hidden; }
 .arab-side-wrapper { display: flex; align-items: center; gap: 12px; flex-direction: row-reverse; flex-shrink: 0; }
 .arab-box-number { background: #f0fdfa; color: #007A78; display: flex; align-items: center; justify-content: center; font-weight: bold; flex-shrink: 0; border: 1px solid #ccfbf1; }
 
+/* FONT QURAN KHUSUS (MENGGUNAKAN UTHMANIC HAFS AGAR IDENTIK) */
+.ayat-arabic {
+    font-family: 'UthmanicHafs', serif !important;
+    text-align: right;
+    direction: rtl;
+    color: #1e293b;
+    margin-bottom: 20px;
+    line-height: 2.8 !important; 
+    font-feature-settings: "kern" 0, "liga" 0 !important;
+    text-rendering: auto !important;
+    -webkit-font-smoothing: antialiased !important;
+    -webkit-text-size-adjust: 100% !important;
+    word-spacing: 0.1em !important;
+    letter-spacing: normal !important;
+    font-size: calc(clamp(26px, 7vw, 34px) * var(--font-scale)) !important;
+    transition: font-size 0.3s ease;
+}
+
 /* KARTU AYAT & ACTION BAR */
 .ayat-card { padding: 25px 0; border-bottom: 1px solid #f1f5f9; }
 .ayat-card:last-child { border-bottom: none; }
@@ -204,8 +215,8 @@ body.modal-open{ overflow:hidden; }
 .surah-frame { border: 2px solid #d4b572; border-radius: 12px; padding: 4px; background: white; box-shadow: 0 4px 10px rgba(0,0,0,0.03); }
 .surah-frame-inner { border: 1px solid #d4b572; border-radius: 8px; padding: 12px 15px; display: flex; justify-content: space-between; align-items: center; background-color: #fcfcfc; }
 .surah-badge-gold { border: 1px solid #d4b572; border-radius: 20px; padding: 4px 12px; font-size: 11px; font-weight: 700; color: #b38b3b; text-transform: capitalize; }
-.surah-arabic-name { font-family: 'UthmanicHafs', serif; font-weight: normal; font-size: calc(24px * var(--font-scale)); color: #1e293b; }
-.bismillah-text { font-family: 'UthmanicHafs', serif; font-weight: normal; font-size: calc(28px * var(--font-scale)); color: #1e293b; text-align: center; margin: 25px 0 35px 0; word-spacing: 2px; }
+.surah-arabic-name { font-family: 'UthmanicHafs', serif !important; font-size: calc(24px * var(--font-scale)); color: #1e293b; }
+.bismillah-text { font-family: 'UthmanicHafs', serif !important; font-size: calc(28px * var(--font-scale)); color: #1e293b; text-align: center; margin: 25px 0 35px 0; word-spacing: 2px; }
 .juz-continue-header { background: #f1f5f9; padding: 12px; border-radius: 8px; text-align: center; font-weight: 600; font-size: 13px; color: #007A78; margin: 20px 0; }
 
 .qari-container { margin-bottom: 15px; background-color: white; padding: 12px; border-radius: 12px; border: 1px solid #e2e8f0; }
@@ -248,17 +259,20 @@ h1.font-kufi { font-size: clamp(24px, 9vw, 40px) !important; }
 @media (max-width: 250px) { .info-capsule { margin: -20px 4px 0; padding: 12px 4px; border-radius: 16px; } .main-header { padding: 15px 4px 40px; } .menu-grid { grid-template-columns: repeat(1, 1fr); } .icon-btn { width: clamp(28px, 8vw, 32px); height: clamp(28px, 8vw, 32px); border-radius: 8px; } }
 @media (max-height: 400px) { .location-sheet { top: 50%; max-height: 85dvh; } .scrollable-content { padding-bottom: 70px; } .main-header { padding-bottom: 60px; } }
 
+html, body { background-color: #ffffff !important; background-image: none !important; }
+.app-container { background-color: #f8fafc !important; box-shadow: none !important; border-left: 1px solid #e2e8f0 !important; border-right: 1px solid #e2e8f0 !important; }
+.bottom-nav { background: #ffffff !important; box-shadow: none !important; border-top: 1px solid #e2e8f0 !important; padding-top: 12px !important; padding-bottom: calc(env(safe-area-inset-bottom, 0px) + 16px) !important; z-index: 9999 !important; }
+
 /* ==========================================================================
-   SISTEM ZOOM / FLUID SCALING & PENGATURAN QURAN (FONT-LOCK)
+   SISTEM ZOOM / FLUID SCALING (DENGAN KUNCI FONT UTHMANICHAFS)
    ========================================================================== */
 :root { --font-scale: 1; }
 
-/* KUNCI MUTLAK UNTUK AYAT ARAB (MENCEGAH HARAKAT BERANTAKAN DI HP) */
-.font-arab, .ayat-arabic { 
+.font-arab { 
     font-family: 'UthmanicHafs', serif !important; 
     font-weight: 400 !important; 
     font-style: normal !important;
-    font-feature-settings: "kern" 0, "liga" 0 !important; /* Mematikan ligatur otomatis Android */
+    font-feature-settings: "kern" 0, "liga" 0 !important;
     text-rendering: auto !important;
     -webkit-font-smoothing: antialiased !important;
     -webkit-text-size-adjust: 100% !important;
@@ -272,15 +286,9 @@ h1.font-kufi { font-size: clamp(24px, 9vw, 40px) !important; }
     font-size: calc(clamp(20px, 7vw, 30px) * var(--font-scale)) !important; 
     transition: font-size 0.3s ease;
 }
-
-/* Penyesuaian spesifik khusus kartu ayat */
-.ayat-arabic {
-    font-size: calc(clamp(26px, 7vw, 34px) * var(--font-scale)) !important;
-}
-
 .arab-box-number { width: clamp(28px, 8vw, 38px); height: clamp(28px, 8vw, 38px); font-size: calc(clamp(10px, 4vw, 14px) * var(--font-scale)) !important; border-radius: clamp(8px, 3vw, 12px); transition: font-size 0.3s ease; }
 .arab-side-wrapper span.font-arab { font-size: calc(clamp(14px, 4.5vw, 20px) * var(--font-scale)) !important; line-height: 1.5 !important; }
-.ayah-end-number { font-size: calc(clamp(18px, 6vw, 24px) * var(--font-scale)) !important; transition: font-size 0.3s ease; font-family: 'UthmanicHafs', serif; color: #007A78; margin-left: 8px; display: inline-block; vertical-align: middle; }
+.ayah-end-number { font-size: calc(clamp(18px, 6vw, 24px) * var(--font-scale)) !important; transition: font-size 0.3s ease; font-family: 'UthmanicHafs', serif !important; color: #007A78; margin-left: 8px; display: inline-block; vertical-align: middle; }
 .latin-read-text { font-size: calc(clamp(13px, 4vw, 17px) * var(--font-scale)) !important; transition: font-size 0.3s ease; }
 .translation-read-text { font-size: calc(clamp(12px, 3.8vw, 16px) * var(--font-scale)) !important; transition: font-size 0.3s ease; }
 .ayah-number-circle { width: clamp(22px, 6vw, 28px) !important; height: clamp(22px, 6vw, 28px) !important; font-size: calc(clamp(10px, 3vw, 13px) * var(--font-scale)) !important; transition: font-size 0.3s ease; }
