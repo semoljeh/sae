@@ -1,5 +1,4 @@
-
-const CACHE_NAME = "almukhtar-cache-v2";
+const CACHE_NAME = "almukhtar-cache-v3"; // Versi cache dinaikkan untuk memaksa update
 
 const LOCAL_ASSETS = [
   "./",
@@ -13,7 +12,7 @@ const LOCAL_ASSETS = [
 ];
 
 self.addEventListener("install", event => {
-  self.skipWaiting();
+  self.skipWaiting(); // Memaksa service worker baru langsung aktif
   event.waitUntil(
     caches.open(CACHE_NAME)
       .then(cache => cache.addAll(LOCAL_ASSETS))
@@ -26,7 +25,7 @@ self.addEventListener("activate", event => {
       return Promise.all(
         keys.map(key => {
           if (key !== CACHE_NAME) {
-            return caches.delete(key);
+            return caches.delete(key); // Hapus cache versi lama
           }
         })
       );
@@ -38,32 +37,33 @@ self.addEventListener("activate", event => {
 self.addEventListener("fetch", event => {
   const request = event.request;
 
+  // STRATEGI NETWORK-FIRST (Utamakan Server Baru, Cadangan Cache)
   event.respondWith(
-    caches.match(request).then(cached => {
-      if (cached) {
-        return cached;
-      }
-
-      return fetch(request)
-        .then(networkResponse => {
-          if (
-            request.method === "GET" &&
-            request.url.startsWith(self.location.origin)
-          ) {
-            const responseClone = networkResponse.clone();
-
-            caches.open(CACHE_NAME).then(cache => {
-              cache.put(request, responseClone);
-            });
+    fetch(request)
+      .then(networkResponse => {
+        // Jika sukses ambil dari server, simpan/update ke memori Cache
+        if (
+          request.method === "GET" &&
+          request.url.startsWith(self.location.origin)
+        ) {
+          const responseClone = networkResponse.clone();
+          caches.open(CACHE_NAME).then(cache => {
+            cache.put(request, responseClone);
+          });
+        }
+        return networkResponse;
+      })
+      .catch(() => {
+        // Jika gagal/offline, barulah ambil dari Cache
+        return caches.match(request).then(cached => {
+          if (cached) {
+            return cached;
           }
-
-          return networkResponse;
-        })
-        .catch(() => {
+          // Jika sama sekali tidak ada, arahkan ke index.html
           if (request.destination === "document") {
             return caches.match("./index.html");
           }
         });
-    })
+      })
   );
 });
