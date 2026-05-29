@@ -377,3 +377,77 @@ h1.font-kufi { font-size: clamp(24px, 9vw, 40px) !important; }
     font-size: calc(clamp(12px, 4vw, 16px) * var(--font-scale)) !important; 
     margin-left: 4px !important;
 }
+
+/* ==========================================================================
+   PWA INSTALL BANNER
+   ========================================================================== */
+.pwa-banner {
+    position: fixed;
+    bottom: -100px;
+    left: 50%;
+    transform: translateX(-50%);
+    width: 90%;
+    max-width: 380px;
+    background: #ffffff;
+    border-radius: 18px;
+    box-shadow: 0 10px 40px rgba(0,0,0,0.2);
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    padding: 12px 16px;
+    z-index: 10000;
+    transition: bottom 0.5s cubic-bezier(0.175, 0.885, 0.32, 1.275);
+    border: 1px solid #f1f5f9;
+}
+.pwa-banner.show {
+    bottom: clamp(85px, 14vh, 100px); /* Tampil pas di atas menu bawah */
+}
+.pwa-banner-content {
+    display: flex;
+    align-items: center;
+    gap: 12px;
+}
+.pwa-icon {
+    width: 40px;
+    height: 40px;
+    border-radius: 10px;
+    background: #007A78;
+    object-fit: contain;
+}
+.pwa-text strong {
+    font-size: 13px;
+    color: #1e293b;
+    display: block;
+    margin-bottom: 2px;
+}
+.pwa-text p {
+    font-size: 10px;
+    color: #64748b;
+    margin: 0;
+    line-height: 1.2;
+}
+.pwa-banner-actions {
+    display: flex;
+    align-items: center;
+    gap: 10px;
+}
+.pwa-btn-install {
+    background: #007A78;
+    color: white;
+    border: none;
+    padding: 6px 14px;
+    border-radius: 20px;
+    font-size: 11px;
+    font-weight: 700;
+    cursor: pointer;
+    box-shadow: 0 4px 10px rgba(0, 122, 120, 0.3);
+}
+.pwa-btn-install:active { transform: scale(0.95); }
+.pwa-btn-close {
+    background: transparent;
+    color: #94a3b8;
+    border: none;
+    font-size: 16px;
+    cursor: pointer;
+    padding: 4px;
+}
