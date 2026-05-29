@@ -1,21 +1,25 @@
 /* ==========================================================================
-   1. FONT DEFINITIONS (LOKAL .woff2)
+   1. FONT DEFINITIONS (LOKAL)
    ========================================================================== */
-@font-face {
-    font-family: 'LPMQ Isep Misbah';
-    src: url('./font/lpmq.woff2') format('woff2');
-    font-weight: normal; font-style: normal; font-display: block;
-}
-
+/* Font Utama Al-Quran (Paling Bagus & Ringan) */
 @font-face {
     font-family: 'UthmanicHafs';
     src: url('./font/UthmanicHafs1Ver18.woff2') format('woff2');
+    font-weight: normal; 
+    font-style: normal; 
+    font-display: block; /* Block mencegah teks berubah wujud tiba-tiba */
+}
+
+/* Font Cadangan & Font Doa */
+@font-face {
+    font-family: 'LPMQ Isep Misbah';
+    src: url('./font/lpmq.ttf') format('truetype');
     font-weight: normal; font-style: normal; font-display: swap;
 }
 
 @font-face {
     font-family: 'Amiri';
-    src: url('./font/Amiri-Regular.woff2') format('woff2');
+    src: url('./font/Amiri-Regular.ttf') format('truetype');
     font-weight: 400; font-style: normal; font-display: swap;
 }
 
