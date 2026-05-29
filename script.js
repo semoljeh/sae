@@ -77,7 +77,7 @@ function checkZoomBtnVisibility() {
 }
 
 /* ==========================================================================
-   GLOBAL HISTORY ROUTING (ANTI-BLOAT & NATIVE EXIT)
+   GLOBAL HISTORY ROUTING (SINKRONISASI TOMBOL BACK ANDROID)
    ========================================================================== */
 let isPopping = false;
 let currentSchedule = null;
@@ -98,40 +98,63 @@ function resetNavToBeranda() {
     else if (navItems.length > 0) navItems[0].classList.add('active');
 }
 
+// MESIN ROUTING BACK BUTTON
 window.addEventListener('popstate', function(event) {
     isPopping = true;
-    const openModals = document.querySelectorAll('.modal-show, .popup-backdrop.show, .location-backdrop.show, .custom-alert-backdrop.show');
-    const isAnyModalOpen = openModals.length > 0;
 
-    if (!isAnyModalOpen) {
-        if (!exitTimer) {
-            showToast("Tekan sekali lagi untuk keluar", "info");
-            history.pushState({ page: 'exit_trap' }, '', '#exit');
-            exitTimer = setTimeout(() => { exitTimer = null; }, 2000);
-        } else {
-            if (typeof Android !== 'undefined' && Android.exitApp) { Android.exitApp(); } 
-            else { history.go(-100); }
-        }
-        isPopping = false;
-        checkZoomBtnVisibility();
-        return; 
+    // 1. LAPISAN PALING ATAS: Custom Alert
+    const alertBackdrop = document.getElementById('custom-alert-backdrop');
+    if (alertBackdrop && alertBackdrop.classList.contains('show')) {
+        alertBackdrop.classList.remove('show');
+        isPopping = false; return;
     }
 
-    if (exitTimer) { clearTimeout(exitTimer); exitTimer = null; }
+    // 2. LAPISAN KEDUA: Tafsir Modal
+    const tafsirModal = document.getElementById('tafsir-modal');
+    if (tafsirModal && tafsirModal.style.display !== 'none') {
+        closeTafsir();
+        isPopping = false; return;
+    }
 
-    const popProfile = document.getElementById('popup-box'); const popBackdrop = document.getElementById('popup-backdrop');
-    if (popProfile && popProfile.classList.contains('show')) { popProfile.classList.remove('show'); if(popBackdrop) popBackdrop.classList.remove('show'); isPopping = false; return; }
-    
-    const locModal = document.getElementById('location-sheet'); const locBackdrop = document.getElementById('location-backdrop');
-    if (locModal && locModal.classList.contains('show')) { locModal.classList.remove('show'); if(locBackdrop) locBackdrop.classList.remove('show'); isPopping = false; return; }
+    // 3. LAPISAN KETIGA: Profile Popup
+    const popProfile = document.getElementById('popup-box');
+    if (popProfile && popProfile.classList.contains('show')) {
+        popProfile.classList.remove('show');
+        document.getElementById('popup-backdrop').classList.remove('show');
+        isPopping = false; return;
+    }
 
-    if (document.getElementById('quran-modal') && document.getElementById('quran-modal').classList.contains('modal-show')) { goBackQuran(); } 
-    else if (document.getElementById('doa-modal') && document.getElementById('doa-modal').classList.contains('modal-show')) { goBackDoa(); } 
-    else if (document.getElementById('panduan-sholat-modal') && document.getElementById('panduan-sholat-modal').classList.contains('modal-show')) { goBackPanduanSholat(); } 
-    else if (document.getElementById('calendar-modal') && document.getElementById('calendar-modal').classList.contains('modal-show')) { toggleCalendar(); }
-    else if (document.getElementById('sholat-modal') && document.getElementById('sholat-modal').classList.contains('modal-show')) { goBackSholat(); }
-    else if (document.getElementById('app-modal') && document.getElementById('app-modal').classList.contains('modal-show')) { goBackAppMenu(); }
-    
+    // 4. LAPISAN KEEMPAT: Location Sheet
+    const locModal = document.getElementById('location-sheet');
+    if (locModal && locModal.classList.contains('show')) {
+        locModal.classList.remove('show');
+        document.getElementById('location-backdrop').classList.remove('show');
+        isPopping = false; return;
+    }
+
+    // 5. LAPISAN UTAMA: Modals (Quran, Doa, Sholat, App Menu, Kalender)
+    const openModals = document.querySelectorAll('.modal-show');
+    if (openModals.length > 0) {
+        if (document.getElementById('quran-modal').classList.contains('modal-show')) { goBackQuran(); }
+        else if (document.getElementById('doa-modal').classList.contains('modal-show')) { goBackDoa(); }
+        else if (document.getElementById('panduan-sholat-modal').classList.contains('modal-show')) { goBackPanduanSholat(); }
+        else if (document.getElementById('calendar-modal').classList.contains('modal-show')) { toggleCalendar(); }
+        else if (document.getElementById('sholat-modal').classList.contains('modal-show')) { goBackSholat(); }
+        else if (document.getElementById('app-modal').classList.contains('modal-show')) { goBackAppMenu(); }
+        isPopping = false; 
+        checkZoomBtnVisibility();
+        return;
+    }
+
+    // 6. LAPISAN DASAR: Keluar dari Aplikasi
+    if (!exitTimer) {
+        showToast("Tekan sekali lagi untuk keluar", "info");
+        history.pushState({ page: 'exit_trap' }, '', '#exit');
+        exitTimer = setTimeout(() => { exitTimer = null; }, 2000);
+    } else {
+        if (typeof Android !== 'undefined' && Android.exitApp) { Android.exitApp(); } 
+        else { history.go(-100); }
+    }
     isPopping = false;
     checkZoomBtnVisibility();
 });
@@ -244,11 +267,14 @@ document.addEventListener("DOMContentLoaded", async function () {
 
     const alertBackdrop = document.getElementById('custom-alert-backdrop');
     window.tampilNotif = function(judul, pesan, icon = "check_circle", color = "#007A78") {
+        if (!isPopping && !alertBackdrop.classList.contains('show')) history.pushState({ modal: 'alert' }, '', '#alert');
         document.getElementById('custom-alert-title').innerText = judul; document.getElementById('custom-alert-message').innerText = pesan;
         document.getElementById('custom-alert-icon').innerText = icon; document.querySelector('.alert-icon-circle').style.color = color;
         alertBackdrop.classList.add('show');
     };
-    document.getElementById('alert-confirm-btn').onclick = () => alertBackdrop.classList.remove('show');
+    document.getElementById('alert-confirm-btn').onclick = () => {
+        if (!isPopping) history.back(); else alertBackdrop.classList.remove('show');
+    };
 
     const btnLoc = document.getElementById('location-button'); const locText = document.getElementById('location-text');
     const locModal = document.getElementById('location-sheet'); const locBack = document.getElementById('location-backdrop');
@@ -259,7 +285,8 @@ document.addEventListener("DOMContentLoaded", async function () {
     if(localStorage.getItem('al_mukhtar_loc_short')) { locText.innerText = localStorage.getItem('al_mukhtar_loc_short'); }
 
     function toggleLocModal(show) { if (show && !isPopping) history.pushState({ modal: 'location' }, '', '#lokasi'); locModal.classList.toggle('show', show); locBack.classList.toggle('show', show); }
-    btnLoc.onclick = (e) => { e.stopPropagation(); toggleLocModal(true); }; locBack.onclick = () => { if(!isPopping) history.back(); else toggleLocModal(false); };
+    btnLoc.onclick = (e) => { e.stopPropagation(); toggleLocModal(true); }; 
+    locBack.onclick = () => { if(!isPopping) history.back(); else toggleLocModal(false); };
 
     document.getElementById('gps-detect-btn').onclick = () => {
         if(!navigator.geolocation) return tampilNotif("Error", "GPS tidak didukung", "error", "#dc2626");
@@ -300,7 +327,8 @@ document.addEventListener("DOMContentLoaded", async function () {
     const popProfile = document.getElementById('popup-box'); const popBackdrop = document.getElementById('popup-backdrop');
     function toggleProfile(show) { if (show && !isPopping) history.pushState({ modal: 'profile' }, '', '#profil'); popProfile.classList.toggle('show', show); popBackdrop.classList.toggle('show', show); }
     document.getElementById('info-button').onclick = (e) => { e.stopPropagation(); toggleProfile(!popProfile.classList.contains('show')); };
-    document.getElementById('close-profile-btn').onclick = () => { if(!isPopping) history.back(); else toggleProfile(false); }; popBackdrop.onclick = () => { if(!isPopping) history.back(); else toggleProfile(false); };
+    document.getElementById('close-profile-btn').onclick = () => { if(!isPopping) history.back(); else toggleProfile(false); }; 
+    popBackdrop.onclick = () => { if(!isPopping) history.back(); else toggleProfile(false); };
 
     document.getElementById('refresh-button').onclick = async () => { 
         const icon = document.getElementById('refresh-icon');
@@ -646,7 +674,7 @@ let currentAudio = null;
 let isTranslationVisible = true;
 window.ayatData = {}; 
 let quranBookmarks = JSON.parse(localStorage.getItem('quranBookmarks')) || [];
-window.currentlyPlayingAyatKey = null; // Tambahkan variabel pelacak status audio ayat
+window.currentlyPlayingAyatKey = null; 
 
 const quranJuzMapping = [
     { juz: 1, start: { s: 1, a: 1 }, end: { s: 2, a: 141 } },
@@ -838,7 +866,6 @@ async function renderSurah(nomorSurah, container) {
         <div class="surah-separator" style="margin-top:0;">
     `;
     
-    // KHUSUS MODE SURAH: Bingkai emas DIHAPUS, langsung tampilkan Bismillah
     if (surah.nomor !== 1 && surah.nomor !== 9) {
         html += `<div class="bismillah-text">بِسْمِ اللّٰهِ الرَّحْمٰنِ الرَّحِيْمِ</div>`;
     }
@@ -882,7 +909,6 @@ async function renderJuz(nomorJuz, container) {
 
         if (ayats.length > 0) {
             if (mulaiAyat === 1) {
-                // KHUSUS MODE JUZ: Bingkai emas DIPERTAHANKAN sebagai pemisah
                 html += `
                     <div class="surah-separator">
                         <div class="surah-frame">
@@ -919,7 +945,6 @@ function createAyatCardQuran(ayat, nomorSurah) {
     const isBookmarked = quranBookmarks.includes(uniqueKey) ? 'bookmark-active' : '';
     const hiddenClass = isTranslationVisible ? '' : 'hidden';
 
-    // Set play icon depending on whether this ayat is currently playing
     let playIcon = '<svg viewBox="0 0 24 24" width="14" height="14" stroke="currentColor" stroke-width="2" fill="none"><polygon points="5 3 19 12 5 21 5 3"></polygon></svg>';
     if (window.currentlyPlayingAyatKey === uniqueKey && !document.getElementById('per-ayat-audio').paused) {
         playIcon = '<svg viewBox="0 0 24 24" width="14" height="14" stroke="currentColor" stroke-width="2" fill="currentColor"><rect x="6" y="4" width="4" height="16"></rect><rect x="14" y="4" width="4" height="16"></rect></svg>';
@@ -951,7 +976,7 @@ function createAyatCardQuran(ayat, nomorSurah) {
                 </button>
             </div>
             
-            <div class="ayat-arabic">${ayat.teksArab.replace(/ࣖ/g, '<span style="font-family: \'Arial\', sans-serif; font-size: 0.44em; color: #007A78; position: relative; bottom: 0.6em; margin-right: 5px;"> ؏ </span>')}</div>
+            <div class="ayat-arabic">${ayat.teksArab.replace(/ࣖ/g, '<span style="font-family: \'Arial\', sans-serif; font-size: 0.55em; color: #007A78; position: relative; bottom: 0.6em; margin-right: 5px;"> ؏ </span>')}</div>
             <div class="translation-read-text text-slate-500 italic leading-relaxed text-justify ${hiddenClass}">${ayat.teksIndonesia}</div>
         </div>
     `;
@@ -972,7 +997,6 @@ window.playAyatQuran = function(nomorSurah, nomorAyat) {
     const ayat = window.ayatData[uniqueKey];
     const audioEl = document.getElementById('per-ayat-audio');
     
-    // Add event listeners once
     if (!audioEl.dataset.listenerAttached) {
         audioEl.addEventListener('play', () => {
             if (window.currentlyPlayingAyatKey) {
@@ -996,7 +1020,6 @@ window.playAyatQuran = function(nomorSurah, nomorAyat) {
         audioEl.dataset.listenerAttached = 'true';
     }
 
-    // Toggle logic for the same ayat
     if (window.currentlyPlayingAyatKey === uniqueKey) {
         if (audioEl.paused) {
             audioEl.play().catch(e => showToast("Gagal memutar ayat.", "error"));
@@ -1006,7 +1029,6 @@ window.playAyatQuran = function(nomorSurah, nomorAyat) {
         return;
     }
 
-    // Reset previous button if a different ayat is clicked
     if (window.currentlyPlayingAyatKey) {
         const prevBtn = document.getElementById(`play-btn-${window.currentlyPlayingAyatKey}`);
         if (prevBtn) prevBtn.innerHTML = '<svg viewBox="0 0 24 24" width="14" height="14" stroke="currentColor" stroke-width="2" fill="none"><polygon points="5 3 19 12 5 21 5 3"></polygon></svg>';
@@ -1057,6 +1079,7 @@ window.bookmarkAyatQuran = function(nomorSurah, nomorAyat) {
 }
 
 window.showTafsirQuran = async function(nomorSurah, nomorAyat) {
+    if (!isPopping) history.pushState({ modal: 'tafsir' }, '', '#tafsir');
     const modal = document.getElementById('tafsir-modal');
     document.getElementById('tafsir-title').innerText = `Tafsir QS. ${nomorSurah}:${nomorAyat}`;
     const bodyText = document.getElementById('tafsir-body');
@@ -1082,6 +1105,7 @@ window.showTafsirQuran = async function(nomorSurah, nomorAyat) {
 }
 
 window.closeTafsir = function() {
+    if (!isPopping) { history.back(); return; }
     const modal = document.getElementById('tafsir-modal');
     modal.style.opacity = '0';
     modal.querySelector('.modal-content').style.transform = 'translateY(20px)';
@@ -1089,7 +1113,9 @@ window.closeTafsir = function() {
 }
 
 document.getElementById('tafsir-modal').addEventListener('click', function(e) {
-    if (e.target === this) closeTafsir();
+    if (e.target === this) {
+        if (!isPopping) history.back(); else closeTafsir();
+    }
 });
 
 /* ==========================================================================
