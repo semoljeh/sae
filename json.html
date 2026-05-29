@@ -1,0 +1,244 @@
+<!DOCTYPE html>
+<html lang="id">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>JSON Generator Tool - Arabic Edition</title>
+    
+    <script src="https://cdn.tailwindcss.com"></script>
+    
+    <style>
+        @import url('https://fonts.googleapis.com/css2?family=Amiri:wght@400;700&display=swap');
+        
+        #arab, .teks-arab {
+            font-family: 'Amiri', serif;
+        }
+        
+        ::-webkit-scrollbar { width: 8px; height: 8px; }
+        ::-webkit-scrollbar-track { background: #f1f5f9; border-radius: 10px; }
+        ::-webkit-scrollbar-thumb { background: #cbd5e1; border-radius: 10px; }
+        ::-webkit-scrollbar-thumb:hover { background: #94a3b8; }
+        
+        #output::-webkit-scrollbar-track { background: #0f172a; }
+        #output::-webkit-scrollbar-thumb { background: #334155; }
+    </style>
+</head>
+<body class="bg-slate-100 min-h-screen p-3 md:p-8">
+
+    <div class="max-w-7xl mx-auto bg-white rounded-[2rem] overflow-hidden shadow-2xl">
+        
+        <div class="bg-gradient-to-r from-blue-600 to-indigo-700 p-6 md:p-8 text-white">
+            <div class="flex flex-col md:flex-row md:items-center gap-4">
+                <div class="bg-white/20 p-3 rounded-2xl backdrop-blur-sm text-3xl w-fit">🛠️</div>
+                <div>
+                    <h1 class="text-2xl md:text-4xl font-bold">JSON Generator Tool</h1>
+                    <p class="mt-2 text-sm md:text-base opacity-90">Smart Context - Angka Mengikuti Huruf Sebelumnya Secara Otomatis</p>
+                </div>
+            </div>
+        </div>
+
+        <div class="grid grid-cols-1 lg:grid-cols-2 gap-8 p-6 md:p-8">
+
+            <div class="space-y-6">
+                <div>
+                    <label class="font-bold text-slate-700 block mb-2 flex items-center gap-2">
+                        <span>🏷️</span> Judul / Basmalah
+                    </label>
+                    <input id="judul" type="text" dir="auto"
+                        class="w-full border border-slate-300 rounded-2xl p-4 teks-arab text-xl outline-none focus:ring-2 focus:ring-blue-500 transition-all" 
+                        value="بِسْمِ اللّٰهِ الرَّحْمٰنِ الرَّحِيْمِ">
+                </div>
+
+                <div>
+                    <label class="font-bold text-slate-700 block mb-2 flex items-center gap-2">
+                        <span>📜</span> Teks Arab / Teks Utama
+                    </label>
+                    <textarea id="arab" rows="6" dir="auto"
+                        class="w-full border border-slate-300 rounded-2xl p-4 text-2xl leading-[3rem] outline-none focus:ring-2 focus:ring-blue-500 transition-all shadow-inner teks-arab"
+                        placeholder="Ketik di sini... (Angka akan otomatis menjadi Arab jika didahului huruf Arab)"></textarea>
+                </div>
+
+                <div>
+                    <label class="font-bold text-slate-700 block mb-2 flex items-center gap-2">
+                        <span>📖</span> Arti / Terjemahan
+                    </label>
+                    <textarea id="arti" rows="4" dir="auto"
+                        class="w-full border border-slate-300 rounded-2xl p-4 outline-none focus:ring-2 focus:ring-blue-500 transition-all shadow-inner"
+                        placeholder="Masukkan terjemahan bahasa Indonesia..."></textarea>
+                </div>
+
+                <div class="grid grid-cols-1 sm:grid-cols-3 gap-3 pt-2">
+                    <button id="generateBtn"
+                        class="sm:col-span-3 bg-blue-600 hover:bg-blue-700 text-white rounded-2xl py-4 font-bold shadow-lg shadow-blue-200 active:scale-95 transition-all text-lg">
+                        ✨ Generate JSON
+                    </button>
+                    
+                    <button id="copyBtn"
+                        class="bg-slate-800 hover:bg-slate-900 text-white rounded-2xl py-3 font-bold active:scale-95 transition-all flex justify-center items-center gap-2">
+                        📋 Copy
+                    </button>
+
+                    <button id="downloadBtn"
+                        class="bg-emerald-600 hover:bg-emerald-700 text-white rounded-2xl py-3 font-bold shadow-lg shadow-emerald-200 active:scale-95 transition-all flex justify-center items-center gap-2">
+                        💾 Download
+                    </button>
+
+                    <button id="resetBtn"
+                        class="bg-slate-200 hover:bg-slate-300 text-slate-700 rounded-2xl py-3 font-bold active:scale-95 transition-all flex justify-center items-center gap-2">
+                        🔄 Reset
+                    </button>
+                </div>
+            </div>
+
+            <div class="flex flex-col h-full mt-4 lg:mt-0">
+                <div class="flex items-center justify-between mb-3 px-2">
+                    <h2 class="text-xl md:text-2xl font-bold text-slate-800">Hasil JSON</h2>
+                    <span class="text-xs font-bold bg-blue-100 text-blue-700 px-3 py-1 rounded-full">Bisa Diketik Manual</span>
+                </div>
+
+                <div class="relative flex-grow">
+                    <textarea id="output" dir="auto"
+                        class="w-full h-full min-h-[400px] lg:min-h-[600px] bg-slate-950 text-emerald-400 rounded-[2rem] p-5 md:p-6 font-mono text-sm md:text-base outline-none resize-y shadow-inner border-4 border-slate-900 leading-loose teks-arab"
+                        placeholder="// Hasil JSON akan muncul di sini... Anda juga bisa mengetik manual di sini (Arab/Latin)."></textarea>
+                </div>
+            </div>
+
+        </div>
+    </div>
+
+    <script>
+        const el = {
+            judul: document.getElementById('judul'),
+            arab: document.getElementById('arab'),
+            arti: document.getElementById('arti'),
+            output: document.getElementById('output'),
+            generate: document.getElementById('generateBtn'),
+            copy: document.getElementById('copyBtn'),
+            download: document.getElementById('downloadBtn'),
+            reset: document.getElementById('resetBtn')
+        };
+
+        // --- FITUR BARU: SMART CONTEXTUAL NUMBERS ---
+        // Fungsi ini mendeteksi huruf terakhir yang diketik untuk menentukan jenis angka
+        const applySmartNumbers = (inputElement) => {
+            inputElement.addEventListener('input', function(e) {
+                const start = this.selectionStart;
+                const end = this.selectionEnd;
+                
+                let val = this.value;
+                let newVal = '';
+                
+                // Secara default menggunakan mode latin
+                let lastScript = 'latin'; 
+                const latinToArabic = {'0': '٠', '1': '١', '2': '٢', '3': '٣', '4': '٤', '5': '٥', '6': '٦', '7': '٧', '8': '٨', '9': '٩'};
+
+                for (let i = 0; i < val.length; i++) {
+                    let char = val[i];
+                    
+                    // Deteksi jika menemukan huruf Arab
+                    if (/[\u0600-\u06FF]/.test(char)) {
+                        lastScript = 'arab';
+                    } 
+                    // Deteksi jika menemukan huruf Latin
+                    else if (/[a-zA-Z]/.test(char)) {
+                        lastScript = 'latin';
+                    }
+
+                    // Jika yang diketik angka 0-9 dan konteksnya sedang Arab, ubah angkanya!
+                    if (/[0-9]/.test(char) && lastScript === 'arab') {
+                        newVal += latinToArabic[char];
+                    } else {
+                        newVal += char;
+                    }
+                }
+
+                // Terapkan perubahan tanpa membuat kursor melompat
+                if (val !== newVal) {
+                    this.value = newVal;
+                    this.setSelectionRange(start, end);
+                }
+            });
+        };
+
+        // Terapkan fitur pintar ini ke semua kotak input yang dibutuhkan
+        applySmartNumbers(el.judul);
+        applySmartNumbers(el.arab);
+        applySmartNumbers(el.arti);
+        applySmartNumbers(el.output);
+
+
+        // Fungsi dasar: Mengubah baris baru menjadi <br>
+        const formatText = (text) => {
+            if (!text) return '';
+            return text.trim().replace(/\n/g, '<br>');
+        };
+
+        el.generate.addEventListener('click', () => {
+            const data = {
+                judul: formatText(el.judul.value),
+                arab: formatText(el.arab.value),
+                arti: formatText(el.arti.value)
+            };
+
+            el.output.value = JSON.stringify(data, null, 4);
+            
+            el.generate.innerHTML = '✅ Berhasil Dibuat!';
+            el.generate.classList.replace('bg-blue-600', 'bg-emerald-500');
+            el.output.classList.add('ring-4', 'ring-emerald-500/50');
+            
+            setTimeout(() => {
+                el.generate.innerHTML = '✨ Generate JSON';
+                el.generate.classList.replace('bg-emerald-500', 'bg-blue-600');
+                el.output.classList.remove('ring-4', 'ring-emerald-500/50');
+            }, 1500);
+        });
+
+        el.copy.addEventListener('click', async () => {
+            if (!el.output.value) {
+                alert('⚠️ Silakan Generate JSON atau ketik sesuatu terlebih dahulu!');
+                return;
+            }
+            try {
+                await navigator.clipboard.writeText(el.output.value);
+                const originalText = el.copy.innerHTML;
+                el.copy.innerHTML = '✅ Copied!';
+                el.copy.classList.replace('bg-slate-800', 'bg-emerald-600');
+                
+                setTimeout(() => {
+                    el.copy.innerHTML = originalText;
+                    el.copy.classList.replace('bg-emerald-600', 'bg-slate-800');
+                }, 2000);
+            } catch (err) {
+                alert('Gagal meng-copy.');
+            }
+        });
+
+        el.download.addEventListener('click', () => {
+            if (!el.output.value) {
+                alert('⚠️ Data masih kosong!');
+                return;
+            }
+            const blob = new Blob([el.output.value], { type: 'application/json' });
+            const url = URL.createObjectURL(blob);
+            const a = document.createElement('a');
+            
+            a.href = url;
+            a.download = `data_arab_${Date.now()}.json`;
+            document.body.appendChild(a);
+            a.click();
+            document.body.removeChild(a);
+            URL.revokeObjectURL(url);
+        });
+
+        el.reset.addEventListener('click', () => {
+            if(confirm('Yakin ingin mereset semua inputan?')) {
+                el.judul.value = 'بِسْمِ اللّٰهِ الرَّحْمٰنِ الرَّحِيْمِ';
+                el.arab.value = '';
+                el.arti.value = '';
+                el.output.value = '';
+            }
+        });
+    </script>
+
+</body>
+</html>

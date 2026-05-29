@@ -1,381 +1,301 @@
 <!DOCTYPE html>
 <html lang="id">
 <head>
-<meta charset="UTF-8">
-<meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta charset="UTF-8">
+    <meta name="mobile-web-app-capable" content="yes">
+    <meta name="apple-mobile-web-app-capable" content="yes">
+    <meta name="apple-mobile-web-app-status-bar-style" content="default">
+    <meta name="apple-mobile-web-app-title" content="AlMukhtar">
+    <link rel="apple-touch-icon" href="assets/icon-192.png">
+    <link rel="manifest" href="manifest.json">
+    <meta name="theme-color" content="#007A78">
+    <meta name="application-name" content="Al Mukhtar">
 
-<title>Quran.com Style</title>
-
-<!-- FONT QURAN.COM ORIGINAL -->
-<style>
-
-/* =========================================================
-   FONT ORIGINAL QURAN.COM
-========================================================= */
-@font-face {
-    font-family: 'QCF';
-    src: url('https://static.qurancdn.com/fonts/quran/hafs/v2/woff2/p1.woff2') format('woff2');
-}
-
-/* =========================================================
-   RESET
-========================================================= */
-*{
-    margin:0;
-    padding:0;
-    box-sizing:border-box;
-}
-
-body{
-    background:#f8fafc;
-    font-family:system-ui;
-    color:#111827;
-}
-
-/* =========================================================
-   HEADER
-========================================================= */
-.header{
-    background:#0f766e;
-    color:white;
-    padding:22px;
-    text-align:center;
-    position:sticky;
-    top:0;
-    z-index:999;
-    box-shadow:0 4px 15px rgba(0,0,0,.08);
-}
-
-.header h1{
-    font-size:22px;
-    font-weight:800;
-}
-
-/* =========================================================
-   CONTAINER
-========================================================= */
-.container{
-    padding:16px;
-}
-
-/* =========================================================
-   SURAH CARD
-========================================================= */
-.surah-card{
-    background:white;
-    border-radius:24px;
-    padding:18px;
-    margin-bottom:14px;
-    border:1px solid #eef2f7;
-    box-shadow:0 4px 12px rgba(0,0,0,.04);
-    cursor:pointer;
-    transition:.2s;
-}
-
-.surah-card:active{
-    transform:scale(.98);
-}
-
-.surah-top{
-    display:flex;
-    justify-content:space-between;
-    align-items:center;
-}
-
-.surah-name{
-    font-size:18px;
-    font-weight:800;
-}
-
-.surah-arab{
-    font-family:'QCF';
-    font-size:32px;
-    direction:rtl;
-}
-
-/* =========================================================
-   AYAT CARD
-========================================================= */
-.ayah-box{
-    background:white;
-    border-radius:28px;
-    padding:24px;
-    margin-bottom:18px;
-    border:1px solid #eef2f7;
-    box-shadow:0 4px 15px rgba(0,0,0,.04);
-}
-
-/* =========================================================
-   FONT QURAN ORIGINAL
-========================================================= */
-.arabic{
-
-    font-family:'QCF';
-
-    direction:rtl;
-
-    text-align:right;
-
-    unicode-bidi:plaintext;
-
-    font-size:42px;
-
-    line-height:2.25;
-
-    letter-spacing:0;
-
-    word-spacing:0;
-
-    font-feature-settings:
-        "liga" 1,
-        "calt" 1,
-        "kern" 1;
-
-    font-variant-ligatures:contextual;
-
-    text-rendering:optimizeLegibility;
-
-    -webkit-font-smoothing:antialiased;
-
-    color:#111827;
-}
-
-/* =========================================================
-   TERJEMAHAN
-========================================================= */
-.translation{
-    margin-top:20px;
-    color:#475569;
-    line-height:1.8;
-    font-size:16px;
-}
-
-/* =========================================================
-   NOMOR AYAT
-========================================================= */
-.ayah-number{
-    color:#0f766e;
-    font-size:22px;
-    vertical-align:middle;
-}
-
-/* =========================================================
-   BUTTON
-========================================================= */
-.back-btn{
-    background:#0f766e;
-    color:white;
-    border:none;
-    padding:12px 22px;
-    border-radius:999px;
-    font-weight:700;
-    margin-bottom:20px;
-    cursor:pointer;
-}
-
-/* =========================================================
-   LOADING
-========================================================= */
-.loading{
-    text-align:center;
-    padding:50px;
-    color:#0f766e;
-    font-weight:700;
-}
-
-/* =========================================================
-   RESPONSIVE
-========================================================= */
-@media(max-width:480px){
-
-    .arabic{
-        font-size:36px;
-        line-height:2.15;
-    }
-
-    .surah-arab{
-        font-size:28px;
-    }
-
-}
-
-</style>
+    <meta http-equiv="Cache-Control" content="no-cache, no-store, must-revalidate">
+    <meta http-equiv="Pragma" content="no-cache">
+    <meta http-equiv="Expires" content="0">
+    
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
+    <title>Al-Mukhtar Digital Library</title>
+    <link rel="stylesheet" href="style.css?v=37.0">
+    <link href="https://fonts.googleapis.com/icon?family=Material+Icons+Outlined" rel="stylesheet">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.1/css/all.min.css">
+    <link href="https://fonts.googleapis.com/css2?family=Reem+Kufi:wght@500;700&family=Scheherazade+New:wght@400;700&display=swap" rel="stylesheet">
+    <script src="https://cdn.tailwindcss.com"></script>
 </head>
 <body>
 
-<div class="header">
-    <h1>Al-Qur'an</h1>
-</div>
+    <div class="app-container">
+        <div class="scrollable-content">
+            
+            <header class="main-header">
+                <div class="header-top">
+                    <div class="info-wrapper-container">
+                        <button class="icon-btn" id="info-button"><span class="material-icons-outlined">info</span></button>
+                    </div>
+                    <div class="location-badge" id="location-button">
+                        <span class="material-icons-outlined icon-left">location_on</span>
+                        <span id="location-text">Cari Lokasi</span>
+                        <span class="material-icons-outlined icon-right">expand_more</span>
+                    </div>
+                    <button class="icon-btn" id="refresh-button"><span class="material-icons-outlined" id="refresh-icon">refresh</span></button>
+                </div>
+            </header>
 
-<div class="container" id="app">
-
-    <div class="loading">
-        Memuat Quran...
-    </div>
-
-</div>
-
-<script>
-
-/* =========================================================
-   API QURAN.COM
-========================================================= */
-const API = "https://api.quran.com/api/v4";
-
-/* =========================================================
-   ELEMENT
-========================================================= */
-const app = document.getElementById("app");
-
-/* =========================================================
-   LOAD SURAH
-========================================================= */
-async function loadSurahList(){
-
-    app.innerHTML = `
-        <div class="loading">
-            Memuat Surah...
-        </div>
-    `;
-
-    try{
-
-        const res = await fetch(
-            `${API}/chapters`
-        );
-
-        const data = await res.json();
-
-        renderSurah(data.chapters);
-
-    }catch(error){
-
-        app.innerHTML = `
-            <div class="loading">
-                Gagal memuat data
+            <div class="info-capsule">
+                <div class="flex items-start">
+                    <div class="w-1/2 text-center border-r border-dashed border-slate-300">
+                        <div class="flex items-start justify-center pt-1">
+                            <p id="prayer-name" class="text-[13px] text-teal-600 font-black uppercase tracking-[0.15em] leading-none">DZUHUR</p>
+                        </div>
+                        <h2 id="prayer-time" class="text-4xl font-bold text-slate-800 tracking-tighter leading-none mt-1">11:26</h2>
+                    </div>
+                    <div class="w-1/2 text-center">
+                        <div class="flex items-start justify-center pt-1">
+                            <p class="text-[13px] text-teal-600 font-black uppercase tracking-[0.15em] leading-none">MENDATANG</p>
+                        </div>
+                        <span id="countdown" class="text-[22px] font-black text-slate-900 font-mono tracking-tighter block mt-1.5 leading-none">
+                            -01:52:54
+                        </span>
+                    </div>
+                </div>
+                <div class="mt-4 pt-3 border-t border-dashed border-slate-300 text-center">
+                    <p id="java-hijri" class="text-[11px] text-teal-600 font-bold tracking-tight mb-1">2 Dhu al-Hijjah 1447 H</p>
+                    <p id="full-date" class="text-[10px] font-semibold text-slate-400 uppercase tracking-wider">SELASA LEGI, 19 MEI 2026 M</p>
+                </div>
             </div>
-        `;
-    }
-}
+                
+            <div class="text-center px-8 mb-5 mt-7">
+                <h1 class="text-[40px] text-teal-600 font-kufi leading-none drop-shadow-sm">المختار</h1>
+                <p class="text-[10px] text-slate-400 font-bold uppercase tracking-[0.3em] mt-2">Digital Library</p>
+            </div>
 
-/* =========================================================
-   RENDER SURAH
-========================================================= */
-function renderSurah(chapters){
+            <main class="menu-grid">
+                <div class="menu-item" onclick="toggleSholat()"><div class="icon-wrapper bg-blue"><i class="fa-solid fa-kaaba"></i></div><span class="menu-label">JADWAL</span></div>
+                <div class="menu-item" onclick="openAppMenu('dzikir')"><div class="icon-wrapper bg-emerald"><i class="fa-solid fa-mosque"></i></div><span class="menu-label">DZIKIR</span></div>
+                <div class="menu-item" onclick="openAppMenu('yasin')"><div class="icon-wrapper bg-purple"><i class="fa-solid fa-book-open"></i></div><span class="menu-label">YASIN TAHLIL</span></div>
+                <div class="menu-item" onclick="openAppMenu('maulid')"><div class="icon-wrapper bg-lime"><i class="fa-solid fa-hand-holding-heart"></i></div><span class="menu-label">MAULID</span></div>
+                <div class="menu-item" onclick="openAppMenu('sholawat')"><div class="icon-wrapper bg-pink"><i class="fa-solid fa-heart"></i></div><span class="menu-label">SHOLAWAT</span></div>
+                <div class="menu-item" onclick="openAppMenu('ratib')"><div class="icon-wrapper bg-orange"><i class="fa-solid fa-scroll"></i></div><span class="menu-label">RATIB</span></div>
+            </main>
+        </div>
 
-    app.innerHTML = "";
+        <div id="app-toast">Notifikasi</div>
 
-    chapters.forEach(surah=>{
+        <div class="popup-backdrop" id="popup-backdrop"></div>
+        <div class="popup-box flex items-center justify-center" id="popup-box">
+            <div class="bg-white rounded-3xl p-5 w-[240px] max-w-[85vw] text-center shadow-xl border border-slate-50">
+                <div class="w-14 h-14 mx-auto mb-3 rounded-[14px] overflow-hidden border-[3px] border-teal-50 shadow-sm">
+                    <img src="https://raw.githubusercontent.com/semoljeh/beranda/main/foto-profil.jpg" alt="Profile" class="w-full h-full object-cover">
+                </div>
+                <h3 class="text-[15px] font-black text-slate-800 tracking-tight leading-none">Arom Kobama</h3>
+                <p class="text-teal-600 font-bold text-[8px] uppercase tracking-[0.15em] mt-1.5">Programmer & Developer</p>
+                <div class="mt-4 flex justify-center gap-2">
+                     <a href="https://semoljeh.github.io/beranda/" class="w-8 h-8 rounded-[10px] bg-slate-50 flex items-center justify-center text-blue-500 border border-slate-100 active:scale-90 transition-transform"><i class="fa-solid fa-globe text-[11px]"></i></a>
+                     <a href="https://www.tiktok.com/@aromkobama/" class="w-8 h-8 rounded-[10px] bg-slate-50 flex items-center justify-center text-slate-600 border border-slate-100 active:scale-90 transition-transform"><i class="fa-brands fa-tiktok text-[11px]"></i></a>
+                     <a href="https://www.instagram.com/aromkobama/" class="w-8 h-8 rounded-[10px] bg-slate-50 flex items-center justify-center text-pink-500 border border-slate-100 active:scale-90 transition-transform"><i class="fa-brands fa-instagram text-[11px]"></i></a>
+                </div>
+                <p class="mt-3.5 text-[9px] text-slate-400 font-medium leading-relaxed px-2">Membangun aplikasi web modern.<br>Semoga Bermanfaat Untuk Ummat.</p>
+                <a href="https://raw.githubusercontent.com/semoljeh/beranda/main/raw/main/app/semoljeh.apk" target="_blank" class="mt-3.5 inline-flex items-center justify-center gap-1.5 px-3 py-1.5 text-[9px] font-bold uppercase tracking-[0.1em] text-teal-600 bg-teal-50 border border-teal-100 rounded-lg shadow-sm active:scale-95 transition-all">
+                    <i class="fa-solid fa-download text-[9px]"></i> Download Apk
+                </a>
+                <button id="close-profile-btn" class="mt-4 w-full py-2 bg-teal-600 text-white rounded-[10px] font-bold text-[9px] uppercase tracking-widest shadow-md shadow-teal-100/50 active:scale-95 transition-all">Tutup</button>
+            </div>
+        </div>
 
-        app.innerHTML += `
+        <div class="location-backdrop" id="location-backdrop"></div>
+        <div class="location-sheet" id="location-sheet">
+            <div class="text-center mb-5">
+                <h3 class="text-[18px] font-black text-slate-800 tracking-tight leading-none">Pilih Lokasi</h3>
+                <p class="text-[11px] text-slate-500 mt-2 leading-relaxed">Cari otomatis via GPS atau ketik manual.</p>
+            </div>
+            <button id="gps-detect-btn" class="w-full flex items-center justify-center gap-2 bg-teal-50 hover:bg-teal-100 text-teal-700 py-3 rounded-xl font-bold text-[13px] transition-all active:scale-95 mb-4 border border-teal-100">
+                <span class="material-icons-outlined text-[18px]" id="gps-icon-spin">my_location</span>
+                <span id="gps-btn-text">Deteksi GPS</span>
+            </button>
+            <div class="flex items-center gap-3 mb-4 opacity-70">
+                <div class="h-px bg-slate-300 flex-1"></div>
+                <span class="text-[9px] font-bold text-slate-400 uppercase tracking-widest">Atau Cari Manual</span>
+                <div class="h-px bg-slate-300 flex-1"></div>
+            </div>
+            <div class="relative mb-3">
+                <span class="material-icons-outlined absolute left-3.5 top-1/2 -translate-y-1/2 text-slate-400 text-[18px]">search</span>
+                <input type="text" id="location-search-input" placeholder="Ketik desa/kota..." autocomplete="off" class="w-full bg-slate-50 border border-slate-200 text-slate-700 text-[13px] font-semibold rounded-xl pl-11 pr-4 py-3 focus:outline-none focus:border-teal-500 focus:ring-1 focus:ring-teal-500 transition-all placeholder:text-slate-400">
+            </div>
+            <div class="suggestion-list-wrapper max-h-[150px] overflow-y-auto rounded-xl">
+                <ul class="suggestion-list space-y-1" id="suggestion-list"></ul>
+            </div>
+            <button id="save-location-btn" disabled class="w-full mt-4 bg-teal-600 disabled:bg-slate-200 disabled:text-slate-400 disabled:cursor-not-allowed text-white py-3.5 rounded-xl font-bold text-[13px] uppercase tracking-wide transition-all active:scale-95 shadow-md shadow-teal-600/30 disabled:shadow-none">Simpan Lokasi</button>
+        </div>
 
-            <div class="surah-card"
-                 onclick="openSurah(${surah.id})">
+        <div class="custom-alert-backdrop" id="custom-alert-backdrop">
+            <div class="custom-alert-box" id="custom-alert-box">
+                <div class="alert-icon-circle"><span class="material-icons-outlined" id="custom-alert-icon">check_circle</span></div>
+                <h4 id="custom-alert-title">Notifikasi</h4>
+                <p id="custom-alert-message">Pesan notifikasi.</p>
+                <button class="alert-confirm-btn" id="alert-confirm-btn">Mengerti</button>
+            </div>
+        </div>
 
-                <div class="surah-top">
+        <nav class="bottom-nav">
+            <div class="nav-item active" id="nav-sholat" onclick="togglePanduanSholat()">
+                <span class="flex items-center justify-center h-[22px] text-[20px]"><i class="fa-solid fa-kaaba"></i></span>
+                <span class="nav-label">Sholat</span>
+            </div>
+            <div class="nav-item" id="nav-quran" onclick="toggleQuran()">
+                <span class="material-icons-outlined">auto_stories</span>
+                <span class="nav-label">Quran</span>
+            </div>
+            <div class="nav-item" id="nav-kalender" onclick="toggleCalendar()">
+                <span class="material-icons-outlined">calendar_month</span>
+                <span class="nav-label">Kalender</span>
+            </div>
+            <div class="nav-item" id="nav-doa" onclick="toggleDoa()">
+                <span class="flex items-center justify-center h-[22px] text-[20px]"><i class="fa-solid fa-hands-praying"></i></span>
+                <span class="nav-label">Doa</span>
+            </div>
+        </nav>
 
-                    <div>
-                        <div class="surah-name">
-                            ${surah.id}. ${surah.name_simple}
+        <div id="sholat-modal" class="modal-full bg-slate-50">
+            <div id="sholat-sticky-header" class="doa-header-premium">
+                <div class="flex items-center justify-between w-full gap-2 min-h-[40px]">
+                    <button onclick="goBackSholat()" class="w-10 h-10 flex shrink-0 items-center justify-center bg-white/10 hover:bg-white/20 active:scale-90 transition-transform rounded-xl text-white"><i class="fa-solid fa-arrow-left"></i></button>
+                    <div class="flex-1 flex justify-center min-w-0">
+                        <div class="doa-glassbox !m-0 !py-1.5 !px-3 md:!px-4 w-fit max-w-full flex justify-center items-center">
+                            <h2 class="text-white text-[11px] md:text-xs font-extrabold uppercase tracking-widest text-center leading-tight mt-[1px]">Jadwal Sholat</h2>
                         </div>
                     </div>
-
-                    <div class="surah-arab">
-                        ${surah.name_arabic}
-                    </div>
-
+                    <div class="w-10"></div>
                 </div>
-
             </div>
-
-        `;
-    });
-}
-
-/* =========================================================
-   OPEN SURAH
-========================================================= */
-async function openSurah(id){
-
-    app.innerHTML = `
-        <div class="loading">
-            Memuat Ayat...
+            <div id="sholat-content" onscroll="handleJadwalScroll(this)" class="flex-1 overflow-y-auto p-5 pb-24"></div>
         </div>
-    `;
 
-    try{
-
-        const arabRes = await fetch(
-            `${API}/quran/verses/uthmani?chapter_number=${id}`
-        );
-
-        const arabData = await arabRes.json();
-
-        const indoRes = await fetch(
-            `${API}/quran/translations/33?chapter_number=${id}`
-        );
-
-        const indoData = await indoRes.json();
-
-        let html = `
-
-            <button class="back-btn"
-                    onclick="loadSurahList()">
-
-                ← Kembali
-
-            </button>
-
-        `;
-
-        arabData.verses.forEach((ayah,index)=>{
-
-            const translation =
-                indoData.translations[index];
-
-            html += `
-
-                <div class="ayah-box">
-
-                    <div class="arabic">
-
-                        ${ayah.text_uthmani}
-
-                        <span class="ayah-number">
-                            ۝${ayah.verse_key.split(':')[1]}
-                        </span>
-
+        <div id="app-modal" class="modal-full bg-slate-50">
+            <div id="app-sticky-header" class="doa-header-premium">
+                <div class="flex items-center justify-between w-full gap-2 min-h-[40px]">
+                    <button onclick="goBackAppMenu()" class="w-10 h-10 flex shrink-0 items-center justify-center bg-white/10 hover:bg-white/20 active:scale-90 transition-transform rounded-xl text-white"><i class="fa-solid fa-arrow-left"></i></button>
+                    <div class="flex-1 flex justify-center min-w-0">
+                        <div class="doa-glassbox !m-0 !py-1.5 !px-3 md:!px-4 w-fit max-w-full flex justify-center items-center">
+                            <h2 id="app-modal-title" class="text-white text-[11px] md:text-xs font-extrabold uppercase tracking-widest text-center leading-tight mt-[1px]">MENU</h2>
+                        </div>
                     </div>
-
-                    <div class="translation">
-
-                        ${translation.text}
-
-                    </div>
-
+                    <div id="app-nav-controls" class="shrink-0 flex justify-end gap-1 min-w-[40px]"></div>
                 </div>
-
-            `;
-        });
-
-        app.innerHTML = html;
-
-    }catch(error){
-
-        app.innerHTML = `
-            <div class="loading">
-                Gagal memuat ayat
             </div>
-        `;
+            <div id="app-modal-content" onscroll="handleAppScroll(this)" class="flex-1 overflow-y-auto p-5 pb-24"></div>
+        </div>
+
+        <div id="calendar-modal" class="bg-[#f8fafc] modal-full">
+            <div class="calendar-header-premium">
+                <div class="flex justify-between items-center">
+                    <button onclick="toggleCalendar()" class="w-9 h-9 flex items-center justify-center bg-white/20 rounded-full text-white hover:bg-white/30 active:scale-90 transition-transform"><i class="fa-solid fa-arrow-left"></i></button>
+                    <h2 id="calendar-month-name" class="font-bold uppercase tracking-widest">-- ----</h2>
+                    <div class="flex gap-2">
+                        <button onclick="changeMonth(-1)" class="w-9 h-9 flex items-center justify-center bg-white/10 rounded-full text-white active:scale-90"><i class="fa-solid fa-chevron-left"></i></button>
+                        <button onclick="changeMonth(1)" class="w-9 h-9 flex items-center justify-center bg-white/10 rounded-full text-white active:scale-90"><i class="fa-solid fa-chevron-right"></i></button>
+                    </div>
+                </div>
+                <div class="header-detail-info text-white">
+                    <div id="hijri-detail-header" class="text-sm font-bold">-- ------- ---- H</div>
+                    <div id="masehi-detail-header" class="text-xs opacity-90 mt-1">---- ------, - --- ---- M</div>
+                </div>
+            </div>
+            <div class="flex-1 overflow-y-auto p-5 pb-32">
+                <div class="calendar-container">
+                    <div class="calendar-grid">
+                        <div class="day-label !text-red-500">Min</div><div class="day-label">Sen</div><div class="day-label">Sel</div><div class="day-label">Rab</div><div class="day-label">Kam</div><div class="day-label !text-teal-600">Jum</div><div class="day-label">Sab</div>
+                    </div>
+                    <div id="calendar-days-grid" class="calendar-grid"></div>
+                </div>
+                <div class="mt-8"><h3 class="text-[11px] font-bold text-slate-400 uppercase tracking-widest mb-4">Keterangan Libur</h3><div id="holiday-list" class="space-y-3"></div></div>
+            </div>
+        </div>
+
+        <div id="quran-modal" class="bg-slate-50 modal-full">
+            <div id="quran-sticky-header" class="quran-header-premium">
+                <div class="flex justify-between items-center mb-2">
+                    <button onclick="goBackQuran()" class="w-8 h-8 flex items-center justify-center bg-white/10 rounded-xl hover:bg-white/20 text-white active:scale-90 transition-transform"><i class="fa-solid fa-arrow-left"></i></button>
+                    <h2 class="text-white text-[11px] font-bold uppercase tracking-[0.2em]">Al-Quran Pro</h2>
+                    <button onclick="toggleTranslation()" class="w-8 h-8 flex items-center justify-center bg-white/10 rounded-xl hover:bg-white/20 text-white active:scale-90 transition-transform"><i class="fa-solid fa-language"></i></button>
+                </div>
+                <div class="quran-glassbox">
+                    <h2 id="surah-title-arab" class="font-arab text-2xl leading-none mb-1 text-white"></h2>
+                    <p id="surah-title-latin" class="text-[12px] font-extrabold uppercase tracking-widest text-white mb-1"></p>
+                    <p id="surah-subtitle" class="text-[#ccfbf1] font-medium text-[10px] italic"></p>
+                    <div id="quran-tabs" class="quran-tab-container">
+                        <div id="tab-surah" onclick="switchQuranTab('surah')" class="quran-tab active">Surah</div>
+                        <div id="tab-juz" onclick="switchQuranTab('juz')" class="quran-tab">Juz</div>
+                    </div>
+                    <div id="surah-meta-info" class="flex justify-center gap-2 mt-3 hidden">
+                        <span id="surah-info-count" class="surah-badge text-[10px] border border-white/40 px-2 rounded-full text-white"></span>
+                        <span id="surah-info-type" class="surah-badge text-[10px] border border-white/40 px-2 rounded-full text-white"></span>
+                    </div>
+                </div>
+            </div>
+            <div id="quran-content" onscroll="handleQuranScroll(this)" class="flex-1 overflow-y-auto p-5 pb-32"></div>
+        </div>
+
+        <div id="doa-modal" class="modal-full bg-slate-50">
+            <div id="doa-sticky-header" class="doa-header-premium">
+                <div class="flex items-center justify-between w-full min-h-[40px] gap-2">
+                    <div class="shrink-0 flex justify-start">
+                        <button onclick="goBackDoa()" class="w-10 h-10 flex shrink-0 items-center justify-center bg-white/10 rounded-xl text-white hover:bg-white/20 active:scale-90 transition-transform"><i class="fa-solid fa-arrow-left"></i></button>
+                    </div>
+                    <div class="flex-1 flex justify-center min-w-0">
+                        <div class="doa-glassbox !m-0 !py-1.5 !px-3 md:!px-4 w-fit max-w-full flex justify-center items-center">
+                            <h2 id="doa-header-title" class="text-white text-[11px] md:text-xs font-extrabold uppercase tracking-wide leading-tight mt-[1px] text-center line-clamp-2 break-words">KUMPULAN DOA</h2>
+                        </div>
+                    </div>
+                    <div id="doa-nav-controls" class="shrink-0 flex justify-end gap-1 min-w-[40px]"></div>
+                </div>
+            </div>
+            <div id="doa-content" onscroll="handleDoaScroll(this)" class="flex-1 overflow-y-auto p-5 pb-24"></div>
+        </div>
+
+        <div id="panduan-sholat-modal" class="modal-full bg-slate-50">
+            <div id="panduan-sholat-sticky-header" class="panduan-sholat-header-premium">
+                <div class="flex items-center justify-between w-full min-h-[40px] gap-2">
+                    <div class="shrink-0 flex justify-start">
+                        <button onclick="goBackPanduanSholat()" class="w-10 h-10 flex shrink-0 items-center justify-center bg-white/10 rounded-xl text-white hover:bg-white/20 active:scale-90 transition-transform"><i class="fa-solid fa-arrow-left"></i></button>
+                    </div>
+                    <div class="flex-1 flex justify-center min-w-0">
+                        <div class="panduan-sholat-glassbox !m-0 !py-1.5 !px-3 md:!px-4 w-fit max-w-full flex justify-center items-center">
+                            <h2 id="panduan-sholat-header-title" class="text-white text-[11px] md:text-xs font-extrabold uppercase tracking-wide leading-tight mt-[1px] text-center line-clamp-2 break-words">PANDUAN SHOLAT</h2>
+                        </div>
+                    </div>
+                    <div id="panduan-sholat-nav-controls" class="shrink-0 flex justify-end gap-1 min-w-[40px]"></div>
+                </div>
+            </div>
+            <div id="panduan-sholat-content" onscroll="handlePanduanSholatScroll(this)" class="flex-1 overflow-y-auto p-5 pb-24"></div>
+        </div>
+
+    </div>
+
+<!-- ELEMEN TAMBAHAN QURAN (AUDIO PER AYAT & MODAL TAFSIR) -->
+    <audio id="per-ayat-audio" style="display: none;"></audio>
+    <div id="tafsir-modal" class="modal-overlay" style="display: none; position: fixed; top: 0; left: 0; width: 100%; height: 100%; background: rgba(0,0,0,0.5); z-index: 4000; align-items: center; justify-content: center; padding: 20px; backdrop-filter: blur(3px); opacity: 0; transition: opacity 0.3s ease;">
+        <!-- PERUBAHAN: max-width diubah dari 650px menjadi 380px agar pas dengan ukuran mobile -->
+        <div class="modal-content" style="background: white; width: 100%; max-width: 380px; border-radius: 16px; display: flex; flex-direction: column; box-shadow: 0 25px 50px -12px rgba(0,0,0,0.25); max-height: 85vh; transform: translateY(20px); transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1); overflow: hidden;">
+            <div class="modal-header" style="display: flex; justify-content: space-between; align-items: center; padding: 16px 20px; border-bottom: 1px solid #e5e7eb; background: #ffffff; z-index: 10;">
+                <h3 id="tafsir-title" class="modal-title" style="font-size: 15px; font-weight: 700; color: #007A78; margin: 0;">Tafsir Ayat</h3>
+                <button class="close-btn" onclick="closeTafsir()" style="background: #f3f4f6; border: none; border-radius: 50%; width: 32px; height: 32px; font-size: 14px; font-weight: bold; cursor: pointer; color: #4b5563; display: flex; align-items: center; justify-content: center; transition: 0.2s;">✕</button>
+            </div>
+            <div id="tafsir-body" class="modal-body tafsir-text" style="padding: 20px; overflow-y: auto; background: #ffffff; font-size: 13px; line-height: 1.8; color: #374151; text-align: justify;">
+                Memuat tafsir...
+            </div>
+        </div>
+    </div>
+
+    <script src="script.js?v=37.0"></script>
+    <script>
+    if ("serviceWorker" in navigator) {
+      window.addEventListener("load", () => {
+        navigator.serviceWorker.register("./service-worker.js")
+          .then(reg => { console.log("Service Worker aktif"); })
+          .catch(err => { console.log("SW gagal:", err); });
+      });
     }
-}
-
-/* =========================================================
-   START
-========================================================= */
-loadSurahList();
-
-</script>
-
+    </script>
 </body>
 </html>

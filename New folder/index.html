@@ -1,0 +1,108 @@
+<!DOCTYPE html>
+<html lang="id">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
+    <title>Al-Quran Pro - Mobile UI</title>
+    
+    <!-- Import Font -->
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Scheherazade+New:wght@400;700&family=Inter:wght@400;500;600;700&display=swap" rel="stylesheet">
+
+    <!-- Memanggil File CSS Terpisah -->
+    <link rel="stylesheet" href="style.css">
+</head>
+<body>
+
+<div class="app-container">
+    
+    <!-- 1. HALAMAN UTAMA (LIST VIEW) -->
+    <div id="home-screen">
+        <div class="main-header">
+            <div class="top-bar">
+                <button class="icon-btn">
+                    <svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M19 12H5M12 19l-7-7 7-7"/></svg>
+                </button>
+                <h2 class="header-title">AL-QURAN PRO</h2>
+                <button class="icon-btn">
+                    <svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><rect x="3" y="5" width="18" height="14" rx="2"/><path d="M7 15V9l4 6V9M14 9h4v2h-2v4"/></svg>
+                </button>
+            </div>
+            <div class="toggle-wrapper">
+                <button id="tab-surah" class="toggle-btn active" onclick="switchTab('surah')">SURAH</button>
+                <button id="tab-juz" class="toggle-btn" onclick="switchTab('juz')">JUZ</button>
+            </div>
+        </div>
+
+        <div id="list-container" class="list-container">
+            <div class="loading-state">Memuat data Al-Quran...</div>
+        </div>
+        
+        <!-- Bottom Nav -->
+        <div class="bottom-nav">
+            <div class="nav-item">
+                <svg viewBox="0 0 24 24" fill="none" stroke="currentColor"><path d="M21 10c0 7-9 13-9 13s-9-6-9-13a9 9 0 0 1 18 0z"/><circle cx="12" cy="10" r="3"/></svg>
+                <span>Sholat</span>
+            </div>
+            <div class="nav-item active">
+                <svg viewBox="0 0 24 24" fill="none" stroke="currentColor"><path d="M4 19.5v-15A2.5 2.5 0 0 1 6.5 2H20v20H6.5a2.5 2.5 0 0 1 0-5H20"/></svg>
+                <span>Quran</span>
+            </div>
+            <div class="nav-item">
+                <svg viewBox="0 0 24 24" fill="none" stroke="currentColor"><rect x="3" y="4" width="18" height="18" rx="2" ry="2"/><line x1="16" y1="2" x2="16" y2="6"/><line x1="8" y1="2" x2="8" y2="6"/><line x1="3" y1="10" x2="21" y2="10"/></svg>
+                <span>Kalender</span>
+            </div>
+            <div class="nav-item">
+                <svg viewBox="0 0 24 24" fill="none" stroke="currentColor"><path d="M12 22s8-4 8-10V5l-8-3-8 3v7c0 6 8 10 8 10z"/></svg>
+                <span>Doa</span>
+            </div>
+        </div>
+    </div>
+
+    <!-- 2. HALAMAN DETAIL (AYAT) -->
+    <div id="detail-screen">
+        <div class="detail-header">
+            <button class="back-btn" onclick="closeDetail()">
+                <svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M19 12H5M12 19l-7-7 7-7"/></svg>
+            </button>
+            <h3 id="detail-title" class="detail-title">Surah Name</h3>
+            <div style="width:24px;"></div>
+        </div>
+        
+        <div id="detail-settings" class="qari-settings" style="display:none;">
+            <select id="qari-select" class="qari-select" onchange="changeQari(this)">
+                <option value="01">Abdullah Al-Juhany</option>
+                <option value="02">Abdul Muhsin Al-Qasim</option>
+                <option value="03">Abdurrahman as-Sudais</option>
+                <option value="04">Ibrahim Al-Dossari</option>
+                <option value="05" selected>Misyari Rasyid Al-Afasi</option>
+            </select>
+            <audio id="surah-audio" class="audio-player" controls>
+                <source id="audio-source" src="" type="audio/mpeg">
+            </audio>
+        </div>
+
+        <div id="detail-content" class="detail-content"></div>
+    </div>
+
+    <!-- AUDIO PER-AYAT & TOAST & MODAL -->
+    <audio id="per-ayat-audio" style="display: none;"></audio>
+    <div id="toast-container"></div>
+    
+    <div id="tafsir-modal" class="modal-overlay">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h3 id="tafsir-title" class="modal-title">Tafsir</h3>
+                <button class="close-btn" onclick="closeTafsir()">✕</button>
+            </div>
+            <div id="tafsir-body" class="modal-body tafsir-text"></div>
+        </div>
+    </div>
+
+</div>
+
+<!-- Memanggil File JS Terpisah -->
+<script src="script.js"></script>
+</body>
+</html>

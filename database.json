@@ -1,0 +1,252 @@
+{
+  "menuData": {
+    "dzikir": {
+      "title": "Kumpulan Dzikir",
+      "items": [
+        {
+          "id": 1,
+          "title": "Dzikir Harian",
+          "subItems": [
+            {
+              "id": 11,
+              "title": "Dzikir Pagi",
+              "path": "https://raw.githubusercontent.com/semoljeh/beranda/main/datadoa/pagi.json"
+            },
+            {
+              "id": 12,
+              "title": "Dzikir Petang",
+              "path": "https://raw.githubusercontent.com/semoljeh/beranda/main/datadoa/petang.json"
+            }
+          ]
+        },
+        {
+          "id": 2,
+          "title": "Istighatsah",
+          "subItems": [
+            {
+              "id": 21,
+              "title": "Istighatsah 1",
+              "path": "https://raw.githubusercontent.com/semoljeh/beranda/main/datadoa/pagi.json"
+            },
+            {
+              "id": 22,
+              "title": "Istighatsah 2",
+              "path": "https://raw.githubusercontent.com/semoljeh/beranda/main/datadoa/petang.json"
+            },
+            {
+              "id": 23,
+              "title": "Istighatsah 3",
+              "path": "https://raw.githubusercontent.com/semoljeh/beranda/main/datadoa/petang.json"
+            }
+          ]
+        },
+        {
+          "id": 3,
+          "title": "Dzikir Sesudah Sholat",
+          "path": "datadoa/dzikir_sholat.json"
+        }
+      ]
+    },
+    
+    "//pemisah1": "-----------------------------------------------------------------------------------------------------------------------------------------------------",
+    
+    "yasin": {
+      "title": "Yasin & Tahlil",
+      "items": [
+        {
+          "id": 1,
+          "title": "Khushushan",
+          "path": "yasin/tawassul.json"
+        },
+        {
+          "id": 2,
+          "title": "Yasin",
+          "path": "yasin/yasin.json"
+    },
+     {
+          "id": 3,
+          "title": "Tahlil",
+          "path": "yasin/tahlil.json"
+        },
+        {
+          "id": 4,
+          "title": "Do'a Tahlil",
+          "path": "yasin/doa.json"
+        }
+      ]
+    },
+    
+    "//pemisah2": "-----------------------------------------------------------------------------------------------------------------------------------------------------",
+    
+    "ratib": {
+      "title": "Kumpulan Ratib",
+      "items": [
+        {
+          "id": 1,
+          "title": "Ratib Al-Athas",
+          "path": "https://raw.githubusercontent.com/semoljeh/beranda/main/ratib/alathas.json"
+        },
+        {
+          "id": 2,
+          "title": "Ratib Al-Haddad",
+          "path": "https://raw.githubusercontent.com/semoljeh/beranda/main/datadoa/haddad.json"
+        }
+      ]
+    },
+    
+    "//pemisah3": "-----------------------------------------------------------------------------------------------------------------------------------------------------",
+    
+    "maulid": {
+      "title": "Kumpulan Maulid",
+      "items": [
+        {
+          "id": 1,
+          "title": "Maulid Diba'",
+          "subItems": [
+            {
+              "id": 101,
+              "title": "Bab 1",
+              "path": "datadoa/bab1.json"
+            },
+            {
+              "id": 102,
+              "title": "Bab 2",
+              "path": "datadoa/bab2.json"
+            },
+            {
+              "id": 103,
+              "title": "Bab 3",
+              "path": "datadoa/bab3.json"
+            }
+          ]
+        },
+        {
+          "id": 2,
+          "title": "Simtudduror",
+          "path": "https://raw.githubusercontent.com/semoljeh/beranda/main/datadoa/simtudduror.json"
+        }
+      ]
+    },
+    
+    "//pemisah4": "-----------------------------------------------------------------------------------------------------------------------------------------------------",
+    
+    "sholawat": {
+      "title": "Kumpulan Sholawat",
+      "items": [
+        {
+          "id": 1,
+          "title": "Sholawat Populer",
+          "subItems": [
+            {
+              "id": 11,
+              "title": "Sholawat Nariyah",
+              "path": "https://raw.githubusercontent.com/semoljeh/beranda/main/datadoa/nariyah.json"
+            },
+            {
+              "id": 12,
+              "title": "Sholawat Tibbil Qulub",
+              "path": "https://raw.githubusercontent.com/semoljeh/beranda/main/datadoa/tibbil.json"
+            }
+          ]
+        },
+        {
+          "id": 2,
+          "title": "Sholawat Badar",
+          "path": "path_sholawat_badar.json"
+        }
+      ]
+    }
+  },
+  
+  "//pemisah5": "-----------------------------------------------------------------------------------------------------------------------------------------------------",
+  
+  "dataDoaMadasa": [
+    {
+      "id": 1,
+      "judul": "Do'a Para Nabi",
+      "subItems": [
+        {
+          "id": 11,
+          "judul": "Doa Nabi Adam",
+          "path": "doa/adam.json"
+        },
+            {
+          "id": 12,
+          "judul": "Doa Nabi Nuh",
+          "path": "doa/nuh.json"
+        },
+        {
+          "id": 13,
+          "judul": "Doa Sebelum Tidur",
+          "path": "datadoa/doasebelumtidur.json"
+        }
+      ]
+    },
+    {
+      "id": 2,
+      "judul": "Kumpulan Doa Pilihan",
+      "subItems": [
+        {
+          "id": 21,
+          "judul": "Doa Tolak Bala",
+          "path": "datadoa/tolakbala.json"
+        },
+        {
+          "id": 22,
+          "judul": "Doa Selamat",
+          "path": "datadoa/selamat.json"
+        }
+      ]
+    },
+    {
+      "id": 3,
+      "judul": "Doa Masuk Masjid",
+      "path": "datadoa/doamasukmasjid.json"
+    },
+    {
+      "id": 4,
+      "judul": "Doa Untuk Orang Tua",
+      "path": "datadoa/doaorangtua.json"
+    },
+    {
+      "id": 5,
+      "judul": "Doa Untuk Anak",
+      "path": "datadoa/doaorangtua.json"
+    },
+    {
+      "id": 6,
+      "judul": "Doa Sapu Jagad",
+      "path": "datadoa/doasapujagad.json"
+    }
+  ],
+  
+  "//pemisah6": "-----------------------------------------------------------------------------------------------------------------------------------------------------",
+  
+  "dataPanduanSholat": [
+    {
+      "id": 1,
+      "judul": "Sholat Subuh",
+      "path": "datasholat/subuh.json"
+    },
+    {
+      "id": 2,
+      "judul": "Sholat Dzuhur",
+      "path": "datasholat/dzuhur.json"
+    },
+    {
+      "id": 3,
+      "judul": "Sholat Ashar",
+      "path": "datasholat/ashar.json"
+    },
+    {
+      "id": 4,
+      "judul": "Sholat Maghrib",
+      "path": "datasholat/maghrib.json"
+    },
+    {
+      "id": 5,
+      "judul": "Sholat Isya",
+      "path": "datasholat/isya.json"
+    }
+  ]
+}
