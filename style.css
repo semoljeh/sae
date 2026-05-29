@@ -1,14 +1,13 @@
 /* ==========================================================================
    RESET & GLOBAL (TERMASUK FONT ARAB)
    ========================================================================== */
-/* 1. FONT KEMENAG (ALTERNATIF CDN GITHUB - LEBIH STABIL) */
+/* 1. FONT KEMENAG (STABIL DARI CDN GOOGLE) */
 @font-face {
     font-family: 'LPMQ Isep Misbah';
-    src: url('https://cdn.jsdelivr.net/gh/sutanlab/quran-api@master/public/fonts/LPMQ.woff') format('woff'),
-         url('https://cdn.jsdelivr.net/gh/sutanlab/quran-api@master/public/fonts/lpmq.woff') format('woff');
+    src: url('https://fonts.gstatic.com/s/lpmq/v1/lpmq-regular.woff2') format('woff2');
     font-weight: normal;
     font-style: normal;
-    font-display: block; /* Memaksa HP untuk memuat font ini, bukan langsung menggantinya */
+    font-display: swap;
 }
 
 /* 2. FONT AMIRI (UNTUK DOA) */
