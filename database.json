@@ -188,8 +188,8 @@
       "subItems": [
         {
           "id": 21,
-          "judul": "Doa Tolak Bala",
-          "path": "datadoa/tolakbala.json"
+          "judul": "Kumpulan Doa Perjalanan",
+          "path": "datadoa/perjalanan.json"
         },
         {
           "id": 22,
