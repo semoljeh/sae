@@ -90,6 +90,11 @@
           "id": 2,
           "title": "Ratib Al-Haddad",
           "path": "ratib/haddad.json"
+        },
+          {
+          "id": 3,
+          "title": "Ratib Syaikhona Kholil",
+          "path": "ratib/syaikhona.json"
         }
       ]
     },
