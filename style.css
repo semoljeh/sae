@@ -203,6 +203,7 @@ body.modal-open{ overflow:hidden; }
     line-height: 2.7 !important; 
     font-size: calc(clamp(26px, 7vw, 34px) * var(--font-scale)) !important;
     transition: font-size 0.3s ease;
+} /* <--- TANDA KURUNG INI YANG SEBELUMNYA HILANG */
 
 /* KARTU AYAT & ACTION BAR */
 .ayat-card { padding: 25px 0; border-bottom: 1px solid #f1f5f9; }
