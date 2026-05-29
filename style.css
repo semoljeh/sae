@@ -3,9 +3,11 @@
    ========================================================================== */
 
 /* 1. FONT KEMENAG (WAJIB UNTUK AL-QURAN) */
+/* 1. FONT KEMENAG (ALTERNATIF CDN GITHUB - LEBIH STABIL) */
 @font-face {
     font-family: 'LPMQ Isep Misbah';
-    src: url('https://quran.kemenag.go.id/assets/fonts/lpmq.woff') format('woff');
+    src: url('https://cdn.jsdelivr.net/gh/sutanlab/quran-api@master/public/fonts/LPMQ.woff') format('woff'),
+         url('https://cdn.jsdelivr.net/gh/sutanlab/quran-api@master/public/fonts/LPMQ.ttf') format('truetype');
     font-weight: normal;
     font-style: normal;
     font-display: swap;
