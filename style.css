@@ -263,14 +263,26 @@ h1.font-kufi { font-size: clamp(24px, 9vw, 40px) !important; }
 /* 1. Pengaturan Utama Teks Arab (Quran, Doa, Panduan) */
 .font-arab, .ayat-arabic { 
     font-family: 'Amiri', serif !important; 
-    font-weight: 400 !important; font-style: normal !important;
-    font-feature-settings: "kern" 0, "liga" 0 !important;
-    text-rendering: auto !important; -webkit-font-smoothing: antialiased !important; -webkit-text-size-adjust: 100% !important;
-    word-spacing: 0.1em !important; letter-spacing: normal !important;
-    line-height: 2.5 !important; direction: rtl; text-align: right;
+    font-weight: 400 !important; 
+    font-style: normal !important;
+    
+    /* PERBAIKAN TOTAL TITIK & SAMBUNGAN ARAB YANG RUSAK */
+    text-rendering: auto !important; /* Wajib 'auto', jika 'optimizeLegibility' titik akan berantakan di Android */
+    font-variant-ligatures: normal !important;
+    font-feature-settings: "liga" 1, "calt" 1, "kern" 1 !important;
+    
+    -webkit-font-smoothing: antialiased !important; 
+    -webkit-text-size-adjust: 100% !important;
+    word-spacing: 0.1em !important; 
+    letter-spacing: normal !important;
+    line-height: 2.5 !important; 
+    direction: rtl; 
+    text-align: right;
     color: #1e293b;
-    font-size: calc(clamp(20px, 7vw, 30px) * var(--font-scale)) !important; transition: font-size 0.3s ease;
+    font-size: calc(clamp(20px, 7vw, 30px) * var(--font-scale)) !important; 
+    transition: font-size 0.3s ease;
 }
+
 
 .ayat-arabic { margin-bottom: 20px; font-size: calc(clamp(26px, 7vw, 34px) * var(--font-scale)) !important; }
 
