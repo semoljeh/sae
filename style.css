@@ -215,19 +215,25 @@ h1.font-kufi { font-size: clamp(24px, 9vw, 40px) !important; }
    ========================================================================== */
 :root { --font-scale: 1; }
 
+/* 1. Pengaturan Utama Teks Arab (Quran, Doa, Panduan) */
 .font-arab, .ayat-arabic { 
     font-family: 'Lateef', serif !important; 
     font-weight: 500 !important; 
     font-style: normal !important;
 
-    line-height: 2.0 !important; 
+    /* PERBAIKAN HAROKAT MENUMPUK & KURANG PRESISI */
+    line-height: 2.6 !important; /* Diperbesar agar harokat antar baris tidak saling tabrak */
+    font-feature-settings: "mark" 1, "mkmk" 1, "liga" 1, "calt" 1 !important; /* Memaksa browser mengatur tumpukan harokat (Mark-to-Mark) secara presisi */
+    word-spacing: normal !important; 
+    letter-spacing: normal !important;
+
     direction: rtl; 
     text-align: right;
     color: #1e293b;
-    /* Font Lateef sedikit lebih kecil dibanding font lain, maka ukurannya diperbesar */
     font-size: calc(clamp(26px, 9vw, 36px) * var(--font-scale)) !important; 
     transition: font-size 0.3s ease;
 }
+
 
 .ayat-arabic { margin-bottom: 20px; font-size: calc(clamp(32px, 10vw, 42px) * var(--font-scale)) !important; }
 
