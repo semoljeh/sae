@@ -1,7 +1,7 @@
 /* ==========================================================================
-   1. FONT DEFINITIONS (MENGGUNAKAN NOTO NASKH ARABIC DARI GOOGLE)
+   1. FONT DEFINITIONS (MENGGUNAKAN LATEEF & REEM KUFI DARI GOOGLE)
    ========================================================================== */
-@import url('https://fonts.googleapis.com/css2?family=Noto+Naskh+Arabic:wght@400;500;600;700&family=Reem+Kufi:wght@500;700&display=swap');
+@import url('https://fonts.googleapis.com/css2?family=Lateef:wght@400;500;600;700&family=Reem+Kufi:wght@500;700&display=swap');
 
 .font-kufi { font-family: 'Reem Kufi', sans-serif; }
 
@@ -10,6 +10,7 @@
    ========================================================================== */
 *{ margin:0; padding:0; box-sizing:border-box; font-family:-apple-system,BlinkMacSystemFont,"Segoe UI",Roboto,sans-serif; -webkit-tap-highlight-color:transparent; -webkit-user-select:none; user-select:none; }
 
+/* Background utama putih bersih agar menyatu dengan navigasi OS Android */
 html, body{ width:100%; min-height:100%; overflow-x:hidden; scroll-behavior:smooth; background-color: #ffffff !important; }
 body{ display:flex; justify-content:center; align-items:center; }
 
@@ -43,7 +44,7 @@ body{ display:flex; justify-content:center; align-items:center; }
 .bg-blue{ background:#e0f2fe; color:#0284c7; } .bg-emerald{ background:#d1fae5; color:#059669; } .bg-purple{ background:#f3e8ff; color:#7c3aed; }
 .bg-lime{ background:#f0fdf4; color:#16a34a; } .bg-pink{ background:#ffe4e6; color:#e11d48; } .bg-orange{ background:#ffedd5; color:#ea580c; }
 
-/* BOTTOM NAV */
+/* BOTTOM NAV (MENYATU DENGAN NAVIGASI HP - PUTIH BERSIH) */
 .bottom-nav { 
     position:fixed; bottom:0; left:50%; transform:translateX(-50%); width:100%; max-width:412px; 
     background: #ffffff !important; 
@@ -145,7 +146,7 @@ body.modal-open{ overflow:hidden; }
 .holiday-card { display: flex; align-items: center; gap: 15px; background: #ffffff; padding: 14px; border-radius: 16px; border-left: 4px solid #e11d48; box-shadow: 0 2px 5px rgba(0,0,0,0.02); }
 .cuti-card { display: flex; align-items: center; gap: 15px; background: #ffffff; padding: 14px; border-radius: 16px; border-left: 4px solid #d97706; box-shadow: 0 2px 5px rgba(0,0,0,0.02); }
 
-.date-hijri { color: #007A78; font-family: 'Noto Naskh Arabic', serif !important; font-size: 13px; font-weight: 600; margin-top: 1px; line-height: 1; }
+.date-hijri { color: #007A78; font-family: 'Lateef', serif !important; font-size: 16px; font-weight: 500; margin-top: 1px; line-height: 1; }
 
 /* ==========================================================================
    AL-QURAN PRO UI & ORNAMEN EMAS
@@ -210,32 +211,33 @@ h1.font-kufi { font-size: clamp(24px, 9vw, 40px) !important; }
 @media (max-height: 400px) { .location-sheet { top: 50%; max-height: 85dvh; } .scrollable-content { padding-bottom: 70px; } .main-header { padding-bottom: 60px; } }
 
 /* ==========================================================================
-   SISTEM TEKS ARAB (MENGGUNAKAN NOTO NASKH ARABIC) - ANTI BUG TITIK
+   SISTEM TEKS ARAB (MENGGUNAKAN LATEEF - KALIGRAFI ELEGAN & ANTI BUG)
    ========================================================================== */
 :root { --font-scale: 1; }
 
 .font-arab, .ayat-arabic { 
-    font-family: 'Noto Naskh Arabic', serif !important; 
+    font-family: 'Lateef', serif !important; 
     font-weight: 500 !important; 
     font-style: normal !important;
 
-    line-height: 2.2 !important; 
+    line-height: 2.0 !important; 
     direction: rtl; 
     text-align: right;
     color: #1e293b;
-    font-size: calc(clamp(20px, 7vw, 30px) * var(--font-scale)) !important; 
+    /* Font Lateef sedikit lebih kecil dibanding font lain, maka ukurannya diperbesar */
+    font-size: calc(clamp(26px, 9vw, 36px) * var(--font-scale)) !important; 
     transition: font-size 0.3s ease;
 }
 
-.ayat-arabic { margin-bottom: 20px; font-size: calc(clamp(26px, 8vw, 34px) * var(--font-scale)) !important; }
+.ayat-arabic { margin-bottom: 20px; font-size: calc(clamp(32px, 10vw, 42px) * var(--font-scale)) !important; }
 
-.surah-arabic-name { font-family: 'Noto Naskh Arabic', serif !important; font-size: calc(24px * var(--font-scale)); font-weight: 700 !important; color: #1e293b; }
+.surah-arabic-name { font-family: 'Lateef', serif !important; font-size: calc(30px * var(--font-scale)); font-weight: 600 !important; color: #1e293b; }
 
-.bismillah-text { font-family: 'Noto Naskh Arabic', serif !important; font-size: calc(26px * var(--font-scale)) !important; font-weight: 600 !important; color: #1e293b; text-align: center; margin: 25px 0 35px 0; word-spacing: 2px; }
+.bismillah-text { font-family: 'Lateef', serif !important; font-size: calc(34px * var(--font-scale)) !important; font-weight: 600 !important; color: #1e293b; text-align: center; margin: 25px 0 35px 0; word-spacing: 2px; }
 
-.ayah-end-number { font-family: 'Noto Naskh Arabic', serif !important; font-size: calc(clamp(18px, 6vw, 24px) * var(--font-scale)) !important; font-weight: 400 !important; transition: font-size 0.3s ease; color: #007A78; margin-left: 8px; display: inline-block; vertical-align: middle; }
+.ayah-end-number { font-family: 'Lateef', serif !important; font-size: calc(clamp(22px, 7vw, 28px) * var(--font-scale)) !important; font-weight: 500 !important; transition: font-size 0.3s ease; color: #007A78; margin-left: 8px; display: inline-block; vertical-align: middle; }
 
-.arab-side-wrapper span.font-arab { font-size: calc(clamp(12px, 3vw, 16px) * var(--font-scale)) !important; line-height: 1.5 !important; font-weight: 600 !important; }
+.arab-side-wrapper span.font-arab { font-size: calc(clamp(16px, 4vw, 20px) * var(--font-scale)) !important; line-height: 1.5 !important; font-weight: 600 !important; }
 
 /* KOTAK NOMOR URUT ARAB */
 .arab-box-number { 
@@ -247,7 +249,7 @@ h1.font-kufi { font-size: clamp(24px, 9vw, 40px) !important; }
     width: 36px !important; min-width: 36px !important; max-width: 36px !important;
     height: 36px !important; min-height: 36px !important; max-height: 36px !important;
     padding: 0 !important; margin: 0 !important; margin-left: 12px !important; flex-shrink: 0 !important;
-    font-family: 'Noto Naskh Arabic', serif !important; font-size: calc(clamp(14px, 4vw, 18px) * var(--font-scale)) !important; 
+    font-family: 'Lateef', serif !important; font-size: calc(clamp(18px, 5vw, 22px) * var(--font-scale)) !important; 
 }
 
 /* Pengaturan Teks Latin & Terjemahan */
@@ -255,7 +257,7 @@ h1.font-kufi { font-size: clamp(24px, 9vw, 40px) !important; }
 .translation-read-text { font-size: calc(clamp(12px, 3.8vw, 16px) * var(--font-scale)) !important; transition: font-size 0.3s ease; }
 .ayah-number-circle { width: clamp(22px, 6vw, 28px) !important; height: clamp(22px, 6vw, 28px) !important; font-size: calc(clamp(10px, 3vw, 13px) * var(--font-scale)) !important; transition: font-size 0.3s ease; }
 
-/* Tombol Zoom */
+/* Tombol Zoom (Kaca Pembesar) */
 #global-zoom-btn {
     position: fixed; bottom: clamp(100px, 15vh, 130px); right: 20px; width: clamp(40px, 11vw, 48px); height: clamp(40px, 11vw, 48px); background: #007A78; color: white; border: none; border-radius: 50%; box-shadow: 0 4px 15px rgba(0, 122, 120, 0.4); display: none; align-items: center; justify-content: center; font-size: clamp(16px, 4.5vw, 20px); cursor: grab; z-index: 3500; opacity: 0; transform: scale(0.5); transition: all 0.3s cubic-bezier(0.34, 1.56, 0.64, 1);
 }
@@ -266,14 +268,72 @@ h1.font-kufi { font-size: clamp(24px, 9vw, 40px) !important; }
    PWA INSTALL BANNER
    ========================================================================== */
 .pwa-banner {
-    position: fixed; bottom: -100px; left: 50%; transform: translateX(-50%); width: 90%; max-width: 380px; background: #ffffff; border-radius: 18px; box-shadow: 0 10px 40px rgba(0,0,0,0.2); display: flex; align-items: center; justify-content: space-between; padding: 12px 16px; z-index: 10000; transition: bottom 0.5s cubic-bezier(0.175, 0.885, 0.32, 1.275); border: 1px solid #f1f5f9;
+    position: fixed;
+    bottom: -100px;
+    left: 50%;
+    transform: translateX(-50%);
+    width: 90%;
+    max-width: 380px;
+    background: #ffffff;
+    border-radius: 18px;
+    box-shadow: 0 10px 40px rgba(0,0,0,0.2);
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    padding: 12px 16px;
+    z-index: 10000;
+    transition: bottom 0.5s cubic-bezier(0.175, 0.885, 0.32, 1.275);
+    border: 1px solid #f1f5f9;
 }
-.pwa-banner.show { bottom: clamp(85px, 14vh, 100px); }
-.pwa-banner-content { display: flex; align-items: center; gap: 12px; }
-.pwa-icon { width: 40px; height: 40px; border-radius: 10px; background: #007A78; object-fit: contain; }
-.pwa-text strong { font-size: 13px; color: #1e293b; display: block; margin-bottom: 2px; }
-.pwa-text p { font-size: 10px; color: #64748b; margin: 0; line-height: 1.2; }
-.pwa-banner-actions { display: flex; align-items: center; gap: 10px; }
-.pwa-btn-install { background: #007A78; color: white; border: none; padding: 6px 14px; border-radius: 20px; font-size: 11px; font-weight: 700; cursor: pointer; box-shadow: 0 4px 10px rgba(0, 122, 120, 0.3); }
+.pwa-banner.show {
+    bottom: clamp(85px, 14vh, 100px); /* Tampil pas di atas menu bawah */
+}
+.pwa-banner-content {
+    display: flex;
+    align-items: center;
+    gap: 12px;
+}
+.pwa-icon {
+    width: 40px;
+    height: 40px;
+    border-radius: 10px;
+    background: #007A78;
+    object-fit: contain;
+}
+.pwa-text strong {
+    font-size: 13px;
+    color: #1e293b;
+    display: block;
+    margin-bottom: 2px;
+}
+.pwa-text p {
+    font-size: 10px;
+    color: #64748b;
+    margin: 0;
+    line-height: 1.2;
+}
+.pwa-banner-actions {
+    display: flex;
+    align-items: center;
+    gap: 10px;
+}
+.pwa-btn-install {
+    background: #007A78;
+    color: white;
+    border: none;
+    padding: 6px 14px;
+    border-radius: 20px;
+    font-size: 11px;
+    font-weight: 700;
+    cursor: pointer;
+    box-shadow: 0 4px 10px rgba(0, 122, 120, 0.3);
+}
 .pwa-btn-install:active { transform: scale(0.95); }
-.pwa-btn-close { background: transparent; color: #94a3b8; border: none; font-size: 16px; cursor: pointer; padding: 4px; }
+.pwa-btn-close {
+    background: transparent;
+    color: #94a3b8;
+    border: none;
+    font-size: 16px;
+    cursor: pointer;
+    padding: 4px;
+}
