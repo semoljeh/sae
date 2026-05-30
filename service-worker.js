@@ -1,4 +1,4 @@
-const CACHE_NAME = "almukhtar-cache-v3"; // Versi cache dinaikkan untuk memaksa update
+const CACHE_NAME = "almukhtar-cache-v4"; // Versi cache dinaikkan untuk memaksa update
 
 const LOCAL_ASSETS = [
   "./",
