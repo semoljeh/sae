@@ -1,4 +1,5 @@
-const CACHE_NAME = "almukhtar-cache-v4"; // Versi cache dinaikkan untuk memaksa update
+// Ganti nama cache untuk memaksa pembaruan secara instan
+const CACHE_NAME = "almukhtar-cache-v3"; 
 
 const LOCAL_ASSETS = [
   "./",
@@ -12,7 +13,8 @@ const LOCAL_ASSETS = [
 ];
 
 self.addEventListener("install", event => {
-  self.skipWaiting(); // Memaksa service worker baru langsung aktif
+  // Memaksa Service Worker baru untuk langsung aktif tanpa menunggu
+  self.skipWaiting(); 
   event.waitUntil(
     caches.open(CACHE_NAME)
       .then(cache => cache.addAll(LOCAL_ASSETS))
@@ -24,24 +26,26 @@ self.addEventListener("activate", event => {
     caches.keys().then(keys => {
       return Promise.all(
         keys.map(key => {
+          // Menghapus cache versi lama secara otomatis
           if (key !== CACHE_NAME) {
-            return caches.delete(key); // Hapus cache versi lama
+            return caches.delete(key);
           }
         })
       );
     })
   );
-  self.clients.claim();
+  self.clients.claim(); // Memaksa SW baru segera mengambil alih klien
 });
 
 self.addEventListener("fetch", event => {
   const request = event.request;
 
-  // STRATEGI NETWORK-FIRST (Utamakan Server Baru, Cadangan Cache)
+  // STRATEGI "NETWORK FIRST, CACHE FALLBACK"
+  // 1. Coba ambil dari jaringan/server terlebih dahulu
   event.respondWith(
     fetch(request)
       .then(networkResponse => {
-        // Jika sukses ambil dari server, simpan/update ke memori Cache
+        // Jika berhasil mengambil dari server (ada jaringan), simpan/perbarui ke Cache
         if (
           request.method === "GET" &&
           request.url.startsWith(self.location.origin)
@@ -54,12 +58,12 @@ self.addEventListener("fetch", event => {
         return networkResponse;
       })
       .catch(() => {
-        // Jika gagal/offline, barulah ambil dari Cache
+        // 2. Jika gagal mengambil dari server (misal karena offline), ambil dari Cache
         return caches.match(request).then(cached => {
           if (cached) {
             return cached;
           }
-          // Jika sama sekali tidak ada, arahkan ke index.html
+          // Fallback terakhir: arahkan ke index.html jika tidak ada di Cache
           if (request.destination === "document") {
             return caches.match("./index.html");
           }
