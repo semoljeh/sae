@@ -266,11 +266,12 @@ h1.font-kufi { font-size: clamp(24px, 9vw, 40px) !important; }
     font-weight: 400 !important; 
     font-style: normal !important;
     
-    /* KUNCI UTAMA: Mengembalikan kewarasan font Amiri */
-    font-feature-settings: normal !important; 
-    font-variant-ligatures: normal !important;
-    text-rendering: optimizeLegibility !important;
-    word-spacing: normal !important; /* Hapus spasi tambahan yang merusak sambungan */
+    /* JURUS TERAKHIR: Memaksa Android memposisikan titik (mark) dan sambungan (liga) */
+    text-rendering: auto !important; /* Jangan gunakan optimizeLegibility di Android */
+    font-variant-ligatures: contextual common-ligatures !important;
+    font-feature-settings: "liga" 1, "rlig" 1, "calt" 1, "mark" 1, "mkmk" 1 !important;
+    
+    word-spacing: normal !important; 
     letter-spacing: normal !important;
     
     line-height: 2.5 !important; 
