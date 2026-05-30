@@ -1,13 +1,7 @@
 /* ==========================================================================
-   1. FONT DEFINITIONS (DIKUNCI KE AMIRI LOKAL WOFF2)
+   1. FONT DEFINITIONS (MENGGUNAKAN SERVER GOOGLE UNTUK MENCEGAH BUG TITIK)
    ========================================================================== */
-@font-face {
-    font-family: 'Amiri';
-    src: url('./font/Amiri-Regular.woff2') format('woff2');
-    font-weight: normal;
-    font-style: normal;
-    font-display: block; /* Mencegah teks berkedip saat dimuat */
-}
+@import url('https://fonts.googleapis.com/css2?family=Amiri:wght@400;700&display=swap');
 
 .font-kufi { font-family: 'Reem Kufi', sans-serif; }
 
@@ -256,7 +250,7 @@ h1.font-kufi { font-size: clamp(24px, 9vw, 40px) !important; }
 @media (max-height: 400px) { .location-sheet { top: 50%; max-height: 85dvh; } .scrollable-content { padding-bottom: 70px; } .main-header { padding-bottom: 60px; } }
 
 /* ==========================================================================
-   SISTEM ZOOM / FLUID SCALING (KUNCI MUTLAK FONT AMIRI)
+   SISTEM ZOOM / FLUID SCALING (MENGGUNAKAN GOOGLE FONT AMIRI)
    ========================================================================== */
 :root { --font-scale: 1; }
 
@@ -265,15 +259,7 @@ h1.font-kufi { font-size: clamp(24px, 9vw, 40px) !important; }
     font-family: 'Amiri', serif !important; 
     font-weight: 400 !important; 
     font-style: normal !important;
-    
-    /* JURUS TERAKHIR: Memaksa Android memposisikan titik (mark) dan sambungan (liga) */
-    text-rendering: auto !important; /* Jangan gunakan optimizeLegibility di Android */
-    font-variant-ligatures: contextual common-ligatures !important;
-    font-feature-settings: "liga" 1, "rlig" 1, "calt" 1, "mark" 1, "mkmk" 1 !important;
-    
-    word-spacing: normal !important; 
-    letter-spacing: normal !important;
-    
+
     line-height: 2.5 !important; 
     direction: rtl; 
     text-align: right;
@@ -281,8 +267,6 @@ h1.font-kufi { font-size: clamp(24px, 9vw, 40px) !important; }
     font-size: calc(clamp(20px, 7vw, 30px) * var(--font-scale)) !important; 
     transition: font-size 0.3s ease;
 }
-
-
 
 .ayat-arabic { margin-bottom: 20px; font-size: calc(clamp(26px, 7vw, 34px) * var(--font-scale)) !important; }
 
