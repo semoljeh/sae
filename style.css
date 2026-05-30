@@ -1,7 +1,7 @@
 /* ==========================================================================
-   1. FONT DEFINITIONS (MENGGUNAKAN SERVER GOOGLE UNTUK MENCEGAH BUG TITIK)
+   1. FONT DEFINITIONS (MENGGUNAKAN NOTO NASKH ARABIC DARI GOOGLE)
    ========================================================================== */
-@import url('https://fonts.googleapis.com/css2?family=Amiri:wght@400;700&display=swap');
+@import url('https://fonts.googleapis.com/css2?family=Noto+Naskh+Arabic:wght@400;500;600;700&family=Reem+Kufi:wght@500;700&display=swap');
 
 .font-kufi { font-family: 'Reem Kufi', sans-serif; }
 
@@ -9,6 +9,7 @@
    2. RESET & GLOBAL
    ========================================================================== */
 *{ margin:0; padding:0; box-sizing:border-box; font-family:-apple-system,BlinkMacSystemFont,"Segoe UI",Roboto,sans-serif; -webkit-tap-highlight-color:transparent; -webkit-user-select:none; user-select:none; }
+
 html, body{ width:100%; min-height:100%; overflow-x:hidden; scroll-behavior:smooth; background-color: #ffffff !important; }
 body{ display:flex; justify-content:center; align-items:center; }
 
@@ -38,17 +39,11 @@ body{ display:flex; justify-content:center; align-items:center; }
 .menu-item{ background:white; border-radius:16px; padding:16px 4px; display:flex; flex-direction:column; align-items:center; justify-content:center; border:1px solid #f1f5f9; cursor:pointer; transition:.2s ease; }
 .menu-item:active{ transform:scale(.96); }
 .icon-wrapper{ display:flex; justify-content:center; align-items:center; margin-bottom:8px; }
-.menu-label { 
-    font-size: 8px !important; 
-    font-weight: 800 !important; 
-    letter-spacing: 0.3px; 
-    color: #475569; 
-    text-align: center;
-}
+.menu-label { font-size: 8px !important; font-weight: 800 !important; letter-spacing: 0.3px; color: #475569; text-align: center; }
 .bg-blue{ background:#e0f2fe; color:#0284c7; } .bg-emerald{ background:#d1fae5; color:#059669; } .bg-purple{ background:#f3e8ff; color:#7c3aed; }
 .bg-lime{ background:#f0fdf4; color:#16a34a; } .bg-pink{ background:#ffe4e6; color:#e11d48; } .bg-orange{ background:#ffedd5; color:#ea580c; }
 
-/* BOTTOM NAV (MENYATU DENGAN NAVIGASI HP - PUTIH BERSIH) */
+/* BOTTOM NAV */
 .bottom-nav { 
     position:fixed; bottom:0; left:50%; transform:translateX(-50%); width:100%; max-width:412px; 
     background: #ffffff !important; 
@@ -66,12 +61,7 @@ body{ display:flex; justify-content:center; align-items:center; }
 .nav-item:active { transform: scale(0.85); }
 .nav-item span:first-child { transition: transform 0.3s ease; }
 .nav-item.active span:first-child { transform: scale(1.15); }
-.nav-label { 
-    font-size: 8px !important; 
-    margin-top: 3px !important; 
-    font-weight: 800 !important; 
-    letter-spacing: 0.3px; 
-}
+.nav-label { font-size: 8px !important; margin-top: 3px !important; font-weight: 800 !important; letter-spacing: 0.3px; }
 
 /* POPUPS & ALERTS */
 .popup-backdrop, .location-backdrop, .custom-alert-backdrop { position: fixed; inset: 0; background: rgba(0,0,0,.5); opacity: 0; pointer-events: none; transition: .3s; z-index: 1000; }
@@ -100,40 +90,19 @@ body{ display:flex; justify-content:center; align-items:center; }
 body.modal-open{ overflow:hidden; }
 
 /* ==========================================================================
-   ALARM SYSTEM CSS (RESPONSIVE & INSTAN)
+   ALARM SYSTEM & TOAST
    ========================================================================== */
 #sholat-content button { color: #94a3b8 !important; transition: all 0.05s ease !important; }
 #sholat-content button.alarm-active { color: #0d9488 !important; transform: scale(1.15); filter: drop-shadow(0 0 4px rgba(13,148,136,0.3)); }
 
-/* ==========================================================================
-   MODERN TOAST NOTIFICATION
-   ========================================================================== */
 #app-toast { 
-    position: fixed; 
-    bottom: clamp(90px, 15vh, 110px);
-    left: 50%; 
-    transform: translate(-50%, 20px) scale(0.9); 
-    opacity: 0;
-    visibility: hidden;
-    background: rgba(15, 23, 42, 0.85);
-    backdrop-filter: blur(12px); 
-    -webkit-backdrop-filter: blur(12px);
-    border: 1px solid rgba(255, 255, 255, 0.15);
-    border-radius: 100px;
-    box-shadow: 0 10px 30px rgba(0, 0, 0, 0.15), 0 4px 12px rgba(0, 0, 0, 0.1); 
-    color: #ffffff; 
-    font-size: clamp(10px, 3vw, 13px);
-    font-weight: 700; 
-    letter-spacing: 0.5px; 
-    padding: clamp(10px, 2.5vw, 12px) clamp(20px, 5vw, 24px);
-    display: flex;
-    align-items: center;
-    justify-content: center;
-    gap: 10px; 
-    white-space: nowrap;
-    z-index: 10000; 
-    pointer-events: none; 
-    transition: all 0.5s cubic-bezier(0.34, 1.56, 0.64, 1); 
+    position: fixed; bottom: clamp(90px, 15vh, 110px); left: 50%; transform: translate(-50%, 20px) scale(0.9); opacity: 0; visibility: hidden;
+    background: rgba(15, 23, 42, 0.85); backdrop-filter: blur(12px); -webkit-backdrop-filter: blur(12px);
+    border: 1px solid rgba(255, 255, 255, 0.15); border-radius: 100px;
+    box-shadow: 0 10px 30px rgba(0, 0, 0, 0.15), 0 4px 12px rgba(0, 0, 0, 0.1); color: #ffffff; 
+    font-size: clamp(10px, 3vw, 13px); font-weight: 700; letter-spacing: 0.5px; padding: clamp(10px, 2.5vw, 12px) clamp(20px, 5vw, 24px);
+    display: flex; align-items: center; justify-content: center; gap: 10px; white-space: nowrap;
+    z-index: 10000; pointer-events: none; transition: all 0.5s cubic-bezier(0.34, 1.56, 0.64, 1); 
 }
 #app-toast.show { opacity: 1; visibility: visible; transform: translate(-50%, 0) scale(1); }
 #app-toast i { font-size: clamp(12px, 3.5vw, 15px); }
@@ -146,13 +115,11 @@ body.modal-open{ overflow:hidden; }
 .modal-full { position: absolute; top: 0; left: 0; width: 100%; height: 100%; z-index: 3000; display: flex; flex-direction: column; transform: translateY(100%); transition: transform 0.35s cubic-bezier(0.4, 0, 0.2, 1); font-family: 'Inter', sans-serif; }
 .modal-full.modal-show { transform: translateY(0); }
 
-/* --- HEADER PREMIUM & GLASSBOX --- */
 .doa-header-premium, .panduan-sholat-header-premium, .quran-header-premium { background: linear-gradient(135deg, #007A78 0%, #0f766e 100%); padding: calc(20px + env(safe-area-inset-top)) 20px 25px 20px; border-bottom-left-radius: 40px; border-bottom-right-radius: 40px; box-shadow: 0 10px 25px -5px rgba(13, 148, 136, 0.3); z-index: 50; position: sticky; top: 0; transition: all 0.4s cubic-bezier(0.4, 0, 0.2, 1); }
 .doa-header-slim, .panduan-sholat-header-slim, .header-slim { padding: calc(15px + env(safe-area-inset-top)) 20px 8px 20px; border-bottom-left-radius: 20px; border-bottom-right-radius: 20px; }
 .doa-glassbox, .panduan-sholat-glassbox, .quran-glassbox { background: rgba(255, 255, 255, 0.15); backdrop-filter: blur(10px); -webkit-backdrop-filter: blur(10px); border: 1px solid rgba(255, 255, 255, 0.2); border-radius: 25px; padding: 15px; text-align: center; transition: all 0.3s ease; display: flex; justify-content: center; align-items: center; }
 .doa-header-slim .doa-glassbox, .panduan-sholat-header-slim .panduan-sholat-glassbox { padding: 8px 15px; border-radius: 15px; }
 
-/* ITEM CARD LIST UMUM (DOA, SHOLAT, MENU) */
 .doa-item-card, .panduan-sholat-item-card { background: white; display: flex; align-items: center; cursor: pointer; transition: all 0.2s; box-shadow: 0 2px 4px rgba(0,0,0,0.02); border: 1px solid #f1f5f9; }
 .doa-item-card:active, .panduan-sholat-item-card:active { transform: scale(0.97); background: #fafafa; }
 .doa-number, .panduan-sholat-number { background: #f0fdfa; color: #007A78; display: flex; align-items: center; justify-content: center; font-weight: 800; border: 1px solid #ccfbf1; flex-shrink: 0; }
@@ -170,14 +137,7 @@ body.modal-open{ overflow:hidden; }
 .calendar-date { aspect-ratio: 1/1.2; display: flex; flex-direction: column; align-items: center; justify-content: center; background: #ffffff; border-right: 0.5px solid #f1f5f9; border-bottom: 0.5px solid #f1f5f9; position: relative; transition: background 0.2s; }
 .calendar-date:nth-child(7n) { border-right: none; }
 .date-masehi { font-weight: 700; color: #334155; }
-.date-pasaran { 
-    color: #94a3b8; 
-    text-transform: uppercase; 
-    margin-top: 1px; 
-    font-size: 7px !important; 
-    font-weight: 800;
-    letter-spacing: 0.5px; 
-}
+.date-pasaran { color: #94a3b8; text-transform: uppercase; margin-top: 1px; font-size: 7px !important; font-weight: 800; letter-spacing: 0.5px; }
 .date-today { background: #f0fdfa !important; } .date-today::after { content: ''; position: absolute; top: 5px; right: 5px; width: 6px; height: 6px; background: #007A78; border-radius: 50%; }
 .is-real-holiday { background: #fff1f2 !important; } .is-real-holiday .date-masehi { color: #e11d48 !important; font-weight: 800; }
 .is-cuti-bersama { background: #fffbeb !important; } .is-cuti-bersama .date-masehi { color: #d97706 !important; font-weight: 800; }
@@ -185,7 +145,7 @@ body.modal-open{ overflow:hidden; }
 .holiday-card { display: flex; align-items: center; gap: 15px; background: #ffffff; padding: 14px; border-radius: 16px; border-left: 4px solid #e11d48; box-shadow: 0 2px 5px rgba(0,0,0,0.02); }
 .cuti-card { display: flex; align-items: center; gap: 15px; background: #ffffff; padding: 14px; border-radius: 16px; border-left: 4px solid #d97706; box-shadow: 0 2px 5px rgba(0,0,0,0.02); }
 
-.date-hijri { color: #007A78; font-family: 'Amiri', serif !important; font-size: 13px; font-weight: normal; margin-top: 1px; line-height: 1; }
+.date-hijri { color: #007A78; font-family: 'Noto Naskh Arabic', serif !important; font-size: 13px; font-weight: 600; margin-top: 1px; line-height: 1; }
 
 /* ==========================================================================
    AL-QURAN PRO UI & ORNAMEN EMAS
@@ -250,17 +210,16 @@ h1.font-kufi { font-size: clamp(24px, 9vw, 40px) !important; }
 @media (max-height: 400px) { .location-sheet { top: 50%; max-height: 85dvh; } .scrollable-content { padding-bottom: 70px; } .main-header { padding-bottom: 60px; } }
 
 /* ==========================================================================
-   SISTEM ZOOM / FLUID SCALING (MENGGUNAKAN GOOGLE FONT AMIRI)
+   SISTEM TEKS ARAB (MENGGUNAKAN NOTO NASKH ARABIC) - ANTI BUG TITIK
    ========================================================================== */
 :root { --font-scale: 1; }
 
-/* 1. Pengaturan Utama Teks Arab (Quran, Doa, Panduan) */
 .font-arab, .ayat-arabic { 
-    font-family: 'Amiri', serif !important; 
-    font-weight: 400 !important; 
+    font-family: 'Noto Naskh Arabic', serif !important; 
+    font-weight: 500 !important; 
     font-style: normal !important;
 
-    line-height: 2.5 !important; 
+    line-height: 2.2 !important; 
     direction: rtl; 
     text-align: right;
     color: #1e293b;
@@ -268,19 +227,17 @@ h1.font-kufi { font-size: clamp(24px, 9vw, 40px) !important; }
     transition: font-size 0.3s ease;
 }
 
-.ayat-arabic { margin-bottom: 20px; font-size: calc(clamp(26px, 7vw, 34px) * var(--font-scale)) !important; }
+.ayat-arabic { margin-bottom: 20px; font-size: calc(clamp(26px, 8vw, 34px) * var(--font-scale)) !important; }
 
-.surah-arabic-name { font-family: 'Amiri', serif !important; font-size: calc(24px * var(--font-scale)); font-weight: normal !important; color: #1e293b; }
+.surah-arabic-name { font-family: 'Noto Naskh Arabic', serif !important; font-size: calc(24px * var(--font-scale)); font-weight: 700 !important; color: #1e293b; }
 
-.bismillah-text { font-family: 'Amiri', serif !important; font-size: calc(28px * var(--font-scale)) !important; font-weight: normal !important; color: #1e293b; text-align: center; margin: 25px 0 35px 0; word-spacing: 2px; }
+.bismillah-text { font-family: 'Noto Naskh Arabic', serif !important; font-size: calc(26px * var(--font-scale)) !important; font-weight: 600 !important; color: #1e293b; text-align: center; margin: 25px 0 35px 0; word-spacing: 2px; }
 
-.ayah-end-number { font-family: 'Amiri', serif !important; font-size: calc(clamp(18px, 6vw, 24px) * var(--font-scale)) !important; font-weight: normal !important; transition: font-size 0.3s ease; color: #007A78; margin-left: 8px; display: inline-block; vertical-align: middle; }
+.ayah-end-number { font-family: 'Noto Naskh Arabic', serif !important; font-size: calc(clamp(18px, 6vw, 24px) * var(--font-scale)) !important; font-weight: 400 !important; transition: font-size 0.3s ease; color: #007A78; margin-left: 8px; display: inline-block; vertical-align: middle; }
 
-.arab-side-wrapper span.font-arab { font-size: calc(clamp(11px, 3vw, 15px) * var(--font-scale)) !important; line-height: 1.5 !important; font-weight: normal !important; }
+.arab-side-wrapper span.font-arab { font-size: calc(clamp(12px, 3vw, 16px) * var(--font-scale)) !important; line-height: 1.5 !important; font-weight: 600 !important; }
 
-/* ==========================================================================
-   KOTAK NOMOR URUT ARAB (PRESISI & TANPA DUPLIKAT)
-   ========================================================================== */
+/* KOTAK NOMOR URUT ARAB */
 .arab-box-number { 
     background-color: #f0fdfa !important; 
     color: #0f766e !important; 
@@ -290,13 +247,15 @@ h1.font-kufi { font-size: clamp(24px, 9vw, 40px) !important; }
     width: 36px !important; min-width: 36px !important; max-width: 36px !important;
     height: 36px !important; min-height: 36px !important; max-height: 36px !important;
     padding: 0 !important; margin: 0 !important; margin-left: 12px !important; flex-shrink: 0 !important;
-    font-family: 'Amiri', serif !important; font-size: calc(clamp(14px, 4vw, 18px) * var(--font-scale)) !important; 
+    font-family: 'Noto Naskh Arabic', serif !important; font-size: calc(clamp(14px, 4vw, 18px) * var(--font-scale)) !important; 
 }
 
+/* Pengaturan Teks Latin & Terjemahan */
 .latin-read-text { font-size: calc(clamp(13px, 4vw, 17px) * var(--font-scale)) !important; transition: font-size 0.3s ease; }
 .translation-read-text { font-size: calc(clamp(12px, 3.8vw, 16px) * var(--font-scale)) !important; transition: font-size 0.3s ease; }
 .ayah-number-circle { width: clamp(22px, 6vw, 28px) !important; height: clamp(22px, 6vw, 28px) !important; font-size: calc(clamp(10px, 3vw, 13px) * var(--font-scale)) !important; transition: font-size 0.3s ease; }
 
+/* Tombol Zoom */
 #global-zoom-btn {
     position: fixed; bottom: clamp(100px, 15vh, 130px); right: 20px; width: clamp(40px, 11vw, 48px); height: clamp(40px, 11vw, 48px); background: #007A78; color: white; border: none; border-radius: 50%; box-shadow: 0 4px 15px rgba(0, 122, 120, 0.4); display: none; align-items: center; justify-content: center; font-size: clamp(16px, 4.5vw, 20px); cursor: grab; z-index: 3500; opacity: 0; transform: scale(0.5); transition: all 0.3s cubic-bezier(0.34, 1.56, 0.64, 1);
 }
@@ -307,72 +266,14 @@ h1.font-kufi { font-size: clamp(24px, 9vw, 40px) !important; }
    PWA INSTALL BANNER
    ========================================================================== */
 .pwa-banner {
-    position: fixed;
-    bottom: -100px;
-    left: 50%;
-    transform: translateX(-50%);
-    width: 90%;
-    max-width: 380px;
-    background: #ffffff;
-    border-radius: 18px;
-    box-shadow: 0 10px 40px rgba(0,0,0,0.2);
-    display: flex;
-    align-items: center;
-    justify-content: space-between;
-    padding: 12px 16px;
-    z-index: 10000;
-    transition: bottom 0.5s cubic-bezier(0.175, 0.885, 0.32, 1.275);
-    border: 1px solid #f1f5f9;
+    position: fixed; bottom: -100px; left: 50%; transform: translateX(-50%); width: 90%; max-width: 380px; background: #ffffff; border-radius: 18px; box-shadow: 0 10px 40px rgba(0,0,0,0.2); display: flex; align-items: center; justify-content: space-between; padding: 12px 16px; z-index: 10000; transition: bottom 0.5s cubic-bezier(0.175, 0.885, 0.32, 1.275); border: 1px solid #f1f5f9;
 }
-.pwa-banner.show {
-    bottom: clamp(85px, 14vh, 100px); /* Tampil pas di atas menu bawah */
-}
-.pwa-banner-content {
-    display: flex;
-    align-items: center;
-    gap: 12px;
-}
-.pwa-icon {
-    width: 40px;
-    height: 40px;
-    border-radius: 10px;
-    background: #007A78;
-    object-fit: contain;
-}
-.pwa-text strong {
-    font-size: 13px;
-    color: #1e293b;
-    display: block;
-    margin-bottom: 2px;
-}
-.pwa-text p {
-    font-size: 10px;
-    color: #64748b;
-    margin: 0;
-    line-height: 1.2;
-}
-.pwa-banner-actions {
-    display: flex;
-    align-items: center;
-    gap: 10px;
-}
-.pwa-btn-install {
-    background: #007A78;
-    color: white;
-    border: none;
-    padding: 6px 14px;
-    border-radius: 20px;
-    font-size: 11px;
-    font-weight: 700;
-    cursor: pointer;
-    box-shadow: 0 4px 10px rgba(0, 122, 120, 0.3);
-}
+.pwa-banner.show { bottom: clamp(85px, 14vh, 100px); }
+.pwa-banner-content { display: flex; align-items: center; gap: 12px; }
+.pwa-icon { width: 40px; height: 40px; border-radius: 10px; background: #007A78; object-fit: contain; }
+.pwa-text strong { font-size: 13px; color: #1e293b; display: block; margin-bottom: 2px; }
+.pwa-text p { font-size: 10px; color: #64748b; margin: 0; line-height: 1.2; }
+.pwa-banner-actions { display: flex; align-items: center; gap: 10px; }
+.pwa-btn-install { background: #007A78; color: white; border: none; padding: 6px 14px; border-radius: 20px; font-size: 11px; font-weight: 700; cursor: pointer; box-shadow: 0 4px 10px rgba(0, 122, 120, 0.3); }
 .pwa-btn-install:active { transform: scale(0.95); }
-.pwa-btn-close {
-    background: transparent;
-    color: #94a3b8;
-    border: none;
-    font-size: 16px;
-    cursor: pointer;
-    padding: 4px;
-}
+.pwa-btn-close { background: transparent; color: #94a3b8; border: none; font-size: 16px; cursor: pointer; padding: 4px; }
