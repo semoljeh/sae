@@ -279,7 +279,7 @@ h1.font-kufi { font-size: clamp(24px, 9vw, 40px) !important; }
         "mkmk" 1,  /* mark-to-mark: harakat di atas harakat (tanwin+shadda) */
         "calt" 1,  /* contextual alternates */
         "liga" 1,  /* ligatur (لا dll) */
-        "kern" 0   /* MATIKAN kerning — penyebab utama harakat bergeser */
+        "kern" 1   /* MATIKAN kerning — penyebab utama harakat bergeser */
         !important;
 
     /* geometricPrecision: posisi sub-pixel harakat lebih tepat */
@@ -292,8 +292,8 @@ h1.font-kufi { font-size: clamp(24px, 9vw, 40px) !important; }
     font-size-adjust: 0.5 !important;
 
     /* JANGAN ubah — menggeser posisi harakat */
-    word-spacing: 0 !important;
-    letter-spacing: 0 !important;
+    word-spacing: 0.25em !important; /* Memberikan sedikit jarak antar kata */
+    letter-spacing: 0 !important; /* Biarkan letter-spacing tetap 0 agar huruf bersambung tidak putus */
 
     /* Elemen teks boleh overflow (harakat menonjol ke luar bounding box) */
     overflow: visible !important;
