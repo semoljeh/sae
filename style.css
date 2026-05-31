@@ -415,6 +415,9 @@ h1.font-kufi { font-size: clamp(24px, 9vw, 40px) !important; }
 /* ═══════════════════════════════════════════════════════
    KOTAK NOMOR ARAB (list surah/juz)
    ═══════════════════════════════════════════════════════ */
+/* ═══════════════════════════════════════════════════════
+   KOTAK NOMOR ARAB (list surah/juz)
+   ═══════════════════════════════════════════════════════ */
 .arab-box-number {
     font-family: 'Noto Naskh Arabic', 'Scheherazade New', serif !important;
     background-color: #f0fdfa !important;
@@ -429,7 +432,10 @@ h1.font-kufi { font-size: clamp(24px, 9vw, 40px) !important; }
     padding: 0 !important;
     margin: 0 0 0 12px !important;
     flex-shrink: 0 !important;
-    font-size: calc(clamp(14px, 4vw, 18px) * var(--font-scale)) !important;
+    
+    /* ⬇️ BAGIAN INI YANG DIPERBESAR ⬇️ */
+    font-size: calc(clamp(20px, 6vw, 26px) * var(--font-scale)) !important;
+    
     font-weight: 400 !important;
     line-height: 1 !important;
     overflow: visible !important;
