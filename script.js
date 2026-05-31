@@ -636,7 +636,7 @@ async function renderAppMenuDetailLogic(cat, id, parentFolderId) {
 
         let headerCard = d.judul ? `<div class="text-center mb-6"><h3 class="font-kufi text-2xl text-teal-700 font-bold bg-teal-50/50 inline-block px-5 py-2 rounded-xl border border-teal-100" dir="rtl">${d.judul}</h3></div><div class="w-full h-[1px] bg-slate-100 mb-8"></div>` : '';
 
-        content.innerHTML = `<div class="bg-white p-8 rounded-3xl shadow-sm border border-slate-100">${headerCard}<p class="font-arab text-justify" dir="rtl">${teksArab}</p>${tampilanDetail}</div>`;
+        content.innerHTML = `<div class="bg-white p-8 rounded-3xl shadow-sm border border-slate-100">${headerCard}<p class="font-arab" dir="rtl" lang="ar">${teksArab}</p>${tampilanDetail}</div>`;
     } catch (error) { content.innerHTML = `<div class="text-center py-20"><i class="fa-solid fa-triangle-exclamation text-red-400 text-3xl mb-3"></i><p class="text-red-500 font-bold text-xs uppercase">Gagal Memuat Data</p></div>`; }
 }
 
@@ -693,7 +693,7 @@ window.toggleCalendar = function() {
 /* ==========================================================================
    AL-QURAN PRO (EQURAN.ID V2 API) & NAMA JUZ BAHASA ARAB
    ========================================================================== */
-const quranBaseUrl = 'https://equran.id/api/v2';
+const quranBaseUrl = 'quran';
 let currentQuranTab = 'surah';
 let currentQuranView = 'list';
 let currentSurahAudioFull = null;
@@ -706,15 +706,15 @@ window.currentlyPlayingAyatKey = null;
 const quranJuzMapping = [
     { juz: 1, start: { s: 1, a: 1 }, end: { s: 2, a: 141 } },
     { juz: 2, start: { s: 2, a: 142 }, end: { s: 2, a: 252 } },
-    { juz: 3, start: { s: 2, a: 253 }, end: { s: 3, a: 92 } },
-    { juz: 4, start: { s: 3, a: 93 }, end: { s: 4, a: 23 } },
+    { juz: 3, start: { s: 2, a: 253 }, end: { s: 3, a: 91 } }, 
+    { juz: 4, start: { s: 3, a: 92 }, end: { s: 4, a: 23 } },  
     { juz: 5, start: { s: 4, a: 24 }, end: { s: 4, a: 147 } },
-    { juz: 6, start: { s: 4, a: 148 }, end: { s: 5, a: 81 } },
-    { juz: 7, start: { s: 5, a: 82 }, end: { s: 6, a: 110 } },
+    { juz: 6, start: { s: 4, a: 148 }, end: { s: 5, a: 82 } }, 
+    { juz: 7, start: { s: 5, a: 83 }, end: { s: 6, a: 110 } }, 
     { juz: 8, start: { s: 6, a: 111 }, end: { s: 7, a: 87 } },
     { juz: 9, start: { s: 7, a: 88 }, end: { s: 8, a: 40 } },
-    { juz: 10, start: { s: 8, a: 41 }, end: { s: 9, a: 92 } },
-    { juz: 11, start: { s: 9, a: 93 }, end: { s: 11, a: 5 } },
+    { juz: 10, start: { s: 8, a: 41 }, end: { s: 9, a: 93 } }, 
+    { juz: 11, start: { s: 9, a: 94 }, end: { s: 11, a: 5 } }, 
     { juz: 12, start: { s: 11, a: 6 }, end: { s: 12, a: 52 } },
     { juz: 13, start: { s: 12, a: 53 }, end: { s: 14, a: 52 } },
     { juz: 14, start: { s: 15, a: 1 }, end: { s: 16, a: 128 } },
@@ -725,8 +725,8 @@ const quranJuzMapping = [
     { juz: 19, start: { s: 25, a: 21 }, end: { s: 27, a: 55 } },
     { juz: 20, start: { s: 27, a: 56 }, end: { s: 29, a: 45 } },
     { juz: 21, start: { s: 29, a: 46 }, end: { s: 33, a: 30 } },
-    { juz: 22, start: { s: 33, a: 31 }, end: { s: 36, a: 27 } },
-    { juz: 23, start: { s: 36, a: 28 }, end: { s: 39, a: 31 } },
+    { juz: 22, start: { s: 33, a: 31 }, end: { s: 36, a: 21 } },
+    { juz: 23, start: { s: 36, a: 22 }, end: { s: 39, a: 31 } }, 
     { juz: 24, start: { s: 39, a: 32 }, end: { s: 41, a: 46 } },
     { juz: 25, start: { s: 41, a: 47 }, end: { s: 45, a: 37 } },
     { juz: 26, start: { s: 46, a: 1 }, end: { s: 51, a: 30 } },
@@ -735,6 +735,7 @@ const quranJuzMapping = [
     { juz: 29, start: { s: 67, a: 1 }, end: { s: 77, a: 50 } },
     { juz: 30, start: { s: 78, a: 1 }, end: { s: 114, a: 6 } }
 ];
+
 
 const namaJuzArab = [
     "الجزء الأول", "الجزء الثاني", "الجزء الثالث", "الجزء الرابع", "الجزء الخامس",
@@ -765,6 +766,7 @@ window.toggleQuran = function() {
 
 window.goBackQuran = function() {
     if (!isPopping) { history.back(); return; }
+    
     if (currentQuranView === 'detail') {
         currentQuranView = 'list'; 
         document.getElementById('surah-title-arab').innerText = ''; 
@@ -772,14 +774,29 @@ window.goBackQuran = function() {
         document.getElementById('surah-subtitle').innerText = ''; 
         document.getElementById('quran-tabs').classList.remove('hidden'); 
         document.getElementById('surah-meta-info').classList.add('hidden'); 
-        stopAudio(); 
+        
+        // Matikan audio jika ada yang sedang berjalan
+        if (typeof stopAudio === "function") stopAudio(); 
+        
+        // Memuat ulang daftar menu Surah/Juz
         switchQuranTab(currentQuranTab); 
-        document.getElementById('quran-content').scrollTo({ top: 0, behavior: 'smooth' });
+        
+        // [KODE BARU] 3. Kembalikan layar ke posisi scroll yang sudah direkam tadi.
+        // Kita menggunakan setTimeout (jeda waktu sangat singkat) agar sistem 
+        // punya waktu memunculkan daftar menunya terlebih dahulu sebelum di-scroll.
+        setTimeout(() => {
+            const c = document.getElementById('quran-content');
+            if (c) {
+                c.scrollTop = window.lastQuranScroll || 0;
+            }
+        }, 10);
+
     } else { 
         document.getElementById('quran-modal').classList.remove('modal-show'); 
-        resetNavToBeranda(); 
-        stopAudio(); 
+        if (typeof resetNavToBeranda === "function") resetNavToBeranda(); 
+        if (typeof stopAudio === "function") stopAudio(); 
     }
+    
     checkZoomBtnVisibility();
 }
 
@@ -813,25 +830,138 @@ function stopAudio() {
     }
 }
 
-async function loadSurahList() { 
+
+const daftarSurahLokal = [
+    { nomor: 1, namaLatin: "Al-Fatihah", arti: "Pembukaan", nama: "الفاتحة" },
+    { nomor: 2, namaLatin: "Al-Baqarah", arti: "Sapi", nama: "البقرة" },
+    { nomor: 3, namaLatin: "Ali 'Imran", arti: "Keluarga Imran", nama: "اٰل عمران" },
+    { nomor: 4, namaLatin: "An-Nisa'", arti: "Wanita", nama: "النساۤء" },
+    { nomor: 5, namaLatin: "Al-Ma'idah", arti: "Hidangan", nama: "الماۤئدة" },
+    { nomor: 6, namaLatin: "Al-An'am", arti: "Binatang Ternak", nama: "الانعام" },
+    { nomor: 7, namaLatin: "Al-A'raf", arti: "Tempat Tertinggi", nama: "الاعراف" },
+    { nomor: 8, namaLatin: "Al-Anfal", arti: "Rampasan Perang", nama: "الانفال" },
+    { nomor: 9, namaLatin: "At-Taubah", arti: "Pengampunan", nama: "التوبة" },
+    { nomor: 10, namaLatin: "Yunus", arti: "Yunus", nama: "يونس" },
+    { nomor: 11, namaLatin: "Hud", arti: "Hud", nama: "هود" },
+    { nomor: 12, namaLatin: "Yusuf", arti: "Yusuf", nama: "يوسف" },
+    { nomor: 13, namaLatin: "Ar-Ra'd", arti: "Guruh", nama: "الرّعد" },
+    { nomor: 14, namaLatin: "Ibrahim", arti: "Ibrahim", nama: "ابرٰهيم" },
+    { nomor: 15, namaLatin: "Al-Hijr", arti: "Hijr", nama: "الحجر" },
+    { nomor: 16, namaLatin: "An-Nahl", arti: "Lebah", nama: "النحل" },
+    { nomor: 17, namaLatin: "Al-Isra'", arti: "Memperjalankan Malam Hari", nama: "الاسراۤء" },
+    { nomor: 18, namaLatin: "Al-Kahf", arti: "Goa", nama: "الكهف" },
+    { nomor: 19, namaLatin: "Maryam", arti: "Maryam", nama: "مريم" },
+    { nomor: 20, namaLatin: "Taha", arti: "Taha", nama: "طٰهٰ" },
+    { nomor: 21, namaLatin: "Al-Anbiya'", arti: "Para Nabi", nama: "الانبياۤء" },
+    { nomor: 22, namaLatin: "Al-Hajj", arti: "Haji", nama: "الحج" },
+    { nomor: 23, namaLatin: "Al-Mu'minun", arti: "Orang-Orang Mukmin", nama: "المؤمنون" },
+    { nomor: 24, namaLatin: "An-Nur", arti: "Cahaya", nama: "النّور" },
+    { nomor: 25, namaLatin: "Al-Furqan", arti: "Pembeda", nama: "الفرقان" },
+    { nomor: 26, namaLatin: "Asy-Syu'ara'", arti: "Para Penyair", nama: "الشعراۤء" },
+    { nomor: 27, namaLatin: "An-Naml", arti: "Semut-semut", nama: "النمل" },
+    { nomor: 28, namaLatin: "Al-Qasas", arti: "Kisah-Kisah", nama: "القصص" },
+    { nomor: 29, namaLatin: "Al-'Ankabut", arti: "Laba-Laba", nama: "العنكبوت" },
+    { nomor: 30, namaLatin: "Ar-Rum", arti: "Romawi", nama: "الرّوم" },
+    { nomor: 31, namaLatin: "Luqman", arti: "Luqman", nama: "لقمٰن" },
+    { nomor: 32, namaLatin: "As-Sajdah", arti: "Sajdah", nama: "السّجدة" },
+    { nomor: 33, namaLatin: "Al-Ahzab", arti: "Golongan Yang Bersekutu", nama: "الاحزاب" },
+    { nomor: 34, namaLatin: "Saba'", arti: "Saba'", nama: "سبأ" },
+    { nomor: 35, namaLatin: "Fatir", arti: "Maha Pencipta", nama: "فاطر" },
+    { nomor: 36, namaLatin: "Yasin", arti: "Yasin", nama: "يٰسۤ" },
+    { nomor: 37, namaLatin: "As-Saffat", arti: "Barisan-Barisan", nama: "الصّٰۤفّٰت" },
+    { nomor: 38, namaLatin: "Sad", arti: "Sad", nama: "ص" },
+    { nomor: 39, namaLatin: "Az-Zumar", arti: "Rombongan", nama: "الزمر" },
+    { nomor: 40, namaLatin: "Gafir", arti: "Maha Pengampun", nama: "غافر" },
+    { nomor: 41, namaLatin: "Fussilat", arti: "Yang Dijelaskan", nama: "فصّلت" },
+    { nomor: 42, namaLatin: "Asy-Syura", arti: "Musyawarah", nama: "الشورى" },
+    { nomor: 43, namaLatin: "Az-Zukhruf", arti: "Perhiasan", nama: "الزخرف" },
+    { nomor: 44, namaLatin: "Ad-Dukhan", arti: "Kabut", nama: "الدخان" },
+    { nomor: 45, namaLatin: "Al-Jasiyah", arti: "Berlutut", nama: "الجاثية" },
+    { nomor: 46, namaLatin: "Al-Ahqaf", arti: "Bukit Pasir", nama: "الاحقاف" },
+    { nomor: 47, namaLatin: "Muhammad", arti: "Muhammad", nama: "محمّد" },
+    { nomor: 48, namaLatin: "Al-Fath", arti: "Kemenangan", nama: "الفتح" },
+    { nomor: 49, namaLatin: "Al-Hujurat", arti: "Kamar-Kamar", nama: "الحجرٰت" },
+    { nomor: 50, namaLatin: "Qaf", arti: "Qaf", nama: "ق" },
+    { nomor: 51, namaLatin: "Az-Zariyat", arti: "Angin yang Menerbangkan", nama: "الذّٰريٰت" },
+    { nomor: 52, namaLatin: "At-Tur", arti: "Bukit Tursina", nama: "الطور" },
+    { nomor: 53, namaLatin: "An-Najm", arti: "Bintang", nama: "النجم" },
+    { nomor: 54, namaLatin: "Al-Qamar", arti: "Bulan", nama: "القمر" },
+    { nomor: 55, namaLatin: "Ar-Rahman", arti: "Maha Pengasih", nama: "الرحمن" },
+    { nomor: 56, namaLatin: "Al-Waqi'ah", arti: "Hari Kiamat", nama: "الواقعة" },
+    { nomor: 57, namaLatin: "Al-Hadid", arti: "Besi", nama: "الحديد" },
+    { nomor: 58, namaLatin: "Al-Mujadalah", arti: "Gugatan", nama: "المجادلة" },
+    { nomor: 59, namaLatin: "Al-Hasyr", arti: "Pengusiran", nama: "الحشر" },
+    { nomor: 60, namaLatin: "Al-Mumtahanah", arti: "Wanita Yang Diuji", nama: "الممتحنة" },
+    { nomor: 61, namaLatin: "As-Saff", arti: "Barisan", nama: "الصّفّ" },
+    { nomor: 62, namaLatin: "Al-Jumu'ah", arti: "Jumat", nama: "الجمعة" },
+    { nomor: 63, namaLatin: "Al-Munafiqun", arti: "Orang-Orang Munafik", nama: "المنٰفقون" },
+    { nomor: 64, namaLatin: "At-Tagabun", arti: "Pengungkapan Kesalahan", nama: "التغابن" },
+    { nomor: 65, namaLatin: "At-Talaq", arti: "Talak", nama: "الطلاق" },
+    { nomor: 66, namaLatin: "At-Tahrim", arti: "Pengharaman", nama: "التحريم" },
+    { nomor: 67, namaLatin: "Al-Mulk", arti: "Kerajaan", nama: "الملك" },
+    { nomor: 68, namaLatin: "Al-Qalam", arti: "Pena", nama: "القلم" },
+    { nomor: 69, namaLatin: "Al-Haqqah", arti: "Hari Kiamat", nama: "الحاۤقّة" },
+    { nomor: 70, namaLatin: "Al-Ma'arij", arti: "Tempat Naik", nama: "المعارج" },
+    { nomor: 71, namaLatin: "Nuh", arti: "Nuh", nama: "نوح" },
+    { nomor: 72, namaLatin: "Al-Jinn", arti: "Jin", nama: "الجن" },
+    { nomor: 73, namaLatin: "Al-Muzzammil", arti: "Orang Yang Berselimut", nama: "المزّمّل" },
+    { nomor: 74, namaLatin: "Al-Muddassir", arti: "Orang Yang Berkemul", nama: "المدّثّر" },
+    { nomor: 75, namaLatin: "Al-Qiyamah", arti: "Hari Kiamat", nama: "القيٰمة" },
+    { nomor: 76, namaLatin: "Al-Insan", arti: "Manusia", nama: "الانسان" },
+    { nomor: 77, namaLatin: "Al-Mursalat", arti: "Malaikat Yang Diutus", nama: "المرسلٰت" },
+    { nomor: 78, namaLatin: "An-Naba'", arti: "Berita Besar", nama: "النبأ" },
+    { nomor: 79, namaLatin: "An-Nazi'at", arti: "Malaikat Yang Mencabut", nama: "النّٰزعٰت" },
+    { nomor: 80, namaLatin: "'Abasa", arti: "Bermuka Masam", nama: "عبس" },
+    { nomor: 81, namaLatin: "At-Takwir", arti: "Penggulungan", nama: "التكوير" },
+    { nomor: 82, namaLatin: "Al-Infitar", arti: "Terbelah", nama: "الانفطار" },
+    { nomor: 83, namaLatin: "Al-Mutaffifin", arti: "Orang-Orang Curang", nama: "المطفّفين" },
+    { nomor: 84, namaLatin: "Al-Insyiqaq", arti: "Terbelah", nama: "الانشقاق" },
+    { nomor: 85, namaLatin: "Al-Buruj", arti: "Gugusan Bintang", nama: "البروج" },
+    { nomor: 86, namaLatin: "At-Tariq", arti: "Yang Datang Di Malam Hari", nama: "الطارق" },
+    { nomor: 87, namaLatin: "Al-A'la", arti: "Maha Tinggi", nama: "الاعلى" },
+    { nomor: 88, namaLatin: "Al-Gasyiyah", arti: "Hari Kiamat", nama: "الغاشية" },
+    { nomor: 89, namaLatin: "Al-Fajr", arti: "Fajar", nama: "الفجر" },
+    { nomor: 90, namaLatin: "Al-Balad", arti: "Negeri", nama: "البلد" },
+    { nomor: 91, namaLatin: "Asy-Syams", arti: "Matahari", nama: "الشمس" },
+    { nomor: 92, namaLatin: "Al-Lail", arti: "Malam", nama: "الّيل" },
+    { nomor: 93, namaLatin: "Ad-Duha", arti: "Duha", nama: "الضحى" },
+    { nomor: 94, namaLatin: "Asy-Syarh", arti: "Lapang", nama: "الشرح" },
+    { nomor: 95, namaLatin: "At-Tin", arti: "Buah Tin", nama: "التين" },
+    { nomor: 96, namaLatin: "Al-'Alaq", arti: "Segumpal Darah", nama: "العلق" },
+    { nomor: 97, namaLatin: "Al-Qadr", arti: "Kemuliaan", nama: "القدر" },
+    { nomor: 98, namaLatin: "Al-Bayyinah", arti: "Bukti Nyata", nama: "البيّنة" },
+    { nomor: 99, namaLatin: "Az-Zalzalah", arti: "Guncangan", nama: "الزلزلة" },
+    { nomor: 100, namaLatin: "Al-'Adiyat", arti: "Kuda Yang Berlari Kencang", nama: "العٰديٰت" },
+    { nomor: 101, namaLatin: "Al-Qari'ah", arti: "Hari Kiamat", nama: "القارعة" },
+    { nomor: 102, namaLatin: "At-Takasur", arti: "Bermegah-Megahan", nama: "التكاثر" },
+    { nomor: 103, namaLatin: "Al-'Asr", arti: "Asar", nama: "العصر" },
+    { nomor: 104, namaLatin: "Al-Humazah", arti: "Pengumpat", nama: "الهمزة" },
+    { nomor: 105, namaLatin: "Al-Fil", arti: "Gajah", nama: "الفيل" },
+    { nomor: 106, namaLatin: "Quraisy", arti: "Quraisy", nama: "قريش" },
+    { nomor: 107, namaLatin: "Al-Ma'un", arti: "Barang Yang Berguna", nama: "الماعون" },
+    { nomor: 108, namaLatin: "Al-Kausar", arti: "Pemberian Yang Banyak", nama: "الكوثر" },
+    { nomor: 109, namaLatin: "Al-Kafirun", arti: "Orang-Orang kafir", nama: "الكٰفرون" },
+    { nomor: 110, namaLatin: "An-Nasr", arti: "Pertolongan", nama: "النصر" },
+    { nomor: 111, namaLatin: "Al-Lahab", arti: "Api Yang Bergejolak", nama: "اللهب" },
+    { nomor: 112, namaLatin: "Al-Ikhlas", arti: "Ikhlas", nama: "الاخلاص" },
+    { nomor: 113, namaLatin: "Al-Falaq", arti: "Subuh", nama: "الفلق" },
+    { nomor: 114, namaLatin: "An-Nas", arti: "Manusia", nama: "الناس" }
+];
+
+function loadSurahList() { 
     const c = document.getElementById('quran-content'); 
     document.getElementById('surah-title-arab').innerText = ""; 
     document.getElementById('surah-title-latin').innerText = ""; 
     document.getElementById('surah-subtitle').innerText = ""; 
     document.getElementById('surah-meta-info').classList.add('hidden'); 
-    c.innerHTML = `<div class="text-center py-20 text-teal-600 animate-pulse font-bold">Memuat Surah...</div>`; 
     
-    try { 
-        const response = await fetch(`${quranBaseUrl}/surat`);
-        const json = await response.json();
-        let html = ''; 
-        json.data.forEach(s => { 
-            html += `<div onclick="loadDetailQuran(${s.nomor}, 'surah')" class="quran-item"><div class="flex items-center gap-3 overflow-hidden flex-1 min-w-0"><span class="w-9 h-9 bg-teal-50 text-teal-700 rounded-xl flex items-center justify-center text-xs font-bold shrink-0">${s.nomor}</span><div class="truncate"><h4 class="font-bold text-[13px] text-slate-700 uppercase truncate">${s.namaLatin}</h4><p class="text-[8px] text-slate-500 font-semibold uppercase truncate">${s.arti}</p></div></div><div class="arab-side-wrapper"><div class="arab-box-number font-arab">${toArDigits(s.nomor)}</div><span class="font-arab text-xl text-teal-600" dir="rtl">${s.nama}</span></div></div>`; 
-        }); 
-        c.innerHTML = html; 
-    } catch (e) { 
-        c.innerHTML = '<div class="text-center py-20 text-red-500 font-bold">Error Memuat Data</div>'; 
-    } 
+    let html = ''; 
+    // Menggunakan daftarSurahLokal, bukan dari API equran.id
+    daftarSurahLokal.forEach(s => { 
+        html += `<div onclick="loadDetailQuran(${s.nomor}, 'surah')" class="quran-item"><div class="flex items-center gap-3 overflow-hidden flex-1 min-w-0"><span class="w-9 h-9 bg-teal-50 text-teal-700 rounded-xl flex items-center justify-center text-xs font-bold shrink-0">${s.nomor}</span><div class="truncate"><h4 class="font-bold text-[13px] text-slate-700 uppercase truncate">${s.namaLatin}</h4><p class="text-[8px] text-slate-500 font-semibold uppercase truncate">${s.arti}</p></div></div><div class="arab-side-wrapper"><div class="arab-box-number font-arab">${toArDigits(s.nomor)}</div><span class="font-arab text-xl text-teal-600" dir="rtl" lang="ar">${s.nama}</span></div></div>`; 
+    }); 
+    
+    c.innerHTML = html; 
     checkZoomBtnVisibility(); 
 }
 
@@ -843,7 +973,19 @@ async function loadJuzList() {
     
     let html = ''; 
     for (let i = 1; i <= 30; i++) { 
-        html += `<div onclick="loadDetailQuran(${i}, 'juz')" class="quran-item"><div class="flex items-center gap-3 overflow-hidden flex-1 min-w-0"><span class="w-9 h-9 bg-teal-50 text-teal-700 rounded-xl flex items-center justify-center text-xs font-bold shrink-0">${i}</span><div class="truncate"><h4 class="font-bold text-[13px] text-slate-700 uppercase truncate">Juz ${i}</h4></div></div><div class="arab-side-wrapper"><div class="arab-box-number font-arab">${toArDigits(i)}</div><span class="font-arab text-[15px] text-teal-600" dir="rtl">${namaJuzArab[i-1]}</span></div></div>`; 
+        html += `<div onclick="loadDetailQuran(${i}, 'juz')" class="quran-item w-full flex items-center justify-between p-3 mb-2 bg-white rounded-xl border border-slate-100 cursor-pointer">
+            <!-- Blok Kiri: Angka dan Tulisan JUZ -->
+            <div class="flex items-center gap-3 shrink-0">
+                <span class="w-8 h-8 bg-teal-50 text-teal-700 rounded-lg flex items-center justify-center text-[10px] font-bold shrink-0">${i}</span>
+                <h4 class="font-bold text-[12px] text-slate-700 uppercase whitespace-nowrap">Juz ${i}</h4>
+            </div>
+            
+            <!-- Blok Kanan: Teks Arab dan Kotak Angka Arab -->
+            <div class="flex items-center justify-end flex-1 min-w-0 gap-2">
+                <span class="font-arab text-[10px] text-teal-600 truncate text-right block w-full" dir="rtl" lang="ar">${namaJuzArab[i-1]}</span>
+                <div class="arab-box-number font-arab shrink-0 w-8 h-8 flex items-center justify-center text-[12px]">${toArDigits(i)}</div>
+            </div>
+        </div>`; 
     } 
     c.innerHTML = html; 
     checkZoomBtnVisibility(); 
@@ -855,8 +997,16 @@ window.loadDetailQuran = async function(id, type) {
     checkZoomBtnVisibility();
     
     const c = document.getElementById('quran-content'); 
+    
+    // [KODE BARU] 1. Simpan angka posisi scroll layar saat ini ke dalam memori
+    window.lastQuranScroll = c.scrollTop;
+
+    // Tampilkan efek loading (berputar)
     c.innerHTML = `<div class="text-center py-20 animate-spin text-3xl text-teal-600"><i class="fa-solid fa-circle-notch"></i></div>`; 
+    
+    // [KODE BARU] 2. Kembalikan scroll ke 0 khusus untuk mulai membaca ayat dari atas
     c.scrollTop = 0; 
+
     document.getElementById('quran-sticky-header').classList.remove('header-slim'); 
     document.getElementById('quran-tabs').classList.add('hidden');
     window.ayatData = {};
@@ -872,44 +1022,80 @@ window.loadDetailQuran = async function(id, type) {
     }
 }
 
-async function renderSurah(nomorSurah, container) {
-    const response = await fetch(`${quranBaseUrl}/surat/${nomorSurah}`);
-    const json = await response.json();
-    const surah = json.data;
-    currentSurahAudioFull = surah.audioFull;
 
-    document.getElementById('surah-title-arab').innerText = surah.nama; 
-    document.getElementById('surah-title-latin').innerText = surah.namaLatin; 
-    document.getElementById('surah-subtitle').innerText = `(${surah.arti})`; 
-    document.getElementById('surah-info-count').innerText = `${surah.jumlahAyat} Ayat`; 
-    document.getElementById('surah-info-type').innerText = surah.tempatTurun; 
+// HELPER: Membuat Link Audio Online secara otomatis (Server Global Anti-Lelet)
+function getAudioAyatUrl(qariId, nomorSurah, nomorAyat) {
+    const qariMap = {
+        '01': 'Abdullaah_3awwaad_Al-Juhaynee_128kbps',
+        '02': 'Abdul_Basit_Murattal_192kbps',
+        '03': 'Abdurrahmaan_As-Sudais_192kbps',
+        '04': 'Yasser_Ad-Dussary_128kbps',
+        '05': 'Alafasy_128kbps'
+    };
+    const s = String(nomorSurah).padStart(3, '0');
+    const a = String(nomorAyat).padStart(3, '0');
+    return `https://everyayah.com/data/${qariMap[qariId] || 'Alafasy_128kbps'}/${s}${a}.mp3`;
+}
+
+function getAudioFullUrl(qariId, nomorSurah) {
+    const qariMap = {
+        '01': 'https://server13.mp3quran.net/jhn', 
+        '02': 'https://server7.mp3quran.net/basit', 
+        '03': 'https://server11.mp3quran.net/sds', 
+        '04': 'https://server11.mp3quran.net/yasser', 
+        '05': 'https://server8.mp3quran.net/afs' 
+    };
+    const s = String(nomorSurah).padStart(3, '0');
+    return `${qariMap[qariId] || 'https://server8.mp3quran.net/afs'}/${s}.mp3`;
+}
+
+async function renderSurah(nomorSurah, container) {
+    // 1. Teks tetap dipanggil dari file JSON LOKAL Anda
+    const response = await fetch(`quran/surah/${nomorSurah}.json`);
+    const json = await response.json();
+    const surah = json[nomorSurah.toString()]; 
+
+    document.getElementById('surah-title-arab').innerText = surah.name; 
+    document.getElementById('surah-title-latin').innerText = surah.name_latin; 
+    document.getElementById('surah-subtitle').innerText = `(${surah.translations.id.name})`; 
+    document.getElementById('surah-info-count').innerText = `${surah.number_of_ayah} Ayat`; 
+    document.getElementById('surah-info-type').innerText = "Al-Quran"; 
     document.getElementById('surah-meta-info').classList.remove('hidden'); 
 
+    // 2. Pasang Player Audio Online (Server Global)
+    const defaultFullAudio = getAudioFullUrl('05', nomorSurah);
+    
     let html = `
         <div class="qari-container">
             <label for="qari-select" style="font-size: 11px; font-weight: 700; color: #007A78; text-transform: uppercase;">Pilih Qari Audio:</label>
-            <select id="qari-select" class="qari-select" onchange="changeQariQuran(this)">
+            <select id="qari-select" class="qari-select" onchange="changeQariQuran(this, ${nomorSurah})">
                 <option value="01">Abdullah Al-Juhany</option>
-                <option value="02">Abdul Muhsin Al-Qasim</option>
+                <option value="02">Abdul Basit Abdus Samad</option>
                 <option value="03">Abdurrahman as-Sudais</option>
-                <option value="04">Ibrahim Al-Dossari</option>
+                <option value="04">Yasser Al-Dosari</option>
                 <option value="05" selected>Misyari Rasyid Al-Afasi</option>
             </select>
             <audio id="surah-audio-full" class="audio-player" controls>
-                <source id="audio-source-full" src="${currentSurahAudioFull['05']}" type="audio/mpeg">
+                <source id="audio-source-full" src="${defaultFullAudio}" type="audio/mpeg">
             </audio>
         </div>
         <div class="surah-separator" style="margin-top:0;">
     `;
     
-    if (surah.nomor !== 1 && surah.nomor !== 9) {
+    if (nomorSurah !== 1 && nomorSurah !== 9) {
         html += `<div class="bismillah-text">بِسْمِ اللّٰهِ الرَّحْمٰنِ الرَّحِيْمِ</div>`;
     }
     html += `</div>`; 
 
-    surah.ayat.forEach(ayat => {
-        html += createAyatCardQuran(ayat, surah.nomor);
-    });
+    const totalAyat = parseInt(surah.number_of_ayah);
+    for (let i = 1; i <= totalAyat; i++) {
+        const ayatObj = {
+            nomorAyat: i,
+            teksArab: surah.text[i.toString()],
+            teksIndonesia: surah.translations.id.text[i.toString()]
+        };
+        html += createAyatCardQuran(ayatObj, nomorSurah);
+    }
     container.innerHTML = html;
 }
 
@@ -921,55 +1107,60 @@ async function renderJuz(nomorJuz, container) {
 
     const juzInfo = quranJuzMapping[nomorJuz - 1];
     let fetchPromises = [];
+    
+    // Tarik file-file surah lokal yang masuk ke dalam juz ini
     for (let s = juzInfo.start.s; s <= juzInfo.end.s; s++) {
-        fetchPromises.push(fetch(`${quranBaseUrl}/surat/${s}`).then(r => r.json()));
+        fetchPromises.push(fetch(`${quranBaseUrl}/surah/${s}.json`).then(r => r.json()));
     }
+    
     const results = await Promise.all(fetchPromises);
     let html = '';
 
     results.forEach(res => {
-        let surah = res.data;
-        let ayats = surah.ayat;
+        let nomorSurahStr = Object.keys(res)[0];
+        let surah = res[nomorSurahStr];
+        let nomorSurah = parseInt(nomorSurahStr);
         
         let mulaiAyat = 1;
-        if (surah.nomor === juzInfo.start.s) {
-            mulaiAyat = juzInfo.start.a;
-            ayats = ayats.filter(a => a.nomorAyat >= mulaiAyat);
-        }
+        let akhirAyat = parseInt(surah.number_of_ayah);
 
-        let akhirAyat = surah.jumlahAyat;
-        if (surah.nomor === juzInfo.end.s) {
-            akhirAyat = juzInfo.end.a;
-            ayats = ayats.filter(a => a.nomorAyat <= akhirAyat);
-        }
+        // Batasi ayat jika tidak full satu surah dalam satu juz
+        if (nomorSurah === juzInfo.start.s) { mulaiAyat = juzInfo.start.a; }
+        if (nomorSurah === juzInfo.end.s) { akhirAyat = juzInfo.end.a; }
 
-        if (ayats.length > 0) {
+        if (akhirAyat >= mulaiAyat) {
             if (mulaiAyat === 1) {
                 html += `
                     <div class="surah-separator">
                         <div class="surah-frame">
                             <div class="surah-frame-inner">
-                                <div class="surah-badge-gold">${surah.tempatTurun}</div>
-                                <div class="surah-arabic-name">${surah.nama}</div>
-                                <div class="surah-badge-gold">${surah.jumlahAyat} Ayat</div>
+                                <div class="surah-badge-gold">${surah.translations.id.name}</div>
+                                <div class="surah-arabic-name">${surah.name}</div>
+                                <div class="surah-badge-gold">${surah.number_of_ayah} Ayat</div>
                             </div>
                         </div>
                 `;
-                if (surah.nomor !== 1 && surah.nomor !== 9) {
+                if (nomorSurah !== 1 && nomorSurah !== 9) {
                     html += `<div class="bismillah-text">بِسْمِ اللّٰهِ الرَّحْمٰنِ الرَّحِيْمِ</div>`;
                 }
                 html += `</div>`;
             } else {
                 html += `
                     <div class="juz-continue-header">
-                        Melanjutkan Surah ${surah.namaLatin} (Ayat ${mulaiAyat})
+                        Melanjutkan Surah ${surah.name_latin} (Ayat ${mulaiAyat})
                     </div>
                 `;
             }
 
-            ayats.forEach(ayat => {
-                html += createAyatCardQuran(ayat, surah.nomor);
-            });
+            // Looping merender kartu ayat
+            for(let i = mulaiAyat; i <= akhirAyat; i++) {
+                const ayatObj = {
+                    nomorAyat: i,
+                    teksArab: surah.text[i.toString()],
+                    teksIndonesia: surah.translations.id.text[i.toString()]
+                };
+                html += createAyatCardQuran(ayatObj, nomorSurah);
+            }
         }
     });
     container.innerHTML = html;
@@ -981,8 +1172,10 @@ function createAyatCardQuran(ayat, nomorSurah) {
     const isBookmarked = quranBookmarks.includes(uniqueKey) ? 'bookmark-active' : '';
     const hiddenClass = isTranslationVisible ? '' : 'hidden';
 
+    // Memastikan status ikon Play/Pause
     let playIcon = '<svg viewBox="0 0 24 24" width="14" height="14" stroke="currentColor" stroke-width="2" fill="none"><polygon points="5 3 19 12 5 21 5 3"></polygon></svg>';
-    if (window.currentlyPlayingAyatKey === uniqueKey && !document.getElementById('per-ayat-audio').paused) {
+    const audioEl = document.getElementById('per-ayat-audio');
+    if (window.currentlyPlayingAyatKey === uniqueKey && audioEl && !audioEl.paused) {
         playIcon = '<svg viewBox="0 0 24 24" width="14" height="14" stroke="currentColor" stroke-width="2" fill="currentColor"><rect x="6" y="4" width="4" height="16"></rect><rect x="14" y="4" width="4" height="16"></rect></svg>';
     }
 
@@ -1012,25 +1205,25 @@ function createAyatCardQuran(ayat, nomorSurah) {
                 </button>
             </div>
             
-            <div class="ayat-arabic">${ayat.teksArab.replace(/ࣖ/g, '<span style="font-family: \'Arial\', sans-serif; font-size: 0.55em; color: #007A78; position: relative; bottom: 0.6em; margin-right: 5px;"> ؏ </span>')}</div>
+            <div class="ayat-arabic" lang="ar">${ayat.teksArab.replace(/ࣖ/g, '<span class="sajdah-mark">۩</span>')}</div>
             <div class="translation-read-text text-slate-500 italic leading-relaxed text-justify ${hiddenClass}">${ayat.teksIndonesia}</div>
         </div>
     `;
 }
 
-window.changeQariQuran = function(selectElement) {
+window.changeQariQuran = function(selectElement, nomorSurah) {
     const audioPlayer = document.getElementById('surah-audio-full');
     const audioSource = document.getElementById('audio-source-full');
     const isPlaying = !audioPlayer.paused && !audioPlayer.ended && audioPlayer.readyState > 2;
 
-    audioSource.src = currentSurahAudioFull[selectElement.value];
+    // Memanggil audio online
+    audioSource.src = getAudioFullUrl(selectElement.value, nomorSurah);
     audioPlayer.load(); 
     if (isPlaying) audioPlayer.play();
 }
 
 window.playAyatQuran = function(nomorSurah, nomorAyat) {
     const uniqueKey = `${nomorSurah}_${nomorAyat}`;
-    const ayat = window.ayatData[uniqueKey];
     const audioEl = document.getElementById('per-ayat-audio');
     
     if (!audioEl.dataset.listenerAttached) {
@@ -1077,9 +1270,11 @@ window.playAyatQuran = function(nomorSurah, nomorAyat) {
     const mainAudio = document.getElementById('surah-audio-full');
     if(mainAudio) mainAudio.pause();
 
-    audioEl.src = ayat.audio[qariKey];
+    // Memanggil audio ayat online
+    audioEl.src = getAudioAyatUrl(qariKey, nomorSurah, nomorAyat);
+    
     window.currentlyPlayingAyatKey = uniqueKey;
-    audioEl.play().catch(e => showToast("Gagal memutar ayat.", "error"));
+    audioEl.play().catch(e => showToast("Gagal memutar ayat. Pastikan ada internet.", "error"));
 }
 
 window.copyAyatQuran = function(nomorSurah, nomorAyat) {
@@ -1125,18 +1320,21 @@ window.showTafsirQuran = async function(nomorSurah, nomorAyat) {
     bodyText.innerHTML = '<div class="text-center py-20 text-teal-600 font-bold text-[10px] animate-pulse uppercase">Mengambil Tafsir...</div>';
     
     try {
-        const response = await fetch(`${quranBaseUrl}/tafsir/${nomorSurah}`);
+        // Membaca file surah lokal yang sama
+        const response = await fetch(`${quranBaseUrl}/surah/${nomorSurah}.json`);
         const json = await response.json();
-        const dataTafsir = json.data.tafsir.find(t => t.ayat == nomorAyat);
+        
+        // Mengarahkan langsung ke path Tafsir di JSON Anda
+        const dataTafsir = json[nomorSurah.toString()].tafsir.id.kemenag.text[nomorAyat.toString()];
         
         if (dataTafsir) {
-            let textRaw = dataTafsir.teks.replace(/(\d+)\.([a-zA-Z])/g, '$1. $2').replace(/(^|\n)([a-z])\.([a-zA-Z])/g, '$1$2. $3');
+            let textRaw = dataTafsir.replace(/(\d+)\.([a-zA-Z])/g, '$1. $2').replace(/(^|\n)([a-z])\.([a-zA-Z])/g, '$1$2. $3');
             bodyText.innerHTML = textRaw.split('\n').filter(p => p.trim() !== '').map(p => `<p style="margin-bottom:12px;">${p.trim()}</p>`).join('');
         } else {
             bodyText.innerHTML = '<p>Data tafsir tidak ditemukan.</p>';
         }
     } catch (error) {
-        bodyText.innerHTML = '<p style="color:red; text-align:center;">Gagal terhubung ke server Tafsir.</p>';
+        bodyText.innerHTML = '<p style="color:red; text-align:center;">Gagal terhubung ke data Tafsir.</p>';
     }
 }
 
@@ -1310,9 +1508,9 @@ async function renderDoaDetailLogic(id, parentFolderId = null) {
                 let tAr = Array.isArray(item.arab) ? item.arab.join(' ') : (item.arab || ""); 
                 tAr = tAr.replace(/([٠-٩]+)/g, '<span class="ayah-end-number font-arab text-teal-600">۝$1</span>');
 
-                let headerCard = item.judul ? `<h3 class="font-kufi text-lg text-teal-700 mb-4 font-bold bg-teal-50/50 inline-block px-4 py-1.5 rounded-xl border border-teal-100">${item.judul}</h3>` : `<h3 class="font-arab text-xl text-teal-600 mb-4 leading-none">بِسْمِ اللّٰهِ الرَّحْمٰنِ الرَّحِيْمِ</h3>`;
+                let headerCard = item.judul ? `<h3 class="font-kufi text-lg text-teal-700 mb-4 font-bold bg-teal-50/50 inline-block px-4 py-1.5 rounded-xl border border-teal-100">${item.judul}</h3>` : `<h3 class="font-arab text-xl text-teal-600 mb-4 leading-none" lang="ar" dir="rtl">بِسْمِ اللّٰهِ الرَّحْمٰنِ الرَّحِيْمِ</h3>`;
 
-                finalHtml += `<div class="bg-white p-8 rounded-3xl text-center shadow-sm border border-slate-100 mb-6">${headerCard}<div class="w-full h-[1px] bg-slate-100 mb-8"></div><p class="font-arab mb-8 text-justify" dir="rtl">${tAr}</p>${tDet}</div>`; 
+                finalHtml += `<div class="bg-white p-8 rounded-3xl text-center shadow-sm border border-slate-100 mb-6">${headerCard}<div class="w-full h-[1px] bg-slate-100 mb-8"></div><p class="font-arab mb-8" dir="rtl" lang="ar">${tAr}</p>${tDet}</div>`; 
             });
         } 
         else {
@@ -1328,9 +1526,9 @@ async function renderDoaDetailLogic(id, parentFolderId = null) {
             let tAr = Array.isArray(d.arab) ? d.arab.join(' ') : (d.arab || ""); 
             tAr = tAr.replace(/([٠-٩]+)/g, '<span class="ayah-end-number font-arab text-teal-600">۝$1</span>');
 
-            let headerCard = d.judul ? `<h3 class="font-kufi text-lg text-teal-700 mb-4 font-bold bg-teal-50/50 inline-block px-4 py-1.5 rounded-xl border border-teal-100">${d.judul}</h3>` : `<h3 class="font-arab text-xl text-teal-600 mb-4 leading-none">بِسْمِ اللّٰهِ الرَّحْمٰنِ الرَّحِيْمِ</h3>`;
+            let headerCard = d.judul ? `<h3 class="font-kufi text-lg text-teal-700 mb-4 font-bold bg-teal-50/50 inline-block px-4 py-1.5 rounded-xl border border-teal-100">${d.judul}</h3>` : `<h3 class="font-arab text-xl text-teal-600 mb-4 leading-none" lang="ar" dir="rtl">بِسْمِ اللّٰهِ الرَّحْمٰنِ الرَّحِيْمِ</h3>`;
 
-            finalHtml = `<div class="bg-white p-8 rounded-3xl text-center shadow-sm border border-slate-100 mb-6">${headerCard}<div class="w-full h-[1px] bg-slate-100 mb-8"></div><p class="font-arab mb-8 text-justify" dir="rtl">${tAr}</p>${tDet}</div>`; 
+            finalHtml = `<div class="bg-white p-8 rounded-3xl text-center shadow-sm border border-slate-100 mb-6">${headerCard}<div class="w-full h-[1px] bg-slate-100 mb-8"></div><p class="font-arab mb-8" dir="rtl" lang="ar">${tAr}</p>${tDet}</div>`; 
         }
 
         c.innerHTML = finalHtml;
@@ -1385,7 +1583,7 @@ async function renderPanduanSholatDetailLogic(id) {
         let tAr = Array.isArray(d.arab) ? d.arab.join(' ') : (d.arab || "");
         tAr = tAr.replace(/([٠-٩]+)/g, '<span class="ayah-end-number">۝$1</span>');
 
-        c.innerHTML = `<div class="bg-white p-8 rounded-3xl text-center shadow-sm border border-slate-100"><h3 class="font-arab text-xl text-teal-600 mb-4 leading-none">بِسْمِ اللّٰهِ الرَّحْمٰنِ الرَّحِيْمِ</h3><div class="w-full h-[1px] bg-slate-100 mb-8"></div><p class="font-arab mb-8 text-justify" dir="rtl">${tAr}</p>${tDet}</div>`; 
+        c.innerHTML = `<div class="bg-white p-8 rounded-3xl text-center shadow-sm border border-slate-100"><h3 class="font-arab text-xl text-teal-600 mb-4 leading-none" lang="ar" dir="rtl">بِسْمِ اللّٰهِ الرَّحْمٰنِ الرَّحِيْمِ</h3><div class="w-full h-[1px] bg-slate-100 mb-8"></div><p class="font-arab mb-8" dir="rtl" lang="ar">${tAr}</p>${tDet}</div>`; 
     } catch (e) { c.innerHTML = `<div class="text-center p-10"><i class="fa-solid fa-triangle-exclamation text-red-400 text-3xl mb-3"></i><p class="text-xs text-red-500 font-bold uppercase">Gagal memuat panduan</p></div>`; }
 }
 

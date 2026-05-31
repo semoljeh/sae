@@ -1,7 +1,26 @@
 /* ==========================================================================
-   1. FONT DEFINITIONS (MENGGUNAKAN LATEEF & REEM KUFI DARI GOOGLE)
+   1. FONT DEFINITIONS
    ========================================================================== */
-@import url('https://fonts.googleapis.com/css2?family=Lateef:wght@400;500;600;700&family=Reem+Kufi:wght@500;700&display=swap');
+
+/* Noto Naskh Arabic — font Arab resmi Google, metrics harakat paling akurat di Chrome */
+/* Reem Kufi — untuk nama surah / heading dekoratif                                     */
+@import url('https://fonts.googleapis.com/css2?family=Noto+Naskh+Arabic:wght@400;700&family=Reem+Kufi:wght@500;700&display=swap&subset=arabic');
+
+/* KFGQPC: simpan file KFGQPCUthmanicScriptHAFS.ttf ke folder font/ untuk mengaktifkan */
+
+/* alqalam tetap terdaftar sebagai last-resort fallback */
+@font-face {
+  font-family: 'alqalam';
+  src: url('font/alqalam.ttf') format('truetype');
+  font-display: swap;
+}
+
+/* Mendaftarkan font LPMQ dari folder lokal */
+@font-face {
+  font-family: 'lpmq';
+  src: url('font/lpmq.ttf') format('truetype');
+  font-display: swap;
+}
 
 .font-kufi { font-family: 'Reem Kufi', sans-serif; }
 
@@ -146,7 +165,7 @@ body.modal-open{ overflow:hidden; }
 .holiday-card { display: flex; align-items: center; gap: 15px; background: #ffffff; padding: 14px; border-radius: 16px; border-left: 4px solid #e11d48; box-shadow: 0 2px 5px rgba(0,0,0,0.02); }
 .cuti-card { display: flex; align-items: center; gap: 15px; background: #ffffff; padding: 14px; border-radius: 16px; border-left: 4px solid #d97706; box-shadow: 0 2px 5px rgba(0,0,0,0.02); }
 
-.date-hijri { color: #007A78; font-family: 'Lateef', serif !important; font-size: 16px; font-weight: 500; margin-top: 1px; line-height: 1; }
+/* .date-hijri sudah didefinisikan di blok SISTEM TEKS ARAB di bawah */
 
 /* ==========================================================================
    AL-QURAN PRO UI & ORNAMEN EMAS
@@ -158,7 +177,19 @@ body.modal-open{ overflow:hidden; }
 .quran-tab.active { background: white; color: #0f766e; box-shadow: 0 2px 8px rgba(0,0,0,0.1); }
 .quran-item { display: flex; justify-content: space-between; align-items: center; background: white; border-radius: 1.25rem; border: 1px solid #f1f5f9; box-shadow: 0 2px 4px rgba(0,0,0,0.02); transition: all 0.2s; cursor: pointer; }
 .quran-item:active { transform: scale(0.97); background: #fafafa; }
-.arab-side-wrapper { display: flex; align-items: center; gap: 12px; flex-direction: row-reverse; flex-shrink: 0; }
+.arab-side-wrapper { 
+    display: flex; 
+    align-items: center; 
+    gap: 12px; 
+    flex-direction: row-reverse; 
+    flex-shrink: 0; 
+    font-family: 'LPMQ', serif !important; /* Menggunakan font standar LPMQ */
+}
+/* Memaksa semua teks di dalam wrapper Arab (Surah maupun Juz) menggunakan LPMQ */
+.arab-side-wrapper, 
+.arab-side-wrapper * {
+    font-family: 'LPMQ', serif !important;
+}
 
 .ayat-card { padding: 25px 0; border-bottom: 1px solid #f1f5f9; }
 .ayat-card:last-child { border-bottom: none; }
@@ -170,7 +201,7 @@ body.modal-open{ overflow:hidden; }
 .bookmark-active { color: #007A78 !important; fill: #007A78; }
 
 .surah-separator { margin: 25px 0 15px 0; text-align: center; }
-.surah-frame { border: 2px solid #d4b572; border-radius: 12px; padding: 4px; background: white; box-shadow: 0 4px 10px rgba(0,0,0,0.03); }
+.surah-frame { border: 2px solid #d4b572; border-radius: 6px; padding: 4px; background: white; box-shadow: 0 4px 10px rgba(0,0,0,0.03); }
 .surah-frame-inner { border: 1px solid #d4b572; border-radius: 8px; padding: 12px 15px; display: flex; justify-content: space-between; align-items: center; background-color: #fcfcfc; }
 .surah-badge-gold { border: 1px solid #d4b572; border-radius: 20px; padding: 4px 12px; font-size: 11px; font-weight: 700; color: #b38b3b; text-transform: capitalize; }
 .juz-continue-header { background: #f1f5f9; padding: 12px; border-radius: 8px; text-align: center; font-weight: 600; font-size: 13px; color: #007A78; margin: 20px 0; }
@@ -211,57 +242,255 @@ h1.font-kufi { font-size: clamp(24px, 9vw, 40px) !important; }
 @media (max-height: 400px) { .location-sheet { top: 50%; max-height: 85dvh; } .scrollable-content { padding-bottom: 70px; } .main-header { padding-bottom: 60px; } }
 
 /* ==========================================================================
-   SISTEM TEKS ARAB (MENGGUNAKAN LATEEF - KALIGRAFI ELEGAN & ANTI BUG)
+   SISTEM TEKS ARAB — PRESISI MUSHAF
    ========================================================================== */
 :root { --font-scale: 1; }
 
-/* 1. Pengaturan Utama Teks Arab (Quran, Doa, Panduan) */
-.font-arab, .ayat-arabic { 
-    font-family: 'Lateef', serif !important; 
-    font-weight: 500 !important; 
+/* ═══════════════════════════════════════════════════════
+   BASE: semua elemen yang mengandung teks Arab
+   ═══════════════════════════════════════════════════════ */
+/* Selector [lang="ar"] memastikan Chrome menggunakan Arabic shaping engine */
+[lang="ar"],
+.font-arab,
+.ayat-arabic,
+.bismillah-text,
+.surah-arabic-name,
+.arab-side-wrapper span.font-arab {
+    /* Menggunakan font LPMQ murni */
+    font-family: 'lpmq' !important;
+    font-weight: 400 !important;
     font-style: normal !important;
 
-    /* PERBAIKAN HAROKAT MENUMPUK & KURANG PRESISI */
-    line-height: 2.6 !important; /* Diperbesar agar harokat antar baris tidak saling tabrak */
-    font-feature-settings: "mark" 1, "mkmk" 1, "liga" 1, "calt" 1 !important; /* Memaksa browser mengatur tumpukan harokat (Mark-to-Mark) secara presisi */
-    word-spacing: normal !important; 
-    letter-spacing: normal !important;
+    /* RTL wajib */
+    direction: rtl !important;
+    text-align: right !important;
 
-    direction: rtl; 
-    text-align: right;
-    color: #1e293b;
-    font-size: calc(clamp(26px, 9vw, 36px) * var(--font-scale)) !important; 
+    /* DILARANG: text-align justify pada teks Arab berharakat
+       justify meregangkan spasi antar kata → harakat ikut bergeser */
+
+    /* unicode-bidi plaintext: browser tentukan arah tiap karakter sendiri
+       mencegah harakat "melayang" akibat salah bidi context */
+    unicode-bidi: plaintext !important;
+
+    /* OpenType features kritis untuk harakat mushaf */
+    font-feature-settings:
+        "ccmp" 1,  /* composite: harakat gabung (shadda+fathah, dll) */
+        "mark" 1,  /* mark positioning: posisi harakat di atas/bawah huruf */
+        "mkmk" 1,  /* mark-to-mark: harakat di atas harakat (tanwin+shadda) */
+        "calt" 1,  /* contextual alternates */
+        "liga" 1,  /* ligatur (لا dll) */
+        "kern" 0   /* MATIKAN kerning — penyebab utama harakat bergeser */
+        !important;
+
+    /* geometricPrecision: posisi sub-pixel harakat lebih tepat */
+    text-rendering: geometricPrecision !important;
+    -webkit-font-smoothing: antialiased !important;
+    -moz-osx-font-smoothing: grayscale !important;
+
+    /* font-size-adjust: jaga proporsi x-height saat font fallback aktif
+       0.5 = nilai standar untuk font Arab, mencegah harakat membesar saat fallback */
+    font-size-adjust: 0.5 !important;
+
+    /* JANGAN ubah — menggeser posisi harakat */
+    word-spacing: 0 !important;
+    letter-spacing: 0 !important;
+
+    /* Elemen teks boleh overflow (harakat menonjol ke luar bounding box) */
+    overflow: visible !important;
+    /* Hapus clip */
+    clip-path: none !important;
+}
+
+/* Pastikan Chrome pakai Arabic script shaping yang benar */
+[lang="ar"] {
+    font-family: 'lpmq' !important; /* <--- Ini yang diubah */
+    unicode-bidi: embed !important;
+    direction: rtl !important;
+}
+
+/* ═══════════════════════════════════════════════════════
+   AYAT QURAN — ukuran & jarak baris seperti mushaf cetak
+   ═══════════════════════════════════════════════════════ */
+.ayat-arabic {
+    font-family: 'lpmq' !important; 
+    
+    /* Turunkan angka-angka di dalam kurung clamp ini */
+    font-size: calc(clamp(16px, 5vw, 22px) * var(--font-scale)) !important; 
+    
+    line-height: 3.5 !important; 
+    color: #1a1a1a;
+    padding-top: 22px !important;
+    padding-bottom: 4px !important;
+    margin-bottom: 8px !important;
+    display: block !important;
     transition: font-size 0.3s ease;
 }
 
-
-.ayat-arabic { margin-bottom: 20px; font-size: calc(clamp(32px, 10vw, 42px) * var(--font-scale)) !important; }
-
-.surah-arabic-name { font-family: 'Lateef', serif !important; font-size: calc(30px * var(--font-scale)); font-weight: 600 !important; color: #1e293b; }
-
-.bismillah-text { font-family: 'Lateef', serif !important; font-size: calc(34px * var(--font-scale)) !important; font-weight: 600 !important; color: #1e293b; text-align: center; margin: 25px 0 35px 0; word-spacing: 2px; }
-
-.ayah-end-number { font-family: 'Lateef', serif !important; font-size: calc(clamp(22px, 7vw, 28px) * var(--font-scale)) !important; font-weight: 500 !important; transition: font-size 0.3s ease; color: #007A78; margin-left: 8px; display: inline-block; vertical-align: middle; }
-
-.arab-side-wrapper span.font-arab { font-size: calc(clamp(16px, 4vw, 20px) * var(--font-scale)) !important; line-height: 1.5 !important; font-weight: 600 !important; }
-
-/* KOTAK NOMOR URUT ARAB */
-.arab-box-number { 
-    background-color: #f0fdfa !important; 
-    color: #0f766e !important; 
-    border: none !important; 
-    display: flex !important; align-items: center !important; justify-content: center !important;
-    border-radius: 12px !important; 
-    width: 36px !important; min-width: 36px !important; max-width: 36px !important;
-    height: 36px !important; min-height: 36px !important; max-height: 36px !important;
-    padding: 0 !important; margin: 0 !important; margin-left: 12px !important; flex-shrink: 0 !important;
-    font-family: 'Lateef', serif !important; font-size: calc(clamp(18px, 5vw, 22px) * var(--font-scale)) !important; 
+/* ═══════════════════════════════════════════════════════
+   DOA & PANDUAN SHOLAT
+   ═══════════════════════════════════════════════════════ */
+.font-arab {
+    font-size: calc(clamp(18px, 6vw, 26px) * var(--font-scale)) !important;
+    line-height: 2.1 !important;
+    color: #1a1a1a;
+    padding-top: 18px !important;
+    padding-bottom: 4px !important;
+    display: block !important;
+    transition: font-size 0.3s ease;
 }
 
-/* Pengaturan Teks Latin & Terjemahan */
-.latin-read-text { font-size: calc(clamp(13px, 4vw, 17px) * var(--font-scale)) !important; transition: font-size 0.3s ease; }
-.translation-read-text { font-size: calc(clamp(12px, 3.8vw, 16px) * var(--font-scale)) !important; transition: font-size 0.3s ease; }
-.ayah-number-circle { width: clamp(22px, 6vw, 28px) !important; height: clamp(22px, 6vw, 28px) !important; font-size: calc(clamp(10px, 3vw, 13px) * var(--font-scale)) !important; transition: font-size 0.3s ease; }
+/* ═══════════════════════════════════════════════════════
+   BISMILLAH
+   ═══════════════════════════════════════════════════════ */
+.bismillah-text {
+    font-family: 'lpmq' !important; /* Memastikan font menggunakan LPMQ */
+    
+    /* Ukuran diperkecil dari sebelumnya (24px, 7.5vw, 32px) */
+    font-size: calc(clamp(18px, 5.5vw, 22px) * var(--font-scale)) !important; 
+    
+    line-height: 2.2 !important;
+    color: #1a1a1a;
+    text-align: center !important;
+    margin: 16px 0 24px 0 !important;
+    padding-top: 18px !important;
+    display: block !important;
+}
+
+/* ═══════════════════════════════════════════════════════
+   NAMA SURAH
+   ═══════════════════════════════════════════════════════ */
+.surah-arabic-name {
+    font-family: 'lpmq' !important; /* Memastikan font menggunakan LPMQ */
+    
+    /* Ukuran diturunkan dari (20px, 6.5vw, 28px) */
+    font-size: calc(clamp(14px, 4.5vw, 20px) * var(--font-scale)) !important; 
+    
+    line-height: 1.8 !important;
+    color: #1a1a1a;
+    padding-top: 12px !important;
+}
+
+/* ═══════════════════════════════════════════════════════
+   NOMOR AYAT (simbol ۝ di akhir ayat)
+   ═══════════════════════════════════════════════════════ */
+.ayah-end-number {
+    font-family: 'lpmq' !important; /* <--- Ubah baris ini */
+    font-size: calc(clamp(16px, 5vw, 22px) * var(--font-scale)) !important;
+    line-height: 1 !important;
+    font-weight: 400 !important;
+    color: #007A78;
+    display: inline !important;
+    vertical-align: baseline !important;
+    word-spacing: 0 !important;
+    letter-spacing: 0 !important;
+    overflow: visible !important;
+}
+
+/* ═══════════════════════════════════════════════════════
+   TANDA SUJUD TILAWAH
+   ═══════════════════════════════════════════════════════ */
+.sajdah-mark {
+    font-family: 'lpmq' !important; /* <--- Ubah baris ini */
+    font-size: 0.7em !important;
+    color: #007A78;
+    display: inline !important;
+    vertical-align: super !important;
+    line-height: 0 !important;
+    overflow: visible !important;
+}
+
+/* ═══════════════════════════════════════════════════════
+   PANEL SAMPING (nama surah & juz kecil di list)
+   ═══════════════════════════════════════════════════════ */
+.quran-item span.font-arab {
+    /* Mengubah ukuran clamp agar teks lebih kecil */
+    font-size: calc(clamp(8px, 3.2vw, 10px) * var(--font-scale)) !important;
+    line-height: 1.5 !important;
+    
+    /* Menghilangkan padding berlebih agar sejajar (tidak bertumpuk) */
+    padding-top: 4px !important;
+    padding-bottom: 0 !important;
+}
+
+/* ═══════════════════════════════════════════════════════
+   KOTAK NOMOR ARAB (list surah/juz)
+   ═══════════════════════════════════════════════════════ */
+.arab-box-number {
+    font-family: 'Noto Naskh Arabic', 'Scheherazade New', serif !important;
+    background-color: #f0fdfa !important;
+    color: #0f766e !important;
+    border: none !important;
+    display: flex !important;
+    align-items: center !important;
+    justify-content: center !important;
+    border-radius: 12px !important;
+    width: 36px !important; min-width: 36px !important; max-width: 36px !important;
+    height: 36px !important; min-height: 36px !important; max-height: 36px !important;
+    padding: 0 !important;
+    margin: 0 0 0 12px !important;
+    flex-shrink: 0 !important;
+    font-size: calc(clamp(14px, 4vw, 18px) * var(--font-scale)) !important;
+    font-weight: 400 !important;
+    line-height: 1 !important;
+    overflow: visible !important;
+    word-spacing: 0 !important;
+    letter-spacing: 0 !important;
+    direction: rtl !important;
+}
+
+/* ═══════════════════════════════════════════════════════
+   TANGGAL HIJRIAH (kalender)
+   ═══════════════════════════════════════════════════════ */
+.date-hijri {
+    font-family: 'Noto Naskh Arabic', 'Scheherazade New', serif !important;
+    font-size: 15px !important;
+    line-height: 1.6 !important;
+    color: #007A78;
+    margin-top: 2px;
+    direction: rtl;
+    font-weight: 400 !important;
+}
+
+/* ═══════════════════════════════════════════════════════
+   CARD AYAT — jarak antar ayat
+   ═══════════════════════════════════════════════════════ */
+.ayat-card {
+    padding: 16px 0 12px 0 !important;
+    border-bottom: 1px solid #f1f5f9 !important;
+    /* JANGAN overflow:visible di sini — merusak scroll */
+}
+
+/* ═══════════════════════════════════════════════════════
+   CONTAINER — pastikan tidak memotong harakat
+   ═══════════════════════════════════════════════════════ */
+.doa-content-inner,
+.quran-reader-body,
+.panduan-content-inner {
+    overflow-x: hidden !important;
+    overflow-y: auto !important;
+}
+
+/* ═══════════════════════════════════════════════════════
+   TEKS LATIN & TERJEMAHAN
+   ═══════════════════════════════════════════════════════ */
+.latin-read-text {
+    font-size: calc(clamp(12px, 3.8vw, 15px) * var(--font-scale)) !important;
+    line-height: 1.65 !important;
+    color: #475569;
+    transition: font-size 0.3s ease;
+}
+.translation-read-text {
+    font-size: calc(clamp(11px, 3.5vw, 14px) * var(--font-scale)) !important;
+    line-height: 1.65 !important;
+    color: #64748b;
+    transition: font-size 0.3s ease;
+}
+.ayah-number-circle {
+    width: clamp(22px, 6vw, 28px) !important;
+    height: clamp(22px, 6vw, 28px) !important;
+    font-size: calc(clamp(10px, 3vw, 13px) * var(--font-scale)) !important;
+    transition: font-size 0.3s ease;
+}
 
 /* Tombol Zoom (Kaca Pembesar) */
 #global-zoom-btn {
