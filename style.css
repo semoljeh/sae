@@ -59,7 +59,18 @@ body{ display:flex; justify-content:center; align-items:center; }
 .menu-item{ background:white; border-radius:16px; padding:16px 4px; display:flex; flex-direction:column; align-items:center; justify-content:center; border:1px solid #f1f5f9; cursor:pointer; transition:.2s ease; }
 .menu-item:active{ transform:scale(.96); }
 .icon-wrapper{ display:flex; justify-content:center; align-items:center; margin-bottom:8px; }
-.menu-label { font-size: 8px !important; font-weight: 800 !important; letter-spacing: 0.3px; color: #475569; text-align: center; }
+
+/* ⬇️ UBAH BAGIAN INI ⬇️ */
+.menu-label { 
+    /* Gunakan clamp agar responsif (minimal 9px, fleksibel 3vw, maksimal 12px) 
+       Atau ganti dengan angka statis seperti 10px !important; jika ingin ukuran tetap */
+    font-size: clamp(8px, 3vw, 9px) !important; 
+    
+    font-weight: 800 !important; 
+    letter-spacing: 0.3px; 
+    color: #475569; 
+    text-align: center; 
+}
 .bg-blue{ background:#e0f2fe; color:#0284c7; } .bg-emerald{ background:#d1fae5; color:#059669; } .bg-purple{ background:#f3e8ff; color:#7c3aed; }
 .bg-lime{ background:#f0fdf4; color:#16a34a; } .bg-pink{ background:#ffe4e6; color:#e11d48; } .bg-orange{ background:#ffedd5; color:#ea580c; }
 
@@ -309,13 +320,17 @@ h1.font-kufi { font-size: clamp(24px, 9vw, 40px) !important; }
 }
 
 /* ═══════════════════════════════════════════════════════
-   AYAT QURAN — ukuran & jarak baris seperti mushaf cetak
+   AYAT QURAN
    ═══════════════════════════════════════════════════════ */
 .ayat-arabic {
     font-family: 'lpmq' !important; 
     
-    /* Turunkan angka-angka di dalam kurung clamp ini */
-    font-size: calc(clamp(16px, 5vw, 22px) * var(--font-scale)) !important; 
+    /* ⬇️ Rumus dipindah ke dalam ⬇️ */
+    font-size: clamp(
+        calc(16px * var(--font-scale)), 
+        calc(5vw * var(--font-scale)), 
+        calc(20px * var(--font-scale))
+    ) !important; 
     
     line-height: 3.5 !important; 
     color: #1a1a1a;
@@ -330,12 +345,20 @@ h1.font-kufi { font-size: clamp(24px, 9vw, 40px) !important; }
    DOA & PANDUAN SHOLAT
    ═══════════════════════════════════════════════════════ */
 .font-arab {
-    font-size: calc(clamp(18px, 6vw, 26px) * var(--font-scale)) !important;
-    line-height: 2.1 !important;
+    /* ⬇️ Rumus dipindah ke dalam agar browser HP merespons zoom ⬇️ */
+    font-size: clamp(
+        calc(16px * var(--font-scale)), 
+        calc(4.5vw * var(--font-scale)), 
+        calc(20px * var(--font-scale))
+    ) !important;
+    
+    line-height: 2.8 !important; 
     color: #1a1a1a;
     padding-top: 18px !important;
     padding-bottom: 4px !important;
     display: block !important;
+    text-align: right !important; 
+    direction: rtl !important;
     transition: font-size 0.3s ease;
 }
 
