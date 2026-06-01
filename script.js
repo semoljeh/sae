@@ -1662,3 +1662,31 @@ window.addEventListener('appinstalled', () => {
     }
     showToast("Aplikasi berhasil diinstal!", "success");
 });
+
+/* ==========================================================================
+   PWA INSTALL PROMPT KHUSUS iOS (SAFARI)
+   ========================================================================== */
+const isIos = () => {
+    const userAgent = window.navigator.userAgent.toLowerCase();
+    return /iphone|ipad|ipod/.test(userAgent);
+};
+// Deteksi apakah web sudah berjalan sebagai aplikasi (standalone) di iOS
+const isInStandaloneMode = () => ('standalone' in window.navigator) && (window.navigator.standalone);
+
+if (isIos() && !isInStandaloneMode() && localStorage.getItem('al_mukhtar_pwa_closed') !== 'true') {
+    setTimeout(() => {
+        if(installBanner) {
+            // Ubah teks instruksi khusus untuk iOS
+            const pwaText = document.querySelector('.pwa-text p');
+            if(pwaText) pwaText.innerHTML = "Tap ikon <b>Share</b> <i class='fa-solid fa-arrow-up-from-bracket'></i> di bawah, lalu pilih <b>Add to Home Screen</b>.";
+            
+            // Sembunyikan tombol install karena tidak bisa dipakai di iOS
+            if(installBtn) installBtn.style.display = 'none';
+            
+            // Tampilkan banner
+            installBanner.style.display = 'flex';
+            void installBanner.offsetWidth; 
+            installBanner.classList.add('show');
+        }
+    }, 2500);
+}
