@@ -552,6 +552,15 @@ window.openAppMenu = function(cat) {
     }
 }
 
+
+
+window.goBackAppMenu = function() {
+    if (!isPopping) { history.back(); return; }
+    if (currentAppMenuView === 'detail') { loadAppMenuList(currentAppMenuCat); } 
+    else { document.getElementById('app-modal').classList.remove('modal-show'); resetNavToBeranda(); }
+    checkZoomBtnVisibility();
+}
+
 window.goBackAppMenu = function() {
     if (!isPopping) { history.back(); return; }
     if (currentAppMenuView === 'detail') { loadAppMenuList(currentAppMenuCat); } 
@@ -570,14 +579,17 @@ function loadAppMenuList(cat) {
             const arrowClass = isOpened ? "fa-solid fa-chevron-down text-teal-600 text-[10px] transition-transform duration-300 arrow-icon rotate-180" : "fa-solid fa-chevron-down text-teal-600 text-[10px] transition-transform duration-300 arrow-icon";
             const maxH = isOpened ? 'style="max-height: 2000px;"' : '';
             html += `<div class="submenu-container mb-3"><div onclick="toggleAppAccordion(this, ${item.id})" class="doa-item-card !mb-0"><div class="doa-number">${i+1}</div><span class="doa-title-text">${item.title}</span><i class="${arrowClass}"></i></div><div class="${wrapperClass}" ${maxH}><div class="p-2 space-y-2">`;
+            
             item.subItems.forEach((subItem, j) => {
-                html += `<div onclick="loadAppMenuDetail('${cat}', ${subItem.id}, ${item.id})" class="doa-item-card !bg-white !mb-0 last:mb-0"><div class="doa-number !bg-teal-50/60 !text-teal-600 !border-teal-100">${i+1}.${j+1}</div><span class="doa-title-text">${subItem.title}</span><i class="fa-solid fa-chevron-right text-slate-300 text-[10px]"></i></div>`;
+                html += `<div onclick="loadAppMenuDetail('${cat}', ${subItem.id}, ${item.id})" class="doa-item-card sub-item-card !mb-0 last:mb-0"><div class="doa-number !bg-teal-50/60 !text-teal-600 !border-teal-100">${i+1}.${j+1}</div><span class="doa-title-text">${subItem.title}</span><i class="fa-solid fa-chevron-right text-slate-300 text-[10px]"></i></div>`;
             });
+            
             html += `</div></div></div>`;
         } else {
             html += `<div onclick="loadAppMenuDetail('${cat}', ${item.id}, null)" class="doa-item-card"><div class="doa-number">${i+1}</div><span class="doa-title-text">${item.title}</span><i class="fa-solid fa-chevron-right text-slate-300 text-[10px]"></i></div>`;
         }
     });
+    
     document.getElementById('app-modal-content').innerHTML = html;
     checkZoomBtnVisibility();
 }
@@ -1424,7 +1436,7 @@ function loadDoaList() {
                         <div class="${wrapperClass}" ${maxH}>
                             <div class="p-2 space-y-2">`;
             d.subItems.forEach((subItem, j) => {
-                html += `<div onclick="loadDoaDetail(${subItem.id}, ${d.id})" class="doa-item-card !bg-white !mb-0 last:mb-0">
+                html += `<div onclick="loadDoaDetail(${subItem.id}, ${d.id})" class="doa-item-card sub-item-card !mb-0 last:mb-0">
                             <div class="doa-number !bg-teal-50/60 !text-teal-600 !border-teal-100">${i+1}.${j+1}</div>
                             <span class="doa-title-text">${subItem.judul}</span>
                             <i class="fa-solid fa-chevron-right text-slate-300 text-[10px]"></i>

@@ -601,3 +601,18 @@ h1.font-kufi { font-size: clamp(24px, 9vw, 40px) !important; }
     cursor: pointer;
     padding: 4px;
 }
+
+/* ==========================================================================
+   DESAIN KHUSUS SUB-MENU (ANAK MENU)
+   ========================================================================== */
+.sub-item-card {
+    background: #f8fafc !important; /* Latar belakang sedikit abu-abu */
+    box-shadow: none !important; /* Menghilangkan bayangan agar terlihat rata/flat */
+    border: 1px dashed #cbd5e1 !important; /* Garis pinggir putus-putus */
+    border-radius: 12px !important; /* Sudut sedikit lebih melengkung */
+    margin-left: 15px !important; /* Menjorok ke dalam */
+    width: calc(100% - 15px) !important;
+}
+.sub-item-card:active {
+    background: #f1f5f9 !important;
+}
