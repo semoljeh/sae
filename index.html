@@ -171,19 +171,24 @@
             </div>
         </div>
 
-        <nav class="bottom-nav">
+   <nav class="bottom-nav">
             <div class="nav-item active" id="nav-sholat" onclick="togglePanduanSholat()">
                 <span class="flex items-center justify-center h-[22px] text-[20px]"><i class="fa-solid fa-kaaba"></i></span>
                 <span class="nav-label">Sholat</span>
             </div>
-            <div class="nav-item" id="nav-quran" onclick="toggleQuran()">
-                <span class="material-icons-outlined">auto_stories</span>
-                <span class="nav-label">Quran</span>
-            </div>
+            
+            <!-- Posisi Kalender sekarang di urutan kedua -->
             <div class="nav-item" id="nav-kalender" onclick="toggleCalendar()">
                 <span class="material-icons-outlined">calendar_month</span>
                 <span class="nav-label">Kalender</span>
             </div>
+
+            <!-- Posisi Quran sekarang di urutan ketiga -->
+            <div class="nav-item" id="nav-quran" onclick="toggleQuran()">
+                <span class="material-icons-outlined">auto_stories</span>
+                <span class="nav-label">Quran</span>
+            </div>
+            
             <div class="nav-item" id="nav-doa" onclick="toggleDoa()">
                 <span class="flex items-center justify-center h-[22px] text-[20px]"><i class="fa-solid fa-hands-praying"></i></span>
                 <span class="nav-label">Doa</span>

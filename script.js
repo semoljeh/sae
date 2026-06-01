@@ -646,7 +646,10 @@ async function renderAppMenuDetailLogic(cat, id, parentFolderId) {
         let teksArab = Array.isArray(d.arab) ? d.arab.join(' ') : (d.arab || "");
         teksArab = teksArab.replace(/([٠-٩]+)/g, '<span class="ayah-end-number">۝$1</span>');
 
-        let headerCard = d.judul ? `<div class="text-center mb-6"><h3 class="font-kufi text-2xl text-teal-700 font-bold bg-teal-50/50 inline-block px-5 py-2 rounded-xl border border-teal-100" dir="rtl">${d.judul}</h3></div><div class="w-full h-[1px] bg-slate-100 mb-8"></div>` : '';
+let basmalahHtml = d.judul ? `<div class="text-center mb-6"><h3 class="font-kufi text-2xl text-teal-700 font-bold" dir="rtl">${d.judul}</h3></div>` : '';
+        let garisHtml = (d.judul || d.judul_utama) ? `<div class="w-full h-[1px] bg-slate-100 mb-6"></div>` : '';
+        let judulUtamaHtml = d.judul_utama ? `<div class="text-center mb-8"><span class="text-[10px] font-bold text-teal-700 uppercase tracking-wide block max-w-[90%] mx-auto leading-relaxed">${d.judul_utama}</span></div>` : '';
+        let headerCard = `${basmalahHtml}${garisHtml}${judulUtamaHtml}`;
 
         content.innerHTML = `<div class="bg-white p-8 rounded-3xl shadow-sm border border-slate-100">${headerCard}<p class="font-arab" dir="rtl" lang="ar">${teksArab}</p>${tampilanDetail}</div>`;
     } catch (error) { content.innerHTML = `<div class="text-center py-20"><i class="fa-solid fa-triangle-exclamation text-red-400 text-3xl mb-3"></i><p class="text-red-500 font-bold text-xs uppercase">Gagal Memuat Data</p></div>`; }
@@ -1520,9 +1523,12 @@ async function renderDoaDetailLogic(id, parentFolderId = null) {
                 let tAr = Array.isArray(item.arab) ? item.arab.join(' ') : (item.arab || ""); 
                 tAr = tAr.replace(/([٠-٩]+)/g, '<span class="ayah-end-number font-arab text-teal-600">۝$1</span>');
 
-                let headerCard = item.judul ? `<h3 class="font-kufi text-lg text-teal-700 mb-4 font-bold bg-teal-50/50 inline-block px-4 py-1.5 rounded-xl border border-teal-100">${item.judul}</h3>` : `<h3 class="font-arab text-xl text-teal-600 mb-4 leading-none" lang="ar" dir="rtl">بِسْمِ اللّٰهِ الرَّحْمٰنِ الرَّحِيْمِ</h3>`;
+             let basmalahHtml = item.judul ? `<div class="text-center mb-6"><h3 class="font-kufi text-lg text-teal-700 font-bold">${item.judul}</h3></div>` : `<div class="text-center mb-6"><h3 class="font-arab text-xl text-teal-600 leading-none" lang="ar" dir="rtl">بِسْمِ اللّٰهِ الرَّحْمٰنِ الرَّحِيْمِ</h3></div>`;
+                let garisHtml = `<div class="w-full h-[1px] bg-slate-100 mb-6"></div>`;
+                let judulUtamaHtml = item.judul_utama ? `<div class="text-center mb-8"><span class="text-[10px] font-bold text-teal-700 uppercase tracking-wide block max-w-[90%] mx-auto leading-relaxed">${item.judul_utama}</span></div>` : '';
+                let headerCard = `${basmalahHtml}${garisHtml}${judulUtamaHtml}`;
 
-                finalHtml += `<div class="bg-white p-8 rounded-3xl text-center shadow-sm border border-slate-100 mb-6">${headerCard}<div class="w-full h-[1px] bg-slate-100 mb-8"></div><p class="font-arab mb-8" dir="rtl" lang="ar">${tAr}</p>${tDet}</div>`; 
+                finalHtml += `<div class="bg-white p-8 rounded-3xl text-center shadow-sm border border-slate-100 mb-6">${headerCard}<p class="font-arab mb-8" dir="rtl" lang="ar">${tAr}</p>${tDet}</div>`;
             });
         } 
         else {
@@ -1538,9 +1544,12 @@ async function renderDoaDetailLogic(id, parentFolderId = null) {
             let tAr = Array.isArray(d.arab) ? d.arab.join(' ') : (d.arab || ""); 
             tAr = tAr.replace(/([٠-٩]+)/g, '<span class="ayah-end-number font-arab text-teal-600">۝$1</span>');
 
-            let headerCard = d.judul ? `<h3 class="font-kufi text-lg text-teal-700 mb-4 font-bold bg-teal-50/50 inline-block px-4 py-1.5 rounded-xl border border-teal-100">${d.judul}</h3>` : `<h3 class="font-arab text-xl text-teal-600 mb-4 leading-none" lang="ar" dir="rtl">بِسْمِ اللّٰهِ الرَّحْمٰنِ الرَّحِيْمِ</h3>`;
+  let basmalahHtml = d.judul ? `<div class="text-center mb-6"><h3 class="font-kufi text-lg text-teal-700 font-bold">${d.judul}</h3></div>` : `<div class="text-center mb-6"><h3 class="font-arab text-xl text-teal-600 leading-none" lang="ar" dir="rtl">بِسْمِ اللّٰهِ الرَّحْمٰنِ الرَّحِيْمِ</h3></div>`;
+            let garisHtml = `<div class="w-full h-[1px] bg-slate-100 mb-6"></div>`;
+            let judulUtamaHtml = d.judul_utama ? `<div class="text-center mb-8"><span class="text-[10px] font-bold text-teal-700 uppercase tracking-wide block max-w-[90%] mx-auto leading-relaxed">${d.judul_utama}</span></div>` : '';
+            let headerCard = `${basmalahHtml}${garisHtml}${judulUtamaHtml}`;
 
-            finalHtml = `<div class="bg-white p-8 rounded-3xl text-center shadow-sm border border-slate-100 mb-6">${headerCard}<div class="w-full h-[1px] bg-slate-100 mb-8"></div><p class="font-arab mb-8" dir="rtl" lang="ar">${tAr}</p>${tDet}</div>`; 
+            finalHtml = `<div class="bg-white p-8 rounded-3xl text-center shadow-sm border border-slate-100 mb-6">${headerCard}<p class="font-arab mb-8" dir="rtl" lang="ar">${tAr}</p>${tDet}</div>`;
         }
 
         c.innerHTML = finalHtml;
@@ -1595,7 +1604,12 @@ async function renderPanduanSholatDetailLogic(id) {
         let tAr = Array.isArray(d.arab) ? d.arab.join(' ') : (d.arab || "");
         tAr = tAr.replace(/([٠-٩]+)/g, '<span class="ayah-end-number">۝$1</span>');
 
-        c.innerHTML = `<div class="bg-white p-8 rounded-3xl text-center shadow-sm border border-slate-100"><h3 class="font-arab text-xl text-teal-600 mb-4 leading-none" lang="ar" dir="rtl">بِسْمِ اللّٰهِ الرَّحْمٰنِ الرَّحِيْمِ</h3><div class="w-full h-[1px] bg-slate-100 mb-8"></div><p class="font-arab mb-8" dir="rtl" lang="ar">${tAr}</p>${tDet}</div>`; 
+  let basmalahHtml = d.judul ? `<div class="text-center mb-6"><h3 class="font-arab text-xl text-teal-600 leading-none" lang="ar" dir="rtl">${d.judul}</h3></div>` : `<div class="text-center mb-6"><h3 class="font-arab text-xl text-teal-600 leading-none" lang="ar" dir="rtl">بِسْمِ اللّٰهِ الرَّحْمٰنِ الرَّحِيْمِ</h3></div>`;
+        let garisHtml = `<div class="w-full h-[1px] bg-slate-100 mb-6"></div>`;
+        let judulUtamaHtml = d.judul_utama ? `<div class="text-center mb-8"><span class="text-[10px] font-bold text-teal-700 uppercase tracking-wide block max-w-[90%] mx-auto leading-relaxed">${d.judul_utama}</span></div>` : '';
+        let headerCard = `${basmalahHtml}${garisHtml}${judulUtamaHtml}`;
+        
+        c.innerHTML = `<div class="bg-white p-8 rounded-3xl text-center shadow-sm border border-slate-100">${headerCard}<p class="font-arab mb-8" dir="rtl" lang="ar">${tAr}</p>${tDet}</div>`;
     } catch (e) { c.innerHTML = `<div class="text-center p-10"><i class="fa-solid fa-triangle-exclamation text-red-400 text-3xl mb-3"></i><p class="text-xs text-red-500 font-bold uppercase">Gagal memuat panduan</p></div>`; }
 }
 
