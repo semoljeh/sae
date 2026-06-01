@@ -229,13 +229,20 @@
             </div>
         </div>
 
-        <div id="quran-modal" class="bg-slate-50 modal-full">
-            <div id="quran-sticky-header" class="quran-header-premium">
-                <div class="flex justify-between items-center mb-2">
-                    <button onclick="goBackQuran()" class="w-8 h-8 flex items-center justify-center bg-white/10 rounded-xl hover:bg-white/20 text-white active:scale-90 transition-transform"><i class="fa-solid fa-arrow-left"></i></button>
-                    <h2 class="text-white text-[11px] font-bold uppercase tracking-[0.2em]">Al-Quran Pro</h2>
-                    <button onclick="toggleTranslation()" class="w-8 h-8 flex items-center justify-center bg-white/10 rounded-xl hover:bg-white/20 text-white active:scale-90 transition-transform"><i class="fa-solid fa-language"></i></button>
-                </div>
+ <div id="quran-modal" class="bg-slate-50 modal-full">
+    <div id="quran-sticky-header" class="quran-header-premium">
+        <div class="flex justify-between items-center mb-2">
+            <button onclick="goBackQuran()" class="w-8 h-8 flex items-center justify-center bg-white/10 rounded-xl hover:bg-white/20 text-white active:scale-90 transition-transform">
+                <i class="fa-solid fa-arrow-left"></i>
+            </button>
+            <h2 class="text-white text-[11px] font-bold uppercase tracking-[0.2em]">Al-Quran Pro</h2>
+            
+            <button onclick="toggleTranslation()" class="w-8 h-8 flex items-center justify-center bg-white/10 rounded-xl hover:bg-white/20 text-white active:scale-90 transition-transform">
+                <i class="fa-solid fa-book-quran"></i>
+            </button>
+        </div>
+				
+				
                 <div class="quran-glassbox">
                     <h2 id="surah-title-arab" class="font-arab text-2xl leading-none mb-1 text-white"></h2>
                     <p id="surah-title-latin" class="text-[12px] font-extrabold uppercase tracking-widest text-white mb-1"></p>
