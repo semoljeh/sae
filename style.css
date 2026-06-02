@@ -219,9 +219,9 @@ body.modal-open{ overflow:hidden; }
 .bookmark-active { color: #007A78 !important; fill: #007A78; }
 
 
-/* --- BAGIAN PEMISAH SURAH (VERSI SUPER TIPIS & MUSHAF KLASIK) --- */
+/* --- BAGIAN PEMISAH SURAH (VERSI EKSTRA MUNGIL & RESPONSIF) --- */
 .surah-separator { 
-    margin: 20px 0 15px 0; 
+    margin: clamp(12px, 3vw, 20px) 0 clamp(8px, 2vw, 12px) 0; 
     text-align: center; 
     display: flex;
     flex-direction: column;
@@ -236,53 +236,67 @@ body.modal-open{ overflow:hidden; }
     width: 100%;
     background-color: #ffffff;
     border: 1px solid #285b7a; 
-    border-radius: 3px;
-    padding: 1px 15px;
-    min-height: 26px; 
+    border-radius: 4px;
+    
+    /* 💡 DIPERMUNGIL: Padding & Tinggi bingkai dibuat sangat tipis */
+    padding: clamp(2px, 1vw, 4px) clamp(8px, 3vw, 16px);
+    min-height: clamp(30px, 6vw, 38px); 
+    
     position: relative;
-    box-shadow: 0 1px 4px rgba(0, 0, 0, 0.03);
-    margin-bottom: 12px; 
+    box-shadow: 0 2px 4px rgba(0, 0, 0, 0.02);
+    margin-bottom: 10px; 
 }
 
+/* Garis emas bagian dalam bingkai */
 .mushaf-surah-header::after {
     content: "";
     position: absolute;
-    top: 1px; left: 1px; right: 1px; bottom: 1px; 
+    top: 2px; left: 2px; right: 2px; bottom: 2px; 
     border: 1px solid #d4b572; 
     border-radius: 2px;
     pointer-events: none;
     z-index: 1;
 }
 
+/* Panel Kiri & Kanan (Oval Biru) */
 .mushaf-side-panel {
     background-color: #285b7a;
     color: #ffffff;
-    font-size: 6.5px !important; 
+    
+    /* 💡 DIPERMUNGIL: Font diturunkan maksimal menjadi 8.5px di layar besar */
+    font-size: clamp(6.5px, 1.8vw, 8.5px) !important; 
     font-weight: 800 !important;
     text-transform: uppercase;
     letter-spacing: 0.5px;
-    padding: 2px 7px; 
+    
+    /* Kapsul dibuat lebih kurus */
+    padding: clamp(2px, 1vw, 4px) clamp(6px, 1.5vw, 10px); 
     border-radius: 20px; 
     border: 1px solid #d4b572;
     z-index: 2;
-    min-width: 45px;
+    min-width: clamp(40px, 10vw, 55px);
     text-align: center;
+    
     box-shadow: inset 0 0 0 1px #285b7a, inset 0 0 0 1px #d4b572; 
 }
 
+/* Panel Tengah (Nama Surah) */
 .mushaf-center-panel {
     flex: 1;
     display: flex;
     justify-content: center;
-    align-items: center;
+    align-items: center; 
     z-index: 2;
-    padding: 0 5px;
+    padding: 0 clamp(4px, 1.5vw, 10px);
     overflow: visible !important; 
 }
 
 .mushaf-center-panel .surah-arabic-name {
     font-family: 'SurahNameCustom', 'lpmq', serif !important;
-    font-size: 15px !important; 
+    
+    /* 💡 DIPERMUNGIL: Font Arab diturunkan agar pas di dalam bingkai 38px */
+    font-size: clamp(14px, 4vw, 21px) !important; 
+    
     color: #1a202c !important;
     margin: 0 !important;
     padding: 0 !important;
@@ -290,9 +304,9 @@ body.modal-open{ overflow:hidden; }
     line-height: normal !important; 
     font-weight: normal !important;
     overflow: visible !important; 
+    
     transform: translateY(0) !important; 
 }
-
 
 /* ==========================================================================
    RESPONSIVE & FLUID SCALING 
