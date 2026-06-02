@@ -1,21 +1,24 @@
 {
-  "name": "Al Mukhtar Digital Library",
-  "short_name": "SeMoljeh",
-  "start_url": "./index.html",
+  "name": "Al-Mukhtar Digital Library",
+  "short_name": "Al-Mukhtar",
+  "description": "Aplikasi Al-Quran, Jadwal Sholat, Dzikir, dan Panduan Ibadah lengkap.",
+  "start_url": ".",
   "display": "standalone",
-  "background_color": "#00897B",
+  "background_color": "#ffffff",
   "theme_color": "#007A78",
   "orientation": "portrait",
   "icons": [
     {
       "src": "assets/icon-192.png",
       "sizes": "192x192",
-      "type": "image/png"
+      "type": "image/png",
+      "purpose": "any maskable"
     },
     {
-      "src": "assets/icon-512.png",
+      "src": "assets/icon-192.png",
       "sizes": "512x512",
-      "type": "image/png"
+      "type": "image/png",
+      "purpose": "any maskable"
     }
   ]
 }
