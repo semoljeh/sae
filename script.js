@@ -142,14 +142,14 @@ window.addEventListener('popstate', function(event) {
     if (document.getElementById('sholat-modal')?.classList.contains('modal-show')) { goBackSholat(); isPopping = false; checkZoomBtnVisibility(); return; }
     if (document.getElementById('app-modal')?.classList.contains('modal-show')) { goBackAppMenu(); isPopping = false; checkZoomBtnVisibility(); return; }
 
-    // 6. Lapisan Dasar: Beranda (Konfirmasi Keluar)
-    if (!exitTimer) {
-        showToast("Tekan sekali lagi untuk keluar", "info");
-        history.pushState({ page: 'exit_trap' }, '', '#exit');
-        exitTimer = setTimeout(() => { exitTimer = null; }, 2000);
+ // 6. Lapisan Dasar: Beranda 
+    // Serahkan penutupan aplikasi kepada sistem native Android / Website 2 APK
+    if (typeof Android !== 'undefined' && Android.exitApp) { 
+        Android.exitApp(); 
+    } else if (navigator.app && navigator.app.exitApp) {
+        navigator.app.exitApp();
     } else {
-        if (typeof Android !== 'undefined' && Android.exitApp) { Android.exitApp(); } 
-        else { history.go(-100); }
+        window.close();
     }
     
     isPopping = false;
@@ -1089,17 +1089,35 @@ async function renderSurah(nomorSurah, container) {
 
     const defaultFullAudio = getAudioFullUrl('05', nomorSurah);
     
-    let html = `
-        <div class="qari-container">
-            <label for="qari-select" style="font-size: 11px; font-weight: 700; color: #007A78; text-transform: uppercase;">Pilih Qari Audio:</label>
-            <select id="qari-select" class="qari-select" onchange="changeQariQuran(this, ${nomorSurah})">
-                <option value="01">Abdullah Al-Juhany</option>
-                <option value="02">Abdul Basit Abdus Samad</option>
-                <option value="03">Abdurrahman as-Sudais</option>
-                <option value="04">Yasser Al-Dosari</option>
-                <option value="05" selected>Misyari Rasyid Al-Afasi</option>
-            </select>
-            <audio id="surah-audio-full" class="audio-player" controls>
+let html = `
+        <div class="mb-6 bg-white p-4 rounded-[20px] border border-slate-100 shadow-sm flex flex-col gap-3 relative overflow-hidden">
+            <!-- Hiasan background abstrak di pojok kanan -->
+            <div class="absolute top-0 right-0 w-24 h-24 bg-teal-50 rounded-bl-full -z-0 opacity-60"></div>
+            
+            <div class="flex items-center justify-between relative z-10">
+                <div class="flex items-center gap-2.5">
+                    <div class="w-8 h-8 rounded-xl bg-teal-50 flex items-center justify-center text-teal-600 shadow-sm border border-teal-100">
+                        <i class="fa-solid fa-headphones text-[13px]"></i>
+                    </div>
+                    <label for="qari-select" class="text-[10px] font-extrabold text-slate-500 uppercase tracking-widest mt-0.5">Qari Murottal</label>
+                </div>
+                
+                <!-- Dropdown Kustom -->
+                <div class="relative">
+                    <select id="qari-select" class="appearance-none bg-slate-50 border border-slate-200 text-teal-700 font-bold text-[11px] py-2 pl-3 pr-8 rounded-xl focus:outline-none focus:border-teal-400 focus:ring-1 focus:ring-teal-400 transition-all cursor-pointer shadow-sm" onchange="changeQariQuran(this, ${nomorSurah})">
+                        <option value="01">Abdullah Al-Juhany</option>
+                        <option value="02">Abdul Basit</option>
+                        <option value="03">A. as-Sudais</option>
+                        <option value="04">Yasser Al-Dosari</option>
+                        <option value="05" selected>Misyari Rasyid</option>
+                    </select>
+                    <!-- Ikon panah ke bawah untuk Dropdown -->
+                    <i class="fa-solid fa-chevron-down absolute right-3 top-1/2 -translate-y-1/2 text-[9px] text-teal-600 pointer-events-none"></i>
+                </div>
+            </div>
+            
+            <!-- Pemutar Audio yang sudah dikustomisasi -->
+            <audio id="surah-audio-full" class="w-full h-10 custom-audio relative z-10 mt-1" controls>
                 <source id="audio-source-full" src="${defaultFullAudio}" type="audio/mpeg">
             </audio>
         </div>
