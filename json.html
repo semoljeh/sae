@@ -40,6 +40,7 @@
         <div class="grid grid-cols-1 lg:grid-cols-2 gap-8 p-6 md:p-8">
 
             <div class="space-y-6">
+                
                 <div>
                     <label class="font-bold text-slate-700 block mb-2 flex items-center gap-2">
                         <span>🏷️</span> Judul / Basmalah
@@ -47,6 +48,15 @@
                     <input id="judul" type="text" dir="auto"
                         class="w-full border border-slate-300 rounded-2xl p-4 teks-arab text-xl outline-none focus:ring-2 focus:ring-blue-500 transition-all" 
                         value="بِسْمِ اللّٰهِ الرَّحْمٰنِ الرَّحِيْمِ">
+                </div>
+
+                <div>
+                    <label class="font-bold text-slate-700 block mb-2 flex items-center gap-2">
+                        <span>📌</span> Judul Utama / Nama Doa <span class="text-xs text-slate-400 font-normal">(Opsional)</span>
+                    </label>
+                    <input id="judulUtama" type="text" dir="auto"
+                        class="w-full border border-slate-300 rounded-2xl p-4 text-xl outline-none focus:ring-2 focus:ring-blue-500 transition-all" 
+                        placeholder="Contoh: DOA NABI ADAM (Kosongkan jika tidak perlu)">
                 </div>
 
                 <div>
@@ -108,6 +118,7 @@
 
     <script>
         const el = {
+            judulUtama: document.getElementById('judulUtama'),
             judul: document.getElementById('judul'),
             arab: document.getElementById('arab'),
             arti: document.getElementById('arti'),
@@ -118,8 +129,6 @@
             reset: document.getElementById('resetBtn')
         };
 
-        // --- FITUR BARU: SMART CONTEXTUAL NUMBERS ---
-        // Fungsi ini mendeteksi huruf terakhir yang diketik untuk menentukan jenis angka
         const applySmartNumbers = (inputElement) => {
             inputElement.addEventListener('input', function(e) {
                 const start = this.selectionStart;
@@ -128,23 +137,18 @@
                 let val = this.value;
                 let newVal = '';
                 
-                // Secara default menggunakan mode latin
                 let lastScript = 'latin'; 
                 const latinToArabic = {'0': '٠', '1': '١', '2': '٢', '3': '٣', '4': '٤', '5': '٥', '6': '٦', '7': '٧', '8': '٨', '9': '٩'};
 
                 for (let i = 0; i < val.length; i++) {
                     let char = val[i];
                     
-                    // Deteksi jika menemukan huruf Arab
                     if (/[\u0600-\u06FF]/.test(char)) {
                         lastScript = 'arab';
-                    } 
-                    // Deteksi jika menemukan huruf Latin
-                    else if (/[a-zA-Z]/.test(char)) {
+                    } else if (/[a-zA-Z]/.test(char)) {
                         lastScript = 'latin';
                     }
 
-                    // Jika yang diketik angka 0-9 dan konteksnya sedang Arab, ubah angkanya!
                     if (/[0-9]/.test(char) && lastScript === 'arab') {
                         newVal += latinToArabic[char];
                     } else {
@@ -152,7 +156,6 @@
                     }
                 }
 
-                // Terapkan perubahan tanpa membuat kursor melompat
                 if (val !== newVal) {
                     this.value = newVal;
                     this.setSelectionRange(start, end);
@@ -160,25 +163,31 @@
             });
         };
 
-        // Terapkan fitur pintar ini ke semua kotak input yang dibutuhkan
+        // Terapkan fitur pintar
+        applySmartNumbers(el.judulUtama);
         applySmartNumbers(el.judul);
         applySmartNumbers(el.arab);
         applySmartNumbers(el.arti);
         applySmartNumbers(el.output);
 
-
-        // Fungsi dasar: Mengubah baris baru menjadi <br>
         const formatText = (text) => {
             if (!text) return '';
             return text.trim().replace(/\n/g, '<br>');
         };
 
         el.generate.addEventListener('click', () => {
-            const data = {
-                judul: formatText(el.judul.value),
-                arab: formatText(el.arab.value),
-                arti: formatText(el.arti.value)
-            };
+            const data = {};
+            
+            // Logika Opsional: Hanya tambahkan 'judul_utama' ke JSON jika form tidak kosong
+            const judulUtamaVal = formatText(el.judulUtama.value);
+            if (judulUtamaVal !== '') {
+                data.judul_utama = judulUtamaVal;
+            }
+
+            // Tambahkan data wajib lainnya
+            data.judul = formatText(el.judul.value);
+            data.arab = formatText(el.arab.value);
+            data.arti = formatText(el.arti.value);
 
             el.output.value = JSON.stringify(data, null, 4);
             
@@ -232,6 +241,7 @@
 
         el.reset.addEventListener('click', () => {
             if(confirm('Yakin ingin mereset semua inputan?')) {
+                el.judulUtama.value = '';
                 el.judul.value = 'بِسْمِ اللّٰهِ الرَّحْمٰنِ الرَّحِيْمِ';
                 el.arab.value = '';
                 el.arti.value = '';
