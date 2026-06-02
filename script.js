@@ -971,9 +971,21 @@ function loadSurahList() {
     document.getElementById('surah-meta-info').classList.add('hidden'); 
     
     let html = ''; 
-    // Menggunakan daftarSurahLokal, bukan dari API equran.id
     daftarSurahLokal.forEach(s => { 
-        html += `<div onclick="loadDetailQuran(${s.nomor}, 'surah')" class="quran-item"><div class="flex items-center gap-3 overflow-hidden flex-1 min-w-0"><span class="w-9 h-9 bg-teal-50 text-teal-700 rounded-xl flex items-center justify-center text-xs font-bold shrink-0">${s.nomor}</span><div class="truncate"><h4 class="font-bold text-[13px] text-slate-700 uppercase truncate">${s.namaLatin}</h4><p class="text-[8px] text-slate-500 font-semibold uppercase truncate">${s.arti}</p></div></div><div class="arab-side-wrapper"><div class="arab-box-number font-arab">${toArDigits(s.nomor)}</div><span class="font-arab text-xl text-teal-600" dir="rtl" lang="ar">${s.nama}</span></div></div>`; 
+        html += `
+        <div onclick="loadDetailQuran(${s.nomor}, 'surah')" class="quran-item w-full flex items-center justify-between p-3 mb-2 bg-white rounded-2xl border border-slate-100 cursor-pointer active:scale-95 transition-all shadow-sm hover:shadow-md">
+            <div class="flex items-center gap-3 overflow-hidden flex-1 min-w-0">
+                <span class="w-10 h-10 bg-teal-50 text-teal-700 rounded-xl flex items-center justify-center text-xs font-bold shrink-0">${s.nomor}</span>
+                <div class="truncate">
+                    <h4 class="font-bold text-[13px] text-slate-700 uppercase truncate">${s.namaLatin}</h4>
+                    <p class="text-[9px] text-slate-500 font-semibold uppercase truncate">${s.arti}</p>
+                </div>
+            </div>
+            <div class="shrink-0 pl-3 flex items-center">
+                <!-- 💡 UKURAN DIPERKECIL: Minimal 13px, Maksimal 17px -->
+                <span class="text-teal-600" style="font-family: 'lpmq', serif !important; font-size: clamp(13px, 4vw, 17px) !important; line-height: 1.2 !important; margin-top: 1px;" dir="rtl" lang="ar">${s.nama}</span>
+            </div>
+        </div>`; 
     }); 
     
     c.innerHTML = html; 
@@ -988,24 +1000,21 @@ async function loadJuzList() {
     
     let html = ''; 
     for (let i = 1; i <= 30; i++) { 
-        html += `<div onclick="loadDetailQuran(${i}, 'juz')" class="quran-item w-full flex items-center justify-between p-3 mb-2 bg-white rounded-xl border border-slate-100 cursor-pointer">
-            <!-- Blok Kiri: Angka dan Tulisan JUZ -->
+        html += `
+        <div onclick="loadDetailQuran(${i}, 'juz')" class="quran-item w-full flex items-center justify-between p-3 mb-2 bg-white rounded-2xl border border-slate-100 cursor-pointer active:scale-95 transition-all shadow-sm hover:shadow-md">
             <div class="flex items-center gap-3 shrink-0">
-                <span class="w-8 h-8 bg-teal-50 text-teal-700 rounded-lg flex items-center justify-center text-[10px] font-bold shrink-0">${i}</span>
-                <h4 class="font-bold text-[12px] text-slate-700 uppercase whitespace-nowrap">Juz ${i}</h4>
+                <span class="w-10 h-10 bg-teal-50 text-teal-700 rounded-xl flex items-center justify-center text-xs font-bold shrink-0">${i}</span>
+                <h4 class="font-bold text-[13px] text-slate-700 uppercase whitespace-nowrap">Juz ${i}</h4>
             </div>
-            
-            <!-- Blok Kanan: Teks Arab dan Kotak Angka Arab -->
-            <div class="flex items-center justify-end flex-1 min-w-0 gap-2">
-                <span class="font-arab text-[10px] text-teal-600 truncate text-right block w-full" dir="rtl" lang="ar">${namaJuzArab[i-1]}</span>
-                <div class="arab-box-number font-arab shrink-0 w-8 h-8 flex items-center justify-center text-[12px]">${toArDigits(i)}</div>
+            <div class="shrink-0 pl-3 flex items-center">
+                <!-- 💡 UKURAN DIPERKECIL: Minimal 12px, Maksimal 15px -->
+                <span class="text-teal-600" style="font-family: 'lpmq', serif !important; font-size: clamp(12px, 3.5vw, 15px) !important; line-height: 1.2 !important; margin-top: 1px;" dir="rtl" lang="ar">${namaJuzArab[i-1]}</span>
             </div>
         </div>`; 
     } 
     c.innerHTML = html; 
     checkZoomBtnVisibility(); 
 }
-
 window.loadDetailQuran = async function(id, type) {
     if (!isPopping) history.pushState({ page: 'quran_detail' }, '', '#quran-detail');
     currentQuranView = 'detail'; 
@@ -1065,19 +1074,19 @@ function getAudioFullUrl(qariId, nomorSurah) {
 }
 
 async function renderSurah(nomorSurah, container) {
-    // 1. Teks tetap dipanggil dari file JSON LOKAL Anda
     const response = await fetch(`quran/surah/${nomorSurah}.json`);
     const json = await response.json();
     const surah = json[nomorSurah.toString()]; 
 
+    // Kembalikan ke surah.name
     document.getElementById('surah-title-arab').innerText = surah.name; 
+    document.getElementById('surah-title-arab').style.fontFamily = "'SurahNameCustom', 'lpmq', serif";
     document.getElementById('surah-title-latin').innerText = surah.name_latin; 
     document.getElementById('surah-subtitle').innerText = `(${surah.translations.id.name})`; 
     document.getElementById('surah-info-count').innerText = `${surah.number_of_ayah} Ayat`; 
     document.getElementById('surah-info-type').innerText = "Al-Quran"; 
     document.getElementById('surah-meta-info').classList.remove('hidden'); 
 
-    // 2. Pasang Player Audio Online (Server Global)
     const defaultFullAudio = getAudioFullUrl('05', nomorSurah);
     
     let html = `
@@ -1116,6 +1125,7 @@ async function renderSurah(nomorSurah, container) {
 
 async function renderJuz(nomorJuz, container) {
     document.getElementById('surah-title-arab').innerText = namaJuzArab[nomorJuz - 1]; 
+    document.getElementById('surah-title-arab').style.fontFamily = "'lpmq', serif";
     document.getElementById('surah-title-latin').innerText = `Juz ${nomorJuz}`; 
     document.getElementById('surah-subtitle').innerText = ""; 
     document.getElementById('surah-meta-info').classList.add('hidden'); 
@@ -1123,7 +1133,6 @@ async function renderJuz(nomorJuz, container) {
     const juzInfo = quranJuzMapping[nomorJuz - 1];
     let fetchPromises = [];
     
-    // Tarik file-file surah lokal yang masuk ke dalam juz ini
     for (let s = juzInfo.start.s; s <= juzInfo.end.s; s++) {
         fetchPromises.push(fetch(`${quranBaseUrl}/surah/${s}.json`).then(r => r.json()));
     }
@@ -1139,20 +1148,23 @@ async function renderJuz(nomorJuz, container) {
         let mulaiAyat = 1;
         let akhirAyat = parseInt(surah.number_of_ayah);
 
-        // Batasi ayat jika tidak full satu surah dalam satu juz
         if (nomorSurah === juzInfo.start.s) { mulaiAyat = juzInfo.start.a; }
         if (nomorSurah === juzInfo.end.s) { akhirAyat = juzInfo.end.a; }
 
         if (akhirAyat >= mulaiAyat) {
             if (mulaiAyat === 1) {
+                let tempatTurun = surah.tempat_turun || surah.tempatTurun || surah.type || "Makkiyah";
+                let jenisSurah = tempatTurun.toLowerCase().includes('madin') ? 'Madaniyah' : 'Makkiyah';
+
                 html += `
                     <div class="surah-separator">
-                        <div class="surah-frame">
-                            <div class="surah-frame-inner">
-                                <div class="surah-badge-gold">${surah.translations.id.name}</div>
-                                <div class="surah-arabic-name">${surah.name}</div>
-                                <div class="surah-badge-gold">${surah.number_of_ayah} Ayat</div>
+                        <div class="mushaf-surah-header">
+                            <div class="mushaf-side-panel">${jenisSurah}</div>
+                            <div class="mushaf-center-panel">
+                                <!-- Kembalikan ke surah.name -->
+                                <span class="surah-arabic-name">${surah.name}</span>
                             </div>
+                            <div class="mushaf-side-panel">${surah.number_of_ayah} Ayat</div>
                         </div>
                 `;
                 if (nomorSurah !== 1 && nomorSurah !== 9) {
@@ -1167,7 +1179,6 @@ async function renderJuz(nomorJuz, container) {
                 `;
             }
 
-            // Looping merender kartu ayat
             for(let i = mulaiAyat; i <= akhirAyat; i++) {
                 const ayatObj = {
                     nomorAyat: i,
