@@ -1738,12 +1738,10 @@ if (isIos() && !isInStandaloneMode() && localStorage.getItem('al_mukhtar_pwa_clo
    ========================================================================== */
 async function downloadSemuaDataDiamDiam() {
     try {
-        // 1. Baca isi database utama
         const response = await fetch('database.json');
         const data = await response.json();
         const kumpulanLink = [];
 
-        // 2. Cari semua kata "path" di dalam database.json (Yasin, Doa, Ratib, dll)
         function cariSemuaLink(obj) {
             for (let kunci in obj) {
                 if (typeof obj[kunci] === 'object' && obj[kunci] !== null) {
@@ -1755,12 +1753,10 @@ async function downloadSemuaDataDiamDiam() {
         }
         cariSemuaLink(data);
 
-        // 3. Tambahkan otomatis 114 Surah Al-Quran
         for (let i = 1; i <= 114; i++) {
             kumpulanLink.push(`quran/surah/${i}.json`);
         }
 
-        // [KODE BARU] 4. MASUKKAN SEMUA ASET DESAIN (IKON & TAILWIND) AGAR TAMPILAN TIDAK RUSAK
         const asetDesainUtama = [
             "https://cdn.tailwindcss.com",
             "https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.1/css/all.min.css",
@@ -1770,49 +1766,49 @@ async function downloadSemuaDataDiamDiam() {
             "https://fonts.googleapis.com/css2?family=Noto+Naskh+Arabic:wght@400;700&family=Reem+Kufi:wght@500;700&display=block&subset=arabic"
         ];
         
-        // Gabungkan antrean desain dan antrean data JSON
         const semuaAntrean = [...asetDesainUtama, ...kumpulanLink];
-
-        // 5. Buka brankas Cache Offline (Pastikan versi sesuai dengan service-worker.js)
         const cache = await caches.open("almukhtar-cache-v4");
         
-        if(typeof showToast === 'function') showToast("Menyiapkan Data & Desain Offline...", "info"); 
+        // 💡 KODE BARU: Cek apakah notifikasi sudah pernah muncul sebelumnya
+        const sudahPernahSelesai = localStorage.getItem('al_mukhtar_offline_ready');
 
-        console.log(`Menemukan ${semuaAntrean.length} file untuk didownload otomatis...`);
+        // Munculkan notifikasi AWAL HANYA JIKA belum pernah selesai
+        if (!sudahPernahSelesai && typeof showToast === 'function') {
+            showToast("Menyiapkan Data & Desain Offline...", "info"); 
+        }
 
-        // 6. Download secara berurutan dengan sistem kebal error (no-cors fallback)
         for (const url of semuaAntrean) {
             try {
                 const sudahAda = await cache.match(url);
                 if (!sudahAda) {
-                    // Coba download dengan mode normal
                     let ambilData = await fetch(url).catch(() => null);
-                    
-                    // Jika ditolak oleh server luar (CORS), paksa download dengan mode 'no-cors'
                     if (!ambilData || !ambilData.ok) {
                          ambilData = await fetch(url, { mode: 'no-cors' }).catch(() => null);
                     }
-
-                    // Simpan ke brankas jika berhasil
                     if (ambilData && (ambilData.ok || ambilData.type === 'opaque')) {
                         await cache.put(url, ambilData);
                     }
                 }
             } catch (err) {
-                console.log("Gagal nyedot: " + url); // Lanjut ke file berikutnya jika ada yang gagal
+                console.log("Gagal nyedot: " + url); 
             }
         }
 
-        setTimeout(() => {
-            if(typeof showToast === 'function') showToast("Aplikasi Siap 100% Offline!", "success");
-        }, 1000);
+        // 💡 KODE BARU: Munculkan notifikasi SUKSES HANYA JIKA belum pernah
+        if (!sudahPernahSelesai) {
+            setTimeout(() => {
+                if(typeof showToast === 'function') showToast("Aplikasi Siap 100% Offline!", "success");
+                
+                // Gembok memori: Catat bahwa aplikasi sudah sukses mode offline
+                localStorage.setItem('al_mukhtar_offline_ready', 'true');
+            }, 1000);
+        }
 
     } catch (error) {
         console.log("Gagal melakukan auto-download: ", error);
     }
 }
 
-// Jalankan mesin penyedot data ini 3 detik SETELAH aplikasi pertama kali terbuka
 window.addEventListener('load', () => {
     if ('caches' in window) {
         setTimeout(downloadSemuaDataDiamDiam, 3000);
