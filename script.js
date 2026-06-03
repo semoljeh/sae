@@ -1733,3 +1733,62 @@ if (isIos() && !isInStandaloneMode() && localStorage.getItem('al_mukhtar_pwa_clo
         }
     }, 2500);
 }
+/* ==========================================================================
+   AUTO-DOWNLOADER (BACKGROUND PRE-CACHING) UNTUK MODE OFFLINE FULL
+   ========================================================================== */
+async function downloadSemuaDataDiamDiam() {
+    try {
+        // 1. Baca isi database utama
+        const response = await fetch('database.json');
+        const data = await response.json();
+        const kumpulanLink = [];
+
+        // 2. Fungsi pelacak untuk mencari semua kata "path" di dalam database.json
+        function cariSemuaLink(obj) {
+            for (let kunci in obj) {
+                if (typeof obj[kunci] === 'object' && obj[kunci] !== null) {
+                    cariSemuaLink(obj[kunci]);
+                } else if (kunci === 'path' && typeof obj[kunci] === 'string') {
+                    // Jika menemukan link raw.github / lokal, masukkan ke daftar antrean
+                    kumpulanLink.push(obj[kunci]);
+                }
+            }
+        }
+        
+        cariSemuaLink(data); // Mulai melacak
+
+        // 3. Buka brankas Cache (Pastikan nama versi sama dengan di service-worker.js)
+        const cache = await caches.open("almukhtar-cache-v4");
+
+        // 4. Download semua link satu per satu secara diam-diam
+        console.log(`Menemukan ${kumpulanLink.length} data untuk didownload otomatis...`);
+        
+        kumpulanLink.forEach(async (url) => {
+            try {
+                // Mengecek apakah file sudah ada di cache sebelumnya
+                const sudahAda = await cache.match(url);
+                if (!sudahAda) {
+                    const ambilData = await fetch(url);
+                    if (ambilData.ok) {
+                        await cache.put(url, ambilData);
+                    }
+                }
+            } catch (err) {
+                // Abaikan jika ada 1 link mati, lanjut ke link berikutnya
+            }
+        });
+
+        console.log("✅ Semua data berhasil di-download! Aplikasi siap offline 100%.");
+
+    } catch (error) {
+        console.log("Gagal melakukan auto-download: ", error);
+    }
+}
+
+// 5. Jalankan mesin penyedot data ini 3 detik SETELAH aplikasi pertama kali terbuka
+// (Diberi jeda 3 detik agar tidak membuat loading awal aplikasi jadi berat)
+window.addEventListener('load', () => {
+    if ('caches' in window) {
+        setTimeout(downloadSemuaDataDiamDiam, 3000);
+    }
+});
