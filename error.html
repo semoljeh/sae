@@ -54,15 +54,36 @@
         </button>
     </div>
 
-    <script>
+<script>
+        // 1. Fungsi tombol Coba Lagi
         function cobaLagi() {
             const btn = document.getElementById('btn-coba');
             btn.innerHTML = 'MENGHUBUNGKAN...';
             btn.style.opacity = '0.7';
             setTimeout(() => {
-                window.location.href = "https://semoljeh.github.io/sae/";
+                window.location.replace("https://semoljeh.github.io/sae/");
             }, 600);
         }
+
+        // 2. TRIK MEMBAJAK TOMBOL 'BACK' DI HP
+        // Memasukkan status "jebakan" ke dalam riwayat browser saat halaman dimuat
+        window.history.pushState({ page: "offline" }, "", "");
+
+        // Mendengarkan aksi ketika tombol fisik 'Back' di HP ditekan
+        window.addEventListener("popstate", function(event) {
+            // Memaksa aplikasi untuk tertutup saat tombol kembali ditekan
+            try {
+                if (typeof Android !== 'undefined' && typeof Android.exitApp === 'function') {
+                    Android.exitApp(); // Perintah khusus Website 2 APK
+                } else if (navigator.app && navigator.app.exitApp) {
+                    navigator.app.exitApp(); // Perintah khusus sistem Android lama
+                } else {
+                    window.close(); // Perintah standar menutup jendela
+                }
+            } catch (e) {
+                window.close();
+            }
+        });
     </script>
 </body>
 </html>
