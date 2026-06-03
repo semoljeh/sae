@@ -1,5 +1,5 @@
 // Ganti nama cache untuk memaksa pembaruan secara instan
-const CACHE_NAME = "almukhtar-cache-v3"; 
+const CACHE_NAME = "almukhtar-cache-v4"; // Versi saya naikkan ke v4 agar cache lama tertimpa
 
 const LOCAL_ASSETS = [
   "./",
@@ -40,26 +40,28 @@ self.addEventListener("activate", event => {
 self.addEventListener("fetch", event => {
   const request = event.request;
 
+  // Hindari memproses request ekstensi browser atau selain metode GET
+  if (request.method !== "GET" || request.url.startsWith('chrome-extension')) {
+      return;
+  }
+
   // STRATEGI "NETWORK FIRST, CACHE FALLBACK"
-  // 1. Coba ambil dari jaringan/server terlebih dahulu
   event.respondWith(
     fetch(request)
       .then(networkResponse => {
-        // Jika berhasil mengambil dari server (ada jaringan), simpan/perbarui ke Cache
-        if (
-          request.method === "GET" &&
-          request.url.startsWith(self.location.origin)
-        ) {
-          const responseClone = networkResponse.clone();
-          caches.open(CACHE_NAME).then(cache => {
-            cache.put(request, responseClone);
-          });
-        }
+        // PERBAIKAN 1: Hapus batasan origin. 
+        // Sekarang data dari GitHub Raw dan API Aladhan akan ikut tersimpan!
+        const responseClone = networkResponse.clone();
+        caches.open(CACHE_NAME).then(cache => {
+          cache.put(request, responseClone);
+        });
+        
         return networkResponse;
       })
       .catch(() => {
-        // 2. Jika gagal mengambil dari server (misal karena offline), ambil dari Cache
-        return caches.match(request).then(cached => {
+        // PERBAIKAN 2: Tambahkan { ignoreSearch: true } 
+        // Agar sistem mengabaikan parameter ?v=47.0 pada style.css dan script.js saat offline
+        return caches.match(request, { ignoreSearch: true }).then(cached => {
           if (cached) {
             return cached;
           }
