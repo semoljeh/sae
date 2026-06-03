@@ -1743,50 +1743,76 @@ async function downloadSemuaDataDiamDiam() {
         const data = await response.json();
         const kumpulanLink = [];
 
-        // 2. Fungsi pelacak untuk mencari semua kata "path" di dalam database.json
+        // 2. Cari semua kata "path" di dalam database.json (Yasin, Doa, Ratib, dll)
         function cariSemuaLink(obj) {
             for (let kunci in obj) {
                 if (typeof obj[kunci] === 'object' && obj[kunci] !== null) {
                     cariSemuaLink(obj[kunci]);
                 } else if (kunci === 'path' && typeof obj[kunci] === 'string') {
-                    // Jika menemukan link raw.github / lokal, masukkan ke daftar antrean
                     kumpulanLink.push(obj[kunci]);
                 }
             }
         }
-        
-        cariSemuaLink(data); // Mulai melacak
+        cariSemuaLink(data);
 
-        // 3. Buka brankas Cache (Pastikan nama versi sama dengan di service-worker.js)
+        // 3. Tambahkan otomatis 114 Surah Al-Quran
+        for (let i = 1; i <= 114; i++) {
+            kumpulanLink.push(`quran/surah/${i}.json`);
+        }
+
+        // [KODE BARU] 4. MASUKKAN SEMUA ASET DESAIN (IKON & TAILWIND) AGAR TAMPILAN TIDAK RUSAK
+        const asetDesainUtama = [
+            "https://cdn.tailwindcss.com",
+            "https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.1/css/all.min.css",
+            "https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.1/webfonts/fa-solid-900.woff2",
+            "https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.1/webfonts/fa-brands-400.woff2",
+            "https://fonts.googleapis.com/icon?family=Material+Icons+Outlined",
+            "https://fonts.googleapis.com/css2?family=Noto+Naskh+Arabic:wght@400;700&family=Reem+Kufi:wght@500;700&display=block&subset=arabic"
+        ];
+        
+        // Gabungkan antrean desain dan antrean data JSON
+        const semuaAntrean = [...asetDesainUtama, ...kumpulanLink];
+
+        // 5. Buka brankas Cache Offline (Pastikan versi sesuai dengan service-worker.js)
         const cache = await caches.open("almukhtar-cache-v4");
-
-        // 4. Download semua link satu per satu secara diam-diam
-        console.log(`Menemukan ${kumpulanLink.length} data untuk didownload otomatis...`);
         
-        kumpulanLink.forEach(async (url) => {
+        if(typeof showToast === 'function') showToast("Menyiapkan Data & Desain Offline...", "info"); 
+
+        console.log(`Menemukan ${semuaAntrean.length} file untuk didownload otomatis...`);
+
+        // 6. Download secara berurutan dengan sistem kebal error (no-cors fallback)
+        for (const url of semuaAntrean) {
             try {
-                // Mengecek apakah file sudah ada di cache sebelumnya
                 const sudahAda = await cache.match(url);
                 if (!sudahAda) {
-                    const ambilData = await fetch(url);
-                    if (ambilData.ok) {
+                    // Coba download dengan mode normal
+                    let ambilData = await fetch(url).catch(() => null);
+                    
+                    // Jika ditolak oleh server luar (CORS), paksa download dengan mode 'no-cors'
+                    if (!ambilData || !ambilData.ok) {
+                         ambilData = await fetch(url, { mode: 'no-cors' }).catch(() => null);
+                    }
+
+                    // Simpan ke brankas jika berhasil
+                    if (ambilData && (ambilData.ok || ambilData.type === 'opaque')) {
                         await cache.put(url, ambilData);
                     }
                 }
             } catch (err) {
-                // Abaikan jika ada 1 link mati, lanjut ke link berikutnya
+                console.log("Gagal nyedot: " + url); // Lanjut ke file berikutnya jika ada yang gagal
             }
-        });
+        }
 
-        console.log("✅ Semua data berhasil di-download! Aplikasi siap offline 100%.");
+        setTimeout(() => {
+            if(typeof showToast === 'function') showToast("Aplikasi Siap 100% Offline!", "success");
+        }, 1000);
 
     } catch (error) {
         console.log("Gagal melakukan auto-download: ", error);
     }
 }
 
-// 5. Jalankan mesin penyedot data ini 3 detik SETELAH aplikasi pertama kali terbuka
-// (Diberi jeda 3 detik agar tidak membuat loading awal aplikasi jadi berat)
+// Jalankan mesin penyedot data ini 3 detik SETELAH aplikasi pertama kali terbuka
 window.addEventListener('load', () => {
     if ('caches' in window) {
         setTimeout(downloadSemuaDataDiamDiam, 3000);
