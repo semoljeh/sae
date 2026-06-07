@@ -658,13 +658,15 @@ async function renderAppMenuDetailLogic(cat, id, parentFolderId = null) {
 
                 baitHtml += `
                     <div class="relative bg-white p-5 rounded-2xl border border-slate-100 shadow-sm overflow-hidden">
+                        <!-- Hiasan Nomor Urut Bait di Pojok Kanan Atas Transparan -->
                         <div class="absolute -right-3 -top-3 w-12 h-12 bg-teal-50 rounded-full flex items-center justify-center opacity-60">
                             <span class="text-teal-600 font-bold text-[10px] mt-3 mr-3">${index + 1}</span>
                         </div>
 
-                        <div class="relative z-10 pr-3">
-                            ${textArab1 ? `<div class="text-right font-arab text-slate-900 w-full" dir="rtl" lang="ar" style="font-size: calc(20px * var(--font-scale)) !important; word-spacing: normal !important; line-height: 3.4 !important;">${textArab1}</div>` : ''}
-                            ${textArab2 ? `<div class="text-right font-arab text-slate-900 w-full pt-2" dir="rtl" lang="ar" style="font-size: calc(20px * var(--font-scale)) !important; word-spacing: normal !important; line-height: 3.4 !important;">${textArab2}</div>` : ''}
+                        <!-- 💡 PERUBAHAN: Font size dikunci 24px (membesar & solid), line-height diturunkan jadi 2.2 agar baris lebih rapat -->
+                        <div class="relative z-10 pr-3 pb-1">
+                            ${textArab1 ? `<div class="text-right font-arab text-slate-900 w-full" dir="rtl" lang="ar" style="font-size: calc(24px * var(--font-scale)) !important; font-size-adjust: none !important; word-spacing: normal !important; line-height: 2.2 !important; margin-bottom: 8px;">${textArab1}</div>` : ''}
+                            ${textArab2 ? `<div class="text-right font-arab text-slate-900 w-full" dir="rtl" lang="ar" style="font-size: calc(24px * var(--font-scale)) !important; font-size-adjust: none !important; word-spacing: normal !important; line-height: 2.2 !important;">${textArab2}</div>` : ''}
                             ${bait.terjemahan ? `<div class="text-center font-sans text-[11px] text-slate-500 mt-5 border-t pt-4 border-slate-100 font-medium leading-relaxed" dir="ltr">${bait.terjemahan}</div>` : ''}
                         </div>
                     </div>
