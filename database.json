@@ -149,8 +149,53 @@
             },
             {
               "id": 12,
-              "title": "BAB II",
+              "title": "BAB I",
               "path": "sholawat/burdah2.json"
+            },
+             {
+              "id": 13,
+              "title": "BAB II",
+              "path": "sholawat/burdah3.json"
+            },
+             {
+              "id": 14,
+              "title": "BAB III",
+              "path": "sholawat/burdah4.json"
+            },
+             {
+              "id": 15,
+              "title": "BAB IV",
+              "path": "sholawat/burdah5.json"
+            },
+             {
+              "id": 16,
+              "title": "BAB V",
+              "path": "sholawat/burdah6.json"
+            },
+             {
+              "id": 17,
+              "title": "BAB VI",
+              "path": "sholawat/burdah7.json"
+            },
+             {
+              "id": 18,
+              "title": "BAB VII",
+              "path": "sholawat/burdah8.json"
+            },
+             {
+              "id": 19,
+              "title": "BAB VIII",
+              "path": "sholawat/burdah9.json"
+            },
+             {
+              "id": 20,
+              "title": "BAB IX",
+              "path": "sholawat/burdah10.json"
+            },
+             {
+              "id": 21,
+              "title": "BAB X",
+              "path": "sholawat/burdah11.json"
             }
           ]
         },
