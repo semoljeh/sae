@@ -145,42 +145,42 @@
             {
               "id": 11,
               "title": "TAWASSUL",
-              "path": "sholawat/burdah1.json"
+              "path": "sholawat/burdah/burdah1.json"
             },
             {
               "id": 12,
               "title": "BAB I",
-              "path": "sholawat/burdah2.json"
+              "path": "sholawat/burdah/burdah2.json"
             },
              {
               "id": 13,
               "title": "BAB II",
-              "path": "sholawat/burdah3.json"
+              "path": "sholawat/burdah/burdah3.json"
             },
              {
               "id": 14,
               "title": "BAB III",
-              "path": "sholawat/burdah4.json"
+              "path": "sholawat/burdah/burdah4.json"
             },
              {
               "id": 15,
               "title": "BAB IV",
-              "path": "sholawat/burdah5.json"
+              "path": "sholawat/burdah/burdah5.json"
             },
              {
               "id": 16,
               "title": "BAB V",
-              "path": "sholawat/burdah6.json"
+              "path": "sholawat/burdah/burdah6.json"
             },
              {
               "id": 17,
               "title": "BAB VI",
-              "path": "sholawat/burdah7.json"
+              "path": "sholawat/burdah/burdah7.json"
             },
              {
               "id": 18,
               "title": "BAB VII",
-              "path": "sholawat/burdah8.json"
+              "path": "sholawat/burdah/burdah8.json"
             },
              {
               "id": 19,
@@ -190,12 +190,12 @@
              {
               "id": 20,
               "title": "BAB IX",
-              "path": "sholawat/burdah10.json"
+              "path": "sholawat/burdah/burdah10.json"
             },
              {
               "id": 21,
               "title": "BAB X",
-              "path": "sholawat/burdah11.json"
+              "path": "sholawat/burdah/burdah11.json"
             }
           ]
         },
