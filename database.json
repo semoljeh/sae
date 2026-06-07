@@ -140,17 +140,17 @@
       "items": [
         {
           "id": 1,
-          "title": "Sholawat Populer",
+          "title": "Burdah",
           "subItems": [
             {
               "id": 11,
-              "title": "Sholawat Nariyah",
-              "path": "https://raw.githubusercontent.com/semoljeh/beranda/main/datadoa/nariyah.json"
+              "title": "TAWASSUL",
+              "path": "sholawat/burdah1.json"
             },
             {
               "id": 12,
-              "title": "Sholawat Tibbil Qulub",
-              "path": "https://raw.githubusercontent.com/semoljeh/beranda/main/datadoa/tibbil.json"
+              "title": "BAB II",
+              "path": "sholawat/burdah2.json"
             }
           ]
         },
