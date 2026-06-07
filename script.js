@@ -650,24 +650,24 @@ async function renderAppMenuDetailLogic(cat, id, parentFolderId = null) {
                                 ${basmalahHtml}${garisHtml}${judulUtamaHtml}
                               </div>`;
 
-            let baitHtml = '<div class="space-y-3">'; 
+            let baitHtml = '<div class="space-y-4">'; 
             d.konten.bait_list.forEach((bait, index) => {
                 
                 let textArab1 = bait.syathr_awal ? bait.syathr_awal.replace(/([٠-٩]+)/g, '<span class="ayah-end-number font-arab text-teal-600">۝$1</span>') : '';
                 let textArab2 = bait.syathr_tsani ? bait.syathr_tsani.replace(/([٠-٩]+)/g, '<span class="ayah-end-number font-arab text-teal-600">۝$1</span>') : '';
 
                 baitHtml += `
-                    <div class="relative bg-white p-4 rounded-2xl border border-slate-100 shadow-sm overflow-hidden">
+                    <div class="relative bg-white p-5 rounded-2xl border border-slate-100 shadow-sm overflow-hidden">
                         <!-- Hiasan Nomor Urut Bait di Pojok Kanan Atas Transparan -->
                         <div class="absolute -right-3 -top-3 w-12 h-12 bg-teal-50 rounded-full flex items-center justify-center opacity-60">
                             <span class="text-teal-600 font-bold text-[10px] mt-3 mr-3">${index + 1}</span>
                         </div>
 
-                        <!-- 💡 PERUBAHAN: Font size clamp dinaikkan menjadi (15px, 4vw, 20px) -->
+                        <!-- 💡 PERUBAHAN: line-height dinaikkan ke 3.8 dan padding disesuaikan agar lebih lega -->
                         <div class="relative z-10 pr-3">
-                            ${textArab1 ? `<div class="text-right font-arab text-slate-900 w-full" dir="rtl" lang="ar" style="font-size: calc(clamp(15px, 4vw, 20px) * var(--font-scale)) !important; word-spacing: normal !important; line-height: 2.8 !important; padding-bottom: 0 !important;">${textArab1}</div>` : ''}
-                            ${textArab2 ? `<div class="text-right font-arab text-slate-900 w-full" dir="rtl" lang="ar" style="font-size: calc(clamp(15px, 4vw, 20px) * var(--font-scale)) !important; word-spacing: normal !important; line-height: 2.8 !important; padding-bottom: 0 !important; padding-top: 10px !important;">${textArab2}</div>` : ''}
-                            ${bait.terjemahan ? `<div class="text-center font-sans text-[11px] text-slate-500 mt-4 border-t pt-3 border-slate-50 font-medium leading-relaxed" dir="ltr">${bait.terjemahan}</div>` : ''}
+                            ${textArab1 ? `<div class="text-right font-arab text-slate-900 w-full" dir="rtl" lang="ar" style="font-size: calc(clamp(15px, 4vw, 20px) * var(--font-scale)) !important; word-spacing: normal !important; line-height: 3.8 !important;">${textArab1}</div>` : ''}
+                            ${textArab2 ? `<div class="text-right font-arab text-slate-900 w-full pt-2" dir="rtl" lang="ar" style="font-size: calc(clamp(15px, 4vw, 20px) * var(--font-scale)) !important; word-spacing: normal !important; line-height: 3.8 !important;">${textArab2}</div>` : ''}
+                            ${bait.terjemahan ? `<div class="text-center font-sans text-[11px] text-slate-500 mt-5 border-t pt-4 border-slate-100 font-medium leading-relaxed" dir="ltr">${bait.terjemahan}</div>` : ''}
                         </div>
                     </div>
                 `;
