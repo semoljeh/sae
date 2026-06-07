@@ -663,8 +663,8 @@ async function renderAppMenuDetailLogic(cat, id, parentFolderId = null) {
                         </div>
 
                         <div class="relative z-10 pr-3">
-                            ${textArab1 ? `<div class="text-right font-arab text-slate-900 w-full" dir="rtl" lang="ar" style="font-size: calc(clamp(24px, 7vw, 32px) * var(--font-scale)) !important; word-spacing: normal !important; line-height: 3.5 !important;">${textArab1}</div>` : ''}
-                            ${textArab2 ? `<div class="text-right font-arab text-slate-900 w-full pt-2" dir="rtl" lang="ar" style="font-size: calc(clamp(24px, 7vw, 32px) * var(--font-scale)) !important; word-spacing: normal !important; line-height: 3.5 !important;">${textArab2}</div>` : ''}
+                            ${textArab1 ? `<div class="text-right font-arab text-slate-900 w-full" dir="rtl" lang="ar" style="font-size: calc(20px * var(--font-scale)) !important; word-spacing: normal !important; line-height: 3.4 !important;">${textArab1}</div>` : ''}
+                            ${textArab2 ? `<div class="text-right font-arab text-slate-900 w-full pt-2" dir="rtl" lang="ar" style="font-size: calc(20px * var(--font-scale)) !important; word-spacing: normal !important; line-height: 3.4 !important;">${textArab2}</div>` : ''}
                             ${bait.terjemahan ? `<div class="text-center font-sans text-[11px] text-slate-500 mt-5 border-t pt-4 border-slate-100 font-medium leading-relaxed" dir="ltr">${bait.terjemahan}</div>` : ''}
                         </div>
                     </div>
