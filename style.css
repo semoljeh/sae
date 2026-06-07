@@ -104,7 +104,24 @@ body{ display:flex; justify-content:center; align-items:center; }
 .nav-item:active { transform: scale(0.85); }
 .nav-item span:first-child { transition: transform 0.3s ease; }
 .nav-item.active span:first-child { transform: scale(1.15); }
-.nav-label { font-size: 8px !important; margin-top: 3px !important; font-weight: 800 !important; letter-spacing: 0.3px; }
+
+/* ==========================================================================
+   KUSTOMISASI UKURAN BOTTOM NAV
+   ========================================================================== */
+.nav-label { 
+    font-size: 11px !important; 
+    margin-top: 5px !important; 
+    font-weight: 800 !important; 
+    letter-spacing: 0.3px; 
+}
+
+.nav-item > span:first-child, 
+.nav-item > span:first-child > i,
+.nav-item > span.material-icons-outlined {
+    font-size: 26px !important;
+    height: auto !important;    
+    line-height: 1 !important;
+}
 
 /* POPUPS & ALERTS */
 .popup-backdrop, .location-backdrop, .custom-alert-backdrop { position: fixed; inset: 0; background: rgba(0,0,0,.5); opacity: 0; pointer-events: none; transition: .3s; z-index: 1000; }
