@@ -617,7 +617,7 @@ window.toggleMenuTerjemahan = function() {
     else { c.style.display = 'none'; btn.innerHTML = '<i class="fa-solid fa-eye mr-1"></i> Tampilkan Detail'; }
 }
 
-async function renderAppMenuDetailLogic(cat, id, parentFolderId) {
+async function renderAppMenuDetailLogic(cat, id, parentFolderId = null) {
     let activeArray = [];
     if (parentFolderId !== null) { const folder = menuData[cat].items.find(x => x.id === parentFolderId); activeArray = folder.subItems; } 
     else { activeArray = menuData[cat].items.filter(x => !x.subItems); }
@@ -635,24 +635,74 @@ async function renderAppMenuDetailLogic(cat, id, parentFolderId) {
     content.innerHTML = `<div class="text-center py-20 text-teal-600 font-bold text-[10px] animate-pulse uppercase">Mengambil Berkah...</div>`;
     
     try {
-        const res = await fetch(info.path); const d = await res.json();
-        let teksLatin = d.latin ? (Array.isArray(d.latin) ? d.latin.join('<br><br>') : d.latin) : ""; let teksArti = d.arti ? (Array.isArray(d.arti) ? d.arti.join('<br><br>') : d.arti) : "";
-        let kontenTambahan = ""; 
-        if (teksLatin) kontenTambahan += `<p class="latin-read-text text-teal-700 font-semibold mb-4 leading-relaxed text-justify">${teksLatin}</p>`; 
-        if (teksArti) kontenTambahan += `<p class="translation-read-text text-slate-500 italic text-justify px-2">"${teksArti}"</p>`;
-        
-        const tampilanDetail = (teksLatin || teksArti) ? `<div class="mt-4 text-center mb-6"><button onclick="toggleMenuTerjemahan()" id="btn-toggle-menu-terjemahan" class="text-[10px] font-bold text-teal-700 uppercase tracking-wide bg-teal-50 border border-teal-100 py-2 px-4 rounded-xl shadow-sm active:scale-95 transition-transform"><i class="fa-solid fa-eye mr-1"></i> Tampilkan Detail</button></div><div id="menu-terjemahan-container" style="display: none;"><div class="w-16 h-1 bg-teal-50 mx-auto mb-6 rounded-full"></div>${kontenTambahan}</div>` : "";
-        
-        let teksArab = Array.isArray(d.arab) ? d.arab.join(' ') : (d.arab || "");
-        teksArab = teksArab.replace(/([٠-٩]+)/g, '<span class="ayah-end-number">۝$1</span>');
+        const res = await fetch(info.path); 
+        const d = await res.json();
+        let finalHtml = "";
 
-let basmalahHtml = d.judul ? `<div class="text-center mb-6"><h3 class="font-kufi text-2xl text-teal-700 font-bold" dir="rtl">${d.judul}</h3></div>` : '';
-        let garisHtml = (d.judul || d.judul_utama) ? `<div class="w-full h-[1px] bg-slate-100 mb-6"></div>` : '';
-        let judulUtamaHtml = d.judul_utama ? `<div class="text-center mb-8"><span class="text-[10px] font-bold text-teal-700 uppercase tracking-wide block max-w-[90%] mx-auto leading-relaxed">${d.judul_utama}</span></div>` : '';
-        let headerCard = `${basmalahHtml}${garisHtml}${judulUtamaHtml}`;
+        // 🌟 1. TAMPILAN KHUSUS UNTUK JSON BURDAH (KOTAK PER BAIT)
+        if (d.metadata && d.konten && d.konten.bait_list) {
+            
+            let basmalahHtml = d.konten.pembuka_basmalah ? `<h3 class="font-kufi text-2xl text-teal-700 font-bold" dir="rtl">${d.konten.pembuka_basmalah}</h3>` : '';
+            let garisHtml = (d.konten.pembuka_basmalah && d.konten.judul_utama) ? `<div class="w-16 h-[2px] bg-teal-50 mx-auto my-4 rounded-full"></div>` : '';
+            let judulUtamaHtml = d.konten.judul_utama ? `<span class="text-[10px] font-bold text-teal-700 uppercase tracking-wide block leading-relaxed">${d.konten.judul_utama}</span>` : '';
+            
+            let headerCard = `<div class="bg-white py-5 px-6 rounded-[2rem] shadow-sm border border-slate-100 mb-6 text-center">
+                                ${basmalahHtml}${garisHtml}${judulUtamaHtml}
+                              </div>`;
 
-        content.innerHTML = `<div class="bg-white p-8 rounded-3xl shadow-sm border border-slate-100">${headerCard}<p class="font-arab" dir="rtl" lang="ar">${teksArab}</p>${tampilanDetail}</div>`;
-    } catch (error) { content.innerHTML = `<div class="text-center py-20"><i class="fa-solid fa-triangle-exclamation text-red-400 text-3xl mb-3"></i><p class="text-red-500 font-bold text-xs uppercase">Gagal Memuat Data</p></div>`; }
+            let baitHtml = '<div class="space-y-3">'; 
+            d.konten.bait_list.forEach((bait, index) => {
+                
+                let textArab1 = bait.syathr_awal ? bait.syathr_awal.replace(/([٠-٩]+)/g, '<span class="ayah-end-number font-arab text-teal-600">۝$1</span>') : '';
+                let textArab2 = bait.syathr_tsani ? bait.syathr_tsani.replace(/([٠-٩]+)/g, '<span class="ayah-end-number font-arab text-teal-600">۝$1</span>') : '';
+
+                baitHtml += `
+                    <div class="relative bg-white p-4 rounded-2xl border border-slate-100 shadow-sm overflow-hidden">
+                        <!-- Hiasan Nomor Urut Bait di Pojok Kanan Atas Transparan -->
+                        <div class="absolute -right-3 -top-3 w-12 h-12 bg-teal-50 rounded-full flex items-center justify-center opacity-60">
+                            <span class="text-teal-600 font-bold text-[10px] mt-3 mr-3">${index + 1}</span>
+                        </div>
+
+                        <!-- 💡 PERBAIKAN: Menambahkan 'pr-3' agar tidak bertabrakan dengan hiasan angka,
+                             serta menambahkan inline style untuk menyesuaikan clamp font agar pas 1 baris -->
+                        <div class="relative z-10 pr-3">
+                            ${textArab1 ? `<div class="text-right font-arab text-slate-900 w-full" dir="rtl" lang="ar" style="font-size: calc(clamp(13px, 3.5vw, 17px) * var(--font-scale)) !important; word-spacing: normal !important; line-height: 2.8 !important; padding-bottom: 0 !important;">${textArab1}</div>` : ''}
+                            ${textArab2 ? `<div class="text-right font-arab text-slate-900 w-full" dir="rtl" lang="ar" style="font-size: calc(clamp(13px, 3.5vw, 17px) * var(--font-scale)) !important; word-spacing: normal !important; line-height: 2.8 !important; padding-bottom: 0 !important; padding-top: 10px !important;">${textArab2}</div>` : ''}
+                            ${bait.terjemahan ? `<div class="text-center font-sans text-[11px] text-slate-500 mt-4 border-t pt-3 border-slate-50 font-medium leading-relaxed" dir="ltr">${bait.terjemahan}</div>` : ''}
+                        </div>
+                    </div>
+                `;
+            });
+            baitHtml += '</div>';
+
+            finalHtml = `<div class="pb-6">${headerCard}${baitHtml}</div>`;
+        }
+
+        // 🌟 2. TAMPILAN ASLI UNTUK MENU LAINNYA (JSON LAMA)
+        else {
+            let teksLatin = d.latin ? (Array.isArray(d.latin) ? d.latin.join('<br><br>') : d.latin) : ""; 
+            let teksArti = d.arti ? (Array.isArray(d.arti) ? d.arti.join('<br><br>') : d.arti) : "";
+            let kontenTambahan = ""; 
+            if (teksLatin) kontenTambahan += `<p class="latin-read-text text-teal-700 font-semibold mb-4 leading-relaxed text-justify">${teksLatin}</p>`; 
+            if (teksArti) kontenTambahan += `<p class="translation-read-text text-slate-500 italic text-justify px-2">"${teksArti}"</p>`;
+            
+            const tampilanDetail = (teksLatin || teksArti) ? `<div class="mt-4 text-center mb-6"><button onclick="toggleMenuTerjemahan()" id="btn-toggle-menu-terjemahan" class="text-[10px] font-bold text-teal-700 uppercase tracking-wide bg-teal-50 border border-teal-100 py-2 px-4 rounded-xl shadow-sm active:scale-95 transition-transform"><i class="fa-solid fa-eye mr-1"></i> Tampilkan Detail</button></div><div id="menu-terjemahan-container" style="display: none;"><div class="w-16 h-1 bg-teal-50 mx-auto mb-6 rounded-full"></div>${kontenTambahan}</div>` : "";
+            
+            let teksArab = Array.isArray(d.arab) ? d.arab.join(' ') : (d.arab || "");
+            teksArab = teksArab.replace(/([٠-٩]+)/g, '<span class="ayah-end-number">۝$1</span>');
+
+            let basmalahHtml = d.judul ? `<div class="text-center mb-6"><h3 class="font-kufi text-2xl text-teal-700 font-bold" dir="rtl">${d.judul}</h3></div>` : '';
+            let garisHtml = (d.judul || d.judul_utama) ? `<div class="w-full h-[1px] bg-slate-100 mb-6"></div>` : '';
+            let judulUtamaHtml = d.judul_utama ? `<div class="text-center mb-8"><span class="text-[10px] font-bold text-teal-700 uppercase tracking-wide block max-w-[90%] mx-auto leading-relaxed">${d.judul_utama}</span></div>` : '';
+            let headerCard = `${basmalahHtml}${garisHtml}${judulUtamaHtml}`;
+
+            finalHtml = `<div class="bg-white p-8 rounded-3xl shadow-sm border border-slate-100">${headerCard}<p class="font-arab" dir="rtl" lang="ar">${teksArab}</p>${tampilanDetail}</div>`;
+        }
+
+        content.innerHTML = finalHtml;
+    } catch (error) { 
+        content.innerHTML = `<div class="text-center py-20"><i class="fa-solid fa-triangle-exclamation text-red-400 text-3xl mb-3"></i><p class="text-red-500 font-bold text-xs uppercase">Gagal Memuat Data</p></div>`; 
+    }
 }
 
 /* ==========================================================================
