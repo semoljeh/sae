@@ -1,5 +1,5 @@
 // Ganti nama cache untuk memaksa pembaruan secara instan
-const CACHE_NAME = "almukhtar-cache-v4"; // Versi saya naikkan ke v4 agar cache lama tertimpa
+const CACHE_NAME = "almukhtar-cache-v5"; // Versi naikkan agar cache lama tertimpa
 
 const LOCAL_ASSETS = [
   "./",
