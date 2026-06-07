@@ -663,11 +663,10 @@ async function renderAppMenuDetailLogic(cat, id, parentFolderId = null) {
                             <span class="text-teal-600 font-bold text-[10px] mt-3 mr-3">${index + 1}</span>
                         </div>
 
-                        <!-- 💡 PERBAIKAN: Menambahkan 'pr-3' agar tidak bertabrakan dengan hiasan angka,
-                             serta menambahkan inline style untuk menyesuaikan clamp font agar pas 1 baris -->
+                        <!-- 💡 PERUBAHAN: Font size clamp dinaikkan menjadi (15px, 4vw, 20px) -->
                         <div class="relative z-10 pr-3">
-                            ${textArab1 ? `<div class="text-right font-arab text-slate-900 w-full" dir="rtl" lang="ar" style="font-size: calc(clamp(13px, 3.5vw, 17px) * var(--font-scale)) !important; word-spacing: normal !important; line-height: 2.8 !important; padding-bottom: 0 !important;">${textArab1}</div>` : ''}
-                            ${textArab2 ? `<div class="text-right font-arab text-slate-900 w-full" dir="rtl" lang="ar" style="font-size: calc(clamp(13px, 3.5vw, 17px) * var(--font-scale)) !important; word-spacing: normal !important; line-height: 2.8 !important; padding-bottom: 0 !important; padding-top: 10px !important;">${textArab2}</div>` : ''}
+                            ${textArab1 ? `<div class="text-right font-arab text-slate-900 w-full" dir="rtl" lang="ar" style="font-size: calc(clamp(15px, 4vw, 20px) * var(--font-scale)) !important; word-spacing: normal !important; line-height: 2.8 !important; padding-bottom: 0 !important;">${textArab1}</div>` : ''}
+                            ${textArab2 ? `<div class="text-right font-arab text-slate-900 w-full" dir="rtl" lang="ar" style="font-size: calc(clamp(15px, 4vw, 20px) * var(--font-scale)) !important; word-spacing: normal !important; line-height: 2.8 !important; padding-bottom: 0 !important; padding-top: 10px !important;">${textArab2}</div>` : ''}
                             ${bait.terjemahan ? `<div class="text-center font-sans text-[11px] text-slate-500 mt-4 border-t pt-3 border-slate-50 font-medium leading-relaxed" dir="ltr">${bait.terjemahan}</div>` : ''}
                         </div>
                     </div>
