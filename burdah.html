@@ -1,0 +1,329 @@
+<!DOCTYPE html>
+<html lang="id">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Advanced JSON Generator Tool - Edisi Qasidah & Arab</title>
+    
+    <script src="https://cdn.tailwindcss.com"></script>
+    
+    <style>
+        @import url('https://fonts.googleapis.com/css2?family=Amiri:ital,wght@0,400;0,700;1,400;1,700&family=Plus+Jakarta+Sans:wght@300;400;500;600;700&display=swap');
+        
+        body {
+            font-family: 'Plus Jakarta Sans', sans-serif;
+        }
+        
+        .teks-arab {
+            font-family: 'Amiri', serif;
+        }
+        
+        /* Custom Scrollbar */
+        ::-webkit-scrollbar { width: 8px; height: 8px; }
+        ::-webkit-scrollbar-track { background: #f1f5f9; border-radius: 10px; }
+        ::-webkit-scrollbar-thumb { background: #cbd5e1; border-radius: 10px; }
+        ::-webkit-scrollbar-thumb:hover { background: #94a3b8; }
+        
+        #output::-webkit-scrollbar-track { background: #0f172a; }
+        #output::-webkit-scrollbar-thumb { background: #334155; }
+    </style>
+</head>
+<body class="bg-slate-50 min-h-screen text-slate-800">
+
+    <div class="max-w-7xl mx-auto p-4 md:p-8">
+        <div class="bg-gradient-to-r from-emerald-600 to-teal-700 p-6 md:p-8 rounded-[2rem] text-white shadow-xl mb-8">
+            <div class="flex flex-col md:flex-row md:items-center justify-between gap-4">
+                <div class="flex items-center gap-4">
+                    <div class="bg-white/20 p-4 rounded-2xl backdrop-blur-md text-3xl">✨</div>
+                    <div>
+                        <h1 class="text-2xl md:text-3xl font-bold tracking-tight">JSON Generator - Edisi Qasidah</h1>
+                        <p class="mt-1 text-sm md:text-base opacity-90 font-light">Pembuat struktur data Arab otomatis dengan Live Preview tata letak Rata Kanan</p>
+                    </div>
+                </div>
+                <div class="bg-emerald-800/40 border border-emerald-500/30 px-4 py-2 rounded-xl text-xs md:text-sm backdrop-blur-sm self-start md:self-auto">
+                    Smart Context: Angka otomatis (٠-٩) saat mengetik Arab
+                </div>
+            </div>
+        </div>
+
+        <div class="grid grid-cols-1 lg:grid-cols-12 gap-8">
+            
+            <div class="lg:col-span-5 space-y-6">
+                <div class="bg-white p-6 rounded-[2rem] shadow-sm border border-slate-100 space-y-5">
+                    <h2 class="text-lg font-bold text-slate-900 flex items-center gap-2 mb-2">
+                        <span class="text-emerald-600">✍️</span> Input Data Qasidah
+                    </h2>
+
+                    <div>
+                        <label class="block text-sm font-semibold text-slate-700 mb-2 flex items-center gap-2">
+                            <span>📌</span> Judul Utama / Nama Doa
+                        </label>
+                        <input id="judulUtama" type="text" 
+                            class="w-full border border-slate-200 rounded-xl p-3.5 outline-none focus:ring-2 focus:ring-emerald-500/20 focus:border-emerald-500 transition-all text-sm" 
+                            placeholder="Contoh: QASIDAH BURDAH - BAB I">
+                    </div>
+
+                    <div>
+                        <label class="block text-sm font-semibold text-slate-700 mb-2 flex items-center gap-2">
+                            <span>🏷️</span> Pembuka / Basmalah
+                        </label>
+                        <input id="judul" type="text" dir="auto"
+                            class="w-full border border-slate-200 rounded-xl p-3.5 teks-arab text-lg outline-none focus:ring-2 focus:ring-emerald-500/20 focus:border-emerald-500 transition-all text-right" 
+                            value="بِسْمِ اللّٰهِ الرَّحْمٰنِ الرَّحِيْمِ">
+                    </div>
+
+                    <div>
+                        <div class="flex justify-between items-center mb-2">
+                            <label class="block text-sm font-semibold text-slate-700 flex items-center gap-2">
+                                <span>📜</span> Bait Teks Arab (Semua baris rata kanan)
+                            </label>
+                            <span class="text-[10px] bg-slate-100 px-2 py-0.5 rounded text-slate-500">Pisahkan dengan Enter</span>
+                        </div>
+                        <textarea id="arab" rows="8" dir="auto"
+                            class="w-full border border-slate-200 rounded-xl p-4 text-xl leading-[2.8rem] outline-none focus:ring-2 focus:ring-emerald-500/20 focus:border-emerald-500 transition-all shadow-inner teks-arab text-right"
+                            placeholder="Ketik bait di sini...&#10;Baris 1&#10;Baris 2&#10;Baris 3&#10;Baris 4"></textarea>
+                    </div>
+
+                    <div>
+                        <label class="block text-sm font-semibold text-slate-700 mb-2 flex items-center gap-2">
+                            <span>📖</span> Terjemahan / Arti (Sesuai jumlah pasangan bait)
+                        </label>
+                        <textarea id="arti" rows="5"
+                            class="w-full border border-slate-200 rounded-xl p-4 text-sm outline-none focus:ring-2 focus:ring-emerald-500/20 focus:border-emerald-500 transition-all shadow-inner"
+                            placeholder="Masukkan arti bait demi bait, pisahkan dengan Enter..."></textarea>
+                    </div>
+
+                    <div class="grid grid-cols-3 gap-2 pt-2">
+                        <button id="generateBtn"
+                            class="col-span-3 bg-emerald-600 hover:bg-emerald-700 text-white rounded-xl py-3.5 font-semibold shadow-md shadow-emerald-200 active:scale-[0.98] transition-all text-sm flex justify-center items-center gap-2">
+                            <span>✨</span> Generate & Preview JSON
+                        </button>
+                        
+                        <button id="copyBtn"
+                            class="bg-slate-800 hover:bg-slate-900 text-white rounded-xl py-3 font-medium active:scale-[0.98] transition-all text-xs flex justify-center items-center gap-1.5">
+                            📋 Copy
+                        </button>
+
+                        <button id="downloadBtn"
+                            class="bg-teal-600 hover:bg-teal-700 text-white rounded-xl py-3 font-medium active:scale-[0.98] transition-all text-xs flex justify-center items-center gap-1.5">
+                            💾 Download
+                        </button>
+
+                        <button id="resetBtn"
+                            class="bg-slate-100 hover:bg-slate-200 text-slate-600 rounded-xl py-3 font-medium active:scale-[0.98] transition-all text-xs flex justify-center items-center gap-1.5">
+                            🔄 Reset
+                        </button>
+                    </div>
+                </div>
+            </div>
+
+            <div class="lg:col-span-7 space-y-6 flex flex-col h-full">
+                
+                <div class="bg-white p-6 rounded-[2rem] shadow-sm border border-slate-100 flex-1">
+                    <h2 class="text-lg font-bold text-slate-900 flex items-center gap-2 mb-4">
+                        <span class="text-teal-600">🖼️</span> Live Preview Tampilan Syair
+                    </h2>
+                    
+                    <div class="border border-dashed border-slate-200 rounded-2xl p-6 bg-slate-50 min-h-[220px] max-h-[500px] overflow-y-auto">
+                        <div id="previewContainer" class="teks-arab text-2xl md:text-3xl leading-[5rem] text-slate-800" dir="rtl">
+                            <p class="text-sm font-sans text-slate-400 text-center italic mt-8 font-light">Hasil preview visual ala mushaf/microsoft word akan muncul di sini setelah Anda mengisi data dan menekan tombol Generate.</p>
+                        </div>
+                    </div>
+                </div>
+
+                <div class="bg-white p-6 rounded-[2rem] shadow-sm border border-slate-100 flex-1 flex flex-col">
+                    <div class="flex items-center justify-between mb-3">
+                        <h2 class="text-lg font-bold text-slate-900 flex items-center gap-2">
+                            <span class="text-indigo-600">💻</span> Output JSON Data
+                        </h2>
+                        <span class="text-[10px] font-bold bg-indigo-50 text-indigo-600 px-2.5 py-1 rounded-full">Valid Object Array</span>
+                    </div>
+
+                    <div class="relative flex-grow min-h-[260px] flex flex-col">
+                        <textarea id="output" readonly
+                            class="w-full flex-grow bg-slate-950 text-emerald-400 rounded-2xl p-4 font-mono text-xs md:text-sm outline-none border-4 border-slate-900 leading-relaxed resize-none shadow-inner"
+                            placeholder="// Struktur JSON akan dihasilkan di sini otomatis..."></textarea>
+                    </div>
+                </div>
+
+            </div>
+
+        </div>
+    </div>
+
+    <script>
+        const el = {
+            judulUtama: document.getElementById('judulUtama'),
+            judul: document.getElementById('judul'),
+            arab: document.getElementById('arab'),
+            arti: document.getElementById('arti'),
+            output: document.getElementById('output'),
+            previewContainer: document.getElementById('previewContainer'),
+            generate: document.getElementById('generateBtn'),
+            copy: document.getElementById('copyBtn'),
+            download: document.getElementById('downloadBtn'),
+            reset: document.getElementById('resetBtn')
+        };
+
+        // Smart Numbers Translation Context (Latin -> Arabic Numbers inside Arabic inputs)
+        const applySmartNumbers = (inputElement) => {
+            inputElement.addEventListener('input', function(e) {
+                const start = this.selectionStart;
+                const end = this.selectionEnd;
+                let val = this.value;
+                let newVal = '';
+                let lastScript = 'latin'; 
+                const latinToArabic = {'0': '٠', '1': '١', '2': '٢', '3': '٣', '4': '٤', '5': '٥', '6': '٦', '7': '٧', '8': '٨', '9': '٩'};
+
+                for (let i = 0; i < val.length; i++) {
+                    let char = val[i];
+                    if (/[\u0600-\u06FF]/.test(char)) {
+                        lastScript = 'arab';
+                    } else if (/[a-zA-Z]/.test(char)) {
+                        lastScript = 'latin';
+                    }
+
+                    if (/[0-9]/.test(char) && lastScript === 'arab') {
+                        newVal += latinToArabic[char];
+                    } else {
+                        newVal += char;
+                    }
+                }
+
+                if (val !== newVal) {
+                    this.value = newVal;
+                    this.setSelectionRange(start, end);
+                }
+            });
+        };
+
+        applySmartNumbers(el.judul);
+        applySmartNumbers(el.arab);
+
+        // Core Processing & Layout Engine
+        el.generate.addEventListener('click', () => {
+            const linesArab = el.arab.value.split('\n').map(l => l.trim()).filter(l => l !== '');
+            const linesArti = el.arti.value.split('\n').map(l => l.trim()).filter(l => l !== '');
+
+            if (linesArab.length === 0) {
+                alert('⚠️ Mohon isi bait teks Arab terlebih dahulu!');
+                return;
+            }
+
+            // Build structural JSON schema structure
+            const dataJSON = {
+                metadata: {
+                    generated_at: new Date().toISOString(),
+                    tool: "JSON Generator Tool Arabic - Rata Kanan"
+                },
+                konten: {
+                    judul_utama: el.judulUtama.value.trim() || null,
+                    pembuka_basmalah: el.judul.value.trim() || null,
+                    bait_list: []
+                }
+            };
+
+            // Process lines into structured pairs (Syathr Awal & Tsani)
+            let htmlPreview = '';
+            
+            // Render Header metadata in visual preview if exists
+            if (el.judulUtama.value.trim()) {
+                htmlPreview += `<div class="text-center font-sans font-bold text-lg md:text-xl text-emerald-700 tracking-wide mb-4 border-b pb-2 border-slate-200/60">${el.judulUtama.value.trim()}</div>`;
+            }
+            if (el.judul.value.trim()) {
+                htmlPreview += `<div class="text-center text-slate-900 font-medium mb-8 leading-normal">${el.judul.value.trim()}</div>`;
+            }
+
+            // Generate pairs
+            for (let i = 0; i < linesArab.length; i += 2) {
+                const syathrAwal = linesArab[i] || '';
+                const syathrTsani = linesArab[i+1] || '';
+                
+                // Index for matching safe multi-line translation arrays
+                const artiBait = linesArti[Math.floor(i/2)] || '';
+
+                dataJSON.konten.bait_list.push({
+                    id: Math.floor(i/2) + 1,
+                    syathr_awal: syathrAwal,
+                    syathr_tsani: syathrTsani,
+                    terjemahan: artiBait
+                });
+
+                // Render Rata Kanan Semua
+                if (syathrAwal || syathrTsani) {
+                    htmlPreview += `
+                        <div class="flex flex-col mb-4 bg-white p-4 rounded-xl border border-slate-100 shadow-sm transition-all hover:shadow-md">
+                            ${syathrAwal ? `<div class="text-right font-medium text-slate-900 leading-relaxed w-full" dir="rtl">${syathrAwal}</div>` : ''}
+                            ${syathrTsani ? `<div class="text-right font-medium text-slate-900 leading-relaxed mt-2 w-full" dir="rtl">${syathrTsani}</div>` : ''}
+                            ${artiBait ? `<div class="text-center font-sans text-xs text-slate-500 mt-4 border-t pt-3 border-slate-100 font-light" dir="ltr">${artiBait}</div>` : ''}
+                        </div>
+                    `;
+                }
+            }
+
+            // Push object schema data to output DOM code view
+            el.output.value = JSON.stringify(dataJSON, null, 4);
+            el.previewContainer.innerHTML = htmlPreview;
+
+            // Simple Success Button Animation Feedback UI State
+            const originalBtn = el.generate.innerHTML;
+            el.generate.innerHTML = '✅ Sukses Dibuat & Diparsing!';
+            el.generate.classList.replace('bg-emerald-600', 'bg-teal-600');
+            
+            setTimeout(() => {
+                el.generate.innerHTML = originalBtn;
+                el.generate.classList.replace('bg-teal-600', 'bg-emerald-600');
+            }, 1800);
+        });
+
+        // Action Command handlers (Copy, Download, Reset)
+        el.copy.addEventListener('click', async () => {
+            if (!el.output.value) {
+                alert('⚠️ Silakan Generate JSON terlebih dahulu!');
+                return;
+            }
+            try {
+                await navigator.clipboard.writeText(el.output.value);
+                const originalText = el.copy.innerHTML;
+                el.copy.innerHTML = '✅ Berhasil!';
+                el.copy.classList.replace('bg-slate-800', 'bg-emerald-600');
+                
+                setTimeout(() => {
+                    el.copy.innerHTML = originalText;
+                    el.copy.classList.replace('bg-emerald-600', 'bg-slate-800');
+                }, 1500);
+            } catch (err) {
+                alert('Gagal menyalin teks ke papan klip.');
+            }
+        });
+
+        el.download.addEventListener('click', () => {
+            if (!el.output.value) {
+                alert('⚠️ Struktur data JSON masih kosong!');
+                return;
+            }
+            const blob = new Blob([el.output.value], { type: 'application/json' });
+            const url = URL.createObjectURL(blob);
+            const a = document.createElement('a');
+            
+            a.href = url;
+            a.download = `qasidah_data_${Date.now()}.json`;
+            document.body.appendChild(a);
+            a.click();
+            document.body.removeChild(a);
+            URL.revokeObjectURL(url);
+        });
+
+        el.reset.addEventListener('click', () => {
+            if (confirm('Apakah Anda yakin ingin mereset seluruh formulir?')) {
+                el.judulUtama.value = '';
+                el.judul.value = 'بِسْمِ اللّٰهِ الرَّحْمٰنِ الرَّحِيْمِ';
+                el.arab.value = '';
+                el.arti.value = '';
+                el.output.value = '';
+                el.previewContainer.innerHTML = `<p class="text-sm font-sans text-slate-400 text-center italic mt-8 font-light">Hasil preview visual ala mushaf/microsoft word akan muncul di sini setelah Anda mengisi data dan menekan tombol Generate.</p>`;
+            }
+        });
+    </script>
+</body>
+</html>
