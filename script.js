@@ -617,7 +617,7 @@ window.toggleMenuTerjemahan = function() {
     else { c.style.display = 'none'; btn.innerHTML = '<i class="fa-solid fa-eye mr-1"></i> Tampilkan Detail'; }
 }
 
-async function renderAppMenuDetailLogic(cat, id, parentFolderId = null) {
+async function renderAppMenuDetailLogic(cat, id, parentFolderId) {
     let activeArray = [];
     if (parentFolderId !== null) { const folder = menuData[cat].items.find(x => x.id === parentFolderId); activeArray = folder.subItems; } 
     else { activeArray = menuData[cat].items.filter(x => !x.subItems); }
@@ -656,22 +656,20 @@ async function renderAppMenuDetailLogic(cat, id, parentFolderId = null) {
                 let textArab1 = bait.syathr_awal ? bait.syathr_awal.replace(/([٠-٩]+)/g, '<span class="ayah-end-number font-arab text-teal-600">۝$1</span>') : '';
                 let textArab2 = bait.syathr_tsani ? bait.syathr_tsani.replace(/([٠-٩]+)/g, '<span class="ayah-end-number font-arab text-teal-600">۝$1</span>') : '';
 
-                // 💡 LOGIKA DETEKSI CERDAS (SMART LINE-HEIGHT)
-                // Cek apakah ini syair 2 baris, atau paragraf panjang 1 baris
+                // 💡 PERBAIKAN: line-height diturunkan drastis agar baris teks lebih merapat
                 let isSyair = (textArab1 !== '' && textArab2 !== '');
-                let dynamicLineHeight = isSyair ? '2.4' : '3.6'; 
-                let dynamicMargin = isSyair ? 'margin-bottom: 8px;' : '';
+                let dynamicLineHeight = isSyair ? '1.8' : '2.2'; 
+                let dynamicMargin = isSyair ? 'margin-bottom: 4px;' : ''; // Jarak antar baris 1 dan 2 diperkecil
 
                 baitHtml += `
                     <div class="relative bg-white p-5 rounded-2xl border border-slate-100 shadow-sm overflow-hidden">
-                        <!-- Hiasan Nomor Urut -->
                         <div class="absolute -right-3 -top-3 w-12 h-12 bg-teal-50 rounded-full flex items-center justify-center opacity-60">
                             <span class="text-teal-600 font-bold text-[10px] mt-3 mr-3">${index + 1}</span>
                         </div>
 
                         <div class="relative z-10 pr-3 pb-1">
                             ${textArab1 ? `<div class="text-right font-arab text-slate-900 w-full" dir="rtl" lang="ar" style="font-size: calc(28px * var(--font-scale)) !important; font-size-adjust: none !important; word-spacing: normal !important; line-height: ${dynamicLineHeight} !important; ${dynamicMargin}">${textArab1}</div>` : ''}
-                            ${textArab2 ? `<div class="text-right font-arab text-slate-900 w-full" dir="rtl" lang="ar" style="font-size: calc(28px * var(--font-scale)) !important; font-size-adjust: none !important; word-spacing: normal !important; line-height: 2.4 !important;">${textArab2}</div>` : ''}
+                            ${textArab2 ? `<div class="text-right font-arab text-slate-900 w-full" dir="rtl" lang="ar" style="font-size: calc(28px * var(--font-scale)) !important; font-size-adjust: none !important; word-spacing: normal !important; line-height: ${dynamicLineHeight} !important;">${textArab2}</div>` : ''}
                             ${bait.terjemahan ? `<div class="text-center font-sans text-[11px] text-slate-500 mt-5 border-t pt-4 border-slate-100 font-medium leading-relaxed" dir="ltr">${bait.terjemahan}</div>` : ''}
                         </div>
                     </div>
