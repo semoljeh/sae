@@ -654,8 +654,9 @@ async function renderAppMenuDetailLogic(cat, id, parentFolderId = null) {
             let baitHtml = '<div class="space-y-4">'; 
             d.konten.bait_list.forEach((bait, index) => {
                 
-                let textArab1 = bait.syathr_awal ? bait.syathr_awal.replace(/([٠-٩]+)/g, '<span class="ayah-end-number font-arab text-teal-600">۝$1</span>') : '';
-                let textArab2 = bait.syathr_tsani ? bait.syathr_tsani.replace(/([٠-٩]+)/g, '<span class="ayah-end-number font-arab text-teal-600">۝$1</span>') : '';
+                // 💡 PERBAIKAN: Menambahkan &nbsp; sebelum tag <span> agar ada spasi yang aman
+                let textArab1 = bait.syathr_awal ? bait.syathr_awal.replace(/([٠-٩]+)/g, '&nbsp;<span class="ayah-end-number font-arab text-teal-600">۝$1</span>') : '';
+                let textArab2 = bait.syathr_tsani ? bait.syathr_tsani.replace(/([٠-٩]+)/g, '&nbsp;<span class="ayah-end-number font-arab text-teal-600">۝$1</span>') : '';
 
                 let isSyair = (textArab1 !== '' && textArab2 !== '');
                 let dynamicLineHeight = isSyair ? '1.8' : '2.2'; 
@@ -692,16 +693,13 @@ async function renderAppMenuDetailLogic(cat, id, parentFolderId = null) {
             const tampilanDetail = (teksLatin || teksArti) ? `<div class="mt-4 text-center mb-6"><button onclick="toggleMenuTerjemahan()" id="btn-toggle-menu-terjemahan" class="text-[10px] font-bold text-teal-700 uppercase tracking-wide bg-teal-50 border border-teal-100 py-2 px-4 rounded-xl shadow-sm active:scale-95 transition-transform"><i class="fa-solid fa-eye mr-1"></i> Tampilkan Detail</button></div><div id="menu-terjemahan-container" style="display: none;"><div class="w-16 h-1 bg-teal-50 mx-auto mb-6 rounded-full"></div>${kontenTambahan}</div>` : "";
             
             let teksArab = Array.isArray(d.arab) ? d.arab.join(' ') : (d.arab || "");
-            // Pastikan penomoran juga menyesuaikan warna
-            teksArab = teksArab.replace(/([٠-٩]+)/g, '<span class="ayah-end-number font-arab text-teal-600">۝$1</span>');
+            
+            // 💡 PERBAIKAN: Menambahkan &nbsp; juga untuk semua menu JSON lama
+            teksArab = teksArab.replace(/([٠-٩]+)/g, '&nbsp;<span class="ayah-end-number font-arab text-teal-600">۝$1</span>');
 
-            let basmalahHtml = d.judul ? `<div class="text-center mb-6"><h3 class="font-kufi text-2xl text-teal-700 font-bold" dir="rtl">${d.judul}</h3></div>` : '';
-            let garisHtml = (d.judul || d.judul_utama) ? `<div class="w-full h-[1px] bg-slate-100 mb-6"></div>` : '';
-            let judulUtamaHtml = d.judul_utama ? `<div class="text-center mb-8"><span class="text-[10px] font-bold text-teal-700 uppercase tracking-wide block max-w-[90%] mx-auto leading-relaxed">${d.judul_utama}</span></div>` : '';
-            let headerCard = `${basmalahHtml}${garisHtml}${judulUtamaHtml}`;
+            let basmalahHtml = d.judul ? `<div class="text-center mb-6"><h3 class="font-kufi text-2xl text-teal-700 font-bold bg-teal-50/50 inline-block px-5 py-2 rounded-xl border border-teal-100" dir="rtl">${d.judul}</h3></div><div class="w-full h-[1px] bg-slate-100 mb-8"></div>` : '';
 
-            // 💡 PERUBAHAN: Menyuntikkan style font 28px dan line-height 2.2 persis seperti Burdah ke paragraf menu lainnya
-            finalHtml = `<div class="bg-white p-8 rounded-3xl shadow-sm border border-slate-100">${headerCard}<p class="font-arab" dir="rtl" lang="ar" style="font-size: calc(28px * var(--font-scale)) !important; font-size-adjust: none !important; word-spacing: normal !important; line-height: 2.2 !important;">${teksArab}</p>${tampilanDetail}</div>`;
+            finalHtml = `<div class="bg-white p-5 md:p-8 rounded-3xl shadow-sm border border-slate-100">${basmalahHtml}<p class="font-arab text-justify" dir="rtl" style="font-size: calc(28px * var(--font-scale)) !important; font-size-adjust: none !important; word-spacing: normal !important; line-height: 2.4 !important;">${teksArab}</p>${tampilanDetail}</div>`;
         }
 
         content.innerHTML = finalHtml;
