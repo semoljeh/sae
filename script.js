@@ -1605,7 +1605,7 @@ async function renderDoaDetailLogic(id, parentFolderId = null) {
                 const tDet = kt ? `<div class="mt-2 text-center mb-4"><button onclick="toggleTerjemahanMulti(this, 'doa-terj-${index}')" class="text-[10px] font-bold text-teal-700 uppercase tracking-wide bg-teal-50 border border-teal-100 py-2 px-4 rounded-xl shadow-sm active:scale-95 transition-transform"><i class="fa-solid fa-eye mr-1"></i> Tampilkan Terjemahan</button></div><div id="doa-terj-${index}" style="display: none;"><div class="w-12 h-1 bg-teal-50 mx-auto mb-6 rounded-full"></div>${kt}</div>` : ""; 
                 
                 let tAr = Array.isArray(item.arab) ? item.arab.join(' ') : (item.arab || ""); 
-                tAr = tAr.replace(/([٠-٩]+)/g, '<span class="ayah-end-number font-arab text-teal-600">۝$1</span>');
+               tAr = tAr.replace(/([٠-٩]+)/g, '&nbsp;<span class="ayah-end-number font-arab text-teal-600">۝$1</span>');
 
              let basmalahHtml = item.judul ? `<div class="text-center mb-6"><h3 class="font-kufi text-lg text-teal-700 font-bold">${item.judul}</h3></div>` : `<div class="text-center mb-6"><h3 class="font-arab text-xl text-teal-600 leading-none" lang="ar" dir="rtl">بِسْمِ اللّٰهِ الرَّحْمٰنِ الرَّحِيْمِ</h3></div>`;
                 let garisHtml = `<div class="w-full h-[1px] bg-slate-100 mb-6"></div>`;
@@ -1626,7 +1626,7 @@ async function renderDoaDetailLogic(id, parentFolderId = null) {
             const tDet = kt ? `<div class="mt-2 text-center mb-4"><button onclick="toggleTerjemahanMulti(this, 'doa-terj-single')" class="text-[10px] font-bold text-teal-700 uppercase tracking-wide bg-teal-50 border border-teal-100 py-2 px-4 rounded-xl shadow-sm active:scale-95 transition-transform"><i class="fa-solid fa-eye mr-1"></i> Tampilkan Terjemahan</button></div><div id="doa-terj-single" style="display: none;"><div class="w-12 h-1 bg-teal-50 mx-auto mb-6 rounded-full"></div>${kt}</div>` : ""; 
             
             let tAr = Array.isArray(d.arab) ? d.arab.join(' ') : (d.arab || ""); 
-            tAr = tAr.replace(/([٠-٩]+)/g, '<span class="ayah-end-number font-arab text-teal-600">۝$1</span>');
+          tAr = tAr.replace(/([٠-٩]+)/g, '&nbsp;<span class="ayah-end-number font-arab text-teal-600">۝$1</span>');
 
   let basmalahHtml = d.judul ? `<div class="text-center mb-6"><h3 class="font-kufi text-lg text-teal-700 font-bold">${d.judul}</h3></div>` : `<div class="text-center mb-6"><h3 class="font-arab text-xl text-teal-600 leading-none" lang="ar" dir="rtl">بِسْمِ اللّٰهِ الرَّحْمٰنِ الرَّحِيْمِ</h3></div>`;
             let garisHtml = `<div class="w-full h-[1px] bg-slate-100 mb-6"></div>`;
@@ -1686,7 +1686,7 @@ async function renderPanduanSholatDetailLogic(id) {
         const tDet = kt ? `<div class="mt-2 text-center mb-4"><button onclick="toggleTerjemahanPanduanSholat()" id="btn-toggle-terjemahan-panduan-sholat" class="text-[10px] font-bold text-teal-700 uppercase tracking-wide bg-teal-50 border border-teal-100 py-2 px-4 rounded-xl shadow-sm active:scale-95 transition-transform"><i class="fa-solid fa-eye mr-1"></i> Tampilkan Terjemahan</button></div><div id="panduan-sholat-terjemahan-container" style="display: none;"><div class="w-12 h-1 bg-teal-50 mx-auto mb-6 rounded-full"></div>${kt}</div>` : ""; 
         
         let tAr = Array.isArray(d.arab) ? d.arab.join(' ') : (d.arab || "");
-        tAr = tAr.replace(/([٠-٩]+)/g, '<span class="ayah-end-number">۝$1</span>');
+tAr = tAr.replace(/([٠-٩]+)/g, '&nbsp;<span class="ayah-end-number">۝$1</span>');
 
   let basmalahHtml = d.judul ? `<div class="text-center mb-6"><h3 class="font-arab text-xl text-teal-600 leading-none" lang="ar" dir="rtl">${d.judul}</h3></div>` : `<div class="text-center mb-6"><h3 class="font-arab text-xl text-teal-600 leading-none" lang="ar" dir="rtl">بِسْمِ اللّٰهِ الرَّحْمٰنِ الرَّحِيْمِ</h3></div>`;
         let garisHtml = `<div class="w-full h-[1px] bg-slate-100 mb-6"></div>`;
