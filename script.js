@@ -699,7 +699,7 @@ async function renderAppMenuDetailLogic(cat, id, parentFolderId = null) {
 
             let basmalahHtml = d.judul ? `<div class="text-center mb-6"><h3 class="font-kufi text-2xl text-teal-700 font-bold bg-teal-50/50 inline-block px-5 py-2 rounded-xl border border-teal-100" dir="rtl">${d.judul}</h3></div><div class="w-full h-[1px] bg-slate-100 mb-8"></div>` : '';
 
-            finalHtml = `<div class="bg-white p-5 md:p-8 rounded-3xl shadow-sm border border-slate-100">${basmalahHtml}<p class="font-arab text-justify" dir="rtl">${teksArab}</p>${tampilanDetail}</div>`;
+           finalHtml = `<div class="bg-white p-5 md:p-8 rounded-3xl shadow-sm border border-slate-100">${basmalahHtml}<p class="font-arab text-justify" dir="rtl" style="font-size: calc(28px * var(--font-scale)) !important; font-size-adjust: none !important; word-spacing: normal !important; line-height: 2.4 !important;">${teksArab}</p>${tampilanDetail}</div>`;
         }
 
         content.innerHTML = finalHtml;
