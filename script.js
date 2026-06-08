@@ -639,7 +639,7 @@ async function renderAppMenuDetailLogic(cat, id, parentFolderId = null) {
         const d = await res.json();
         let finalHtml = "";
 
-        // 🌟 1. TAMPILAN KHUSUS UNTUK JSON BURDAH (KOTAK PER BAIT)
+        // 🌟 1. TAMPILAN KHUSUS UNTUK JSON STRUKTUR BARU (Burdah & Tawassul)
         if (d.metadata && d.konten && d.konten.bait_list) {
             
             let basmalahHtml = d.konten.pembuka_basmalah ? `<h3 class="font-kufi text-2xl text-teal-700 font-bold" dir="rtl">${d.konten.pembuka_basmalah}</h3>` : '';
@@ -656,14 +656,21 @@ async function renderAppMenuDetailLogic(cat, id, parentFolderId = null) {
                 let textArab1 = bait.syathr_awal ? bait.syathr_awal.replace(/([٠-٩]+)/g, '<span class="ayah-end-number font-arab text-teal-600">۝$1</span>') : '';
                 let textArab2 = bait.syathr_tsani ? bait.syathr_tsani.replace(/([٠-٩]+)/g, '<span class="ayah-end-number font-arab text-teal-600">۝$1</span>') : '';
 
+                // 💡 LOGIKA DETEKSI CERDAS (SMART LINE-HEIGHT)
+                // Cek apakah ini syair 2 baris, atau paragraf panjang 1 baris
+                let isSyair = (textArab1 !== '' && textArab2 !== '');
+                let dynamicLineHeight = isSyair ? '2.4' : '3.6'; 
+                let dynamicMargin = isSyair ? 'margin-bottom: 8px;' : '';
+
                 baitHtml += `
                     <div class="relative bg-white p-5 rounded-2xl border border-slate-100 shadow-sm overflow-hidden">
+                        <!-- Hiasan Nomor Urut -->
                         <div class="absolute -right-3 -top-3 w-12 h-12 bg-teal-50 rounded-full flex items-center justify-center opacity-60">
                             <span class="text-teal-600 font-bold text-[10px] mt-3 mr-3">${index + 1}</span>
                         </div>
 
                         <div class="relative z-10 pr-3 pb-1">
-                            ${textArab1 ? `<div class="text-right font-arab text-slate-900 w-full" dir="rtl" lang="ar" style="font-size: calc(28px * var(--font-scale)) !important; font-size-adjust: none !important; word-spacing: normal !important; line-height: 2.4 !important; margin-bottom: 8px;">${textArab1}</div>` : ''}
+                            ${textArab1 ? `<div class="text-right font-arab text-slate-900 w-full" dir="rtl" lang="ar" style="font-size: calc(28px * var(--font-scale)) !important; font-size-adjust: none !important; word-spacing: normal !important; line-height: ${dynamicLineHeight} !important; ${dynamicMargin}">${textArab1}</div>` : ''}
                             ${textArab2 ? `<div class="text-right font-arab text-slate-900 w-full" dir="rtl" lang="ar" style="font-size: calc(28px * var(--font-scale)) !important; font-size-adjust: none !important; word-spacing: normal !important; line-height: 2.4 !important;">${textArab2}</div>` : ''}
                             ${bait.terjemahan ? `<div class="text-center font-sans text-[11px] text-slate-500 mt-5 border-t pt-4 border-slate-100 font-medium leading-relaxed" dir="ltr">${bait.terjemahan}</div>` : ''}
                         </div>
