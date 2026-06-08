@@ -434,17 +434,18 @@ h1.font-kufi { font-size: clamp(24px, 9vw, 40px) !important; }
 .ayat-arabic {
     font-family: 'lpmq' !important; 
     
-    /* ⬇️ UKURAN DISAMAKAN PERSIS DENGAN BURDAH & DOA (28px) ⬇️ */
+    /* Ukuran font tetap sama (28px) */
     font-size: calc(28px * var(--font-scale)) !important; 
     
-    /* ⬇️ JARAK ANTAR BARIS DISAMAKAN DENGAN DOA ⬇️ */
-    line-height: 2.4 !important; 
+    /* ⬇️ 1. NAIKKAN line-height AGAR HARAKAT TIDAK TABRAKAN (Ubah ke 3.2 atau 3.4) ⬇️ */
+    line-height: 3.4 !important; 
     
     color: #1a1a1a;
     
-    /* ⬇️ PADDING ATAS & BAWAH DISAMAKAN DENGAN DOA ⬇️ */
-    padding-top: 10px !important;
-    padding-bottom: 8px !important;
+    /* ⬇️ 2. TAMBAH PADDING ATAS & BAWAH MEMBERI RUANG NAFAS HARAKAT ⬇️ */
+    padding-top: 15px !important;
+    padding-bottom: 15px !important;
+    
     margin-bottom: 8px !important;
     display: block !important;
     transition: font-size 0.3s ease;
