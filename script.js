@@ -1039,7 +1039,7 @@ function loadSurahList() {
             <div class="shrink-0 pl-3 flex items-center">
             
                 <!-- 💡 Perbaiki Daftar Surah -->
-                <span class="text-teal-600" style="font-family: 'lpmq', serif !important; font-size: clamp(18px, 5.5vw, 24px) !important; line-height: 1.2 !important; margin-top: 1px; white-space: nowrap;" dir="rtl" lang="ar">${s.nama}</span>
+              <span class="text-teal-600" style="font-family: 'lpmq', serif !important; font-size: clamp(15px, 4.5vw, 20px) !important; line-height: 1.2 !important; margin-top: 1px; white-space: nowrap;" dir="rtl" lang="ar">${s.nama}</span>
             </div>
         </div>`; 
     }); 
@@ -1065,7 +1065,7 @@ async function loadJuzList() {
             <div class="shrink-0 pl-3 flex items-center">
             
                 <!-- 💡 Perbaiki Daftar Juz -->
-               <span class="text-teal-600" style="font-family: 'lpmq', serif !important; font-size: clamp(16px, 5vw, 22px) !important; line-height: 1.2 !important; margin-top: 1px; white-space: nowrap;" dir="rtl" lang="ar">${namaJuzArab[i-1]}</span>
+              <span class="text-teal-600" style="font-family: 'lpmq', serif !important; font-size: clamp(14px, 4vw, 18px) !important; line-height: 1.2 !important; margin-top: 1px; white-space: nowrap;" dir="rtl" lang="ar">${namaJuzArab[i-1]}</span>
             </div>
         </div>`; 
     } 
