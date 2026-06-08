@@ -510,16 +510,17 @@ h1.font-kufi { font-size: clamp(24px, 9vw, 40px) !important; }
    NOMOR AYAT (simbol ۝ di akhir ayat)
    ═══════════════════════════════════════════════════════ */
 .ayah-end-number {
-    font-family: 'lpmq' !important; /* <--- Ubah baris ini */
+    font-family: 'lpmq' !important;
     font-size: calc(clamp(16px, 5vw, 22px) * var(--font-scale)) !important;
     line-height: 1 !important;
     font-weight: 400 !important;
     color: #007A78;
-    display: inline !important;
+    display: inline-block !important; /* Ubah ke inline-block agar margin berfungsi sempurna */
     vertical-align: baseline !important;
     word-spacing: 0 !important;
     letter-spacing: 0 !important;
     overflow: visible !important;
+    margin-right: 6px !important; /* ⬅️ TAMBAHKAN BARIS INI UNTUK MEMBERI JARAK */
 }
 
 /* ═══════════════════════════════════════════════════════
