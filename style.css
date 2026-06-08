@@ -433,18 +433,21 @@ h1.font-kufi { font-size: clamp(24px, 9vw, 40px) !important; }
    ═══════════════════════════════════════════════════════ */
 .ayat-arabic {
     font-family: 'lpmq' !important; 
-    font-size: calc(28px * var(--font-scale)) !important; 
-    line-height: 3.4 !important; 
+    
+    /* ⬇️ Hanya angka font-size yang dinaikkan sedikit ⬇️ */
+    font-size: clamp(
+        calc(20px * var(--font-scale)), 
+        calc(6vw * var(--font-scale)), 
+        calc(26px * var(--font-scale))
+    ) !important; 
+    
+    line-height: 3.5 !important; 
     color: #1a1a1a;
-    padding-top: 15px !important;
-    padding-bottom: 15px !important;
+    padding-top: 22px !important;
+    padding-bottom: 4px !important;
     margin-bottom: 8px !important;
     display: block !important;
     transition: font-size 0.3s ease;
-
-    /* ⬇️ TAMBAHKAN 2 BARIS INI AGAR MEKARNYA SAMA PERSIS DENGAN BURDAH ⬇️ */
-    font-size-adjust: none !important; 
-    word-spacing: normal !important;
 }
 
 /* ═══════════════════════════════════════════════════════
