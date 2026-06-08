@@ -454,14 +454,17 @@ h1.font-kufi { font-size: clamp(24px, 9vw, 40px) !important; }
    DOA & PANDUAN SHOLAT
    ═══════════════════════════════════════════════════════ */
 .font-arab {
-    /* ⬇️ BAGIAN INI YANG DIGANTI MENJADI 28px ⬇️ */
     font-size: calc(28px * var(--font-scale)) !important;
 
-    /* Sisa kodenya tetap sama */
-    line-height: 3.8 !important; 
+    /* ⬇️ 1. KECILKAN line-height (dari 3.8 menjadi 2.4 atau 2.2) ⬇️ */
+    line-height: 2.4 !important; 
+    
     color: #1a1a1a;
-    padding-top: 18px !important;
-    padding-bottom: 15px !important; 
+    
+    /* ⬇️ 2. KURANGI padding atas dan bawah agar lebih rapat ⬇️ */
+    padding-top: 10px !important;
+    padding-bottom: 8px !important; 
+    
     display: block !important;
     text-align: right !important; 
     direction: rtl !important;
