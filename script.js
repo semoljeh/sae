@@ -1037,8 +1037,9 @@ function loadSurahList() {
                 </div>
             </div>
             <div class="shrink-0 pl-3 flex items-center">
-                <!-- 💡 UKURAN DIPERKECIL: Minimal 13px, Maksimal 17px -->
-                <span class="text-teal-600" style="font-family: 'lpmq', serif !important; font-size: clamp(13px, 4vw, 17px) !important; line-height: 1.2 !important; margin-top: 1px;" dir="rtl" lang="ar">${s.nama}</span>
+            
+                <!-- 💡 Perbaiki Daftar Surah -->
+                <span class="text-teal-600" style="font-family: 'lpmq', serif !important; font-size: clamp(18px, 5.5vw, 24px) !important; line-height: 1.2 !important; margin-top: 1px; white-space: nowrap;" dir="rtl" lang="ar">${s.nama}</span>
             </div>
         </div>`; 
     }); 
@@ -1062,8 +1063,9 @@ async function loadJuzList() {
                 <h4 class="font-bold text-[13px] text-slate-700 uppercase whitespace-nowrap">Juz ${i}</h4>
             </div>
             <div class="shrink-0 pl-3 flex items-center">
-                <!-- 💡 UKURAN DIPERKECIL: Minimal 12px, Maksimal 15px -->
-                <span class="text-teal-600" style="font-family: 'lpmq', serif !important; font-size: clamp(12px, 3.5vw, 15px) !important; line-height: 1.2 !important; margin-top: 1px;" dir="rtl" lang="ar">${namaJuzArab[i-1]}</span>
+            
+                <!-- 💡 Perbaiki Daftar Juz -->
+               <span class="text-teal-600" style="font-family: 'lpmq', serif !important; font-size: clamp(16px, 5vw, 22px) !important; line-height: 1.2 !important; margin-top: 1px; white-space: nowrap;" dir="rtl" lang="ar">${namaJuzArab[i-1]}</span>
             </div>
         </div>`; 
     } 
