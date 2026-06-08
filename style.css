@@ -434,16 +434,16 @@ h1.font-kufi { font-size: clamp(24px, 9vw, 40px) !important; }
 .ayat-arabic {
     font-family: 'lpmq' !important; 
     
-    /* ⬇️ Rumus dipindah ke dalam ⬇️ */
-    font-size: clamp(
-        calc(16px * var(--font-scale)), 
-        calc(5vw * var(--font-scale)), 
-        calc(20px * var(--font-scale))
-    ) !important; 
+    /* 1. PERBESAR UKURAN HURUF AYAT (Disamakan & dioptimalkan dari Burdah/Doa) */
+    font-size: calc(30px * var(--font-scale)) !important; 
     
-    line-height: 3.5 !important; 
+    /* 2. RAPATKAN JARAK ANTAR BARIS AGAR TIDAK TERLALU LEBAR ATAU REMBONG */
+    line-height: 2.6 !important; 
+    
     color: #1a1a1a;
-    padding-top: 22px !important;
+    
+    /* 3. SESUAIKAN PADDING ATAS AGAR PROPORSI BINGKAI DAN TEKS PAS */
+    padding-top: 12px !important;
     padding-bottom: 4px !important;
     margin-bottom: 8px !important;
     display: block !important;
