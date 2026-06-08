@@ -617,7 +617,8 @@ window.toggleMenuTerjemahan = function() {
     else { c.style.display = 'none'; btn.innerHTML = '<i class="fa-solid fa-eye mr-1"></i> Tampilkan Detail'; }
 }
 
-async function renderAppMenuDetailLogic(cat, id, parentFolderId) {
+
+async function renderAppMenuDetailLogic(cat, id, parentFolderId = null) {
     let activeArray = [];
     if (parentFolderId !== null) { const folder = menuData[cat].items.find(x => x.id === parentFolderId); activeArray = folder.subItems; } 
     else { activeArray = menuData[cat].items.filter(x => !x.subItems); }
@@ -656,13 +657,13 @@ async function renderAppMenuDetailLogic(cat, id, parentFolderId) {
                 let textArab1 = bait.syathr_awal ? bait.syathr_awal.replace(/([٠-٩]+)/g, '<span class="ayah-end-number font-arab text-teal-600">۝$1</span>') : '';
                 let textArab2 = bait.syathr_tsani ? bait.syathr_tsani.replace(/([٠-٩]+)/g, '<span class="ayah-end-number font-arab text-teal-600">۝$1</span>') : '';
 
-                // 💡 PERBAIKAN: line-height diturunkan drastis agar baris teks lebih merapat
                 let isSyair = (textArab1 !== '' && textArab2 !== '');
                 let dynamicLineHeight = isSyair ? '1.8' : '2.2'; 
-                let dynamicMargin = isSyair ? 'margin-bottom: 4px;' : ''; // Jarak antar baris 1 dan 2 diperkecil
+                let dynamicMargin = isSyair ? 'margin-bottom: 4px;' : '';
 
                 baitHtml += `
                     <div class="relative bg-white p-5 rounded-2xl border border-slate-100 shadow-sm overflow-hidden">
+                        <!-- Hiasan Nomor Urut -->
                         <div class="absolute -right-3 -top-3 w-12 h-12 bg-teal-50 rounded-full flex items-center justify-center opacity-60">
                             <span class="text-teal-600 font-bold text-[10px] mt-3 mr-3">${index + 1}</span>
                         </div>
@@ -680,7 +681,7 @@ async function renderAppMenuDetailLogic(cat, id, parentFolderId) {
             finalHtml = `<div class="pb-6">${headerCard}${baitHtml}</div>`;
         }
 
-        // 🌟 2. TAMPILAN ASLI UNTUK MENU LAINNYA (JSON LAMA)
+        // 🌟 2. TAMPILAN ASLI UNTUK MENU LAINNYA (JSON LAMA: Dzikir, Yasin, Maulid, dll)
         else {
             let teksLatin = d.latin ? (Array.isArray(d.latin) ? d.latin.join('<br><br>') : d.latin) : ""; 
             let teksArti = d.arti ? (Array.isArray(d.arti) ? d.arti.join('<br><br>') : d.arti) : "";
@@ -691,14 +692,16 @@ async function renderAppMenuDetailLogic(cat, id, parentFolderId) {
             const tampilanDetail = (teksLatin || teksArti) ? `<div class="mt-4 text-center mb-6"><button onclick="toggleMenuTerjemahan()" id="btn-toggle-menu-terjemahan" class="text-[10px] font-bold text-teal-700 uppercase tracking-wide bg-teal-50 border border-teal-100 py-2 px-4 rounded-xl shadow-sm active:scale-95 transition-transform"><i class="fa-solid fa-eye mr-1"></i> Tampilkan Detail</button></div><div id="menu-terjemahan-container" style="display: none;"><div class="w-16 h-1 bg-teal-50 mx-auto mb-6 rounded-full"></div>${kontenTambahan}</div>` : "";
             
             let teksArab = Array.isArray(d.arab) ? d.arab.join(' ') : (d.arab || "");
-            teksArab = teksArab.replace(/([٠-٩]+)/g, '<span class="ayah-end-number">۝$1</span>');
+            // Pastikan penomoran juga menyesuaikan warna
+            teksArab = teksArab.replace(/([٠-٩]+)/g, '<span class="ayah-end-number font-arab text-teal-600">۝$1</span>');
 
             let basmalahHtml = d.judul ? `<div class="text-center mb-6"><h3 class="font-kufi text-2xl text-teal-700 font-bold" dir="rtl">${d.judul}</h3></div>` : '';
             let garisHtml = (d.judul || d.judul_utama) ? `<div class="w-full h-[1px] bg-slate-100 mb-6"></div>` : '';
             let judulUtamaHtml = d.judul_utama ? `<div class="text-center mb-8"><span class="text-[10px] font-bold text-teal-700 uppercase tracking-wide block max-w-[90%] mx-auto leading-relaxed">${d.judul_utama}</span></div>` : '';
             let headerCard = `${basmalahHtml}${garisHtml}${judulUtamaHtml}`;
 
-            finalHtml = `<div class="bg-white p-8 rounded-3xl shadow-sm border border-slate-100">${headerCard}<p class="font-arab" dir="rtl" lang="ar">${teksArab}</p>${tampilanDetail}</div>`;
+            // 💡 PERUBAHAN: Menyuntikkan style font 28px dan line-height 2.2 persis seperti Burdah ke paragraf menu lainnya
+            finalHtml = `<div class="bg-white p-8 rounded-3xl shadow-sm border border-slate-100">${headerCard}<p class="font-arab" dir="rtl" lang="ar" style="font-size: calc(28px * var(--font-scale)) !important; font-size-adjust: none !important; word-spacing: normal !important; line-height: 2.2 !important;">${teksArab}</p>${tampilanDetail}</div>`;
         }
 
         content.innerHTML = finalHtml;
@@ -706,6 +709,8 @@ async function renderAppMenuDetailLogic(cat, id, parentFolderId) {
         content.innerHTML = `<div class="text-center py-20"><i class="fa-solid fa-triangle-exclamation text-red-400 text-3xl mb-3"></i><p class="text-red-500 font-bold text-xs uppercase">Gagal Memuat Data</p></div>`; 
     }
 }
+
+
 
 /* ==========================================================================
    MESIN KALENDER PREMIUM
