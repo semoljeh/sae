@@ -3,6 +3,14 @@
     "dzikir": {
       "title": "Kumpulan Dzikir",
       "items": [
+            {
+          "id": 6,
+          "title": "Istighatsah",
+          "path": "dzikir/istighotsah/1.json"
+        }
+      ]
+    },
+        
         {
           "id": 1,
           "title": "Setelah Shalat",
