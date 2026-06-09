@@ -4,50 +4,18 @@
       "title": "Kumpulan Dzikir",
       "items": [
         {
-          "id": 6,
+          "id": 1,
           "title": "Setelah Shalat",
           "path": "dzikir/shalat.json"
         },
         {
-          "id": 1,
-          "title": "Setelah Shalat",
-          "subItems": [
-            {
-              "id": 11,
-              "title": "Setelah Shalat",
-              "path": "dzikir/sholat/1.json"
-            },
-            {
-              "id": 12,
-              "title": "Do'a Setelah Dzikir ",
-              "path": "dzikir/sholat/2.json"
-            }
-          ]
-        },
-        {
           "id": 2,
           "title": "Istighatsah",
-          "subItems": [
-            {
-              "id": 21,
-              "title": "Istighatsah 1",
-              "path": "dzikir/istighotsah/1.json"
-            },
-            {
-              "id": 22,
-              "title": "Istighatsah 2",
-              "path": "https://raw.githubusercontent.com/semoljeh/beranda/main/datadoa/petang.json"
-            },
-            {
-              "id": 23,
-              "title": "Istighatsah 3",
-              "path": "https://raw.githubusercontent.com/semoljeh/beranda/main/datadoa/petang.json"
-            }
-          ]
+          "path": "dzikir/istighotsah/1.json"
         },
         {
           "id": 3,
-          "title": "Dzikir",
+          "title": "Wirdullathif",
           "subItems": [
             {
               "id": 21,
