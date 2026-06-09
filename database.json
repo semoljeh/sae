@@ -11,30 +11,19 @@
         {
           "id": 2,
           "title": "Istighatsah",
-          "path": "dzikir/istighotsah/1.json"
+          "path": "dzikir/istighotsah.json"
         },
-        {
+      {
           "id": 3,
-          "title": "Wirdullathif",
-          "subItems": [
-            {
-              "id": 21,
-              "title": "Pagi",
-              "path": "https://raw.githubusercontent.com/semoljeh/beranda/main/datadoa/pagi.json"
-            },
-            {
-              "id": 22,
-              "title": "Sore",
-              "path": "https://raw.githubusercontent.com/semoljeh/beranda/main/datadoa/petang.json"
-            }
-          ]
+          "title": "Dzikir Pagi",
+          "path": "dzikir/pagi.json"
         },
-        {
-          "id": 5,
-          "title": "Istighatsah",
-          "path": "dzikir/istighotsah/1.json"
+		  {
+          "id": 4,
+          "title": "Dzikir Sore",
+          "path": "dzikir/sore.json"
         }
-      ]
+		 ]
     },
     
     "//pemisah1": "-----------------------------------------------------------------------------------------------------------------------------------------------------",
