@@ -3,14 +3,11 @@
     "dzikir": {
       "title": "Kumpulan Dzikir",
       "items": [
-            {
+        {
           "id": 6,
           "title": "Istighatsah",
           "path": "dzikir/istighotsah/1.json"
-        }
-      ]
-    },
-        
+        },
         {
           "id": 1,
           "title": "Setelah Shalat",
@@ -48,7 +45,6 @@
             }
           ]
         },
-
         {
           "id": 3,
           "title": "Dzikir",
@@ -87,8 +83,8 @@
           "id": 2,
           "title": "Yasin",
           "path": "yasin/yasin.json"
-    },
-     {
+        },
+        {
           "id": 3,
           "title": "Tahlil",
           "path": "yasin/tahlil.json"
@@ -116,7 +112,7 @@
           "title": "Ratib Al-Haddad",
           "path": "ratib/haddad.json"
         },
-          {
+        {
           "id": 3,
           "title": "Ratib Syaikhona Kholil",
           "path": "ratib/syaikhona.json"
@@ -177,47 +173,47 @@
               "title": "BAB I",
               "path": "sholawat/burdah/burdah2.json"
             },
-             {
+            {
               "id": 13,
               "title": "BAB II",
               "path": "sholawat/burdah/burdah3.json"
             },
-             {
+            {
               "id": 14,
               "title": "BAB III",
               "path": "sholawat/burdah/burdah4.json"
             },
-             {
+            {
               "id": 15,
               "title": "BAB IV",
               "path": "sholawat/burdah/burdah5.json"
             },
-             {
+            {
               "id": 16,
               "title": "BAB V",
               "path": "sholawat/burdah/burdah6.json"
             },
-             {
+            {
               "id": 17,
               "title": "BAB VI",
               "path": "sholawat/burdah/burdah7.json"
             },
-             {
+            {
               "id": 18,
               "title": "BAB VII",
               "path": "sholawat/burdah/burdah8.json"
             },
-             {
+            {
               "id": 19,
               "title": "BAB VIII",
               "path": "sholawat/burdah/burdah9.json"
             },
-             {
+            {
               "id": 20,
               "title": "BAB IX",
               "path": "sholawat/burdah/burdah10.json"
             },
-             {
+            {
               "id": 21,
               "title": "BAB X",
               "path": "sholawat/burdah/burdah11.json"
@@ -245,7 +241,7 @@
           "judul": "Doa Nabi Adam",
           "path": "doa/adam.json"
         },
-            {
+        {
           "id": 12,
           "judul": "Doa Nabi Nuh",
           "path": "doa/nuh.json"
