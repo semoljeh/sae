@@ -1614,7 +1614,7 @@ async function renderDoaDetailLogic(id, parentFolderId = null) {
                 let judulUtamaHtml = item.judul_utama ? `<div class="text-center mb-8"><span class="text-[10px] font-bold text-teal-700 uppercase tracking-wide block max-w-[90%] mx-auto leading-relaxed">${item.judul_utama}</span></div>` : '';
                 let headerCard = `${basmalahHtml}${garisHtml}${judulUtamaHtml}`;
 
-                finalHtml += `<div class="bg-white p-8 rounded-3xl text-center shadow-sm border border-slate-100 mb-6">${headerCard}<p class="font-arab mb-8" dir="rtl" lang="ar">${tAr}</p>${tDet}</div>`;
+                finalHtml += `<div class="bg-white p-8 rounded-3xl text-center shadow-sm border border-slate-100 mb-6">${headerCard}<p class="font-arab mb-8" dir="rtl" lang="ar" style="font-size: calc(28px * var(--font-scale)) !important; font-size-adjust: none !important; word-spacing: normal !important; line-height: 2.4 !important;">${tAr}</p>${tDet}</div>`;
             });
         } 
         else {
@@ -1635,7 +1635,7 @@ async function renderDoaDetailLogic(id, parentFolderId = null) {
             let judulUtamaHtml = d.judul_utama ? `<div class="text-center mb-8"><span class="text-[10px] font-bold text-teal-700 uppercase tracking-wide block max-w-[90%] mx-auto leading-relaxed">${d.judul_utama}</span></div>` : '';
             let headerCard = `${basmalahHtml}${garisHtml}${judulUtamaHtml}`;
 
-            finalHtml = `<div class="bg-white p-8 rounded-3xl text-center shadow-sm border border-slate-100 mb-6">${headerCard}<p class="font-arab mb-8" dir="rtl" lang="ar">${tAr}</p>${tDet}</div>`;
+            finalHtml = `<div class="bg-white p-8 rounded-3xl text-center shadow-sm border border-slate-100 mb-6">${headerCard}<p class="font-arab mb-8" dir="rtl" lang="ar" style="font-size: calc(28px * var(--font-scale)) !important; font-size-adjust: none !important; word-spacing: normal !important; line-height: 2.4 !important;">${tAr}</p>${tDet}</div>`;
         }
 
         c.innerHTML = finalHtml;
@@ -1695,7 +1695,7 @@ tAr = tAr.replace(/۝?\s*([٠-٩]+)/g, '&nbsp;<span class="mx-1">﴿x$1﴾</span
         let judulUtamaHtml = d.judul_utama ? `<div class="text-center mb-8"><span class="text-[10px] font-bold text-teal-700 uppercase tracking-wide block max-w-[90%] mx-auto leading-relaxed">${d.judul_utama}</span></div>` : '';
         let headerCard = `${basmalahHtml}${garisHtml}${judulUtamaHtml}`;
         
-        c.innerHTML = `<div class="bg-white p-8 rounded-3xl text-center shadow-sm border border-slate-100">${headerCard}<p class="font-arab mb-8" dir="rtl" lang="ar">${tAr}</p>${tDet}</div>`;
+        c.innerHTML = `<div class="bg-white p-8 rounded-3xl text-center shadow-sm border border-slate-100">${headerCard}<p class="font-arab mb-8" dir="rtl" lang="ar" style="font-size: calc(28px * var(--font-scale)) !important; font-size-adjust: none !important; word-spacing: normal !important; line-height: 2.4 !important;">${tAr}</p>${tDet}</div>`;
     } catch (e) { c.innerHTML = `<div class="text-center p-10"><i class="fa-solid fa-triangle-exclamation text-red-400 text-3xl mb-3"></i><p class="text-xs text-red-500 font-bold uppercase">Gagal memuat panduan</p></div>`; }
 }
 
