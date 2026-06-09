@@ -655,8 +655,8 @@ async function renderAppMenuDetailLogic(cat, id, parentFolderId = null) {
             d.konten.bait_list.forEach((bait, index) => {
                 
                 // 💡 PERBAIKAN: Menambahkan &nbsp; sebelum tag <span> agar ada spasi yang aman
-                let textArab1 = bait.syathr_awal ? bait.syathr_awal.replace(/([٠-٩]+)/g, '&nbsp;<span class="ayah-end-number font-arab text-teal-600">۝$1</span>') : '';
-                let textArab2 = bait.syathr_tsani ? bait.syathr_tsani.replace(/([٠-٩]+)/g, '&nbsp;<span class="ayah-end-number font-arab text-teal-600">۝$1</span>') : '';
+                let textArab1 = bait.syathr_awal ? bait.syathr_awal.replace(/۝?\s*([٠-٩]+)/g, '&nbsp;<span class="mx-1 font-sans font-bold text-teal-600 text-[0.8em]">﴿x$1﴾</span>') : '';
+                let textArab2 = bait.syathr_tsani ? bait.syathr_tsani.replace(/۝?\s*([٠-٩]+)/g, '&nbsp;<span class="mx-1 font-sans font-bold text-teal-600 text-[0.8em]">﴿x$1﴾</span>') : '';
 
                 let isSyair = (textArab1 !== '' && textArab2 !== '');
                 let dynamicLineHeight = isSyair ? '1.8' : '2.2'; 
@@ -695,7 +695,7 @@ async function renderAppMenuDetailLogic(cat, id, parentFolderId = null) {
             let teksArab = Array.isArray(d.arab) ? d.arab.join(' ') : (d.arab || "");
             
             // 💡 PERBAIKAN: Menambahkan &nbsp; juga untuk semua menu JSON lama
-            teksArab = teksArab.replace(/([٠-٩]+)/g, '&nbsp;<span class="ayah-end-number font-arab text-teal-600">۝$1</span>');
+           teksArab = teksArab.replace(/۝?\s*([٠-٩]+)/g, '&nbsp;<span class="mx-1 font-sans font-bold text-teal-600 text-[0.8em]">﴿x$1﴾</span>');
 
             let basmalahHtml = d.judul ? `<div class="text-center mb-6"><h3 class="font-kufi text-2xl text-teal-700 font-bold bg-teal-50/50 inline-block px-5 py-2 rounded-xl border border-teal-100" dir="rtl">${d.judul}</h3></div><div class="w-full h-[1px] bg-slate-100 mb-8"></div>` : '';
 
@@ -1429,7 +1429,7 @@ window.showTafsirQuran = async function(nomorSurah, nomorAyat) {
         const dataTafsir = json[nomorSurah.toString()].tafsir.id.kemenag.text[nomorAyat.toString()];
         
         if (dataTafsir) {
-            let textRaw = dataTafsir.replace(/(\d+)\.([a-zA-Z])/g, '$1. $2').replace(/(^|\n)([a-z])\.([a-zA-Z])/g, '$1$2. $3');
+            let textRaw = dataTafsir.replace(/(\d+)\.([a-zA-Z])/g, ' x$1 . $2').replace(/(^|\n)([a-z])\.([a-zA-Z])/g, ' x$1 $2. $3');
             bodyText.innerHTML = textRaw.split('\n').filter(p => p.trim() !== '').map(p => `<p style="margin-bottom:12px;">${p.trim()}</p>`).join('');
         } else {
             bodyText.innerHTML = '<p>Data tafsir tidak ditemukan.</p>';
@@ -1607,7 +1607,7 @@ async function renderDoaDetailLogic(id, parentFolderId = null) {
                 const tDet = kt ? `<div class="mt-2 text-center mb-4"><button onclick="toggleTerjemahanMulti(this, 'doa-terj-${index}')" class="text-[10px] font-bold text-teal-700 uppercase tracking-wide bg-teal-50 border border-teal-100 py-2 px-4 rounded-xl shadow-sm active:scale-95 transition-transform"><i class="fa-solid fa-eye mr-1"></i> Tampilkan Terjemahan</button></div><div id="doa-terj-${index}" style="display: none;"><div class="w-12 h-1 bg-teal-50 mx-auto mb-6 rounded-full"></div>${kt}</div>` : ""; 
                 
                 let tAr = Array.isArray(item.arab) ? item.arab.join(' ') : (item.arab || ""); 
-               tAr = tAr.replace(/([٠-٩]+)/g, '&nbsp;<span class="ayah-end-number font-arab text-teal-600">۝$1</span>');
+              tAr = tAr.replace(/۝?\s*([٠-٩]+)/g, '&nbsp;<span class="mx-1 font-sans font-bold text-teal-600 text-[0.8em]">﴿x$1﴾</span>');
 
              let basmalahHtml = item.judul ? `<div class="text-center mb-6"><h3 class="font-kufi text-lg text-teal-700 font-bold">${item.judul}</h3></div>` : `<div class="text-center mb-6"><h3 class="font-arab text-xl text-teal-600 leading-none" lang="ar" dir="rtl">بِسْمِ اللّٰهِ الرَّحْمٰنِ الرَّحِيْمِ</h3></div>`;
                 let garisHtml = `<div class="w-full h-[1px] bg-slate-100 mb-6"></div>`;
@@ -1628,7 +1628,7 @@ async function renderDoaDetailLogic(id, parentFolderId = null) {
             const tDet = kt ? `<div class="mt-2 text-center mb-4"><button onclick="toggleTerjemahanMulti(this, 'doa-terj-single')" class="text-[10px] font-bold text-teal-700 uppercase tracking-wide bg-teal-50 border border-teal-100 py-2 px-4 rounded-xl shadow-sm active:scale-95 transition-transform"><i class="fa-solid fa-eye mr-1"></i> Tampilkan Terjemahan</button></div><div id="doa-terj-single" style="display: none;"><div class="w-12 h-1 bg-teal-50 mx-auto mb-6 rounded-full"></div>${kt}</div>` : ""; 
             
             let tAr = Array.isArray(d.arab) ? d.arab.join(' ') : (d.arab || ""); 
-          tAr = tAr.replace(/([٠-٩]+)/g, '&nbsp;<span class="ayah-end-number font-arab text-teal-600">۝$1</span>');
+          tAr = tAr.replace(/۝?\s*([٠-٩]+)/g, '&nbsp;<span class="mx-1 font-sans font-bold text-teal-600 text-[0.8em]">﴿x$1﴾</span>');
 
   let basmalahHtml = d.judul ? `<div class="text-center mb-6"><h3 class="font-kufi text-lg text-teal-700 font-bold">${d.judul}</h3></div>` : `<div class="text-center mb-6"><h3 class="font-arab text-xl text-teal-600 leading-none" lang="ar" dir="rtl">بِسْمِ اللّٰهِ الرَّحْمٰنِ الرَّحِيْمِ</h3></div>`;
             let garisHtml = `<div class="w-full h-[1px] bg-slate-100 mb-6"></div>`;
@@ -1688,7 +1688,7 @@ async function renderPanduanSholatDetailLogic(id) {
         const tDet = kt ? `<div class="mt-2 text-center mb-4"><button onclick="toggleTerjemahanPanduanSholat()" id="btn-toggle-terjemahan-panduan-sholat" class="text-[10px] font-bold text-teal-700 uppercase tracking-wide bg-teal-50 border border-teal-100 py-2 px-4 rounded-xl shadow-sm active:scale-95 transition-transform"><i class="fa-solid fa-eye mr-1"></i> Tampilkan Terjemahan</button></div><div id="panduan-sholat-terjemahan-container" style="display: none;"><div class="w-12 h-1 bg-teal-50 mx-auto mb-6 rounded-full"></div>${kt}</div>` : ""; 
         
         let tAr = Array.isArray(d.arab) ? d.arab.join(' ') : (d.arab || "");
-tAr = tAr.replace(/([٠-٩]+)/g, '&nbsp;<span class="ayah-end-number">۝$1</span>');
+tAr = tAr.replace(/۝?\s*([٠-٩]+)/g, '&nbsp;<span class="mx-1">﴿x$1﴾</span>');
 
   let basmalahHtml = d.judul ? `<div class="text-center mb-6"><h3 class="font-arab text-xl text-teal-600 leading-none" lang="ar" dir="rtl">${d.judul}</h3></div>` : `<div class="text-center mb-6"><h3 class="font-arab text-xl text-teal-600 leading-none" lang="ar" dir="rtl">بِسْمِ اللّٰهِ الرَّحْمٰنِ الرَّحِيْمِ</h3></div>`;
         let garisHtml = `<div class="w-full h-[1px] bg-slate-100 mb-6"></div>`;

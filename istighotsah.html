@@ -237,7 +237,7 @@
                     terjemahan: artiBaris
                 });
 
-                let previewArab = barisArab ? barisArab.replace(/([٠-٩]+)/g, '&nbsp;<span class="teks-arab text-blue-600 font-bold">۝$1</span>') : '';
+               let previewArab = barisArab ? barisArab.replace(/۝?\s*([٠-٩]+)/g, '&nbsp;<span class="teks-arab text-blue-600 font-bold">﴿x$1﴾</span>') : '';
 
                 if (barisArab) {
                     htmlPreview += `
