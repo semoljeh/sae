@@ -193,6 +193,8 @@ window.handleAlarm = function(btn, name) {
 document.addEventListener("DOMContentLoaded", async function () {
     
     await loadAppDatabase();
+	
+	tampilkanQuoteAcak();
 
     document.addEventListener('contextmenu', e => e.preventDefault()); document.addEventListener('selectstart', e => e.preventDefault());
     document.addEventListener('keydown', e => { if (e.ctrlKey && [67, 65, 85, 83].includes(e.keyCode)) { e.preventDefault(); return false; } });
@@ -370,6 +372,17 @@ document.addEventListener("DOMContentLoaded", async function () {
             this.classList.add('active');
         });
     });
+	
+	// ⬇️ KODE BARU: Ubah quote saat menu diklik ⬇️
+    document.querySelectorAll('.menu-item, .nav-item').forEach(btn => {
+        btn.addEventListener('click', () => {
+            if (typeof tampilkanQuoteAcak === 'function') {
+                // Diberi jeda 150 milidetik agar layar menu sempat bergerak naik dulu
+                // menutupi tulisan, baru quote-nya diganti di latar belakang.
+                setTimeout(tampilkanQuoteAcak, 150);
+            }
+        });
+    });
 
     setInterval(() => {
         if (!currentSchedule) return;
@@ -428,21 +441,31 @@ async function initDashboardJadwal() {
         const cachedDate = localStorage.getItem('last_prayer_date');
         let t, h, readableDate;
 
-        if (cachedPrayer && cachedDate === todayStr) {
-            const d = JSON.parse(cachedPrayer); t = d.timings; h = d.date.hijri; readableDate = d.date.readable;
-        } else {
+        try {
+            // Coba ambil dari internet dulu
             const res = await fetch(`https://api.aladhan.com/v1/timingsByCity?city=${locName}&country=Indonesia&method=11`);
             const d = await res.json();
             t = d.data.timings; h = d.data.date.hijri; readableDate = d.data.date.readable;
             localStorage.setItem('last_prayer_data', JSON.stringify(d.data));
             localStorage.setItem('last_prayer_date', todayStr);
+        } catch (fetchError) {
+            // JIKA OFFLINE / GAGAL FETCH
+            if (cachedPrayer) {
+                // Pakai data cache yang ada (meskipun mungkin data kemarin), agar UI tidak rusak
+                const d = JSON.parse(cachedPrayer);
+                t = d.timings; h = d.date.hijri; readableDate = d.date.readable;
+            } else {
+                throw new Error("Tidak ada internet & cache kosong");
+            }
         }
 
+        // Terapkan ke jadwal hitung mundur
         currentSchedule = { Subuh: t.Fajr, Dzuhur: t.Dhuhr, Ashar: t.Asr, Maghrib: t.Maghrib, Isya: t.Isha };
 
-        const elHijri = document.getElementById('java-hijri'); const elDate = document.getElementById('full-date');
+        // Set Tanggal UI
+        const elHijri = document.getElementById('java-hijri'); 
+        const elDate = document.getElementById('full-date');
         if(elHijri) elHijri.innerText = `${h.day} ${getBulanIndo(h.month.en)} ${h.year} H`;
-        
         if(elDate) {
             const ms = ["Januari", "Februari", "Maret", "April", "Mei", "Juni", "Juli", "Agustus", "September", "Oktober", "November", "Desember"];
             const dsIndo = ["Minggu", "Senin", "Selasa", "Rabu", "Kamis", "Jumat", "Sabtu"];
@@ -454,7 +477,16 @@ async function initDashboardJadwal() {
         dashboardInterval = setInterval(() => renderCountdown(t), 1000);
         renderCountdown(t); 
 
-    } catch (e) { console.log("Gagal memuat jadwal beranda", e); }
+    } catch (e) { 
+        console.log("Beranda Mode Terbatas (Offline Tanpa Cache)"); 
+        // CEGAH UI RUSAK SAAT CACHE KOSONG
+        const pNameEl = document.getElementById('prayer-name'); 
+        const pTimeEl = document.getElementById('prayer-time'); 
+        const pCountEl = document.getElementById('countdown');
+        if(pNameEl) pNameEl.innerText = "OFFLINE";
+        if(pTimeEl) pTimeEl.innerText = "--:--";
+        if(pCountEl) pCountEl.innerText = "MENUNGGU INTERNET";
+    }
 }
 
 function renderCountdown(timings) {
@@ -1824,7 +1856,7 @@ async function downloadSemuaDataDiamDiam() {
         ];
         
         const semuaAntrean = [...asetDesainUtama, ...kumpulanLink];
-        const cache = await caches.open("almukhtar-cache-v4");
+        const cache = await caches.open("almukhtar-cache-v11");
         
         // 💡 KODE BARU: Cek apakah notifikasi sudah pernah muncul sebelumnya
         const sudahPernahSelesai = localStorage.getItem('al_mukhtar_offline_ready');
@@ -1871,3 +1903,72 @@ window.addEventListener('load', () => {
         setTimeout(downloadSemuaDataDiamDiam, 3000);
     }
 });
+
+function tampilkanQuoteAcak() {
+    const quotes = [
+        // TEMA DZIKIR & MENGINGAT ALLAH
+        "Hanya dengan mengingat Allah hati menjadi tenteram. (QS. Ar-Ra'd: 28)",
+        "Perumpamaan orang yang mengingat Tuhannya dan yang tidak, seperti orang yang hidup dan yang mati. (HR. Bukhari)",
+        "Tiada waktu yang disesali oleh penghuni surga, kecuali waktu di dunia yang berlalu tanpa dzikir kepada Allah.",
+        "Dzikir adalah surga dunia. Barangsiapa belum memasukinya, ia tidak akan memasuki surga akhirat. (Ibn Taimiyyah)",
+        "Banyak mengingat manusia adalah penyakit, sedangkan banyak mengingat Allah adalah obat. (Umar bin Khattab)",
+        "Jangan berhenti berdzikir walaupun hatimu belum hadir, karena kelalaian tanpa dzikir lebih buruk. (Ibn Atha'illah)",
+        "Dosa itu menghancurkan hati, dan dzikir adalah penawarnya.",
+        "Setiap nafas yang dihembuskan tanpa mengingat Allah adalah sebuah kerugian yang nyata.",
+        "Barangsiapa bershalawat kepadaku satu kali, Allah akan bershalawat kepadanya sepuluh kali. (HR. Muslim)",
+        "Dzikir yang paling utama adalah 'Laa ilaaha illallaah'. (HR. Tirmidzi)",
+
+        // TEMA AMAL KEBAIKAN & AKHLAK
+        "Sebaik-baik manusia adalah yang paling bermanfaat bagi orang lain.",
+        "Jangan pernah meremehkan kebaikan sekecil apapun, walau hanya tersenyum ketika bertemu saudaramu. (HR. Muslim)",
+        "Amalan yang paling dicintai Allah adalah amalan yang berkesinambungan (istiqamah) walaupun sedikit. (HR. Bukhari)",
+        "Barangsiapa menunjukkan suatu kebaikan, maka ia mendapatkan pahala seperti orang yang melakukannya. (HR. Muslim)",
+        "Sedekah tidak akan mengurangi harta. (HR. Muslim)",
+        "Orang yang kuat bukanlah yang pandai bergulat, tapi yang bisa menahan amarahnya. (HR. Bukhari)",
+        "Sembunyikanlah kebaikanmu sebagaimana engkau menyembunyikan keburukanmu.",
+        "Balasan kebaikan tidak lain hanyalah kebaikan pula. (QS. Ar-Rahman: 60)",
+        "Kebaikan sejati adalah berbuat baik kepada orang yang pernah berbuat buruk kepadamu.",
+        "Akhlak yang mulia adalah seberat-berat timbangan di hari kiamat.",
+
+        // TEMA SABAR, SYUKUR & TAWAKKAL
+        "Sesungguhnya bersama kesulitan ada kemudahan. (QS. Al-Insyirah: 6)",
+        "Janganlah kamu bersedih, sesungguhnya Allah bersama kita. (QS. At-Taubah: 40)",
+        "Apa yang melewatkanmu tidak akan pernah menjadi takdirmu, dan apa yang ditakdirkan untukmu tidak akan pernah melewatkanmu.",
+        "Jika Allah menolong kamu, maka tak adalah orang yang dapat mengalahkan kamu. (QS. Ali 'Imran: 160)",
+        "Sabar itu ada dua: Sabar terhadap apa yang kau benci, dan sabar terhadap apa yang kau sukai. (Ali bin Abi Thalib)",
+        "Terkadang Allah mematahkan rencanamu untuk menyelamatkan dirimu.",
+        "Barangsiapa yang bertakwa kepada Allah, niscaya Dia akan memberikan jalan keluar. (QS. At-Thalaq: 2)",
+        "Syukuri apa yang kau miliki, maka Allah akan menambahkan apa yang kau butuhkan.",
+        "Tidak ada musibah yang menimpa seorang muslim kecuali Allah menjadikannya penebus dosa-dosanya. (HR. Bukhari)",
+        "Allah tidak membebani seseorang melainkan sesuai dengan kesanggupannya. (QS. Al-Baqarah: 286)",
+
+        // TEMA ILMU & WAKTU
+        "Barangsiapa menempuh jalan untuk menuntut ilmu, maka Allah mudahkan baginya jalan ke surga. (HR. Muslim)",
+        "Ilmu tanpa amal adalah kegilaan, dan amal tanpa ilmu adalah kesia-siaan. (Imam Al-Ghazali)",
+        "Dua nikmat yang sering dilalaikan manusia: Kesehatan dan waktu luang. (HR. Bukhari)",
+        "Waktu itu bagaikan pedang. Jika kau tidak memotongnya, maka ia akan memotongmu. (Imam Syafi'i)",
+        "Sampaikanlah dariku walau hanya satu ayat. (HR. Bukhari)",
+        "Bukanlah ilmu itu apa yang dihafal, melainkan apa yang memberi manfaat. (Imam Syafi'i)",
+        "Ilmu adalah sebaik-baik warisan, dan adab adalah sebaik-baik kerajinan.",
+        "Tuntutlah ilmu dari buaian hingga liang lahat.",
+
+        // TEMA DOA & PENYEJUK HATI
+        "Doa adalah senjatanya orang mukmin, tiang agama, dan cahaya langit serta bumi. (HR. Al-Hakim)",
+        "Tidak ada yang dapat menolak takdir kecuali doa. (HR. Tirmidzi)",
+        "Hati yang hancur karena Allah, adalah hati yang sedang dibangun ulang oleh-Nya.",
+        "Bila engkau memohon, mohonlah kepada Allah. Bila engkau meminta pertolongan, mintalah kepada Allah.",
+        "Air mata orang yang bertobat lebih dicintai Allah daripada tasbih orang yang sombong.",
+        "Jangan putus asa dari rahmat Allah. Sesungguhnya Allah mengampuni dosa-dosa semuanya. (QS. Az-Zumar: 53)",
+        "Jadikanlah sabar dan shalat sebagai penolongmu. (QS. Al-Baqarah: 45)",
+        "Dunia ini adalah perhiasan, dan seindah-indah perhiasan dunia adalah wanita (istri) yang shalihah. (HR. Muslim)",
+        "Cukuplah Allah menjadi Penolong kami, dan Allah adalah sebaik-baik Pelindung. (QS. Ali 'Imran: 173)",
+        "Kejujuran itu membawa ketenangan, sedangkan dusta membawa keragu-raguan. (HR. Tirmidzi)",
+        "Perbaikilah hubunganmu dengan Allah, maka Allah akan memperbaiki hubunganmu dengan manusia.",
+        "Barangsiapa yang rida dengan ketetapan Allah, maka Allah rida kepadanya."
+    ];
+    const quoteElement = document.getElementById('app-quote');
+    if (quoteElement) {
+        const randomIndex = Math.floor(Math.random() * quotes.length);
+        quoteElement.innerText = `"${quotes[randomIndex]}"`;
+    }
+}
