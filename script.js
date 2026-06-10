@@ -613,8 +613,8 @@ window.loadAppMenuDetail = function(cat, id, parentFolderId = null) {
 
 window.toggleMenuTerjemahan = function() {
     const c = document.getElementById('menu-terjemahan-container'); const btn = document.getElementById('btn-toggle-menu-terjemahan');
-    if (c.style.display === 'none') { c.style.display = 'block'; btn.innerHTML = '<i class="fa-solid fa-eye-slash"></i>'; } 
-    else { c.style.display = 'none'; btn.innerHTML = '<i class="fa-solid fa-eye"></i>'; }
+    if (c.style.display === 'none') { c.style.display = 'block'; btn.innerHTML = '<i class="fa-solid fa-book-quran"></i>'; } 
+    else { c.style.display = 'none'; btn.innerHTML = '<i class="fa-solid fa-book"></i>'; }
 }
 
 
@@ -672,7 +672,7 @@ async function renderAppMenuDetailLogic(cat, id, parentFolderId = null) {
                         <div class="relative z-10 pr-3 pb-1">
                             ${textArab1 ? `<div class="text-right font-arab text-slate-900 w-full" dir="rtl" lang="ar" style="font-size: calc(28px * var(--font-scale)) !important; font-size-adjust: none !important; word-spacing: normal !important; line-height: ${dynamicLineHeight} !important; ${dynamicMargin}">${textArab1}</div>` : ''}
                             ${textArab2 ? `<div class="text-right font-arab text-slate-900 w-full" dir="rtl" lang="ar" style="font-size: calc(28px * var(--font-scale)) !important; font-size-adjust: none !important; word-spacing: normal !important; line-height: ${dynamicLineHeight} !important;">${textArab2}</div>` : ''}
-                        ${(bait.terjemahan && bait.terjemahan.trim() !== '' && bait.terjemahan.trim() !== '-') ? `<div class="mt-3 text-left"><button onclick="toggleTerjemahanMulti(this, 'app-bait-terj-${index}')" class="w-8 h-8 inline-flex items-center justify-center bg-teal-50 border border-teal-100 rounded-xl shadow-sm active:scale-95 transition-transform text-teal-700"><i class="fa-solid fa-eye"></i></button></div><div id="app-bait-terj-${index}" style="display: none;" class="text-justify font-sans text-[11px] text-slate-500 mt-3 border-t pt-3 border-slate-100 font-medium leading-relaxed" dir="ltr">${bait.terjemahan}</div>` : ''}
+                        ${(bait.terjemahan && bait.terjemahan.trim() !== '' && bait.terjemahan.trim() !== '-') ? `<div class="mt-3 text-left"><button onclick="toggleTerjemahanMulti(this, 'app-bait-terj-${index}')" class="w-8 h-8 inline-flex items-center justify-center bg-teal-50 border border-teal-100 rounded-xl shadow-sm active:scale-95 transition-transform text-teal-700"><i class="fa-solid fa-book"></i></button></div><div id="app-bait-terj-${index}" style="display: none;" class="text-justify font-sans text-[11px] text-slate-500 mt-3 border-t pt-3 border-slate-100 font-medium leading-relaxed" dir="ltr">${bait.terjemahan}</div>` : ''}
                         </div>
                     </div>
                 `;
@@ -690,7 +690,7 @@ async function renderAppMenuDetailLogic(cat, id, parentFolderId = null) {
             if (teksLatin) kontenTambahan += `<p class="latin-read-text text-teal-700 font-semibold mb-4 leading-relaxed text-justify">${teksLatin}</p>`; 
             if (teksArti) kontenTambahan += `<p class="translation-read-text text-slate-500 italic text-justify px-2">"${teksArti}"</p>`;
             
-            const tampilanDetail = (teksLatin || teksArti) ? `<div class="mt-3 text-left mb-2"><button onclick="toggleMenuTerjemahan()" id="btn-toggle-menu-terjemahan" class="w-8 h-8 inline-flex items-center justify-center bg-teal-50 border border-teal-100 rounded-xl shadow-sm active:scale-95 transition-transform text-teal-700"><i class="fa-solid fa-eye"></i></button></div><div id="menu-terjemahan-container" style="display: none;"><div class="w-full h-[1px] bg-slate-100 my-4"></div>${kontenTambahan}</div>` : "";
+            const tampilanDetail = (teksLatin || teksArti) ? `<div class="mt-3 text-left mb-2"><button onclick="toggleMenuTerjemahan()" id="btn-toggle-menu-terjemahan" class="w-8 h-8 inline-flex items-center justify-center bg-teal-50 border border-teal-100 rounded-xl shadow-sm active:scale-95 transition-transform text-teal-700"><i class="fa-solid fa-book"></i></button></div><div id="menu-terjemahan-container" style="display: none;"><div class="w-full h-[1px] bg-slate-100 my-4"></div>${kontenTambahan}</div>` : "";
             
             let teksArab = Array.isArray(d.arab) ? d.arab.join(' ') : (d.arab || "");
             
@@ -1559,10 +1559,10 @@ window.toggleTerjemahanMulti = function(btn, targetId) {
     const c = document.getElementById(targetId); 
     if (c.style.display === 'none') { 
         c.style.display = 'block'; 
-        btn.innerHTML = '<i class="fa-solid fa-eye-slash"></i>'; 
+        btn.innerHTML = '<i class="fa-solid fa-book-quran"></i>'; 
     } else { 
         c.style.display = 'none'; 
-        btn.innerHTML = '<i class="fa-solid fa-eye"></i>'; 
+        btn.innerHTML = '<i class="fa-solid fa-book"></i>'; 
     } 
 }
 
@@ -1604,7 +1604,7 @@ async function renderDoaDetailLogic(id, parentFolderId = null) {
                 if (tLat.trim() !== "" && tLat.trim() !== "-") kt += `<p class="latin-read-text text-teal-700 font-semibold mb-4 leading-relaxed text-justify">${tLat}</p>`; 
                 if (tArt.trim() !== "" && tArt.trim() !== "-") kt += `<p class="translation-read-text text-slate-500 italic leading-relaxed text-justify">"${tArt}"</p>`; 
                 
-                const tDet = kt ? `<div class="mt-3 text-left mb-2"><button onclick="toggleTerjemahanMulti(this, 'doa-terj-${index}')" class="w-8 h-8 inline-flex items-center justify-center bg-teal-50 border border-teal-100 rounded-xl shadow-sm active:scale-95 transition-transform text-teal-700"><i class="fa-solid fa-eye"></i></button></div><div id="doa-terj-${index}" style="display: none;"><div class="w-full h-[1px] bg-slate-100 my-4"></div>${kt}</div>` : ""; 
+                const tDet = kt ? `<div class="mt-3 text-left mb-2"><button onclick="toggleTerjemahanMulti(this, 'doa-terj-${index}')" class="w-8 h-8 inline-flex items-center justify-center bg-teal-50 border border-teal-100 rounded-xl shadow-sm active:scale-95 transition-transform text-teal-700"><i class="fa-solid fa-book"></i></button></div><div id="doa-terj-${index}" style="display: none;"><div class="w-full h-[1px] bg-slate-100 my-4"></div>${kt}</div>` : ""; 
                 
                 let tAr = Array.isArray(item.arab) ? item.arab.join(' ') : (item.arab || ""); 
               tAr = tAr.replace(/۝?\s*([٠-٩]+)/g, '&nbsp;<span class="mx-1 font-sans font-bold text-teal-600 text-[0.8em]">﴿x$1﴾</span>');
@@ -1625,7 +1625,7 @@ async function renderDoaDetailLogic(id, parentFolderId = null) {
             if (tLat.trim() !== "" && tLat.trim() !== "-") kt += `<p class="latin-read-text text-teal-700 font-semibold mb-4 leading-relaxed text-justify">${tLat}</p>`; 
             if (tArt.trim() !== "" && tArt.trim() !== "-") kt += `<p class="translation-read-text text-slate-500 italic leading-relaxed text-justify">"${tArt}"</p>`; 
             
-           const tDet = kt ? `<div class="mt-3 text-left mb-2"><button onclick="toggleTerjemahanMulti(this, 'doa-terj-single')" class="w-8 h-8 inline-flex items-center justify-center bg-teal-50 border border-teal-100 rounded-xl shadow-sm active:scale-95 transition-transform text-teal-700"><i class="fa-solid fa-eye"></i></button></div><div id="doa-terj-single" style="display: none;"><div class="w-full h-[1px] bg-slate-100 my-4"></div>${kt}</div>` : "";
+           const tDet = kt ? `<div class="mt-3 text-left mb-2"><button onclick="toggleTerjemahanMulti(this, 'doa-terj-single')" class="w-8 h-8 inline-flex items-center justify-center bg-teal-50 border border-teal-100 rounded-xl shadow-sm active:scale-95 transition-transform text-teal-700"><i class="fa-solid fa-book"></i></button></div><div id="doa-terj-single" style="display: none;"><div class="w-full h-[1px] bg-slate-100 my-4"></div>${kt}</div>` : "";
             
             let tAr = Array.isArray(d.arab) ? d.arab.join(' ') : (d.arab || ""); 
           tAr = tAr.replace(/۝?\s*([٠-٩]+)/g, '&nbsp;<span class="mx-1 font-sans font-bold text-teal-600 text-[0.8em]">﴿x$1﴾</span>');
@@ -1672,7 +1672,7 @@ function loadPanduanSholatList() { currentPanduanSholatView = 'list'; const c = 
 
 function loadPanduanSholatDetail(id) { if (!isPopping) history.pushState({ page: 'sholat_detail' }, '', '#sholat-detail'); currentPanduanSholatView = 'detail'; renderPanduanSholatDetailLogic(id); checkZoomBtnVisibility(); }
 
-window.toggleTerjemahanPanduanSholat = function() { const c = document.getElementById('panduan-sholat-terjemahan-container'); const b = document.getElementById('btn-toggle-terjemahan-panduan-sholat'); if (c.style.display === 'none') { c.style.display = 'block'; b.innerHTML = '<i class="fa-solid fa-eye-slash"></i>'; } else { c.style.display = 'none'; b.innerHTML = '<i class="fa-solid fa-eye"></i>'; } }
+window.toggleTerjemahanPanduanSholat = function() { const c = document.getElementById('panduan-sholat-terjemahan-container'); const b = document.getElementById('btn-toggle-terjemahan-panduan-sholat'); if (c.style.display === 'none') { c.style.display = 'block'; b.innerHTML = '<i class="fa-solid fa-book-quran"></i>'; } else { c.style.display = 'none'; b.innerHTML = '<i class="fa-solid fa-book"></i>'; } }
 
 async function renderPanduanSholatDetailLogic(id) {
     const c = document.getElementById('panduan-sholat-content'); const idx = dataPanduanSholat.findIndex(i => i.id === id); const info = dataPanduanSholat[idx]; document.getElementById('panduan-sholat-header-title').innerText = info.judul; c.scrollTop = 0; document.getElementById('panduan-sholat-sticky-header').classList.remove('panduan-sholat-header-slim');
@@ -1685,7 +1685,7 @@ async function renderPanduanSholatDetailLogic(id) {
         if (tLat.trim() !== "" && tLat.trim() !== "-") kt += `<p class="latin-read-text text-teal-700 font-semibold mb-4 leading-relaxed text-justify">${tLat}</p>`; 
         if (tArt.trim() !== "" && tArt.trim() !== "-") kt += `<p class="translation-read-text text-slate-500 italic leading-relaxed text-justify">"${tArt}"</p>`; 
         
-     const tDet = kt ? `<div class="mt-3 text-left mb-2"><button onclick="toggleTerjemahanPanduanSholat()" id="btn-toggle-terjemahan-panduan-sholat" class="w-8 h-8 inline-flex items-center justify-center bg-teal-50 border border-teal-100 rounded-xl shadow-sm active:scale-95 transition-transform text-teal-700"><i class="fa-solid fa-eye"></i></button></div><div id="panduan-sholat-terjemahan-container" style="display: none;"><div class="w-full h-[1px] bg-slate-100 my-4"></div>${kt}</div>` : "";
+     const tDet = kt ? `<div class="mt-3 text-left mb-2"><button onclick="toggleTerjemahanPanduanSholat()" id="btn-toggle-terjemahan-panduan-sholat" class="w-8 h-8 inline-flex items-center justify-center bg-teal-50 border border-teal-100 rounded-xl shadow-sm active:scale-95 transition-transform text-teal-700"><i class="fa-solid fa-book"></i></button></div><div id="panduan-sholat-terjemahan-container" style="display: none;"><div class="w-full h-[1px] bg-slate-100 my-4"></div>${kt}</div>` : "";
         
         let tAr = Array.isArray(d.arab) ? d.arab.join(' ') : (d.arab || "");
 tAr = tAr.replace(/۝?\s*([٠-٩]+)/g, '&nbsp;<span class="mx-1">﴿x$1﴾</span>');

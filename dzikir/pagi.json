@@ -1,6 +1,6 @@
 {
     "metadata": {
-        "generated_at": "2026-06-09T15:20:02.522Z",
+        "generated_at": "2026-06-10T03:29:24.067Z",
         "tool": "JSON Generator Tool Arabic - Per Baris Tunggal"
     },
     "konten": {
@@ -9,252 +9,399 @@
         "bait_list": [
             {
                 "id": 1,
-                "syathr_awal": "قُلْ هُوَ اللّٰهُ اَحَدٌۚ . اَللّٰهُ الصَّمَدُۚ . لَمْ يَلِدْ وَلَمْ يُوْلَدْۙ وَلَمْ يَكُنْ لَّهٗ كُفُوًا اَحَدٌ ࣖ ٣",
+                "syathr_awal": "قُلْ هُوَ اللّٰهُ اَحَدٌۚ . اَللّٰهُ الصَّمَدُۚ . لَمْ يَلِدْ وَلَمْ يُوْلَدْۙ. وَلَمْ يَكُنْ لَّهٗ كُفُوًا اَحَدٌ ࣖ ٣",
                 "syathr_tsani": "",
-                "terjemahan": "Dengan menyebut nama Allah yang Maha Pengasih lagi Maha Penyayang. Katakanlah (wahai Muhammad): “Dialah Allah Yang Maha Esa. Allah Dzat yang menjadi tumpuan segala permohonan. Ia tidak beranak dan tidak pula diperanakkan. Dan tidak ada siapa pun yang sebanding dengan-Nya. (QS Al-Ikhlas). (3x)"
-            
-        
-    
-},
+                "terjemahan": "<p class=\"translation-read-text text-slate-500 font-medium leading-relaxed text-justify\">Katakanlah (wahai Muhammad): “Dialah Allah Yang Maha Esa. Allah Dzat yang menjadi tumpuan segala permohonan. Ia tidak beranak dan tidak pula diperanakkan. Dan tidak ada siapa pun yang sebanding dengan-Nya. (QS Al-Ikhlas). (3x)</p>"
+            },
             {
                 "id": 2,
                 "syathr_awal": "قُلْ اَعُوْذُ بِرَبِّ الْفَلَقِۙ. مِنْ شَرِّ مَا خَلَقَۙ. وَمِنْ شَرِّ غَاسِقٍ اِذَا وَقَبَۙ. وَمِنْ شَرِّ النَّفّٰثٰتِ فِى الْعُقَدِۙ. وَمِنْ شَرِّ حَاسِدٍ اِذَا حَسَدَࣖ. ٣",
                 "syathr_tsani": "",
-                "terjemahan": ""
+                "terjemahan": "<p class=\"translation-read-text text-slate-500 font-medium leading-relaxed text-justify\">Katakanlah (wahai Muhammad), “Aku berlindung kepada Tuhan yang menciptakan cahaya subuh. Dari kejahatan makhluk-makhluk yang Ia ciptakan. Dari kejahatan malam apabila telah gelap gelita. Dari (ahli-ahli sihir) yang menghembus pada simpul-simpul ikatan. Dan dari kejahatan orang yang dengki apabila ia melakukan kedengkiannya. (QS Al-Falaq) (3x)</p>"
             },
             {
                 "id": 3,
                 "syathr_awal": "قُلْ اَعُوْذُ بِرَبِّ النَّاسِۙ. مَلِكِ النَّاسِۙ. اِلٰهِ النَّاسِۙ. مِنْ شَرِّ الْوَسْوَاسِ ەۙ الْخَنَّاسِۖ. الَّذِيْ يُوَسْوِسُ فِيْ صُدُوْرِ النَّاسِۙ. مِنَ الْجِنَّةِ وَالنَّاسِࣖ . ٣",
                 "syathr_tsani": "",
-                "terjemahan": ""
+                "terjemahan": "<p class=\"translation-read-text text-slate-500 font-medium leading-relaxed text-justify\">Dengan menyebut nama Allah yang Maha Pengasih lagi Maha Penyayang. Katakanlah (wahai Muhammad): “Aku berlindung kepada Tuhan pemelihara manusia. Yang Menguasai manusia. Tuhannya manusia. Dari kejahatan pembisik penghasut yang timbul tenggelam. Yang melemparkan bisikan dan hasutannya ke dalam hati manusia. Dari kalangan jin dan manusia.” (QS An-Nas) (3x)</p>"
             },
             {
                 "id": 4,
                 "syathr_awal": "رَبِّ أَعُوْذُ بِكَ مِنْ هَمَزَاتِ الشَّيَاطِينِ وَأَعُوذُ بِكَ رَبِّ أَنْ يَحْضُرُوْنِ ٣",
                 "syathr_tsani": "",
-                "terjemahan": ""
+                "terjemahan": "<p class=\"translation-read-text text-slate-500 font-medium leading-relaxed text-justify\">Ya Tuhanku, aku berlindung kepada-Mu dari bisikan-bisikan setan. Dan aku berlindung kepada-Mu, ya Tuhanku, dari kedatangan mereka kepadaku. (QS Al-Mu’minun: 97-98) (3x)</p>"
             },
             {
                 "id": 5,
-                "syathr_awal": "أَفَحَسِبْتُمْ أَنَّمَا خَلَقْنَاكُمْ عَبَثًا وَأَنَّكُمْ إِلَيْنَا لَا تُرْجَعُوْنَ. فَتَعٰلَى اللّٰهُ الْمَلِكُ الْحَقُّۚ  لَآ اِلٰهَ اِلَّا هُوَۚ رَبُّ الْعَرْشِ الْكَرِيْمِ. وَمَنْ يَّدْعُ مَعَ اللّٰهِ اِلٰهًا اٰخَرَ لَا بُرْهَانَ لَهٗ بِهٖۙ فَاِنَّمَا حِسَابُهٗ عِنْدَ رَبِّهٖۗ اِنَّهٗ لَا يُفْلِحُ الْكٰفِرُوْنَ. وَقُلْ رَّبِّ اغْفِرْ وَارْحَمْ وَاَنْتَ خَيْرُ الرّٰحِمِيْنَࣖ. فَسُبْحَانَ اللّٰهِ حِيْنَ تُمْسُوْنَ وَحِيْنَ تُصْبِحُوْنَ. وَلَهُ الْحَمْدُ فِى السَّمَوَاتِ وَالْأَرْضِ وَعَشِيًّا وَحِيْنَ تُظْهِرُوْنَ. يُخْرِجُ الْحَيَّ مِنَ الْمَيِّتِ وَيُخْرِجُ الْمَيِّتَ مِنَ الْحَيِّ وَيُحْيِ الْأَرْضَ بَعْدَ مَوْتِهَا وَكَذٰلِكَ تُخْرَجُوْنَ.",
+                "syathr_awal": "أَفَحَسِبْتُمْ أَنَّمَا خَلَقْنَاكُمْ عَبَثًا وَأَنَّكُمْ إِلَيْنَا لَا تُرْجَعُوْنَ",
                 "syathr_tsani": "",
-                "terjemahan": ""
+                "terjemahan": "<p class=\"translation-read-text text-slate-500 font-medium leading-relaxed text-justify\">Maka apakah kalian mengira, sesungguhnya Kami menciptakan kalian dengan sia-sia dan kalian tidak akan dikembalikan kepada kami? (QS Al-Mu’minun: 115)</p>"
             },
             {
                 "id": 6,
-                "syathr_awal": "أَعُوْذُ بِاللّٰهِ السَّمِيْعِ الْعَلِيْمِ مِنَ الشَّيْطَانِ الرَّجِيْمِ ٣",
+                "syathr_awal": "فَتَعٰلَى اللّٰهُ الْمَلِكُ الْحَقُّۚ  لَآ اِلٰهَ اِلَّا هُوَۚ رَبُّ الْعَرْشِ الْكَرِيْمِ",
                 "syathr_tsani": "",
-                "terjemahan": ""
+                "terjemahan": "<p class=\"latin-read-text text-teal-700 font-semibold mb-3 leading-relaxed text-justify mt-1\">Maka Mahatinggi Allah, Raja yang sebenarnya. Tidak ada Tuhan selain Dia, Tuhan (yang memiliki) ‘Arsy yang mulia. (QS Al-Mu’minun: 116)</p><p class=\"translation-read-text text-slate-500 font-medium leading-relaxed text-justify\">وَمَنْ يَّدْعُ مَعَ اللّٰهِ اِلٰهًا اٰخَرَ لَا بُرْهَانَ لَهٗ بِهٖۙ فَاِنَّمَا حِسَابُهٗ عِنْدَ رَبِّهٖۗ اِنَّهٗ لَا يُفْلِحُ الْكٰفِرُوْنَ<br>Dan barang siapa mengembah kepada tuhan yang lain di samping Allah, padahal tidak ada suatu dalil pun baginya tentang itu, maka sesungguhnya perhitungannya di sisi Tuhannya. Sesungguhnya orang-orang yang kafir tidaklah beruntung. (QS Al-Mu’minun: 117)</p>"
             },
             {
                 "id": 7,
-                "syathr_awal": "لَوْ اَنْزَلْنَا هٰذَا الْقُرْاٰنَ عَلٰى جَبَلٍ لَّرَاَيْتَهٗ خَاشِعًا مُّتَصَدِّعًا مِّنْ خَشْيَةِ اللّٰهِۗ وَتِلْكَ الْاَمْثَالُ نَضْرِبُهَا لِلنَّاسِ لَعَلَّهُمْ يَتَفَكَّرُوْنَ. هُوَ اللّٰهُ الَّذِيْ لَآ اِلٰهَ اِلَّا هُوَۚ عَالِمُ الْغَيْبِ وَالشَّهَادَةِۚ هُوَ الرَّحْمٰنُ الرَّحِيْمُ. هُوَ اللّٰهُ الَّذِيْ لَآ اِلٰهَ اِلَّا هُوَۚ اَلْمَلِكُ الْقُدُّوْسُ السَّلٰمُ الْمُؤْمِنُ الْمُهَيْمِنُ الْعَزِيْزُ الْجَبَّارُ الْمُتَكَبِّرُۗ سُبْحٰنَ اللّٰهِ عَمَّا يُشْرِكُوْنَ. هُوَ اللّٰهُ الْخَالِقُ الْبَارِئُ الْمُصَوِّرُ لَهُ الْاَسْمَاۤءُ الْحُسْنٰىۗ يُسَبِّحُ لَهٗ مَا فِى السَّمٰوٰتِ وَالْاَرْضِۚ وَهُوَ الْعَزِيْزُ الْحَكِيْمُ. سَلَامٌ عَلَى نُوْحٍ فِى الْعَالَمِيْنَ. إِنَّا كَذٰلِكَ نَجْزِي الْمُحْسِنِيْنَ. إِنَّهُ مِنْ عِبَادِنَا الْمُؤْمِنِيْنَ.",
+                "syathr_awal": "وَقُلْ رَّبِّ اغْفِرْ وَارْحَمْ وَاَنْتَ خَيْرُ الرّٰحِمِيْنَࣖ",
                 "syathr_tsani": "",
-                "terjemahan": ""
+                "terjemahan": "<p class=\"translation-read-text text-slate-500 font-medium leading-relaxed text-justify\">Katakanlah (Nabi Muhammad), \"Ya Tuhanku, berilah ampunan dan rahmat. Engkaulah sebaik-baik pemberi rahmat. (QS Al-Mu’minun: 118)</p>"
             },
             {
                 "id": 8,
-                "syathr_awal": "أَعُوْذُ بِكَلِمَاتِ اللّٰهِ التَّامَّاتِ مِنْ شَرِّ مَا خَلَقَ ٣",
+                "syathr_awal": "فَسُبْحَانَ اللّٰهِ حِيْنَ تُمْسُوْنَ وَحِيْنَ تُصْبِحُوْنَ",
                 "syathr_tsani": "",
-                "terjemahan": ""
+                "terjemahan": "<p class=\"translation-read-text text-slate-500 font-medium leading-relaxed text-justify\">Maka bertasbihlah kalian kepada Allah di saat kalian berada di waktu petang dan di saat kalian berada di waktu pagi. (QS Ar-Rum: 17)</p>"
             },
             {
                 "id": 9,
-                "syathr_awal": "بِسْمِ اللّٰهِ الَّذِيْ لَا يَضُرُّ مَعَ اسْمِهٖ شَيْءٌ فِى الْأَرْضِ وَلَا فِى السَّمَاءِ وَهُوَ السَّمِيْعُ الْعَلِيْمُ ٣",
+                "syathr_awal": "وَلَهُ الْحَمْدُ فِى السَّمَوَاتِ وَالْأَرْضِ وَعَشِيًّا وَحِيْنَ تُظْهِرُوْنَ",
                 "syathr_tsani": "",
-                "terjemahan": ""
+                "terjemahan": "<p class=\"translation-read-text text-slate-500 font-medium leading-relaxed text-justify\">Dan hanya bagi-Nya segala puji di langit dan di bumi dan di waktu petang dan di saat kalian berada di waktu dhuhur. (QS Ar-Rum: 18)</p>"
             },
             {
                 "id": 10,
-                "syathr_awal": "اَللّٰهُمَّ إِنِّيْ أَصْبَحْتُ مِنْكَ فِيْ نِعْمَةٍ وَعَافِيَةٍ وَسِتْرٍ فَأَتْمِمْ نِعْمَتَكَ عَلَيَّ وَعَافِيَتَكَ وَسِتْرَكَ فِى الدُّنْيَا وَالْاٰخِرَةِ ٣",
+                "syathr_awal": "يُخْرِجُ الْحَيَّ مِنَ الْمَيِّتِ وَيُخْرِجُ الْمَيِّتَ مِنَ الْحَيِّ وَيُحْيِ الْأَرْضَ بَعْدَ مَوْتِهَا وَكَذٰلِكَ تُخْرَجُوْنَ",
                 "syathr_tsani": "",
-                "terjemahan": ""
+                "terjemahan": "<p class=\"translation-read-text text-slate-500 font-medium leading-relaxed text-justify\">Dia mengeluarkan yang hidup dari yang mati, mengeluarkan yang mati dari yang hidup, dan menghidupkan bumi sesudah matinya. Dan seperti itulah kalian dikeluarkan (dari kubur). (QS Ar-Rum: 19)</p>"
             },
             {
                 "id": 11,
-                "syathr_awal": "اَللّٰهُمَّ إِنِّيْ أَصْبَحْتُ أُشْهِدُكَ وَأُشْهِدُ حَمَلَةَ عَرْشِكَ وَمَلَائِكَتَكَ وَجَمِيْعَ خَلْقِكَ أَنَّكَ أَنْتَ اللّٰهُ لَا إِلٰهَ إِلَّا أَنْتَ وَحْدَكَ لَا شَرِيْكَ لَكَ وَأَنَّ سَيِّدَنَا مُحَمَّدًا عَبْدُكَ وَرَسُوْلُكَ ٤",
+                "syathr_awal": "أَعُوْذُ بِاللّٰهِ السَّمِيْعِ الْعَلِيْمِ مِنَ الشَّيْطَانِ الرَّجِيْمِ ٣",
                 "syathr_tsani": "",
-                "terjemahan": ""
+                "terjemahan": "<p class=\"translation-read-text text-slate-500 font-medium leading-relaxed text-justify\">Aku berlindung kepada Allah yang Maha Mendengar lagi Maha Mengetahui dari bisikan setan yang terkutuk. (3x)</p>"
             },
             {
                 "id": 12,
-                "syathr_awal": "اَلْحَمْدُ لِلّٰهِ رَبِّ الْعَالَمِيْنَ حَمْدًا يُوَافِيْ نِعَمَهٗ وَيُكَافِئُ مَزِيْدَهُ ٣",
+                "syathr_awal": "لَوْ اَنْزَلْنَا هٰذَا الْقُرْاٰنَ عَلٰى جَبَلٍ لَّرَاَيْتَهٗ خَاشِعًا مُّتَصَدِّعًا مِّنْ خَشْيَةِ اللّٰهِۗ وَتِلْكَ الْاَمْثَالُ نَضْرِبُهَا لِلنَّاسِ لَعَلَّهُمْ يَتَفَكَّرُوْنَ",
                 "syathr_tsani": "",
-                "terjemahan": ""
+                "terjemahan": "<p class=\"translation-read-text text-slate-500 font-medium leading-relaxed text-justify\">Sekiranya Kami turunkan Al-Qur'an ini kepada sebuah gunung, pasti kamu akan melihatnya tunduk terpecah belah disebabkan takut kepada Allah. Dan perumpamaan-perumpamaan itu Kami buat untuk manusia agar mereka berpikir. (QS Al-Hashr: 21)</p>"
             },
             {
                 "id": 13,
-                "syathr_awal": "اٰمَنْتُ بِاللّٰهِ الْعَظِيْمِ وَكَفَرْتُ بِالْجِبْتِ وَالطَّاغُوْتِ وَاسْتَمْسَكْتُ بِالْعُرْوَةِ الْوُثْقَى لَا انْفِصَامَ لَهَا وَاللّٰهُ سَمِيْعٌ عَلِيْمٌ ٣",
+                "syathr_awal": "هُوَ اللّٰهُ الَّذِيْ لَآ اِلٰهَ اِلَّا هُوَۚ عَالِمُ الْغَيْبِ وَالشَّهَادَةِۚ هُوَ الرَّحْمٰنُ الرَّحِيْمُ",
                 "syathr_tsani": "",
-                "terjemahan": ""
+                "terjemahan": "<p class=\"latin-read-text text-teal-700 font-semibold mb-3 leading-relaxed text-justify mt-1\">Dialah Allah tidak ada tuhan selain Dia. Yang Mengetahui yang gaib dan yang nyata, Dialah Yang Maha Pengasih, Maha Penyayang. (QS Al-Hashr: 22)</p><p class=\"translation-read-text text-slate-500 font-medium leading-relaxed text-justify\">هُوَ اللّٰهُ الَّذِيْ لَآ اِلٰهَ اِلَّا هُوَۚ اَلْمَلِكُ الْقُدُّوْسُ السَّلٰمُ الْمُؤْمِنُ الْمُهَيْمِنُ الْعَزِيْزُ الْجَبَّارُ الْمُتَكَبِّرُۗ سُبْحٰنَ اللّٰهِ عَمَّا يُشْرِكُوْنَ<br>Dialah Allah tidak ada tuhan selain Dia. Maharaja, Yang Mahasuci, Yang Mahasejahtera, Yang Menjaga Keamanan, Pemelihara Keselamatan, Yang Mahaperkasa, Yang Mahakuasa, Yang Memiliki Segala Keagungan, Mahasuci Allah dari apa yang mereka persekutukan. (QS Al-Hashr: 23)</p>"
             },
             {
                 "id": 14,
-                "syathr_awal": "رَضِيْتُ بِاللّٰهِ رَبًّا وَ بِالْإِسْلَامِ دِيْنًا وَبِمُحَمَّدٍ صَلَّى اللّٰهُ عَلَيْهِ وَسَلَّمَ نَبِيًّا وَرَسُوْلاً ٣",
+                "syathr_awal": "هُوَ اللّٰهُ الْخَالِقُ الْبَارِئُ الْمُصَوِّرُ لَهُ الْاَسْمَاۤءُ الْحُسْنٰىۗ يُسَبِّحُ لَهٗ مَا فِى السَّمٰوٰتِ وَالْاَرْضِۚ وَهُوَ الْعَزِيْزُ الْحَكِيْمُ",
                 "syathr_tsani": "",
-                "terjemahan": ""
+                "terjemahan": "<p class=\"translation-read-text text-slate-500 font-medium leading-relaxed text-justify\">Dialah Allah Yang Menciptakan, Yang Mengadakan, Yang Membentuk Rupa, Dia memiliki nama-nama yang indah. Apa yang di langit dan di bumi bertasbih kepada-Nya. Dan Dialah Yang Mahaperkasa, Mahabijaksana. (QS Al-Hashr: 24)</p>"
             },
             {
                 "id": 15,
-                "syathr_awal": "حَسْبِيَ اللّٰهُ لَا إِلٰهَ إِلَّا هُوَ عَلَيْهِ تَـوَكَّلْتُ وَهُوَ رَبُّ الْعَرْشِ الْعَظِيْمِ ٧",
+                "syathr_awal": "سَلَامٌ عَلَى نُوْحٍ فِى الْعَالَمِيْنَ",
                 "syathr_tsani": "",
-                "terjemahan": ""
+                "terjemahan": "<p class=\"translation-read-text text-slate-500 font-medium leading-relaxed text-justify\">Kesejahteraan dilimpahkan atas Nabi Nuh di seluruh alam. (QS Al-Saffat: 79)</p>"
             },
             {
                 "id": 16,
-                "syathr_awal": "اَللّٰهُمَّ صَلِّ عَلَى سَـيِّدِنَامُحَمَّدٍ وَاٰلِهِ وَصَحْبِهِ وَسَلِّمْ ١",
+                "syathr_awal": "إِنَّا كَذٰلِكَ نَجْزِي الْمُحْسِنِيْنَ",
                 "syathr_tsani": "",
-                "terjemahan": ""
+                "terjemahan": "<p class=\"translation-read-text text-slate-500 font-medium leading-relaxed text-justify\">Sesungguhnya demikianlah Kami memberi balasan kepada orang-orang yang berbuat baik. (QS Al-Saffat: 80)</p>"
             },
             {
                 "id": 17,
-                "syathr_awal": "٠ اَللّٰهُمَّ إِنِّيْ أَسْأَلُكَ مِنْ فُجَاءَةِ الْخَيْرِ وَأَعُوْذُ بِكَ مِنْ فُجَاءَةِ الشَّرِّ. اَللّٰهُمَّ أَنْتَ رَبِّيْ لَا إِلٰهَ إِلَّا أَنْتَ خَلَقْتَنِيْ وَأَنَا عَبْدُكَ وَأَنَا عَلَى عَهْدِكَ وَوَعْدِكَ مَا اسْتَطَعْتُ أَعُوْذُ بِكَ مِنْ شَرِّ مَا صَنَعْتُ أَبُوْءُ لَكَ بِنِعْمَتِكَ عَلَيَّ وَأَبُوْءُ بِذَنْبِيْ فَاغْفِرْ لِيْ فَإِنَّهٗ لَا يَغْفِرُ الذُّنُوْبَ إِلَّا أَنْتَ. اللّٰهُمَّ أَنْتَ رَبِّيْ لَا إِلٰهَ إلَّا أَنْتَ عَلَيْكَ تَوَكَّلْتُ وَأَنْتَ رَبُّ الْعَرْشِ الْعَظِيْمِ. مَا شَاءَ اللّٰهُ كَانَ وَمَا لَمْ يَشَأْ لَمْ يَكُنْ وَلَا حَوْلَ وَلَا قُوَّةَ إِلَّا بِاللّٰهِ الْعَلِيِّ الْعَظِيْمِ. أَعْلَمُ أَنَّ اللّٰهَ عَلَى كُلِّ شَيْءٍ قَدِيْرٌ وَأَنَّ اللّٰهَ قَدْ أَحَاطَ بِكُلِّ شَيْءٍ عِلْمًا. اَللّٰهُمَّ إِنِّيْ أَعُوْذُ بِكَ مِنْ شَرِّ نَفْسِيْ وَمِنْ شَرِّ كُلِّ دَابَّةٍ أَنْتَ آخِـذٌ بِنَاصِيَتِهَا إِنَّ رَبِّيْ عَلَى صِرَاطٍ مُسْتَقِيْمٍ. يَا حَيُّ يَا قَيُّوْمُ بِرَحْمَتِكَ أَسْتَغِيْثُ وَمِنْ عَذَابِكَ أَسْتَجِيْرُ. أَصْلِحْ لِيْ شَأْنِيْ كُلَّهُ وَلَا تَكِلْنِيْ إِلَى نَفْسِيْ وَلَا إِلَى أَحَدٍ مِنْ خَلْقِكَ طَرْفَةَ عَيْنٍ. اَللّٰهُمَّ إِنِّيْ أَعُوْذُ بِكَ مِنَ الْهَمِّ وَالْحَـزَنِ وَأَعُوْذُ بِكَ مِنَ الْعَجْزِ وَالْكَسَلِ وَأَعُوْذُ بِكَ مِنَ الْجُبْنِ وَالْبُخْلِ وَأَعُوْذُ بِكَ مِنْ غَلَبَةِ الدَّيْنِ وَقَهْرِ الرِّجَالِ. اَللّٰهُمَّ إِنِّيْ أَسْأَلُكَ الْعَافِيَةَ فِى الدُّنْيَا وَالْآخِرَةِ. اَللّٰهُمَ إِنِّيْ أَسْأَلُكَ الْعَفْوَ وَالْعَافِيَةَ وَالْمُعَافَاةَ الدَّائِمَةَ فِيْ دِيْنِيْ وَدُنْيَايَ وَأَهْلِيْ وَمَالِيْ. اَللّٰهُمَّ اسْتُرْ عَوْرَاتِيْ وَاٰمِنْ رَوْعَاتِيْ. اَللّٰهُمَّ احْفَظْنِيْ مِنْ بَيْنِ يَدَيَّ وَمِنْ خَلْفِيْ وَعَنْ يَمِيْنِيْ وَعَنْ شِمَالِيْ وَمِنْ فَوْقِيْ وَأَعُوْذُ بِعَظَمَتِكَ أَنْ أُغْتَالَ مِنْ تَحْتِيْ. اَللّٰهُمَّ أَنْتَ خَلَقْتَنِيْ وَأَنْتَ تَهْدِيْنِيْ وَأَنْتَ تُطْعِمُنِيْ وَأَنْتَ تَسْقِيْنِيْ وَأَنْتَ تُمِيْتُنِيْ وَأَنْتَ تُحْيِيْنِيْ وَأَنْتَ عَلَى كُلِّ شَيْءٍ قَدِيْرٌ. أَصْبَحْنَا عَلَى فِطْرَةِ الْإِسْلَامِ وَعَلَى كَلِمَةِ الْإِخْلَاصِ وَعَلَى دِيْنِ نَبِيِّنَا مُحَمَّدٍ صَلَّى اللّٰهُ عَلَيْهِ وَاٰلِهِ وَسَلَّمَ وَعَلَى مِلَّةِ أَبِيْنَا إِبْرَاهِيْمَ حَنِيْفًا مُسْلِمًا وَمَا كَانَ مِنَ الْمُشْرِكِيْنَ. اَللّٰهُمَّ بِكَ أَصْبَحْنَا وَبِكَ أَمْسَيْنَا وَبِكَ نَحْيَا وَبِكَ نَـمُوْتُ وَعَلَيْكَ نَتَوَكَّلُ وَإِلَيْكَ النُّشُوْرُ. أَصْبَحْنَا وَأَصْبَحَ الْمُلْكُ لِلّٰهِ وَالْحَمْدُ لِلّٰهِ رَبِّ الْعَالَمِيْنَ. اَللّٰهُمَّ إِنِّيْ أَسْأَلُكَ خَيْرَ هٰذَا الْيَوْمِ فَتْحَهُ وَنَصْرَهُ وَنُوْرَهُ وَبَرَكَتَهُ وَهُدَاهُ. اَللّٰهُمَّ إِنِّيْ أَسْأَلُكَ خَيْرَ هٰذَا الْيَوْمِ وَخَيْرَ مَا فِيْهِ وَخَيْرَ مَا قَبْلَهُ وَخَيْرَ مَا بَعْدَهُ وَأَعُوْذُ بِكَ مِنْ شَرِّ هٰذَا الْيَوْمِ وَشَرِّ مَا فِيْهِ وَشَرِّ مَا قَبْلَهُ وَشَرِّ مَا بَعْدَهُ. اَللّٰهُمَّ مَا أَصْبَحَ بِيْ مِنْ نِعْمَةٍ أَوْ بِأَحَـدٍ مِنْ خَلْقِكَ فَمِنْكَ وَحْدَكَ لَا شَرِيْكَ لَكَ فَلَكَ الْحَمْدُ وَلَكَ الشُّكْرُ عَلَى ذٰلِكَ.",
+                "syathr_awal": "إِنَّهُ مِنْ عِبَادِنَا الْمُؤْمِنِيْنَ",
                 "syathr_tsani": "",
-                "terjemahan": ""
+                "terjemahan": "<p class=\"translation-read-text text-slate-500 font-medium leading-relaxed text-justify\">Sesungguhnya dia termasuk di antara hamba-hamba Kami yang beriman. (QS Al-Saffat: 81)</p>"
             },
             {
                 "id": 18,
-                "syathr_awal": "سُبْحَانَ اللّٰهِ وَبِحَمْدِهِ عَدَدَ خَلْقِهِ وَرِضَى نَفْسِهِ وَزِنَةَ عَرْشِهِ وَمِدَادَ كَلِمَاتِهِ ٣",
+                "syathr_awal": "أَعُوْذُ بِكَلِمَاتِ اللّٰهِ التَّامَّاتِ مِنْ شَرِّ مَا خَلَقَ ٣",
                 "syathr_tsani": "",
-                "terjemahan": ""
+                "terjemahan": "<p class=\"translation-read-text text-slate-500 font-medium leading-relaxed text-justify\">Aku berlindung dengan kalimat-kalimat Allah yang sempurna dari kejahatan makhluk-Nya. (3x)</p>"
             },
             {
                 "id": 19,
-                "syathr_awal": "سُبْحَانَ اللّٰهِ الْعَظِيْمِ وَبِحَمْدِهِ عَدَدَ خَلْقِهِ وَرِضَى نَفْسِـهِ وَزِنَةَ عَرْشِهِ وَمِدَادَ كَلِمَاتِهِ ٣",
+                "syathr_awal": "بِسْمِ اللّٰهِ الَّذِيْ لَا يَضُرُّ مَعَ اسْمِهٖ شَيْءٌ فِى الْأَرْضِ وَلَا فِى السَّمَاءِ وَهُوَ السَّمِيْعُ الْعَلِيْمُ ٣",
                 "syathr_tsani": "",
-                "terjemahan": ""
+                "terjemahan": "<p class=\"translation-read-text text-slate-500 font-medium leading-relaxed text-justify\">Dengan nama Allah yang dengan nama-Nya tak satu pun yang di bumi maupun di langit dapat memberi bencana dan Ia Maha Mendengar lagi Maha Mengetahui. (3x)</p>"
             },
             {
                 "id": 20,
-                "syathr_awal": "سُبْحَانَ اللّٰهِ عَدَدَ مَا خَلَقَ فِى السَّمَاءِ",
+                "syathr_awal": "اَللّٰهُمَّ إِنِّيْ أَمْسَيْتُ مِنْكَ فِيْ نِعْمَةٍ وَعَافِيَةٍ وَسِتْرٍ فَأَتْمِمْ نِعْمَتَكَ عَلَيَّ وَعَافِيَتَكَ وَسِتْرَكَ فِى الدُّنْيَا وَالْاٰخِرَةِ ٣",
                 "syathr_tsani": "",
-                "terjemahan": ""
+                "terjemahan": "<p class=\"latin-read-text text-teal-700 font-semibold mb-3 leading-relaxed text-justify mt-1\">Ya Allah, sesungguhnya aku berada pada sore hari ini, dari (karunia)-Mu, (aku dalam keadaan) mendapat kenikmatan, kesehatan serta tertutup (aib)ku, maka sempurnakan kenikmatan, kesehatan dan tutup yang Engkau berikan kepadaku di dunia dan akhirat. (3x)</p><p class=\"translation-read-text text-slate-500 font-medium leading-relaxed text-justify\">اَللّٰهُمَّ إِنِّيْ أَمْسَيْتُ أُشْهِدُكَ وَأُشْهِدُ حَمَلَةَ عَرْشِكَ وَمَلَائِكَتَكَ وَجَمِيْعَ خَلْقِكَ أَنَّكَ أَنْتَ اللّٰهُ لَا إِلٰهَ إِلَّا أَنْتَ وَحْدَكَ لَا شَرِيْكَ لَكَ وَأَنَّ سَيِّدَنَا مُحَمَّدًا عَبْدُكَ وَرَسُوْلُكَ ٤<br>Ya Allah, sesungguhnya aku di sore hari ini aku menjadikan-Mu sebagai saksi, dan aku juga menjadikan saksi para pemikul ‘Arsy-Mu, para malaikat-Mu dan seluruh makhluk-Mu, bahwa Engkaulah Tuhan, tidak ada Tuhan selain Engkau dengan keesaan-Mu, tidak ada sekutu bagi-Mu, dan sesungguhnya Muhammad adalah hamba dan utusan-Mu. (4x)</p>"
             },
             {
                 "id": 21,
-                "syathr_awal": "سُبْحَانَ اللّٰهِ عَدَدَ مَا خَلَقَ فِى الْأَرْضِ",
+                "syathr_awal": "اَلْحَمْدُ لِلّٰهِ رَبِّ الْعَالَمِيْنَ حَمْدًا يُوَافِيْ نِعَمَهٗ وَيُكَافِئُ مَزِيْدَهُ ٣",
                 "syathr_tsani": "",
-                "terjemahan": ""
+                "terjemahan": "<p class=\"translation-read-text text-slate-500 font-medium leading-relaxed text-justify\">Segala puji bagi Allah, Tuhan seru sekalian alam, pujian yang memadai nikmat-nikmat-Nya dan mencukupi penambahan-Nya. (3x)</p>"
             },
             {
                 "id": 22,
-                "syathr_awal": "سُبْحَانَ اللّٰهِ عَدَدَ مَا بَيْنَ ذٰلِكَ",
+                "syathr_awal": "اٰمَنْتُ بِاللّٰهِ الْعَظِيْمِ وَكَفَرْتُ بِالْجِبْتِ وَالطَّاغُوْتِ وَاسْتَمْسَكْتُ بِالْعُرْوَةِ الْوُثْقَى لَا انْفِصَامَ لَهَا وَاللّٰهُ سَمِيْعٌ عَلِيْمٌ ٣",
                 "syathr_tsani": "",
-                "terjemahan": ""
+                "terjemahan": "<p class=\"translation-read-text text-slate-500 font-medium leading-relaxed text-justify\">Aku beriman kepada Allah Yang Mahaagung dan ingkar terhadap kejahatan dan thaghut (segala yang disekutukan dengan Allah), dan aku berpegang dengan tali yang kokoh yang tidak ada putusnya, dan Allah Maha Mendengar lagi Maha Mengetahui. (3x) (QS Al-Baqarah: 256)</p>"
             },
             {
                 "id": 23,
-                "syathr_awal": "سُبْحَانَ اللّٰهِ عَدَدَ مَا هُوَ خَالِقٌ.",
+                "syathr_awal": "رَضِيْتُ بِاللّٰهِ رَبًّا وَ بِالْإِسْلَامِ دِيْنًا وَبِمُحَمَّدٍ صَلَّى اللّٰهُ عَلَيْهِ وَسَلَّمَ نَبِيًّا وَرَسُوْلاً ٣",
                 "syathr_tsani": "",
-                "terjemahan": ""
+                "terjemahan": "<p class=\"translation-read-text text-slate-500 font-medium leading-relaxed text-justify\">Aku ridha Allah sebagai Tuhan, Islam sebagai agama, dan Muhammad ﷺ sebagai nabi dan rasul. (3x)</p>"
             },
             {
                 "id": 24,
-                "syathr_awal": "اَلْحَمْدُ لِلّٰهِ عَدَدَ مَا خَلَقَ فِى السَّمَاءِ",
+                "syathr_awal": "حَسْبِيَ اللّٰهُ لَا إِلٰهَ إِلَّا هُوَ عَلَيْهِ تَـوَكَّلْتُ وَهُوَ رَبُّ الْعَرْشِ الْعَظِيْمِ ٧",
                 "syathr_tsani": "",
-                "terjemahan": ""
+                "terjemahan": "<p class=\"translation-read-text text-slate-500 font-medium leading-relaxed text-justify\">Cukuplah Allah bagiku, tidak ada Tuhan selain Dia, hanya kepada-Nya aku bertawakal, dan Dialah Penguasa Arasy yang agung (QS al-Taubah: 129). (7x)</p>"
             },
             {
                 "id": 25,
-                "syathr_awal": "اَلْحَمْدُ لِلّٰهِ عَدَدَ مَا خَلَقَ فِي الْأَرْضِ",
+                "syathr_awal": "اَللّٰهُمَّ صَلِّ عَلَى سَـيِّدِنَامُحَمَّدٍ وَاٰلِهِ وَصَحْبِهِ وَسَلِّمْ ١٠",
                 "syathr_tsani": "",
-                "terjemahan": ""
+                "terjemahan": "<p class=\"translation-read-text text-slate-500 font-medium leading-relaxed text-justify\">Ya Allah, limpahkanlah rahmat dan salam kepada junjungan kami Baginda Muhammad serta keluarga dan sahabat-sahabatnya. (10x)</p>"
             },
             {
                 "id": 26,
-                "syathr_awal": "اَلْحَمْدُ لِلّٰهِ عَدَدَ مَا بَيْنَ ذٰلِكَ",
+                "syathr_awal": "اَللّٰهُمَّ إِنِّيْ أَسْأَلُكَ مِنْ فُجَاءَةِ الْخَيْرِ وَأَعُوْذُ بِكَ مِنْ فُجَاءَةِ الشَّرِّ",
                 "syathr_tsani": "",
-                "terjemahan": ""
+                "terjemahan": "<p class=\"translation-read-text text-slate-500 font-medium leading-relaxed text-justify\">Ya Allah aku bermohon kepada-Mu kebaikan yang tidak disangka, dan aku berlindung kepada-Mu dari bencana yang mengejutkan.</p>"
             },
             {
                 "id": 27,
-                "syathr_awal": "اَلْحَمْدُ لِلّٰهِ عَدَدَ مَا هُوَ خَالِقٌ",
+                "syathr_awal": "اَللّٰهُمَّ أَنْتَ رَبِّيْ لَا إِلٰهَ إِلَّا أَنْتَ خَلَقْتَنِيْ وَأَنَا عَبْدُكَ وَأَنَا عَلَى عَهْدِكَ وَوَعْدِكَ مَا اسْتَطَعْتُ أَعُوْذُ بِكَ مِنْ شَرِّ مَا صَنَعْـتُ أَبُوْءُ لَكَ بِنِعْمَتِكَ عَلَيَّ وَأَبُوْءُ بِذَنْبِيْ فَاغْفِرْ لِيْ فَإِنَّهٗ لَا يَغْفِرُ الذُّنُوْبَ إِلَّا أَنْتَ",
                 "syathr_tsani": "",
-                "terjemahan": ""
+                "terjemahan": "<p class=\"translation-read-text text-slate-500 font-medium leading-relaxed text-justify\">Ya Allah, Engkaulah Tuhanku, tidak ada Tuhan selain-Mu, Engkau telah menciptakan aku dan aku ini adalah hamba-Mu, dan aku di atas titah dan janji-Mu sekuat kemampuanku. Aku berlindung kepada-Mu dari keburukan apa pun yang aku lakukan, aku mengakui nikmat yang Engkau karuniakan kepadaku, dan aku mengakui dosaku. Maka ampunilah aku, karena tak ada yang dapat mengampuni dosa-dosa selain Engkau.</p>"
             },
             {
                 "id": 28,
-                "syathr_awal": "لَا إِلٰهَ إِلَّا اللّٰهُ عَدَدَ مَا خَلَقَ فِى السَّمَاءِ",
+                "syathr_awal": "اللّٰهُمَّ أَنْتَ رَبِّيْ لَا إِلٰهَ إلَّا أَنْتَ عَلَيْكَ تَوَكَّلْتُ وَأَنْتَ رَبُّ الْعَرْشِ الْعَظِيْمِ",
                 "syathr_tsani": "",
-                "terjemahan": ""
+                "terjemahan": "<p class=\"translation-read-text text-slate-500 font-medium leading-relaxed text-justify\">Ya Allah, Engkaulah Tuhanku. Tidak ada Tuhan selain Engkau, hanya kepada Engkau aku berserah diri, dan Engkaulah Tuhannya arasy yang agung.</p>"
             },
             {
                 "id": 29,
-                "syathr_awal": "لَا إِلٰهَ إِلَّا اللّٰهُ عَدَدَ مَا خَلَقَ فِى الْأَرْضِ",
+                "syathr_awal": "مَا شَاءَ اللّٰهُ كَانَ وَمَا لَمْ يَشَأْ لَمْ يَكُنْ وَلَا حَوْلَ وَلَا قُوَّةَ إِلَّا بِاللّٰهِ الْعَلِيِّ الْعَظِيْمِ",
                 "syathr_tsani": "",
-                "terjemahan": ""
+                "terjemahan": "<p class=\"latin-read-text text-teal-700 font-semibold mb-3 leading-relaxed text-justify mt-1\">Apa yang dikehendaki Allah pasti terjadi, dan apa yang tidak dikehendaki tidak akan terjadi. Tidak ada upaya untuk melakukan ketaatan tanpa pertolongan Allah dan tidak ada kekuatan menghindari kemaksiatan kecuali dengan pertolongan Allah yang Mahatinggi lagi Mahaagung.</p><p class=\"translation-read-text text-slate-500 font-medium leading-relaxed text-justify\">أَعْلَمُ أَنَّ اللّٰهَ عَلَى كُلِّ شَيْءٍ قَدِيْرٌ وَأَنَّ اللّٰهَ قَدْ أَحَاطَ بِكُلِّ شَيْءٍ عِلْمًا<br>Aku mengetahui, sesungguhnya Allah Mahakuasa atas segala sesuatu dan sesungguhnya ilmu Allah meliputi setiap sesuatu. (QS Al Talaq: 12)</p>"
             },
             {
                 "id": 30,
-                "syathr_awal": "لَا إِلٰهَ إِلَّا اللّٰهُ عَدَدَ مَا بَيْنَ ذٰلِكَ",
+                "syathr_awal": "اَللّٰهُمَّ إِنِّيْ أَعُوْذُ بِكَ مِنْ شَرِّ نَفْسِيْ وَمِنْ شَرِّ كُلِّ دَابَّةٍ أَنْتَ آخِـذٌ بِنَاصِيَتِهَا إِنَّ رَبِّيْ عَلَى صِرَاطٍ مُسْتَقِيْمٍ",
                 "syathr_tsani": "",
-                "terjemahan": ""
+                "terjemahan": "<p class=\"translation-read-text text-slate-500 font-medium leading-relaxed text-justify\">Ya Allah, aku berlindung kepada-Mu dari kejahatan pribadiku dan dari kejahatan segala hewan melata yang ubun-ubunnya berada dalam genggaman-Mu, sesungguhnya Tuhanku selalu berada di atas jalan yang lurus.</p>"
             },
             {
                 "id": 31,
-                "syathr_awal": "لَا إِلٰهَ إِلَّا اللّٰهُ عَدَدَ مَا هُوَ خَالِقٌ",
+                "syathr_awal": "يَا حَيُّ يَا قَيُّوْمُ بِرَحْمَتِكَ أَسْتَغِيْثُ وَمِنْ عَذَابِكَ أَسْتَجِيْرُ",
                 "syathr_tsani": "",
-                "terjemahan": ""
+                "terjemahan": "<p class=\"translation-read-text text-slate-500 font-medium leading-relaxed text-justify\">Wahai Dzat yang Mahahidup, wahai Dzat yang berdiri sendiri, dengan rahmat-Mu aku mohon pertolongan dan aku mohon perlindungan dari siksaan-Mu.</p>"
             },
             {
                 "id": 32,
-                "syathr_awal": "اَللّٰهُ أَكْبَرُ عَدَدَ مَا خَلَقَ فِي السَّمَاءِ",
+                "syathr_awal": "أَصْلِحْ لِيْ شَأْنِيْ كُلَّهُ وَلَا تَكِلْنِيْ إِلَى نَفْسِيْ وَلَا إِلَى أَحَدٍ مِنْ خَلْقِكَ طَرْفَةَ عَيْنٍ",
                 "syathr_tsani": "",
-                "terjemahan": ""
+                "terjemahan": "<p class=\"translation-read-text text-slate-500 font-medium leading-relaxed text-justify\">Perbaikilah keaadanku semuanya, janganlah Engkau menyerahkan aku kepada pribadiku sendiri, dan jangan juga Engkau serahkan kepada salah seorang pun dari makhluk-Mu walaupun hanya sekejap mata.</p>"
             },
             {
                 "id": 33,
-                "syathr_awal": "اَللّٰهُ أَكْبَرُ عَدَدَ مَا خَلَقَ فِى الْأَرْضِ",
+                "syathr_awal": "اَللّٰهُمَّ إِنِّيْ أَعُوْذُ بِكَ مِنَ الْهَمِّ وَالْحَـزَنِ وَأَعُوْذُ بِكَ مِنَ الْعَجْزِ وَالْكَسَلِ وَأَعُوْذُ بِكَ مِنَ الْجُبْنِ وَالْبُخْلِ وَأَعُوْذُ بِكَ مِنْ غَلَبَةِ الدَّيْنِ وَقَهْرِ الرِّجَالِ",
                 "syathr_tsani": "",
-                "terjemahan": ""
+                "terjemahan": "<p class=\"translation-read-text text-slate-500 font-medium leading-relaxed text-justify\">Ya Allah, sesungguhnya aku berlindung kepada-Mu dari penderitaan dan kesedihan. Aku berlindung kepada-Mu dari lemah dan malas. Aku berlindung kepada-Mu dari pengecut dan kikir. Dan aku berlindung kepada-Mu dari lilitan utang dan kesewenang-wenangan manusia.</p>"
             },
             {
                 "id": 34,
-                "syathr_awal": "اَللّٰهُ أَكْبَرُ عَدَدَ مَا بَيْنَ ذٰلِكَ",
+                "syathr_awal": "اَللّٰهُمَّ إِنِّيْ أَسْأَلُكَ الْعَافِيَةَ فِى الدُّنْيَا وَالْآخِرَةِ",
                 "syathr_tsani": "",
-                "terjemahan": ""
+                "terjemahan": "<p class=\"translation-read-text text-slate-500 font-medium leading-relaxed text-justify\">Ya Allah, aku memohon kepada-Mu kesejahteraan di dunia dan akhirat.</p>"
             },
             {
                 "id": 35,
-                "syathr_awal": "اَللّٰهُ أَكْبَرُ عَدَدَ مَا هُوَ خَالِقٌ",
+                "syathr_awal": "اَللّٰهُمَ إِنِّيْ أَسْأَلُكَ الْعَفْوَ وَالْعَافِيَةَ وَالْمُعَافَاةَ الدَّائِمَةَ فِيْ دِيْنِيْ وَدُنْيَايَ وَأَهْلِيْ وَمَالِيْ",
                 "syathr_tsani": "",
-                "terjemahan": ""
+                "terjemahan": "<p class=\"translation-read-text text-slate-500 font-medium leading-relaxed text-justify\">Ya Allah, sesungguhnya aku memohon kepada-Mu pengampunan dan kesejahteraan serta perlindungan yang abadi dalam agamaku, duniaku, keluargaku, dan hartaku.</p>"
             },
             {
                 "id": 36,
-                "syathr_awal": "لَا حَوْلَ وَلَا قُوَّةَ إِلَّا بِاللّٰهِ الْعَلِيِّ الْعَظِيْمِ عَدَدَ مَا خَلَقَ فِى السَّمَاءِ",
+                "syathr_awal": "اَللّٰهُمَّ اسْتُرْ عَوْرَاتِيْ وَاٰمِنْ رَوْعَاتِيْ",
                 "syathr_tsani": "",
-                "terjemahan": ""
+                "terjemahan": "<p class=\"translation-read-text text-slate-500 font-medium leading-relaxed text-justify\">Ya Allah, tutuplah segala aibku dan amankan ketakutan-ketakutanku.</p>"
             },
             {
                 "id": 37,
-                "syathr_awal": "لَا حَوْلَ وَلَا قُوَّةَ إِلَّا بِاللّٰهِ الْعَلِيِّ الْعَظِيْمِ عَدَدَ مَا خَلَقَ فِى الْأَرْضِ",
+                "syathr_awal": "اَللّٰهُمَّ احْفَظْنِيْ مِنْ بَيْنِ يَدَيَّ وَمِنْ خَلْفِيْ وَعَنْ يَمِيْنِيْ وَعَنْ شِمَالِيْ وَمِنْ فَوْقِيْ وَأَعُوْذُ بِعَظَمَتِكَ أَنْ أُغْتَالَ مِنْ تَحْتِيْ",
                 "syathr_tsani": "",
-                "terjemahan": ""
+                "terjemahan": "<p class=\"translation-read-text text-slate-500 font-medium leading-relaxed text-justify\">Ya Allah, peliharalah aku dari depan dan belakangku, dari kanan, kiri dan dari atasku. Dengan keagungan-Mu aku berlindung agar jangan ditipu dari bawahku.</p>"
             },
             {
                 "id": 38,
-                "syathr_awal": "لَا حَوْلَ وَلَا قُوَّةَ إِلَّا بِاللّٰهِ الْعَلِيِّ الْعَظِيْمِ عَدَدَ مَا بَيْنَ ذَلِكَ",
+                "syathr_awal": "اَللّٰهُمَّ أَنْتَ خَلَقْتَنِيْ وَأَنْتَ تَهْدِيْنِيْ وَأَنْتَ تُطْعِمُنِيْ وَأَنْتَ تَسْقِيْنِيْ وَأَنْتَ تُمِيْتُنِيْ وَأَنْتَ تُحْيِيْنِيْ وَأَنْتَ عَلَى كُلِّ شَيْءٍ قَدِيْرٌ",
                 "syathr_tsani": "",
-                "terjemahan": ""
+                "terjemahan": "<p class=\"translation-read-text text-slate-500 font-medium leading-relaxed text-justify\">Ya Allah, Engkaulah yang menciptakaku, memberikan petunjuk, makan dan minum kepadaku, dan Engkau yang mematikan serta membangkitkanku dan Engkau Mahakuasa atas segala sesuatu.</p>"
             },
             {
                 "id": 39,
-                "syathr_awal": "لَا حَوْلَ وَلَا قُوَّةَ إِلَّا بِاللّٰهِ الْعَلِيِّ الْعَظِيْمِ عَدَدَ مَا هُوَ خَالِقٌ",
+                "syathr_awal": "أَمْسَيْنَا عَلَى فِطْرَةِ الْإِسْلَامِ وَعَلَى كَلِمَةِ الْإِخْلَاصِ وَعَلَى دِيْنِ نَبِيِّنَا مُحَمَّدٍ صَلَّى اللّٰهُ عَلَيْهِ وَاٰلِهِ وَسَلَّمَ وَعَلَى مِلَّةِ أَبِيْنَا إِبْرَاهِيْمَ حَنِيْفًا مُسْلِمًا وَمَا كَانَ مِنَ الْمُشْرِكِيْنَ",
                 "syathr_tsani": "",
-                "terjemahan": ""
+                "terjemahan": "<p class=\"translation-read-text text-slate-500 font-medium leading-relaxed text-justify\">Kami berada pada sore hari dengan fitrah beragama Islam, di atas kalimat ikhlas, berada pada agama nabi kami Muhammad ﷺ dan agama bapak kami Ibrahim alaihissalam yang lurus dan berserah diri (kepada Allah), dan sekali-kali bukanlah dia dari golongan orang-orang yang mempersekutukan Allah dengan yang lain.</p>"
             },
             {
                 "id": 40,
-                "syathr_awal": "لَا إِلٰهَ إِلَّا اللّٰهُ وَحْدَهُ لَا شَرِيْكَ لَهُ لَهُ الْمُلْكُ وَلَهُ الْحَمْدُ يُحْيِيْ وَيُمِيْتُ وَهُوَ عَلَى كُلِّ شَيْءٍ قَدِيْرٌ عَدَدَ كُلِّ ذَرَّةٍ أَلْفَ مَرَّةٍ ٣",
+                "syathr_awal": "اَللّٰهُمَّ بِكَ أَمْسَيْنَا وَبِكَ أَصْبَحْنَا وَبِكَ نَحْيَا وَبِكَ نَـمُوْتُ وَعَلَيْكَ نَتَوَكَّلُ وَإِلَيْكَ الْمَصِيْرُ. أَمْسَيْنَا وَ أَمْسَى الْمُلْكُ لِلّٰهِ وَالْحَمْدُ لِلّٰهِ رَبِّ الْعَالَمِيْنَ",
                 "syathr_tsani": "",
-                "terjemahan": ""
+                "terjemahan": "<p class=\"translation-read-text text-slate-500 font-medium leading-relaxed text-justify\">Ya Allah, dengan pertolongan-Mu kami berada di waktu sore, dengan pertolongan-Mu kami berada di waktu pagi, dengan pertolongan-Mu kami hidup, dengan pertolongan-Mu kami mati, kepada-Mu kami berserah diri, dan hanya kepada-Mu tempat kebangkitan. Kami berada di waktu sore dan kerajaan milik Allah. Segala puji bagi Allah Tuhan semesta alam.</p>"
             },
             {
                 "id": 41,
+                "syathr_awal": "اَللّٰهُمَّ إِنِّيْ أَسْأَلُكَ خَيْرَ هٰذِهِ اللَّيْلَةِ فَتْحَهَا وَنَصْرَهَا وَنُوْرَهَا وَبَرَكَتَهَا وَهُدَاهَا",
+                "syathr_tsani": "",
+                "terjemahan": "<p class=\"translation-read-text text-slate-500 font-medium leading-relaxed text-justify\">Ya Allah, kami memohon kepada-Mu kebaikan malam ini, pembukaannya, pertolongannya, cahayanya, barakahnya dan petunjuknya.</p>"
+            },
+            {
+                "id": 42,
+                "syathr_awal": "اَللّٰهُمَّ إِنِّيْ أَسْأَلُكَ خَيْرَ هٰذِهِ اللَّيْلَةِ وَخَيْرَ مَا فِيْهَا وَخَيْرَ مَا قَبْلَهَا وَخَيْرَ مَا بَعْدَهَا وَأَعُوْذُ بِكَ مِنْ شَرِّ هٰذِهِ اللَّيْلَةِ وَشَرِّ مَا فِيْهَا وَشَرِّ مَا قَبْلَهَا وَشَرِّ مَا بَعْدَهَا",
+                "syathr_tsani": "",
+                "terjemahan": "<p class=\"translation-read-text text-slate-500 font-medium leading-relaxed text-justify\">Ya Allah, aku memohon kepada-Mu kebaikan malam hari ini, kebaikan apa pun yang ada di dalamnya, serta kebaikan apa pun sebelum dan sesudahnya. Aku berlindung kepada-Mu dari keburukan malam hari ini, keburukan apa pun yang terdapat di dalamnya, keburukan apa pun sebelum dan sesudahnya.</p>"
+            },
+            {
+                "id": 43,
+                "syathr_awal": "اَللّٰهُمَّ مَا أَمْسَى بِيْ مِنْ نِعْمَةٍ أَوْ بِأَحَـدٍ مِنْ خَلْقِكَ فَمِنْكَ وَحْدَكَ لَا شَرِيْكَ لَكَ فَلَكَ الْحَمْدُ وَلَكَ الشُّكْرُ عَلَى ذٰلِكَ",
+                "syathr_tsani": "",
+                "terjemahan": "<p class=\"translation-read-text text-slate-500 font-medium leading-relaxed text-justify\">Ya Allah, nikmat apa pun yang aku terima di sore ini atau yang diterima oleh salah seorang dari hamba-Mu, maka sumbernya hanyalah dari Engkau semata, tidak ada sekutu bagi-Mu, hanya bagi-Mu pujian dan hanya kepada-Mu syukur atas itu semua.</p>"
+            },
+            {
+                "id": 44,
+                "syathr_awal": "سُبْحَانَ اللّٰهِ وَبِحَمْدِهِ عَدَدَ خَلْقِهِ وَرِضَى نَفْسِهِ وَزِنَةَ عَرْشِهِ وَمِدَادَ كَلِمَاتِهِ ٣",
+                "syathr_tsani": "",
+                "terjemahan": "<p class=\"translation-read-text text-slate-500 font-medium leading-relaxed text-justify\">Mahasuci Allah, dengan memuji-Nya sebanyak bilangan makhluk-Nya, sebanyak bilangan ridla-Nya, sebanyak timbangan Arsy-Nya dan sebanyak tinta untuk menulis kalimat-kalimat-Nya. (3x)</p>"
+            },
+            {
+                "id": 45,
+                "syathr_awal": "سُبْحَانَ اللّٰهِ الْعَظِيْمِ وَبِحَمْدِهِ عَدَدَ خَلْقِهِ وَرِضَى نَفْسِـهِ وَزِنَةَ عَرْشِهِ وَمِدَادَ كَلِمَاتِهِ ٣",
+                "syathr_tsani": "",
+                "terjemahan": "<p class=\"latin-read-text text-teal-700 font-semibold mb-3 leading-relaxed text-justify mt-1\">Mahasuci Allah yang Mahaagung, dengan memuji-Nya sebanyak bilangan makhluk-Nya, sebanyak bilangan ridla-Nya, sebanyak timbangan Arsy-Nya dan sebanyak tinta untuk menulis kalimat-kalimat-Nya. (3x)</p><p class=\"translation-read-text text-slate-500 font-medium leading-relaxed text-justify\">سُبْحَانَ اللّٰهِ عَدَدَ مَا خَلَقَ فِى السَّمَاءِ<br>Mahasuci Allah sebanyak bilangan apa saja yang Ia ciptakan di langit</p>"
+            },
+            {
+                "id": 46,
+                "syathr_awal": "سُبْحَانَ اللّٰهِ عَدَدَ مَا خَلَقَ فِى الْأَرْضِ",
+                "syathr_tsani": "",
+                "terjemahan": "<p class=\"translation-read-text text-slate-500 font-medium leading-relaxed text-justify\">Mahasuci Allah sebanyak bilangan apa saja yang Ia ciptakan di bumi</p>"
+            },
+            {
+                "id": 47,
+                "syathr_awal": "سُبْحَانَ اللّٰهِ عَدَدَ مَا بَيْنَ ذٰلِكَ",
+                "syathr_tsani": "",
+                "terjemahan": "<p class=\"translation-read-text text-slate-500 font-medium leading-relaxed text-justify\">Mahasuci Allah sebanyak bilangan apa saja yang ada di antara keduanya.</p>"
+            },
+            {
+                "id": 48,
+                "syathr_awal": "سُبْحَانَ اللّٰهِ عَدَدَ مَا هُوَ خَالِقٌ",
+                "syathr_tsani": "",
+                "terjemahan": "<p class=\"translation-read-text text-slate-500 font-medium leading-relaxed text-justify\">Mahasuci Allah sebanyak apa saja yang Allah sendiri sebagai penciptanya.</p>"
+            },
+            {
+                "id": 49,
+                "syathr_awal": "اَلْحَمْدُ لِلّٰهِ عَدَدَ مَا خَلَقَ فِى السَّمَاءِ",
+                "syathr_tsani": "",
+                "terjemahan": "<p class=\"translation-read-text text-slate-500 font-medium leading-relaxed text-justify\">Segala puji bagi Allah sebanyak bilangan apa saja yang Ia ciptakan di langit</p>"
+            },
+            {
+                "id": 50,
+                "syathr_awal": "اَلْحَمْدُ لِلّٰهِ عَدَدَ مَـا خَلَـقَ فِي الْأَرْضِ",
+                "syathr_tsani": "",
+                "terjemahan": "<p class=\"translation-read-text text-slate-500 font-medium leading-relaxed text-justify\">Segala puji bagi Allah sebanyak bilangan apa saja yang Ia ciptakan di bumi</p>"
+            },
+            {
+                "id": 51,
+                "syathr_awal": "اَلْحَمْدُ لِلّٰهِ عَدَدَ مَـا بَيْنَ ذٰلِكَ",
+                "syathr_tsani": "",
+                "terjemahan": "<p class=\"translation-read-text text-slate-500 font-medium leading-relaxed text-justify\">Segala puji bagi Allah sebanyak bilangan apa saja yang ada di antara keduanya</p>"
+            },
+            {
+                "id": 52,
+                "syathr_awal": "اَلْحَمْدُ لِلّٰهِ عَدَدَ مَـا هُوَ خَالِقٌ",
+                "syathr_tsani": "",
+                "terjemahan": "<p class=\"translation-read-text text-slate-500 font-medium leading-relaxed text-justify\">Segala puji bagi Allah sebanyak bilangan yang Allah sendiri sebagai penciptanya.</p>"
+            },
+            {
+                "id": 53,
+                "syathr_awal": "لَا إِلٰهَ إِلَّا اللّٰهُ عَدَدَ مَا خَلَقَ فِى السَّمَـاءِ",
+                "syathr_tsani": "",
+                "terjemahan": "<p class=\"translation-read-text text-slate-500 font-medium leading-relaxed text-justify\">Tidak ada Tuhan selain Allah sebanyak bilangan apa saja yang Ia ciptakan di langit</p>"
+            },
+            {
+                "id": 54,
+                "syathr_awal": "لَا إِلٰهَ إِلَّا اللّٰهُ عَدَدَ مَا خَلَقَ فِى الْأَرْضِ",
+                "syathr_tsani": "",
+                "terjemahan": "<p class=\"translation-read-text text-slate-500 font-medium leading-relaxed text-justify\">Tidak ada Tuhan selain Allah sebanyak bilangan apa saja yang Ia ciptakan di bumi</p>"
+            },
+            {
+                "id": 55,
+                "syathr_awal": "لَا إِلٰهَ إِلَّا اللّٰهُ عَدَدَ مَا بَيْنَ ذٰلِكَ",
+                "syathr_tsani": "",
+                "terjemahan": "<p class=\"translation-read-text text-slate-500 font-medium leading-relaxed text-justify\">Tidak ada Tuhan selain Allah sebanyak bilangan apa saja yang ada di antara keduanya</p>"
+            },
+            {
+                "id": 56,
+                "syathr_awal": "لَا إِلٰهَ إِلَّا اللّٰهُ عَدَدَ مَا هُوَ خَالِقٌ",
+                "syathr_tsani": "",
+                "terjemahan": "<p class=\"translation-read-text text-slate-500 font-medium leading-relaxed text-justify\">Tidak ada Tuhan selain Allah sebanyak hitungan apa saja di mana Allah sebagai penciptanya</p>"
+            },
+            {
+                "id": 57,
+                "syathr_awal": "اَللّٰهُ أَكْبَرُ عَدَدَ مَا خَلَـقَ فِى السَّمَاءِ",
+                "syathr_tsani": "",
+                "terjemahan": "<p class=\"translation-read-text text-slate-500 font-medium leading-relaxed text-justify\">Allah Mahabesar sebanyak bilangan apa saja yang Ia ciptakan di langit.</p>"
+            },
+            {
+                "id": 58,
+                "syathr_awal": "اَللّٰهُ أَكْبَرُ عَدَدَ مَا خَلَقَ فِى الْأَرْضِ",
+                "syathr_tsani": "",
+                "terjemahan": "<p class=\"translation-read-text text-slate-500 font-medium leading-relaxed text-justify\">Allah Mahabesar sebanyak bilangan apa saja yang Ia ciptakan di bumi.</p>"
+            },
+            {
+                "id": 59,
+                "syathr_awal": "اَللّٰهُ أَكْبَرُ عَدَدَ مَا بَيْنَ ذٰلِكَ",
+                "syathr_tsani": "",
+                "terjemahan": "<p class=\"translation-read-text text-slate-500 font-medium leading-relaxed text-justify\">Allah Mahabesar sebanyak bilangan apa saja yang ada di antara keduanya.</p>"
+            },
+            {
+                "id": 60,
+                "syathr_awal": "اَللّٰهُ أَكْبَرُ عَدَدَ مَا هُوَ خَالِقٌ",
+                "syathr_tsani": "",
+                "terjemahan": "<p class=\"translation-read-text text-slate-500 font-medium leading-relaxed text-justify\">Allah Mahabesar sebanyak bilangan apa saja yang Allah sendiri sebagai penciptanya</p>"
+            },
+            {
+                "id": 61,
+                "syathr_awal": "لَا حَوْلَ وَلَا قُوَّةَ إِلَّا بِاللّٰهِ الْعَلِيِّ الْعَظِيْمِ عَدَدَ مَا خَلَقَ فِى السَّمَاءِ",
+                "syathr_tsani": "",
+                "terjemahan": "<p class=\"translation-read-text text-slate-500 font-medium leading-relaxed text-justify\">Tidak ada upaya melaksanakan ketaatan dan tidak ada kekuatan untuk menghindar dari kemaksiatan kecuali dengan (pertolongan) Allah yang Mahatinggi dan Mahaagung sebanyak bilangan apa saja yang Ia ciptakan di langit.</p>"
+            },
+            {
+                "id": 62,
+                "syathr_awal": "لَا حَوْلَ وَلَا قُوَّةَ إِلَّا بِاللّٰهِ الْعَلِيِّ الْعَظِيْمِ عَدَدَ مَا خَلَقَ فِى الْأَرْضِ",
+                "syathr_tsani": "",
+                "terjemahan": "<p class=\"translation-read-text text-slate-500 font-medium leading-relaxed text-justify\">Tidak ada upaya melaksanakan ketaatan dan tidak ada kekuatan untuk menghindar dari kemaksiatan kecuali dengan (pertolongan) Allah yang Mahatinggi dan Mahaagung sebanyak bilangan apa saja yang Ia ciptakan di bumi.</p>"
+            },
+            {
+                "id": 63,
+                "syathr_awal": "لَا حَوْلَ وَلَا قُوَّةَ إِلَّا بِاللّٰهِ الْعَلِيِّ الْعَظِيْمِ عَدَدَ مَا بَيْنَ ذَلِكَ",
+                "syathr_tsani": "",
+                "terjemahan": "<p class=\"translation-read-text text-slate-500 font-medium leading-relaxed text-justify\">Tidak ada upaya melaksanakan ketaatan dan tidak ada kekuatan untuk menghindar dari kemaksiatan kecuali dengan (pertolongan) Allah yang Mahatinggi dan Mahaagung sebanyak bilangan apa saja yang ada di antara keduanya.</p>"
+            },
+            {
+                "id": 64,
+                "syathr_awal": "لَا حَوْلَ وَلَا قُوَّةَ إِلَّا بِاللّٰهِ الْعَلِيِّ الْعَظِيْمِ عَدَدَ مَا هُوَ خَالِقٌ",
+                "syathr_tsani": "",
+                "terjemahan": "<p class=\"translation-read-text text-slate-500 font-medium leading-relaxed text-justify\">Tidak ada upaya melaksanakan ketaatan dan tidak ada kekuatan untuk menghindar dari kemaksiatan kecuali dengan (pertolongan) Allah yang Mahatinggi dan Mahaagung sebanyak bilangan apa saja yang Allah sendiri sebagai penciptanya.</p>"
+            },
+            {
+                "id": 65,
+                "syathr_awal": "لَا إِلٰهَ إِلَّا اللّٰهُ وَحْدَهُ لَا شَرِيْكَ لَهُ لَهُ الْمُلْكُ وَلَهُ الْحَمْدُ يُحْيِيْ وَيُمِيْتُ وَهُوَ عَلَى كُلِّ شَيْءٍ قَدِيْرٌ عَدَدَ كُلِّ ذَرَّةٍ أَلْفَ مَرَّةٍ ٣",
+                "syathr_tsani": "",
+                "terjemahan": "<p class=\"translation-read-text text-slate-500 font-medium leading-relaxed text-justify\">Tidak ada Tuhan selain Allah yang Maha Esa, tidak ada sekutu bagi-Nya, kerajaan hanya milik-Nya, dan hanya bagi-Nya segala puji, yang Maha Menghidupkan dan Maha Mematikan. Dia Mahakuasa atas segala sesuatu sebanyak bilangan biji dzarrah sebanyak seribu kali. (3x)</p>"
+            },
+            {
+                "id": 66,
                 "syathr_awal": "اَللّٰهُمَّ صَلِّ عَلَى سَيِّدِنَا مُحَمَّدٍ مِفْتَاحِ بَابِ رَحْمَةِ اللّٰهِ عَدَدَ مَا فِيْ عِلْمِ اللّٰهِ صَلَاةً وَسَلَامًا دَائِمَيْنِ بِدَوَامِ مُلْكِ اللّٰهِ وَعَلَى اٰلِهٖ وَصَحْبِهٖ عَدَدَ كُلِّ ذَرَّةٍ أَلْفَ مَرَّةٍ ٣",
                 "syathr_tsani": "",
-                "terjemahan": ""
+                "terjemahan": "<p class=\"translation-read-text text-slate-500 font-medium leading-relaxed text-justify\">Ya Allah limpahkanlah rahmat kepada junjungan kami Nabi Muhammad, kunci pembuka kasih sayang Allah, sebanyak sesuatu dalam pengetahuan Allah, dengan limpahan rahmat dan keselamatan yang terus-menerus sepanjang kekalnya Kerajaan Allahdengan limpahan rahmat dan keselamatan yang terus-menerus sepanjang kekalnya Kerajaan Allah—dan (limpahkan juga) kepada beserta keluarga dan para sahabat beliau— sebanyak hitungan setiap atom seribu kali. (3x)</p>"
             }
         ]
     }

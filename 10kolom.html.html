@@ -1,0 +1,227 @@
+<!DOCTYPE html>
+<html lang="id">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>JSON Generator Tool - Edisi 50 Baris Istighotsah & Doa</title>
+    
+    <script src="https://cdn.tailwindcss.com"></script>
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.1/css/all.min.css">
+    
+    <style>
+        @import url('https://fonts.googleapis.com/css2?family=Amiri:ital,wght@0,400;0,700;1,400;1,700&family=Plus+Jakarta+Sans:wght@300;400;500;600;700&display=swap');
+        
+        body { font-family: 'Plus Jakarta Sans', sans-serif; }
+        .teks-arab { font-family: 'Amiri', serif !important; }
+        
+        /* Custom Scrollbar */
+        ::-webkit-scrollbar { width: 8px; height: 8px; }
+        ::-webkit-scrollbar-track { background: #f1f5f9; border-radius: 10px; }
+        ::-webkit-scrollbar-thumb { background: #cbd5e1; border-radius: 10px; }
+        ::-webkit-scrollbar-thumb:hover { background: #94a3b8; }
+        
+        #output::-webkit-scrollbar-track { background: #0f172a; }
+        #output::-webkit-scrollbar-thumb { background: #334155; }
+    </style>
+</head>
+<body class="bg-slate-100 min-h-screen p-3 md:p-8">
+
+    <div class="max-w-7xl mx-auto bg-white rounded-[2rem] shadow-xl overflow-hidden flex flex-col lg:flex-row border border-slate-200">
+        
+        <div class="w-full lg:w-1/2 p-6 md:p-10 border-b lg:border-b-0 lg:border-r border-slate-200 bg-slate-50/50 overflow-y-auto max-h-[90vh]">
+            <div class="flex justify-between items-start mb-4">
+                <div>
+                    <h2 class="text-2xl font-bold text-slate-800 mb-1">JSON Generator Pro</h2>
+                    <p class="text-sm text-slate-500 mb-4">Edisi 50 Baris Teks (Total 100 Kolom Pengisian)</p>
+                </div>
+                <button onclick="generateJSON()" class="bg-teal-600 hover:bg-teal-700 text-white font-bold text-xs py-2.5 px-4 rounded-xl shadow-md transition-all active:scale-95 flex items-center gap-2 shrink-0">
+                    <i class="fa-solid fa-gear"></i> GENERATE DATA
+                </button>
+            </div>
+
+            <div class="space-y-6">
+                <div class="bg-white p-5 rounded-2xl border border-slate-200 shadow-sm">
+                    <div class="mb-4">
+                        <label class="block text-xs font-bold text-slate-600 mb-1 uppercase tracking-wider">Judul Utama (Kecil Atas)</label>
+                        <input type="text" id="judulUtama" class="w-full bg-slate-50 border border-slate-300 rounded-xl px-4 py-2.5 text-sm focus:outline-none focus:border-teal-500 focus:ring-2 focus:ring-teal-200 transition-all" placeholder="Contoh: DOA SETELAH SHALAT">
+                    </div>
+                    <div>
+                        <label class="block text-xs font-bold text-slate-600 mb-1 uppercase tracking-wider">Judul Arab / Basmalah</label>
+                        <input type="text" id="judul" dir="rtl" class="w-full bg-slate-50 border border-slate-300 rounded-xl px-4 py-3 text-right teks-arab text-xl focus:outline-none focus:border-teal-500 focus:ring-2 focus:ring-teal-200 transition-all" value="بِسْمِ اللّٰهِ الرَّحْمٰنِ الرَّحِيْمِ">
+                    </div>
+                </div>
+
+                <div class="flex items-center gap-4 my-2">
+                    <div class="h-[1px] flex-1 bg-slate-300"></div>
+                    <span class="text-xs font-bold text-slate-400 uppercase tracking-widest">Form Isian (Opsional - Isi Seperlunya)</span>
+                    <div class="h-[1px] flex-1 bg-slate-300"></div>
+                </div>
+
+                <div id="dynamic-inputs-container" class="space-y-6"></div>
+                
+                <div class="pt-2">
+                    <button onclick="generateJSON()" class="w-full bg-teal-600 hover:bg-teal-700 text-white font-bold text-sm py-3.5 px-4 rounded-xl shadow-md transition-all active:scale-95 flex items-center justify-center gap-2">
+                        <i class="fa-solid fa-code"></i> KLIK UNTUK GENERATE (50 BARIS OKE)
+                    </button>
+                </div>
+            </div>
+        </div>
+
+        <div class="w-full lg:w-1/2 flex flex-col bg-slate-800 max-h-[90vh]">
+            
+            <div class="h-1/2 p-6 md:p-8 flex flex-col border-b border-slate-700 relative group">
+                <div class="flex justify-between items-center mb-4">
+                    <h3 class="text-slate-200 font-bold flex items-center gap-2"><i class="fa-solid fa-code text-teal-400"></i> Output JSON</h3>
+                    <div class="flex gap-2">
+                        <button id="btn-copy" class="bg-slate-700 hover:bg-slate-600 text-slate-200 text-xs font-semibold py-1.5 px-3 rounded-lg transition-colors flex items-center gap-2"><i class="fa-regular fa-copy"></i> Copy</button>
+                        <button id="btn-download" class="bg-teal-600 hover:bg-teal-500 text-white text-xs font-semibold py-1.5 px-3 rounded-lg transition-colors flex items-center gap-2"><i class="fa-solid fa-download"></i> Download</button>
+                    </div>
+                </div>
+                <textarea id="output" readonly class="w-full h-full bg-slate-900 border border-slate-700 rounded-xl p-4 text-emerald-400 font-mono text-sm focus:outline-none resize-none leading-relaxed"></textarea>
+            </div>
+
+            <div class="h-1/2 p-6 md:p-8 flex flex-col bg-slate-50 relative overflow-hidden">
+                <div class="flex justify-between items-center mb-4 z-10 relative">
+                    <h3 class="text-slate-800 font-bold flex items-center gap-2"><i class="fa-solid fa-mobile-screen text-teal-600"></i> Live Preview UI</h3>
+                    <button id="btn-reset" class="text-red-500 hover:bg-red-50 text-xs font-semibold py-1.5 px-3 rounded-lg transition-colors border border-transparent hover:border-red-100 flex items-center gap-2"><i class="fa-solid fa-trash-can"></i> Reset</button>
+                </div>
+                <div id="preview-container" class="w-full h-full overflow-y-auto pr-2 pb-10 z-10 relative rounded-xl border border-slate-200 bg-slate-100/50 p-4">
+                    <p class="text-sm font-sans text-slate-400 text-center italic mt-8 font-light">Hasil preview visual akan muncul di sini setelah Anda mengisi form dan klik Generate...</p>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <script>
+        // 1. GENERATE 50 BARIS (TOTAL 100 KOLOM INPUT)
+        const container = document.getElementById('dynamic-inputs-container');
+        let inputsHtml = '';
+        for(let i = 1; i <= 50; i++) {
+            inputsHtml += `
+            <div class="p-5 bg-white border border-slate-200 shadow-sm rounded-2xl relative">
+                <div class="absolute -left-3 -top-3 w-8 h-8 bg-teal-600 text-white rounded-full flex items-center justify-center font-bold text-xs shadow-md border-4 border-white">${i}</div>
+                <div class="space-y-4 mt-2">
+                    <div>
+                        <label class="block text-xs font-bold text-slate-600 mb-1 uppercase tracking-wider">Teks Arab ${i}</label>
+                        <textarea id="arab${i}" rows="2" dir="rtl" class="w-full bg-slate-50 border border-slate-300 rounded-xl px-4 py-3 text-right teks-arab text-xl focus:outline-none focus:border-teal-500 focus:ring-2 focus:ring-teal-200 transition-all placeholder-slate-300" placeholder="Masukkan teks arab..."></textarea>
+                    </div>
+                    <div>
+                        <label class="block text-xs font-bold text-slate-600 mb-1 uppercase tracking-wider">Terjemahan ${i}</label>
+                        <textarea id="arti${i}" rows="2" class="w-full bg-slate-50 border border-slate-300 rounded-xl px-4 py-3 text-sm focus:outline-none focus:border-teal-500 focus:ring-2 focus:ring-teal-200 transition-all placeholder-slate-300" placeholder="Masukkan terjemahan..."></textarea>
+                    </div>
+                </div>
+            </div>`;
+        }
+        container.innerHTML = inputsHtml;
+
+        // 2. MESIN UTAMA GENERATE JSON & PREVIEW
+        function generateJSON() {
+            const judulUtama = document.getElementById('judulUtama').value.trim();
+            const judul = document.getElementById('judul').value.trim();
+
+            let kumpulanArray = [];
+            let previewHtml = '';
+
+            // Kerangka Header Preview
+            let basmalahHtml = judul ? `<div class="text-center mb-6"><h3 class="teks-arab text-xl text-teal-700 font-bold" dir="rtl">${judul}</h3></div>` : '';
+            let garisHtml = `<div class="w-full h-[1px] bg-slate-200 mb-6"></div>`;
+            let judulUtamaHtml = judulUtama ? `<div class="text-center mb-8"><span class="text-[10px] font-bold text-teal-700 uppercase tracking-wide block max-w-[90%] mx-auto leading-relaxed">${judulUtama}</span></div>` : '';
+            let headerCard = (judulUtama || judul) ? `${basmalahHtml}${garisHtml}${judulUtamaHtml}` : '';
+
+            let itemTerisi = 0;
+
+            for(let i = 1; i <= 50; i++) {
+                const arabText = document.getElementById(`arab${i}`).value.trim();
+                const artiText = document.getElementById(`arti${i}`).value.trim();
+
+                // Bersifat OPSIONAL: Hanya diproses jika salah satu kolom terisi
+                if(arabText || artiText) {
+                    itemTerisi++;
+                    kumpulanArray.push({
+                        "arab": arabText || "-",
+                        "arti": artiText || "-"
+                    });
+
+                    // Format nomor urut angka Arab tanpa merusak font utama
+                    let formattedArab = arabText ? arabText.replace(/([٠-٩]+)/g, '&nbsp;<span class="mx-1 font-sans font-bold text-teal-600 text-[0.8em]">) $1 (</span>') : '';
+                    
+                    // Terjemahan RATA KIRI KANAN (text-justify) & Ikon Kitab Islami
+                    let terjemahanHtml = (artiText && artiText !== '-') 
+                        ? `<div class="mt-3 text-left mb-2">
+                            <button class="w-8 h-8 inline-flex items-center justify-center bg-teal-50 border border-teal-100 rounded-xl shadow-sm text-teal-700">
+                                <i class="fa-solid fa-book"></i>
+                            </button>
+                           </div>
+                           <div class="w-full h-[1px] bg-slate-100 my-4"></div>
+                           <p class="text-justify font-sans text-[11px] text-slate-500 font-medium leading-relaxed" dir="ltr">${artiText}</p>` 
+                        : '';
+
+                    previewHtml += `
+                    <div class="bg-white p-6 rounded-3xl text-center shadow-sm border border-slate-200 mb-6 relative">
+                        <div class="absolute left-4 top-4 bg-teal-50 text-teal-600 text-[9px] font-bold w-5 h-5 rounded-full flex items-center justify-center border border-teal-100">${itemTerisi}</div>
+                        ${itemTerisi === 1 ? headerCard : ''}
+                        <p class="teks-arab mb-6 text-slate-800" dir="rtl" lang="ar" style="font-size: 28px; line-height: 2.4;">${formattedArab || arabText}</p>
+                        ${terjemahanHtml}
+                    </div>`;
+                }
+            }
+
+            const data = {
+                "judul_utama": judulUtama,
+                "judul": judul,
+                "kumpulan": kumpulanArray
+            };
+
+            const outputEl = document.getElementById('output');
+            const previewEl = document.getElementById('preview-container');
+
+            outputEl.value = JSON.stringify(data, null, 2);
+            if (itemTerisi > 0) {
+                previewEl.innerHTML = previewHtml;
+            } else {
+                previewEl.innerHTML = '<p class="text-sm font-sans text-slate-400 text-center italic mt-8 font-light">Hasil preview visual akan muncul di sini setelah Anda mengisi form dan klik Generate...</p>';
+            }
+        }
+
+        // 3. EVENT LISTENERS UNTUK TOMBOL-TOMBOL UTAMA
+        document.getElementById('btn-copy').addEventListener('click', function() {
+            const output = document.getElementById('output');
+            if (!output.value) return alert('Data kosong! Isi form terlebih dahulu.');
+            navigator.clipboard.writeText(output.value);
+            this.innerHTML = '<i class="fa-solid fa-check"></i> Copied!';
+            this.classList.replace('bg-slate-700', 'bg-emerald-600');
+            setTimeout(() => {
+                this.innerHTML = '<i class="fa-regular fa-copy"></i> Copy';
+                this.classList.replace('bg-emerald-600', 'bg-slate-700');
+            }, 2000);
+        });
+
+        document.getElementById('btn-download').addEventListener('click', function() {
+            const output = document.getElementById('output');
+            if (!output.value) return alert('Data kosong!');
+            const blob = new Blob([output.value], { type: 'application/json' });
+            const url = URL.createObjectURL(blob);
+            const a = document.createElement('a');
+            a.href = url;
+            a.download = `kumpulan_doa_data_${Date.now()}.json`;
+            a.click();
+            URL.revokeObjectURL(url);
+        });
+
+        document.getElementById('btn-reset').addEventListener('click', function() {
+            if (confirm('Apakah Anda yakin ingin mengosongkan ke-100 kolom formulir?')) {
+                document.getElementById('judulUtama').value = '';
+                document.getElementById('judul').value = 'بِسْمِ اللّٰهِ الرَّحْمٰنِ الرَّحِيْمِ';
+                for(let i = 1; i <= 50; i++) {
+                    document.getElementById(`arab${i}`).value = '';
+                    document.getElementById(`arti${i}`).value = '';
+                }
+                generateJSON();
+            }
+        });
+
+        // Jalankan inisialisasi awal
+        generateJSON();
+    </script>
+</body>
+</html>
