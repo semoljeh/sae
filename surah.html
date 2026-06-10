@@ -1,0 +1,189 @@
+<!DOCTYPE html>
+<html lang="id">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Quran Surah JSON Generator - Edisi Paragraph Tunggal Original</title>
+    
+    <script src="https://cdn.tailwindcss.com"></script>
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.1/css/all.min.css">
+    
+    <style>
+        @import url('https://fonts.googleapis.com/css2?family=Plus+Jakarta+Sans:wght@300;400;500;600;700&display=swap');
+        
+        /* استدعاء خط LPMQ المحلي ليعطيك نفس مظهر التطبيق تماماً */
+        @font-face {
+            font-family: 'lpmq';
+            src: url('font/lpmq.ttf') format('truetype');
+            font-display: swap;
+        }
+
+        body { font-family: 'Plus Jakarta Sans', sans-serif; }
+        
+        .teks-quran { 
+            font-family: 'lpmq', serif !important; 
+            font-feature-settings: "ccmp" 1, "mark" 1, "mkmk" 1, "calt" 1, "liga" 1, "kern" 1 !important;
+            text-rendering: geometricPrecision !important;
+        }
+        
+        ::-webkit-scrollbar { width: 8px; height: 8px; }
+        ::-webkit-scrollbar-track { background: #f1f5f9; border-radius: 10px; }
+        ::-webkit-scrollbar-thumb { background: #cbd5e1; border-radius: 10px; }
+        ::-webkit-scrollbar-thumb:hover { background: #94a3b8; }
+    </style>
+</head>
+<body class="bg-slate-100 min-h-screen p-3 md:p-8">
+
+    <div class="max-w-7xl mx-auto bg-white rounded-[2rem] shadow-xl overflow-hidden flex flex-col lg:flex-row border border-slate-200">
+        
+        <div class="w-full lg:w-1/2 p-6 md:p-10 border-b lg:border-b-0 lg:border-r border-slate-200 bg-slate-50/50 flex flex-col max-h-[90vh] overflow-y-auto">
+            
+            <div class="mb-6 flex justify-between items-start gap-4">
+                <div>
+                    <h2 class="text-2xl font-bold text-slate-800 mb-1 flex items-center gap-2">
+                        <i class="fa-solid fa-book-quran text-emerald-600"></i> Surah Paragraph Generator
+                    </h2>
+                    <p class="text-sm text-slate-500">Format Klasik الموحد (judul - arab - arti)</p>
+                </div>
+                <button onclick="generateSurahParagraphJSON()" class="bg-emerald-600 hover:bg-emerald-700 text-white font-bold text-xs py-3 px-4 rounded-xl shadow-lg hover:shadow-emerald-500/30 transition-all active:scale-95 flex items-center gap-2 shrink-0">
+                    <i class="fa-solid fa-bolt"></i> GENERATE JSON
+                </button>
+            </div>
+
+            <div class="bg-white p-5 rounded-2xl border border-slate-200 shadow-sm mb-6 space-y-4 shrink-0">
+                <div>
+                    <label class="block text-xs font-bold text-slate-600 mb-1 uppercase tracking-wider">Judul / Pembuka Basmalah</label>
+                    <input type="text" id="judul" dir="rtl" class="w-full bg-slate-50 border border-slate-300 rounded-xl px-4 py-3 text-right teks-quran text-xl font-bold focus:outline-none focus:border-emerald-500 transition-all" value="بِسْمِ اللّٰهِ الرَّحْمٰنِ الرَّحِيْمِ">
+                </div>
+                <div>
+                    <label class="block text-xs font-bold text-slate-600 mb-1 uppercase tracking-wider">Arti Global Surah (Bisa Dikosongkan)</label>
+                    <input type="text" id="arti" class="w-full bg-slate-50 border border-slate-300 rounded-xl px-4 py-2.5 text-sm focus:outline-none focus:border-emerald-500 transition-all" value="">
+                </div>
+            </div>
+
+            <div class="flex-1 flex flex-col min-h-[320px]">
+                <div class="flex justify-between items-end mb-2">
+                    <label class="block text-xs font-bold text-slate-600 uppercase tracking-wider">Area Copy-Paste Teks (Satu Surah Penuh)</label>
+                    <span class="text-[10px] bg-emerald-100 text-emerald-700 px-2 py-1 rounded-lg font-bold">Sistem otomatis menyaring teks Arab saja</span>
+                </div>
+                <textarea id="bulkInput" class="w-full flex-1 bg-white border border-slate-300 rounded-xl p-4 text-right text-xl teks-quran focus:outline-none focus:border-emerald-500 focus:ring-2 focus:ring-emerald-200 transition-all resize-none shadow-inner leading-relaxed" dir="rtl"
+placeholder="Tempel seluruh teks surah dari Word هنا..."></textarea>
+            </div>
+        </div>
+
+        <div class="w-full lg:w-1/2 flex flex-col bg-slate-800 max-h-[90vh]">
+            
+            <div class="h-1/2 p-4 md:p-6 flex flex-col border-b border-slate-700">
+                <div class="flex justify-between items-center mb-3">
+                    <h3 class="text-slate-200 font-bold flex items-center gap-2"><i class="fa-solid fa-code text-emerald-400"></i> Output JSON Sesuai Format Asli</h3>
+                    <div class="flex gap-2">
+                        <button id="btn-copy" class="bg-slate-700 hover:bg-slate-600 text-slate-200 text-xs font-semibold py-1.5 px-3 rounded-lg transition-colors flex items-center gap-2"><i class="fa-regular fa-copy"></i> Copy</button>
+                        <button id="btn-download" class="bg-emerald-600 hover:bg-emerald-500 text-white text-xs font-semibold py-1.5 px-3 rounded-lg transition-colors flex items-center gap-2"><i class="fa-solid fa-download"></i> Download</button>
+                    </div>
+                </div>
+                <textarea id="output" readonly class="w-full h-full bg-slate-900 border border-slate-700 rounded-xl p-4 text-emerald-400 font-mono text-sm focus:outline-none resize-none leading-relaxed"></textarea>
+            </div>
+
+            <div class="h-1/2 p-4 md:p-6 flex flex-col bg-slate-50 overflow-hidden">
+                <div class="flex justify-between items-center mb-3 z-10 relative">
+                    <h3 class="text-slate-800 font-bold flex items-center gap-2"><i class="fa-solid fa-mobile-screen text-emerald-600"></i> Live Preview Mushaf (Murni LPMQ)</h3>
+                    <button id="btn-reset" class="text-red-500 hover:bg-red-50 text-xs font-semibold py-1.5 px-3 rounded-lg transition-colors border border-transparent hover:border-red-100 flex items-center gap-2"><i class="fa-solid fa-trash-can"></i> Bersihkan</button>
+                </div>
+                <div id="preview-container" class="w-full h-full overflow-y-auto pr-2 pb-10 z-10 relative rounded-xl border border-slate-200 bg-slate-100/50 p-4">
+                    <p class="text-sm font-sans text-slate-400 text-center italic mt-8 font-light">Hasil preview visual سورة سيعرض هنا...</p>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <script>
+        function generateSurahParagraphJSON() {
+            try {
+                const judul = document.getElementById('judul').value.trim();
+                const arti = document.getElementById('arti').value.trim();
+                const rawText = document.getElementById('bulkInput').value.trim();
+
+                if (rawText !== "") {
+                    // Normalisasi baris baru
+                    const teksNormal = rawText.replace(/\r\n/g, "\n").replace(/\r/g, "\n");
+                    const barisRaw = teksNormal.split('\n').map(b => b.trim()).filter(b => b !== '');
+                    
+                    // Filter cerdas: Hanya ambil baris जो mengandung karakter Arab
+                    const arabicPattern = /[\u0600-\u06FF]/;
+                    const barisArabHanya = barisRaw.filter(baris => arabicPattern.test(baris));
+                    
+                    // Gabungkan semua baris Arab menjadi satu paragraph utuh dipisahkan spasi tunggal
+                    let gabunganArab = barisArabHanya.join(' ');
+                    
+                    // Bersihkan jika ada spasi ganda akibat penggabungan
+                    gabunganArab = gabunganArab.replace(/\s+/g, ' ').trim();
+                    
+                    // JURUS ANTI-WORD: Ubah angka latin (0-9) bawaan Word menjadi angka Arab asli (٠-٩)
+                    const arrDigits = ['٠','١','٢','٣','٤','٥','٦','٧','٨','٩'];
+                    gabunganArab = gabunganArab.replace(/[0-9]/g, d => arrDigits[d]);
+
+                    // Menyusun JSON sesuai format exact القديم المطلب
+                    const dataJson = {
+                        "judul": judul,
+                        "arab": gabunganArab,
+                        "arti": arti
+                    };
+
+                    document.getElementById('output').value = JSON.stringify(dataJson, null, 4);
+
+                    // Render Preview Visual Rata Kanan Penuh dengan Font LPMQ
+                    document.getElementById('preview-container').innerHTML = `
+                        <div class="bg-white p-6 rounded-3xl shadow-sm border border-slate-200 text-right">
+                            ${judul ? `<div class="text-center mb-6"><h3 class="teks-quran text-2xl text-teal-700 font-bold" dir="rtl">${judul}</h3></div><div class="w-full h-[1px] bg-slate-100 mb-6"></div>` : ''}
+                            <p class="teks-quran text-right text-slate-900 text-2xl leading-[3.8rem] w-full" dir="rtl" lang="ar" style="text-align: justify; text-align-last: right;">${gabunganArab}</p>
+                            ${arti ? `<div class="w-full h-[1px] bg-slate-100 my-4"></div><p class="text-justify font-sans text-sm text-slate-500" dir="ltr">${arti}</p>` : ''}
+                        </div>
+                    `;
+                } else {
+                    document.getElementById('output').value = '';
+                    document.getElementById('preview-container').innerHTML = '<p class="text-sm font-sans text-slate-400 text-center italic mt-8 font-light">Hasil preview visual سورة سيعرض هنا...</p>';
+                }
+            } catch(e) {
+                alert("Terjadi kesalahan: " + e.message);
+            }
+        }
+
+        // Event Listener Tombol
+        document.getElementById('btn-copy').addEventListener('click', function() {
+            const output = document.getElementById('output');
+            if (!output.value) return alert('Data kosong!');
+            navigator.clipboard.writeText(output.value);
+            this.innerHTML = '<i class="fa-solid fa-check"></i> Copied!';
+            this.classList.replace('bg-slate-700', 'bg-emerald-600');
+            setTimeout(() => {
+                this.innerHTML = '<i class="fa-regular fa-copy"></i> Copy';
+                this.classList.replace('bg-emerald-600', 'bg-slate-700');
+            }, 2000);
+        });
+
+        document.getElementById('btn-download').addEventListener('click', function() {
+            const output = document.getElementById('output');
+            if (!output.value) return alert('Data kosong!');
+            const blob = new Blob([output.value], { type: 'application/json' });
+            const url = URL.createObjectURL(blob);
+            const a = document.createElement('a');
+            a.href = url;
+            a.download = `surah_paragraph_${Date.now()}.json`;
+            a.click();
+            URL.revokeObjectURL(url);
+        });
+
+        document.getElementById('btn-reset').addEventListener('click', function() {
+            if (confirm('Bersihkan form?')) {
+                document.getElementById('judul').value = 'بِسْمِ اللّٰهِ الرَّحْمٰنِ الرَّحِيْمِ';
+                document.getElementById('arti').value = '';
+                document.getElementById('bulkInput').value = '';
+                generateSurahParagraphJSON();
+            }
+        });
+
+        // Render awal layar kosong
+        generateSurahParagraphJSON();
+    </script>
+</body>
+</html>

@@ -3,7 +3,7 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>JSON Generator Tool - Magic Auto-Parse</title>
+    <title>JSON Generator Tool - Magic Auto-Parse (Edisi Fix)</title>
     
     <script src="https://cdn.tailwindcss.com"></script>
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.1/css/all.min.css">
@@ -31,7 +31,7 @@
                     <h2 class="text-2xl font-bold text-slate-800 mb-1 flex items-center gap-2">
                         <i class="fa-solid fa-wand-magic-sparkles text-teal-600"></i> Magic Auto-Parse
                     </h2>
-                    <p class="text-sm text-slate-500">Sistem memisah otomatis (Arab-Latin-Arti).</p>
+                    <p class="text-sm text-slate-500">Sistem memisah otomatis (Arab-Latin-Arti) + Auto ﴿x﴾</p>
                 </div>
                 <button onclick="generateMagicJSON()" class="bg-teal-600 hover:bg-teal-700 text-white font-bold text-xs py-3 px-4 rounded-xl shadow-lg hover:shadow-teal-500/30 transition-all active:scale-95 flex items-center gap-2 shrink-0">
                     <i class="fa-solid fa-bolt"></i> GENERATE
@@ -57,7 +57,7 @@
                 <textarea id="bulkInput" class="w-full flex-1 bg-white border border-slate-300 rounded-xl p-4 text-sm focus:outline-none focus:border-teal-500 focus:ring-2 focus:ring-teal-200 transition-all resize-none shadow-inner leading-relaxed" 
 placeholder="Contoh Format:
 
-وَلَهُ الْحَمْدُ فِي السَّمَوَاتِ وَالأَرْضِ وَعَشِيًّا وَحِيْنَ تُظْهِرُوْنَ
+وَلَهُ الْحَمْدُ فِي السَّمَوَاتِ وَالأَرْضِ وَعَشِيًّا وَحِيْنَ تُظْهِرُوْنَ ٣
 Walahul-ḫamdu fis-samâwâti wal-ardli wa ‘asyiyyan wa ḫîna tudh-hirûn(a)
 Dan hanya bagi-Nya segala puji di langit dan di bumi dan di waktu petang dan di saat kalian berada di waktu dhuhur. (QS Ar-Rum: 18)
 
@@ -96,106 +96,114 @@ arti kedua..."></textarea>
 
     <script>
         function generateMagicJSON() {
-            const judulUtama = document.getElementById('judulUtama').value.trim();
-            const judul = document.getElementById('judul').value.trim();
-            const rawText = document.getElementById('bulkInput').value.trim();
+            try {
+                const judulUtama = document.getElementById('judulUtama').value.trim();
+                const judul = document.getElementById('judul').value.trim();
+                const rawText = document.getElementById('bulkInput').value.trim();
 
-            let baitListArray = [];
-            let previewHtml = '';
+                let baitListArray = [];
+                let previewHtml = '';
 
-            let basmalahHtml = judul ? `<div class="text-center mb-6"><h3 class="teks-arab text-xl text-teal-700 font-bold" dir="rtl">${judul}</h3></div>` : '';
-            let garisHtml = `<div class="w-full h-[1px] bg-slate-200 mb-6"></div>`;
-            let judulUtamaHtml = judulUtama ? `<div class="text-center mb-8"><span class="text-[10px] font-bold text-teal-700 uppercase tracking-wide block max-w-[90%] mx-auto leading-relaxed">${judulUtama}</span></div>` : '';
-            let headerCard = (judulUtama || judul) ? `${basmalahHtml}${garisHtml}${judulUtamaHtml}` : '';
+                let basmalahHtml = judul ? `<div class="text-center mb-6"><h3 class="teks-arab text-xl text-teal-700 font-bold text-right w-full" dir="rtl">${judul}</h3></div>` : '';
+                let garisHtml = `<div class="w-full h-[1px] bg-slate-200 mb-6"></div>`;
+                let judulUtamaHtml = judulUtama ? `<div class="text-center mb-8"><span class="text-[10px] font-bold text-teal-700 uppercase tracking-wide block max-w-[90%] mx-auto leading-relaxed">${judulUtama}</span></div>` : '';
+                let headerCard = (judulUtama || judul) ? `${basmalahHtml}${garisHtml}${judulUtamaHtml}` : '';
 
-            if (rawText !== "") {
-                const blokBait = rawText.split(/\n\s*\n/);
-                let itemTerisi = 0;
+                if (rawText !== "") {
+                    const blokBait = rawText.split(/\n\s*\n/);
+                    let itemTerisi = 0;
 
-                blokBait.forEach((blok) => {
-                    const baris = blok.split('\n').map(b => b.trim()).filter(b => b !== '');
-                    
-                    if (baris.length > 0) {
-                        itemTerisi++;
-                        let arabText = "";
-                        let latinText = "";
-                        let artiText = "";
+                    blokBait.forEach((blok) => {
+                        const baris = blok.split('\n').map(b => b.trim()).filter(b => b !== '');
+                        
+                        if (baris.length > 0) {
+                            itemTerisi++;
+                            let arabText = "";
+                            let latinText = "";
+                            let artiText = "";
 
-                        // Deteksi otomatis baris Arab, Latin, Arti
-                        if (baris.length === 1) {
-                            arabText = baris[0]; 
-                        } else if (baris.length === 2) {
-                            arabText = baris[0];
-                            artiText = baris[1]; 
-                        } else if (baris.length >= 3) {
-                            arabText = baris[0];
-                            latinText = baris[1]; 
-                            artiText = baris.slice(2).join('<br>'); 
+                            // Deteksi otomatis baris Arab, Latin, Arti
+                            if (baris.length === 1) {
+                                arabText = baris[0]; 
+                            } else if (baris.length === 2) {
+                                arabText = baris[0];
+                                artiText = baris[1]; 
+                            } else if (baris.length >= 3) {
+                                arabText = baris[0];
+                                latinText = baris[1]; 
+                                artiText = baris.slice(2).join('<br>'); 
+                            }
+
+                            // JURUS ANTI-WORD: Paksa angka Latin (0-9) di baris Arab menjadi Angka Arab (٠-٩)
+                            if (arabText) {
+                                const arrAngkaArab = ['٠','١','٢','٣','٤','٥','٦','٧','٨','٩'];
+                                arabText = arabText.replace(/[0-9]/g, d => arrAngkaArab[d]);
+                            }
+
+                            // Gabungkan Latin dan Terjemahan dalam satu kolom untuk struktur bait_list
+                            let terjemahanGabung = "";
+                            if (latinText && latinText !== '-') terjemahanGabung += `<p class="latin-read-text text-teal-700 font-semibold mb-3 leading-relaxed text-justify mt-1">${latinText}</p>`;
+                            if (artiText && artiText !== '-') terjemahanGabung += `<p class="translation-read-text text-slate-500 font-medium leading-relaxed text-justify">${artiText}</p>`;
+
+                            // Terapkan ke struktur bait_list yang persis sama dengan sebelumnya
+                            baitListArray.push({
+                                "id": itemTerisi,
+                                "syathr_awal": arabText || "",
+                                "syathr_tsani": "",
+                                "terjemahan": terjemahanGabung || ""
+                            });
+
+                            // 💡 PERBAIKAN UTAMA: Menyisipkan huruf 'x' ke dalam kurung ornamen untuk live preview generator 
+                            let formattedArab = arabText ? arabText.replace(/([٠-٩]+)/g, '&nbsp;<span class="mx-1 font-sans font-bold text-teal-600 text-[0.8em]" dir="rtl">﴿x$1﴾</span>') : '';
+                            
+                            let terjemahanHtml = (terjemahanGabung !== '') 
+                                ? `<div class="mt-3 text-left mb-2">
+                                    <button class="w-8 h-8 inline-flex items-center justify-center bg-teal-50 border border-teal-100 rounded-xl shadow-sm text-teal-700">
+                                        <i class="fa-solid fa-book"></i>
+                                    </button>
+                                   </div>
+                                   <div class="w-full h-[1px] bg-slate-100 my-4"></div>
+                                   <div dir="ltr">${terjemahanGabung}</div>` 
+                                : '';
+
+                            // Teks Arab dipaksa text-right w-full
+                            previewHtml += `
+                            <div class="bg-white p-6 rounded-3xl text-center shadow-sm border border-slate-200 mb-6 relative">
+                                <div class="absolute left-4 top-4 bg-teal-50 text-teal-600 text-[9px] font-bold w-5 h-5 rounded-full flex items-center justify-center border border-teal-100">${itemTerisi}</div>
+                                ${itemTerisi === 1 ? headerCard : ''}
+                                <p class="teks-arab mb-6 text-slate-800 text-right w-full" dir="rtl" lang="ar" style="font-size: 28px; line-height: 2.4;">${formattedArab}</p>
+                                ${terjemahanHtml}
+                            </div>`;
                         }
-
-                        // JURUS ANTI-WORD: Paksa angka Latin (0-9) di baris Arab menjadi Angka Arab (٠-٩)
-                        if (arabText) {
-                            arabText = arabText.replace(/[0-9]/g, d => '٠١٢٣٤٥٦٧٨٩'[d]);
-                        }
-
-                        // Gabungkan Latin dan Terjemahan dalam satu kolom untuk struktur bait_list
-                        let terjemahanGabung = "";
-                        if (latinText && latinText !== '-') terjemahanGabung += `<p class="latin-read-text text-teal-700 font-semibold mb-3 leading-relaxed text-justify mt-1">${latinText}</p>`;
-                        if (artiText && artiText !== '-') terjemahanGabung += `<p class="translation-read-text text-slate-500 font-medium leading-relaxed text-justify">${artiText}</p>`;
-
-                        // Terapkan ke struktur bait_list yang persis sama dengan sebelumnya
-                        baitListArray.push({
-                            "id": itemTerisi,
-                            "syathr_awal": arabText || "",
-                            "syathr_tsani": "",
-                            "terjemahan": terjemahanGabung || ""
-                        });
-
-                        // Pembuatan Visual Preview
-                        let formattedArab = arabText ? arabText.replace(/([٠-٩]+)/g, '&nbsp;<span class="mx-1 font-sans font-bold text-teal-600 text-[0.8em]">﴿$1﴾</span>') : '';
-                        let terjemahanHtml = (terjemahanGabung !== '') 
-                            ? `<div class="mt-3 text-left mb-2">
-                                <button class="w-8 h-8 inline-flex items-center justify-center bg-teal-50 border border-teal-100 rounded-xl shadow-sm text-teal-700">
-                                    <i class="fa-solid fa-book"></i>
-                                </button>
-                               </div>
-                               <div class="w-full h-[1px] bg-slate-100 my-4"></div>
-                               <div dir="ltr">${terjemahanGabung}</div>` 
-                            : '';
-
-                        previewHtml += `
-                        <div class="bg-white p-6 rounded-3xl text-center shadow-sm border border-slate-200 mb-6 relative">
-                            <div class="absolute left-4 top-4 bg-teal-50 text-teal-600 text-[9px] font-bold w-5 h-5 rounded-full flex items-center justify-center border border-teal-100">${itemTerisi}</div>
-                            ${itemTerisi === 1 ? headerCard : ''}
-                            <p class="teks-arab mb-6 text-slate-800 text-right w-full" dir="rtl" lang="ar" style="font-size: 28px; line-height: 2.4;">${formattedArab}</p>
-                            ${terjemahanHtml}
-                        </div>`;
-                    }
-                });
-            }
-
-            // Struktur JSON Asli sesuai permintaan
-            const data = {
-                "metadata": {
-                    "generated_at": new Date().toISOString(),
-                    "tool": "JSON Generator Tool Arabic - Per Baris Tunggal"
-                },
-                "konten": {
-                    "judul_utama": judulUtama || null,
-                    "pembuka_basmalah": judul || null,
-                    "bait_list": baitListArray
+                    });
                 }
-            };
 
-            const outputEl = document.getElementById('output');
-            const previewEl = document.getElementById('preview-container');
+                // Struktur JSON Asli sesuai permintaan aplikasi utama
+                const data = {
+                    "metadata": {
+                        "generated_at": new Date().toISOString(),
+                        "tool": "JSON Generator Tool Arabic - Per Baris Tunggal"
+                    },
+                    "konten": {
+                        "judul_utama": judulUtama || null,
+                        "pembuka_basmalah": judul || null,
+                        "bait_list": baitListArray
+                    }
+                };
 
-            if (baitListArray.length > 0) {
-                outputEl.value = JSON.stringify(data, null, 4); 
-                previewEl.innerHTML = previewHtml;
-            } else {
-                outputEl.value = '';
-                previewEl.innerHTML = '<p class="text-sm font-sans text-slate-400 text-center italic mt-8 font-light">Hasil preview visual akan muncul di sini...</p>';
+                const outputEl = document.getElementById('output');
+                const previewEl = document.getElementById('preview-container');
+
+                if (baitListArray.length > 0) {
+                    outputEl.value = JSON.stringify(data, null, 4); 
+                    previewEl.innerHTML = previewHtml;
+                } else {
+                    outputEl.value = '';
+                    previewEl.innerHTML = '<p class="text-sm font-sans text-slate-400 text-center italic mt-8 font-light">Hasil preview visual akan muncul di sini...</p>';
+                }
+            } catch (err) {
+                alert("Ada kesalahan sistem saat Generate: " + err.message);
+                console.error(err);
             }
         }
 
@@ -233,7 +241,7 @@ arti kedua..."></textarea>
             }
         });
 
-        // Generate kosong saat pertama buka
+        // Inisialisasi awal layar kosong
         generateMagicJSON();
     </script>
 </body>
