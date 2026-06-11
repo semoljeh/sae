@@ -2,10 +2,21 @@
    GLOBAL UTILITIES & HELPERS
    ========================================================================== */
    
-   const APP_DATA_VERSION = "1.0";
-   window.ramCache = {}; // Wadah memori agar halaman tidak loading dua kali
-   
-   
+const APP_DATA_VERSION = "1.0";
+window.ramCache = {}; // Wadah memori agar halaman tidak loading dua kali
+
+// MASTER LOADING ANIMATION (ISLAMIC MODERN)
+window.getLoadingHtml = function(teks = "MENGAMBIL BERKAH...") {
+    return `
+    <div class="text-center py-24 px-8 flex flex-col items-center justify-center gap-4">
+        <div class="text-teal-600/80 text-4xl animate-bounce">
+            <i class="fa-solid fa-book-quran"></i>
+        </div>
+        <span class="text-[10px] font-bold text-teal-600 uppercase tracking-[0.2em] animate-pulse">${teks}</span>
+    </div>
+    `;
+};
+
 function getBulanIndo(namaBulanEn) { const s = namaBulanEn.toLowerCase(); if (s.includes('muharram')) return "Muharram"; if (s.includes('safar')) return "Safar"; if (s.includes('rabi') && (s.includes('awwal') || s.includes('1'))) return "Rabiul Awal"; if (s.includes('rabi') && (s.includes('akhir') || s.includes('2'))) return "Rabiul Akhir"; if (s.includes('jumada') && (s.includes('ula') || s.includes('awwal') || s.includes('1'))) return "Jumadil Ula"; if (s.includes('jumada') && (s.includes('akhir') || s.includes('thani') || s.includes('2'))) return "Jumadil Akhir"; if (s.includes('rajab')) return "Rajab"; if (s.includes('sha')) return "Syaban"; if (s.includes('ramadan')) return "Ramadhan"; if (s.includes('shawwal')) return "Syawal"; if (s.includes('qi') || s.includes('qa')) return "Dzulqa'dah"; if (s.includes('hijjah')) return "Dzulhijjah"; return namaBulanEn; }
 function toArDigits(n) { const id = ['٠','١','٢','٣','٤','٥','٦','٧','٨','٩']; return n.toString().split('').map(d => id[d]).join(''); }
 function getPasaran(date) { const pasaran = ["Legi", "Pahing", "Pon", "Wage", "Kliwon"]; let idx = (Math.floor((date.getTime() - new Date(1970, 0, 1).getTime()) / 86400000) + 3) % 5; return pasaran[idx < 0 ? idx + 5 : idx]; }
@@ -109,21 +120,18 @@ window.addEventListener('popstate', function(event) {
 
     if (exitTimer) { clearTimeout(exitTimer); exitTimer = null; }
 
-    // 1. Lapisan Paling Atas: Alert/Notifikasi
     const alertBackdrop = document.getElementById('custom-alert-backdrop');
     if (alertBackdrop && alertBackdrop.classList.contains('show')) {
         alertBackdrop.classList.remove('show');
         isPopping = false; checkZoomBtnVisibility(); return;
     }
 
-    // 2. Lapisan Kedua: Popup Tafsir Quran
     const tafsirModal = document.getElementById('tafsir-modal');
     if (tafsirModal && tafsirModal.style.display !== 'none') {
         closeTafsir();
         isPopping = false; checkZoomBtnVisibility(); return;
     }
 
-    // 3. Lapisan Ketiga: Popup Profil
     const popProfile = document.getElementById('popup-box');
     if (popProfile && popProfile.classList.contains('show')) {
         popProfile.classList.remove('show');
@@ -131,7 +139,6 @@ window.addEventListener('popstate', function(event) {
         isPopping = false; checkZoomBtnVisibility(); return;
     }
 
-    // 4. Lapisan Keempat: Sheet Lokasi Bawah
     const locModal = document.getElementById('location-sheet');
     if (locModal && locModal.classList.contains('show')) {
         locModal.classList.remove('show');
@@ -139,7 +146,6 @@ window.addEventListener('popstate', function(event) {
         isPopping = false; checkZoomBtnVisibility(); return;
     }
 
-    // 5. Lapisan Kelima: Modal Menu (Al-Quran, Doa, Kalender, Sholat)
     if (document.getElementById('quran-modal')?.classList.contains('modal-show')) { goBackQuran(); isPopping = false; checkZoomBtnVisibility(); return; }
     if (document.getElementById('doa-modal')?.classList.contains('modal-show')) { goBackDoa(); isPopping = false; checkZoomBtnVisibility(); return; }
     if (document.getElementById('panduan-sholat-modal')?.classList.contains('modal-show')) { goBackPanduanSholat(); isPopping = false; checkZoomBtnVisibility(); return; }
@@ -147,8 +153,6 @@ window.addEventListener('popstate', function(event) {
     if (document.getElementById('sholat-modal')?.classList.contains('modal-show')) { goBackSholat(); isPopping = false; checkZoomBtnVisibility(); return; }
     if (document.getElementById('app-modal')?.classList.contains('modal-show')) { goBackAppMenu(); isPopping = false; checkZoomBtnVisibility(); return; }
 
- // 6. Lapisan Dasar: Beranda 
-    // Serahkan penutupan aplikasi kepada sistem native Android / Website 2 APK
     if (typeof Android !== 'undefined' && Android.exitApp) { 
         Android.exitApp(); 
     } else if (navigator.app && navigator.app.exitApp) {
@@ -198,7 +202,6 @@ window.handleAlarm = function(btn, name) {
 document.addEventListener("DOMContentLoaded", async function () {
     
     await loadAppDatabase();
-	
 	tampilkanQuoteAcak();
 
     document.addEventListener('contextmenu', e => e.preventDefault()); document.addEventListener('selectstart', e => e.preventDefault());
@@ -378,12 +381,9 @@ document.addEventListener("DOMContentLoaded", async function () {
         });
     });
 	
-	// ⬇️ KODE BARU: Ubah quote saat menu diklik ⬇️
     document.querySelectorAll('.menu-item, .nav-item').forEach(btn => {
         btn.addEventListener('click', () => {
             if (typeof tampilkanQuoteAcak === 'function') {
-                // Diberi jeda 150 milidetik agar layar menu sempat bergerak naik dulu
-                // menutupi tulisan, baru quote-nya diganti di latar belakang.
                 setTimeout(tampilkanQuoteAcak, 150);
             }
         });
@@ -447,16 +447,13 @@ async function initDashboardJadwal() {
         let t, h, readableDate;
 
         try {
-            // Coba ambil dari internet dulu
             const res = await fetch(`https://api.aladhan.com/v1/timingsByCity?city=${locName}&country=Indonesia&method=11`);
             const d = await res.json();
             t = d.data.timings; h = d.data.date.hijri; readableDate = d.data.date.readable;
             localStorage.setItem('last_prayer_data', JSON.stringify(d.data));
             localStorage.setItem('last_prayer_date', todayStr);
         } catch (fetchError) {
-            // JIKA OFFLINE / GAGAL FETCH
             if (cachedPrayer) {
-                // Pakai data cache yang ada (meskipun mungkin data kemarin), agar UI tidak rusak
                 const d = JSON.parse(cachedPrayer);
                 t = d.timings; h = d.date.hijri; readableDate = d.date.readable;
             } else {
@@ -464,10 +461,8 @@ async function initDashboardJadwal() {
             }
         }
 
-        // Terapkan ke jadwal hitung mundur
         currentSchedule = { Subuh: t.Fajr, Dzuhur: t.Dhuhr, Ashar: t.Asr, Maghrib: t.Maghrib, Isya: t.Isha };
 
-        // Set Tanggal UI
         const elHijri = document.getElementById('java-hijri'); 
         const elDate = document.getElementById('full-date');
         if(elHijri) elHijri.innerText = `${h.day} ${getBulanIndo(h.month.en)} ${h.year} H`;
@@ -484,7 +479,6 @@ async function initDashboardJadwal() {
 
     } catch (e) { 
         console.log("Beranda Mode Terbatas (Offline Tanpa Cache)"); 
-        // CEGAH UI RUSAK SAAT CACHE KOSONG
         const pNameEl = document.getElementById('prayer-name'); 
         const pTimeEl = document.getElementById('prayer-time'); 
         const pCountEl = document.getElementById('countdown');
@@ -539,7 +533,7 @@ window.handleJadwalScroll = function(el) { document.getElementById('sholat-stick
 
 async function renderSholatContent() {
     const content = document.getElementById('sholat-content');
-    content.innerHTML = `<div class="text-center py-20 text-teal-600 font-bold text-[10px] animate-pulse uppercase">SINKRONISASI WAKTU...</div>`;
+    content.innerHTML = window.getLoadingHtml("SINKRONISASI WAKTU...");
     try {
         const locName = localStorage.getItem('al_mukhtar_loc_short') || localStorage.getItem('last_location') || 'Bangkalan';
         const cachedPrayer = localStorage.getItem('last_prayer_data'); let t, h, readableDate;
@@ -587,15 +581,6 @@ window.openAppMenu = function(cat) {
         el.classList.add('modal-show'); currentParentFolderId = null; loadAppMenuList(cat);
         checkZoomBtnVisibility();
     }
-}
-
-
-
-window.goBackAppMenu = function() {
-    if (!isPopping) { history.back(); return; }
-    if (currentAppMenuView === 'detail') { loadAppMenuList(currentAppMenuCat); } 
-    else { document.getElementById('app-modal').classList.remove('modal-show'); resetNavToBeranda(); }
-    checkZoomBtnVisibility();
 }
 
 window.goBackAppMenu = function() {
@@ -654,7 +639,6 @@ window.toggleMenuTerjemahan = function() {
     else { c.style.display = 'none'; btn.innerHTML = '<i class="fa-solid fa-book"></i>'; }
 }
 
-
 async function renderAppMenuDetailLogic(cat, id, parentFolderId = null) {
     let activeArray = [];
     if (parentFolderId !== null) { const folder = menuData[cat].items.find(x => x.id === parentFolderId); activeArray = folder.subItems; } 
@@ -676,7 +660,7 @@ async function renderAppMenuDetailLogic(cat, id, parentFolderId = null) {
     if (window.ramCache[cacheKey]) {
         d = window.ramCache[cacheKey];
     } else {
-        content.innerHTML = `<div class="text-center py-20 text-teal-600 font-bold text-[10px] animate-pulse uppercase">Mengambil Berkah...</div>`;
+        content.innerHTML = window.getLoadingHtml("MENGAMBIL BERKAH...");
         try {
             const res = await fetch(info.path); 
             d = await res.json();
@@ -689,7 +673,6 @@ async function renderAppMenuDetailLogic(cat, id, parentFolderId = null) {
 
     let finalHtml = "";
 
-    // 💡 SENSOR SUPER PINTAR: Mengecek apakah menu yang aktif benar-benar Surah Yasin
     const judulMenu = info.title.toLowerCase().trim();
     const isQuranSurah = judulMenu === 'yasin' || judulMenu === 'surat yasin' || judulMenu === 'surah yasin' || cat === 'quran';
 
@@ -759,8 +742,6 @@ async function renderAppMenuDetailLogic(cat, id, parentFolderId = null) {
     content.innerHTML = finalHtml;
 }
 
-
-
 /* ==========================================================================
    MESIN KALENDER PREMIUM
    ========================================================================== */
@@ -770,7 +751,7 @@ async function getHolidayAPI(year) { const cacheKey = `holiday_api_${year}`; if 
 
 async function fetchFullCalendarData() {
     const y = currentCalDate.getFullYear(); const m = currentCalDate.getMonth() + 1; const grid = document.getElementById('calendar-days-grid'); const cacheKey = `hijri_${m}_${y}`;
-    grid.innerHTML = `<div class="col-span-7 text-center py-20 text-teal-600 font-bold text-[10px] animate-pulse uppercase">Memuat Kalender...</div>`;
+    grid.innerHTML = `<div class="col-span-7">${window.getLoadingHtml("MEMUAT KALENDER...")}</div>`;
     try { const cached = localStorage.getItem(cacheKey); if (cached) { currentHijriData = JSON.parse(cached); await renderCalendar(); return; } const res = await fetch(`https://api.aladhan.com/v1/gToHCalendar/${m}/${y}`); const json = await res.json(); if (json && json.data) { currentHijriData = json.data; localStorage.setItem(cacheKey, JSON.stringify(json.data)); await renderCalendar(); } } catch (e) { const cached = localStorage.getItem(cacheKey); if (cached) { currentHijriData = JSON.parse(cached); await renderCalendar(); } else { grid.innerHTML = `<div class="col-span-7 text-center py-10 text-red-400 font-bold text-xs uppercase">Offline</div>`; } }
 }
 
@@ -809,7 +790,6 @@ window.toggleCalendar = function() {
         el.classList.remove('modal-show'); resetNavToBeranda();
     }
 }
-
 
 /* ==========================================================================
    AL-QURAN PRO (EQURAN.ID V2 API) & NAMA JUZ BAHASA ARAB
@@ -857,7 +837,6 @@ const quranJuzMapping = [
     { juz: 30, start: { s: 78, a: 1 }, end: { s: 114, a: 6 } }
 ];
 
-
 const namaJuzArab = [
     "الجزء الأول", "الجزء الثاني", "الجزء الثالث", "الجزء الرابع", "الجزء الخامس",
     "الجزء السادس", "الجزء السابع", "الجزء الثامن", "الجزء التاسع", "الجزء العاشر",
@@ -887,7 +866,6 @@ window.toggleQuran = function() {
 
 window.goBackQuran = function() {
     if (!isPopping) { history.back(); return; }
-    
     if (currentQuranView === 'detail') {
         currentQuranView = 'list'; 
         document.getElementById('surah-title-arab').innerText = ''; 
@@ -895,29 +873,14 @@ window.goBackQuran = function() {
         document.getElementById('surah-subtitle').innerText = ''; 
         document.getElementById('quran-tabs').classList.remove('hidden'); 
         document.getElementById('surah-meta-info').classList.add('hidden'); 
-        
-        // Matikan audio jika ada yang sedang berjalan
         if (typeof stopAudio === "function") stopAudio(); 
-        
-        // Memuat ulang daftar menu Surah/Juz
         switchQuranTab(currentQuranTab); 
-        
-        // [KODE BARU] 3. Kembalikan layar ke posisi scroll yang sudah direkam tadi.
-        // Kita menggunakan setTimeout (jeda waktu sangat singkat) agar sistem 
-        // punya waktu memunculkan daftar menunya terlebih dahulu sebelum di-scroll.
-        setTimeout(() => {
-            const c = document.getElementById('quran-content');
-            if (c) {
-                c.scrollTop = window.lastQuranScroll || 0;
-            }
-        }, 10);
-
+        setTimeout(() => { const c = document.getElementById('quran-content'); if (c) c.scrollTop = window.lastQuranScroll || 0; }, 10);
     } else { 
         document.getElementById('quran-modal').classList.remove('modal-show'); 
         if (typeof resetNavToBeranda === "function") resetNavToBeranda(); 
         if (typeof stopAudio === "function") stopAudio(); 
     }
-    
     checkZoomBtnVisibility();
 }
 
@@ -950,7 +913,6 @@ function stopAudio() {
         }
     }
 }
-
 
 const daftarSurahLokal = [
     { nomor: 1, namaLatin: "Al-Fatihah", arti: "Pembukaan", nama: "الفاتحة" },
@@ -1088,8 +1050,6 @@ function loadSurahList() {
                 </div>
             </div>
             <div class="shrink-0 pl-3 flex items-center">
-            
-                <!-- 💡 Perbaiki Daftar Surah -->
               <span class="text-teal-600" style="font-family: 'lpmq', serif !important; font-size: clamp(15px, 4.5vw, 20px) !important; line-height: 1.2 !important; margin-top: 1px; white-space: nowrap;" dir="rtl" lang="ar">${s.nama}</span>
             </div>
         </div>`; 
@@ -1114,8 +1074,6 @@ async function loadJuzList() {
                 <h4 class="font-bold text-[13px] text-slate-700 uppercase whitespace-nowrap">Juz ${i}</h4>
             </div>
             <div class="shrink-0 pl-3 flex items-center">
-            
-                <!-- 💡 Perbaiki Daftar Juz -->
               <span class="text-teal-600" style="font-family: 'lpmq', serif !important; font-size: clamp(14px, 4vw, 18px) !important; line-height: 1.2 !important; margin-top: 1px; white-space: nowrap;" dir="rtl" lang="ar">${namaJuzArab[i-1]}</span>
             </div>
         </div>`; 
@@ -1123,79 +1081,53 @@ async function loadJuzList() {
     c.innerHTML = html; 
     checkZoomBtnVisibility(); 
 }
+
 window.loadDetailQuran = async function(id, type) {
     if (!isPopping) history.pushState({ page: 'quran_detail' }, '', '#quran-detail');
     currentQuranView = 'detail'; 
     checkZoomBtnVisibility();
     
     const c = document.getElementById('quran-content'); 
-    
-    // [KODE BARU] 1. Simpan angka posisi scroll layar saat ini ke dalam memori
     window.lastQuranScroll = c.scrollTop;
-
-    // Tampilkan efek loading (berputar)
-    //c.innerHTML = `<div class="text-center py-20 animate-spin text-3xl text-teal-600"><i class="fa-solid fa-circle-notch"></i></div>`; 
-    
-    // [KODE BARU] 2. Kembalikan scroll ke 0 khusus untuk mulai membaca ayat dari atas
     c.scrollTop = 0; 
-
     document.getElementById('quran-sticky-header').classList.remove('header-slim'); 
     document.getElementById('quran-tabs').classList.add('hidden');
     window.ayatData = {};
 
     try {
-        if (type === 'surah') {
-            await renderSurah(id, c);
-        } else {
-            await renderJuz(id, c);
-        }
+        if (type === 'surah') { await renderSurah(id, c); } 
+        else { await renderJuz(id, c); }
     } catch (e) {
         c.innerHTML = '<p class="text-center p-10 font-bold text-red-400">Gagal memuat konten.</p>';
     }
 }
 
-
-// HELPER: Membuat Link Audio Online secara otomatis (Server Global Anti-Lelet)
 function getAudioAyatUrl(qariId, nomorSurah, nomorAyat) {
-    const qariMap = {
-        '01': 'Abdullaah_3awwaad_Al-Juhaynee_128kbps',
-        '02': 'Abdul_Basit_Murattal_192kbps',
-        '03': 'Abdurrahmaan_As-Sudais_192kbps',
-        '04': 'Yasser_Ad-Dussary_128kbps',
-        '05': 'Alafasy_128kbps'
-    };
-    const s = String(nomorSurah).padStart(3, '0');
-    const a = String(nomorAyat).padStart(3, '0');
+    const qariMap = { '01': 'Abdullaah_3awwaad_Al-Juhaynee_128kbps', '02': 'Abdul_Basit_Murattal_192kbps', '03': 'Abdurrahmaan_As-Sudais_192kbps', '04': 'Yasser_Ad-Dussary_128kbps', '05': 'Alafasy_128kbps' };
+    const s = String(nomorSurah).padStart(3, '0'); const a = String(nomorAyat).padStart(3, '0');
     return `https://everyayah.com/data/${qariMap[qariId] || 'Alafasy_128kbps'}/${s}${a}.mp3`;
 }
 
 function getAudioFullUrl(qariId, nomorSurah) {
-    const qariMap = {
-        '01': 'https://server13.mp3quran.net/jhn', 
-        '02': 'https://server7.mp3quran.net/basit', 
-        '03': 'https://server11.mp3quran.net/sds', 
-        '04': 'https://server11.mp3quran.net/yasser', 
-        '05': 'https://server8.mp3quran.net/afs' 
-    };
+    const qariMap = { '01': 'https://server13.mp3quran.net/jhn', '02': 'https://server7.mp3quran.net/basit', '03': 'https://server11.mp3quran.net/sds', '04': 'https://server11.mp3quran.net/yasser', '05': 'https://server8.mp3quran.net/afs' };
     const s = String(nomorSurah).padStart(3, '0');
     return `${qariMap[qariId] || 'https://server8.mp3quran.net/afs'}/${s}.mp3`;
 }
 
 async function renderSurah(nomorSurah, container) {
-  let json;
+    let json;
     const cacheKey = `quran/surah/${nomorSurah}.json`;
 
     if (window.ramCache[cacheKey]) {
         json = window.ramCache[cacheKey];
     } else {
-        container.innerHTML = `<div class="text-center py-20 animate-spin text-3xl text-teal-600"><i class="fa-solid fa-circle-notch"></i></div>`;
+        container.innerHTML = window.getLoadingHtml("MEMUAT SURAH...");
         const response = await fetch(cacheKey);
         json = await response.json();
         window.ramCache[cacheKey] = json;
     }
     const surah = json[nomorSurah.toString()];
 
-    // Kembalikan ke surah.name
     document.getElementById('surah-title-arab').innerText = surah.name; 
     document.getElementById('surah-title-arab').style.fontFamily = "'SurahNameCustom', 'lpmq', serif";
     document.getElementById('surah-title-latin').innerText = surah.name_latin; 
@@ -1206,53 +1138,31 @@ async function renderSurah(nomorSurah, container) {
 
     const defaultFullAudio = getAudioFullUrl('05', nomorSurah);
     
-let html = `
+    let html = `
         <div class="mb-6 bg-white p-4 rounded-[20px] border border-slate-100 shadow-sm flex flex-col gap-3 relative overflow-hidden">
-            <!-- Hiasan background abstrak di pojok kanan -->
             <div class="absolute top-0 right-0 w-24 h-24 bg-teal-50 rounded-bl-full -z-0 opacity-60"></div>
-            
             <div class="flex items-center justify-between relative z-10">
                 <div class="flex items-center gap-2.5">
-                    <div class="w-8 h-8 rounded-xl bg-teal-50 flex items-center justify-center text-teal-600 shadow-sm border border-teal-100">
-                        <i class="fa-solid fa-headphones text-[13px]"></i>
-                    </div>
+                    <div class="w-8 h-8 rounded-xl bg-teal-50 flex items-center justify-center text-teal-600 shadow-sm border border-teal-100"><i class="fa-solid fa-headphones text-[13px]"></i></div>
                     <label for="qari-select" class="text-[10px] font-extrabold text-slate-500 uppercase tracking-widest mt-0.5">Qari Murottal</label>
                 </div>
-                
-                <!-- Dropdown Kustom -->
                 <div class="relative">
                     <select id="qari-select" class="appearance-none bg-slate-50 border border-slate-200 text-teal-700 font-bold text-[11px] py-2 pl-3 pr-8 rounded-xl focus:outline-none focus:border-teal-400 focus:ring-1 focus:ring-teal-400 transition-all cursor-pointer shadow-sm" onchange="changeQariQuran(this, ${nomorSurah})">
-                        <option value="01">Abdullah Al-Juhany</option>
-                        <option value="02">Abdul Basit</option>
-                        <option value="03">A. as-Sudais</option>
-                        <option value="04">Yasser Al-Dosari</option>
-                        <option value="05" selected>Misyari Rasyid</option>
+                        <option value="01">Abdullah Al-Juhany</option><option value="02">Abdul Basit</option><option value="03">A. as-Sudais</option><option value="04">Yasser Al-Dosari</option><option value="05" selected>Misyari Rasyid</option>
                     </select>
-                    <!-- Ikon panah ke bawah untuk Dropdown -->
                     <i class="fa-solid fa-chevron-down absolute right-3 top-1/2 -translate-y-1/2 text-[9px] text-teal-600 pointer-events-none"></i>
                 </div>
             </div>
-            
-            <!-- Pemutar Audio yang sudah dikustomisasi -->
-            <audio id="surah-audio-full" class="w-full h-10 custom-audio relative z-10 mt-1" controls>
-                <source id="audio-source-full" src="${defaultFullAudio}" type="audio/mpeg">
-            </audio>
+            <audio id="surah-audio-full" class="w-full h-10 custom-audio relative z-10 mt-1" controls><source id="audio-source-full" src="${defaultFullAudio}" type="audio/mpeg"></audio>
         </div>
-        <div class="surah-separator" style="margin-top:0;">
-    `;
+        <div class="surah-separator" style="margin-top:0;">`;
     
-    if (nomorSurah !== 1 && nomorSurah !== 9) {
-        html += `<div class="bismillah-text">بِسْمِ اللّٰهِ الرَّحْمٰنِ الرَّحِيْمِ</div>`;
-    }
+    if (nomorSurah !== 1 && nomorSurah !== 9) { html += `<div class="bismillah-text">بِسْمِ اللّٰهِ الرَّحْمٰنِ الرَّحِيْمِ</div>`; }
     html += `</div>`; 
 
     const totalAyat = parseInt(surah.number_of_ayah);
     for (let i = 1; i <= totalAyat; i++) {
-        const ayatObj = {
-            nomorAyat: i,
-            teksArab: surah.text[i.toString()],
-            teksIndonesia: surah.translations.id.text[i.toString()]
-        };
+        const ayatObj = { nomorAyat: i, teksArab: surah.text[i.toString()], teksIndonesia: surah.translations.id.text[i.toString()] };
         html += createAyatCardQuran(ayatObj, nomorSurah);
     }
     container.innerHTML = html;
@@ -1265,18 +1175,16 @@ async function renderJuz(nomorJuz, container) {
     document.getElementById('surah-subtitle').innerText = ""; 
     document.getElementById('surah-meta-info').classList.add('hidden'); 
 
-   const juzInfo = quranJuzMapping[nomorJuz - 1];
+    const juzInfo = quranJuzMapping[nomorJuz - 1];
     let results;
     const cacheKey = `quran/juz/${nomorJuz}`;
 
     if (window.ramCache[cacheKey]) {
         results = window.ramCache[cacheKey];
     } else {
-        container.innerHTML = `<div class="text-center py-20 animate-spin text-3xl text-teal-600"><i class="fa-solid fa-circle-notch"></i></div>`;
+        container.innerHTML = window.getLoadingHtml("MEMUAT JUZ...");
         let fetchPromises = [];
-        for (let s = juzInfo.start.s; s <= juzInfo.end.s; s++) {
-            fetchPromises.push(fetch(`${quranBaseUrl}/surah/${s}.json`).then(r => r.json()));
-        }
+        for (let s = juzInfo.start.s; s <= juzInfo.end.s; s++) { fetchPromises.push(fetch(`${quranBaseUrl}/surah/${s}.json`).then(r => r.json())); }
         results = await Promise.all(fetchPromises);
         window.ramCache[cacheKey] = results;
     }
@@ -1287,9 +1195,7 @@ async function renderJuz(nomorJuz, container) {
         let nomorSurahStr = Object.keys(res)[0];
         let surah = res[nomorSurahStr];
         let nomorSurah = parseInt(nomorSurahStr);
-        
-        let mulaiAyat = 1;
-        let akhirAyat = parseInt(surah.number_of_ayah);
+        let mulaiAyat = 1; let akhirAyat = parseInt(surah.number_of_ayah);
 
         if (nomorSurah === juzInfo.start.s) { mulaiAyat = juzInfo.start.a; }
         if (nomorSurah === juzInfo.end.s) { akhirAyat = juzInfo.end.a; }
@@ -1299,35 +1205,13 @@ async function renderJuz(nomorJuz, container) {
                 let tempatTurun = surah.tempat_turun || surah.tempatTurun || surah.type || "Makkiyah";
                 let jenisSurah = tempatTurun.toLowerCase().includes('madin') ? 'Madaniyah' : 'Makkiyah';
 
-                html += `
-                    <div class="surah-separator">
-                        <div class="mushaf-surah-header">
-                            <div class="mushaf-side-panel">${jenisSurah}</div>
-                            <div class="mushaf-center-panel">
-                                <!-- Kembalikan ke surah.name -->
-                                <span class="surah-arabic-name">${surah.name}</span>
-                            </div>
-                            <div class="mushaf-side-panel">${surah.number_of_ayah} Ayat</div>
-                        </div>
-                `;
-                if (nomorSurah !== 1 && nomorSurah !== 9) {
-                    html += `<div class="bismillah-text">بِسْمِ اللّٰهِ الرَّحْمٰنِ الرَّحِيْمِ</div>`;
-                }
+                html += `<div class="surah-separator"><div class="mushaf-surah-header"><div class="mushaf-side-panel">${jenisSurah}</div><div class="mushaf-center-panel"><span class="surah-arabic-name">${surah.name}</span></div><div class="mushaf-side-panel">${surah.number_of_ayah} Ayat</div></div>`;
+                if (nomorSurah !== 1 && nomorSurah !== 9) { html += `<div class="bismillah-text">بِسْمِ اللّٰهِ الرَّحْمٰنِ الرَّحِيْمِ</div>`; }
                 html += `</div>`;
-            } else {
-                html += `
-                    <div class="juz-continue-header">
-                        Melanjutkan Surah ${surah.name_latin} (Ayat ${mulaiAyat})
-                    </div>
-                `;
-            }
+            } else { html += `<div class="juz-continue-header">Melanjutkan Surah ${surah.name_latin} (Ayat ${mulaiAyat})</div>`; }
 
             for(let i = mulaiAyat; i <= akhirAyat; i++) {
-                const ayatObj = {
-                    nomorAyat: i,
-                    teksArab: surah.text[i.toString()],
-                    teksIndonesia: surah.translations.id.text[i.toString()]
-                };
+                const ayatObj = { nomorAyat: i, teksArab: surah.text[i.toString()], teksIndonesia: surah.translations.id.text[i.toString()] };
                 html += createAyatCardQuran(ayatObj, nomorSurah);
             }
         }
@@ -1341,7 +1225,6 @@ function createAyatCardQuran(ayat, nomorSurah) {
     const isBookmarked = quranBookmarks.includes(uniqueKey) ? 'bookmark-active' : '';
     const hiddenClass = isTranslationVisible ? '' : 'hidden';
 
-    // Memastikan status ikon Play/Pause
     let playIcon = '<svg viewBox="0 0 24 24" width="14" height="14" stroke="currentColor" stroke-width="2" fill="none"><polygon points="5 3 19 12 5 21 5 3"></polygon></svg>';
     const audioEl = document.getElementById('per-ayat-audio');
     if (window.currentlyPlayingAyatKey === uniqueKey && audioEl && !audioEl.paused) {
@@ -1352,28 +1235,12 @@ function createAyatCardQuran(ayat, nomorSurah) {
         <div class="ayat-card">
             <div class="action-bar">
                 <div class="ayah-number-circle bg-teal-50 text-teal-600 font-bold flex items-center justify-center rounded-full shrink-0 border border-teal-100">${ayat.nomorAyat}</div>
-                
-                <button id="play-btn-${uniqueKey}" class="action-btn play-btn" onclick="playAyatQuran('${nomorSurah}', '${ayat.nomorAyat}')">
-                    ${playIcon}
-                </button>
-                
-                <button id="bm-btn-${uniqueKey}" class="action-btn ${isBookmarked}" onclick="bookmarkAyatQuran('${nomorSurah}', '${ayat.nomorAyat}')">
-                    <svg viewBox="0 0 24 24" width="14" height="14" stroke="currentColor" stroke-width="2" fill="none"><path d="M19 21l-7-5-7 5V5a2 2 0 0 1 2-2h10a2 2 0 0 1 2 2z"></path></svg>
-                </button>
-                
-                <button class="action-btn" onclick="showTafsirQuran('${nomorSurah}', '${ayat.nomorAyat}')">
-                    <svg viewBox="0 0 24 24" width="14" height="14" stroke="currentColor" stroke-width="2" fill="none"><path d="M14 2H6a2 2 0 0 0-2 2v16a2 2 0 0 0 2 2h12a2 2 0 0 0 2-2V8z"></path><polyline points="14 2 14 8 20 8"></polyline><line x1="16" y1="13" x2="8" y2="13"></line><line x1="16" y1="17" x2="8" y2="17"></line></svg>
-                </button>
-                
-                <button class="action-btn" onclick="copyAyatQuran('${nomorSurah}', '${ayat.nomorAyat}')">
-                    <svg viewBox="0 0 24 24" width="14" height="14" stroke="currentColor" stroke-width="2" fill="none"><rect x="9" y="9" width="13" height="13" rx="2" ry="2"></rect><path d="M5 15H4a2 2 0 0 1-2-2V4a2 2 0 0 1 2-2h9a2 2 0 0 1 2 2v1"></path></svg>
-                </button>
-                
-                <button class="action-btn" onclick="shareAyatQuran('${nomorSurah}', '${ayat.nomorAyat}')">
-                    <svg viewBox="0 0 24 24" width="14" height="14" stroke="currentColor" stroke-width="2" fill="none"><circle cx="18" cy="5" r="3"></circle><circle cx="6" cy="12" r="3"></circle><circle cx="18" cy="19" r="3"></circle><line x1="8.59" y1="13.51" x2="15.42" y2="17.49"></line><line x1="15.41" y1="6.51" x2="8.59" y2="10.49"></line></svg>
-                </button>
+                <button id="play-btn-${uniqueKey}" class="action-btn play-btn" onclick="playAyatQuran('${nomorSurah}', '${ayat.nomorAyat}')">${playIcon}</button>
+                <button id="bm-btn-${uniqueKey}" class="action-btn ${isBookmarked}" onclick="bookmarkAyatQuran('${nomorSurah}', '${ayat.nomorAyat}')"><svg viewBox="0 0 24 24" width="14" height="14" stroke="currentColor" stroke-width="2" fill="none"><path d="M19 21l-7-5-7 5V5a2 2 0 0 1 2-2h10a2 2 0 0 1 2 2z"></path></svg></button>
+                <button class="action-btn" onclick="showTafsirQuran('${nomorSurah}', '${ayat.nomorAyat}')"><svg viewBox="0 0 24 24" width="14" height="14" stroke="currentColor" stroke-width="2" fill="none"><path d="M14 2H6a2 2 0 0 0-2 2v16a2 2 0 0 0 2 2h12a2 2 0 0 0 2-2V8z"></path><polyline points="14 2 14 8 20 8"></polyline><line x1="16" y1="13" x2="8" y2="13"></line><line x1="16" y1="17" x2="8" y2="17"></line></svg></button>
+                <button class="action-btn" onclick="copyAyatQuran('${nomorSurah}', '${ayat.nomorAyat}')"><svg viewBox="0 0 24 24" width="14" height="14" stroke="currentColor" stroke-width="2" fill="none"><rect x="9" y="9" width="13" height="13" rx="2" ry="2"></rect><path d="M5 15H4a2 2 0 0 1-2-2V4a2 2 0 0 1 2-2h9a2 2 0 0 1 2 2v1"></path></svg></button>
+                <button class="action-btn" onclick="shareAyatQuran('${nomorSurah}', '${ayat.nomorAyat}')"><svg viewBox="0 0 24 24" width="14" height="14" stroke="currentColor" stroke-width="2" fill="none"><circle cx="18" cy="5" r="3"></circle><circle cx="6" cy="12" r="3"></circle><circle cx="18" cy="19" r="3"></circle><line x1="8.59" y1="13.51" x2="15.42" y2="17.49"></line><line x1="15.41" y1="6.51" x2="8.59" y2="10.49"></line></svg></button>
             </div>
-            
             <div class="ayat-arabic" lang="ar">${ayat.teksArab.replace(/ࣖ/g, '<span class="sajdah-mark">۩</span>')}</div>
             <div class="translation-read-text text-slate-500 italic leading-relaxed text-justify ${hiddenClass}">${ayat.teksIndonesia}</div>
         </div>
@@ -1385,7 +1252,6 @@ window.changeQariQuran = function(selectElement, nomorSurah) {
     const audioSource = document.getElementById('audio-source-full');
     const isPlaying = !audioPlayer.paused && !audioPlayer.ended && audioPlayer.readyState > 2;
 
-    // Memanggil audio online
     audioSource.src = getAudioFullUrl(selectElement.value, nomorSurah);
     audioPlayer.load(); 
     if (isPlaying) audioPlayer.play();
@@ -1419,11 +1285,8 @@ window.playAyatQuran = function(nomorSurah, nomorAyat) {
     }
 
     if (window.currentlyPlayingAyatKey === uniqueKey) {
-        if (audioEl.paused) {
-            audioEl.play().catch(e => showToast("Gagal memutar ayat.", "error"));
-        } else {
-            audioEl.pause();
-        }
+        if (audioEl.paused) { audioEl.play().catch(e => showToast("Gagal memutar ayat.", "error")); } 
+        else { audioEl.pause(); }
         return;
     }
 
@@ -1439,9 +1302,7 @@ window.playAyatQuran = function(nomorSurah, nomorAyat) {
     const mainAudio = document.getElementById('surah-audio-full');
     if(mainAudio) mainAudio.pause();
 
-    // Memanggil audio ayat online
     audioEl.src = getAudioAyatUrl(qariKey, nomorSurah, nomorAyat);
-    
     window.currentlyPlayingAyatKey = uniqueKey;
     audioEl.play().catch(e => showToast("Gagal memutar ayat. Pastikan ada internet.", "error"));
 }
@@ -1454,11 +1315,8 @@ window.copyAyatQuran = function(nomorSurah, nomorAyat) {
 
 window.shareAyatQuran = function(nomorSurah, nomorAyat) {
     const ayat = window.ayatData[`${nomorSurah}_${nomorAyat}`];
-    if (navigator.share) {
-        navigator.share({ title: `QS. ${nomorSurah}:${nomorAyat}`, text: `${ayat.teksArab}\n\n${ayat.teksIndonesia}` }).catch(console.error);
-    } else {
-        showToast('Fitur Share belum didukung.', 'info');
-    }
+    if (navigator.share) { navigator.share({ title: `QS. ${nomorSurah}:${nomorAyat}`, text: `${ayat.teksArab}\n\n${ayat.teksIndonesia}` }).catch(console.error); } 
+    else { showToast('Fitur Share belum didukung.', 'info'); }
 }
 
 window.bookmarkAyatQuran = function(nomorSurah, nomorAyat) {
@@ -1486,14 +1344,11 @@ window.showTafsirQuran = async function(nomorSurah, nomorAyat) {
     
     modal.style.display = 'flex';
     setTimeout(() => { modal.style.opacity = '1'; modal.querySelector('.modal-content').style.transform = 'translateY(0)'; }, 10);
-    bodyText.innerHTML = '<div class="text-center py-20 text-teal-600 font-bold text-[10px] animate-pulse uppercase">Mengambil Tafsir...</div>';
+    bodyText.innerHTML = window.getLoadingHtml("MENGAMBIL TAFSIR...");
     
     try {
-        // Membaca file surah lokal yang sama
         const response = await fetch(`${quranBaseUrl}/surah/${nomorSurah}.json`);
         const json = await response.json();
-        
-        // Mengarahkan langsung ke path Tafsir di JSON Anda
         const dataTafsir = json[nomorSurah.toString()].tafsir.id.kemenag.text[nomorAyat.toString()];
         
         if (dataTafsir) {
@@ -1516,9 +1371,7 @@ window.closeTafsir = function() {
 }
 
 document.getElementById('tafsir-modal').addEventListener('click', function(e) {
-    if (e.target === this) {
-        if(!isPopping) history.back(); else closeTafsir();
-    }
+    if (e.target === this) { if(!isPopping) history.back(); else closeTafsir(); }
 });
 
 /* ==========================================================================
@@ -1543,9 +1396,7 @@ window.toggleDoaAccordion = function(element, folderId) {
     
     if (!isOpen) { 
         wrapper.classList.remove('max-h-0'); wrapper.classList.add('border-slate-200/60', 'mt-1'); wrapper.style.maxHeight = wrapper.scrollHeight + 'px'; arrow.classList.add('rotate-180'); currentDoaParentFolderId = folderId; 
-    } else { 
-        currentDoaParentFolderId = null; 
-    }
+    } else { currentDoaParentFolderId = null; }
 }
 
 function toggleDoa() {
@@ -1554,10 +1405,7 @@ function toggleDoa() {
         const wasOpen = document.querySelectorAll('.modal-show').length > 0;
         closeAllModals(); 
         if (!isPopping) { if (wasOpen) history.replaceState({ modal: 'doa' }, '', '#doa'); else history.pushState({ modal: 'doa' }, '', '#doa'); }
-        el.classList.add('modal-show'); 
-        currentDoaParentFolderId = null;
-        loadDoaList();
-        checkZoomBtnVisibility();
+        el.classList.add('modal-show'); currentDoaParentFolderId = null; loadDoaList(); checkZoomBtnVisibility();
     } else { goBackDoa(); }
 }
 
@@ -1584,35 +1432,13 @@ function loadDoaList() {
             const arrowClass = isOpened ? "fa-solid fa-chevron-down text-teal-600 text-[10px] transition-transform duration-300 arrow-icon rotate-180" : "fa-solid fa-chevron-down text-teal-600 text-[10px] transition-transform duration-300 arrow-icon";
             const maxH = isOpened ? 'style="max-height: 2000px;"' : '';
             
-            html += `<div class="submenu-container mb-3">
-                        <div onclick="toggleDoaAccordion(this, ${d.id})" class="doa-item-card !mb-0">
-                            <div class="doa-number">${i+1}</div>
-                            <span class="doa-title-text">${d.judul}</span>
-                            <i class="${arrowClass}"></i>
-                        </div>
-                        <div class="${wrapperClass}" ${maxH}>
-                            <div class="p-2 space-y-2">`;
-            d.subItems.forEach((subItem, j) => {
-                html += `<div onclick="loadDoaDetail(${subItem.id}, ${d.id})" class="doa-item-card sub-item-card !mb-0 last:mb-0">
-                            <div class="doa-number !bg-teal-50/60 !text-teal-600 !border-teal-100">${i+1}.${j+1}</div>
-                            <span class="doa-title-text">${subItem.judul}</span>
-                            <i class="fa-solid fa-chevron-right text-slate-300 text-[10px]"></i>
-                         </div>`;
-            });
-            html += `       </div>
-                        </div>
-                     </div>`;
+            html += `<div class="submenu-container mb-3"><div onclick="toggleDoaAccordion(this, ${d.id})" class="doa-item-card !mb-0"><div class="doa-number">${i+1}</div><span class="doa-title-text">${d.judul}</span><i class="${arrowClass}"></i></div><div class="${wrapperClass}" ${maxH}><div class="p-2 space-y-2">`;
+            d.subItems.forEach((subItem, j) => { html += `<div onclick="loadDoaDetail(${subItem.id}, ${d.id})" class="doa-item-card sub-item-card !mb-0 last:mb-0"><div class="doa-number !bg-teal-50/60 !text-teal-600 !border-teal-100">${i+1}.${j+1}</div><span class="doa-title-text">${subItem.judul}</span><i class="fa-solid fa-chevron-right text-slate-300 text-[10px]"></i></div>`; });
+            html += `</div></div></div>`;
         } 
-        else {
-            html += `<div onclick="loadDoaDetail(${d.id})" class="doa-item-card">
-                        <div class="doa-number">${i+1}</div>
-                        <span class="doa-title-text">${d.judul}</span>
-                        <i class="fa-solid fa-chevron-right text-slate-300 text-[10px]"></i>
-                     </div>`;
-        }
+        else { html += `<div onclick="loadDoaDetail(${d.id})" class="doa-item-card"><div class="doa-number">${i+1}</div><span class="doa-title-text">${d.judul}</span><i class="fa-solid fa-chevron-right text-slate-300 text-[10px]"></i></div>`; }
     });
     c.innerHTML = html;
-    
     checkZoomBtnVisibility(); 
 }
 
@@ -1625,32 +1451,20 @@ function loadDoaDetail(id, parentFolderId = null) {
 
 window.toggleTerjemahanMulti = function(btn, targetId) { 
     const c = document.getElementById(targetId); 
-    if (c.style.display === 'none') { 
-        c.style.display = 'block'; 
-        btn.innerHTML = '<i class="fa-solid fa-book-quran"></i>'; 
-    } else { 
-        c.style.display = 'none'; 
-        btn.innerHTML = '<i class="fa-solid fa-book"></i>'; 
-    } 
+    if (c.style.display === 'none') { c.style.display = 'block'; btn.innerHTML = '<i class="fa-solid fa-book-quran"></i>'; } 
+    else { c.style.display = 'none'; btn.innerHTML = '<i class="fa-solid fa-book"></i>'; } 
 }
 
 async function renderDoaDetailLogic(id, parentFolderId = null) {
     let activeArray = [];
-    if (parentFolderId !== null) { 
-        const folder = dataDoaMadasa.find(x => x.id === parentFolderId); 
-        activeArray = folder.subItems; 
-    } else { 
-        activeArray = dataDoaMadasa.filter(x => !x.subItems); 
-    }
+    if (parentFolderId !== null) { const folder = dataDoaMadasa.find(x => x.id === parentFolderId); activeArray = folder.subItems; } 
+    else { activeArray = dataDoaMadasa.filter(x => !x.subItems); }
     
     const c = document.getElementById('doa-content'); 
-    const idx = activeArray.findIndex(i => i.id === id); 
-    const info = activeArray[idx]; 
-    if(!info) return;
+    const idx = activeArray.findIndex(i => i.id === id); const info = activeArray[idx]; if(!info) return;
     
     document.getElementById('doa-header-title').innerText = info.judul; 
-    c.scrollTop = 0; 
-    document.getElementById('doa-sticky-header').classList.remove('doa-header-slim');
+    c.scrollTop = 0; document.getElementById('doa-sticky-header').classList.remove('doa-header-slim');
     
     let navHtml = ''; 
     if (idx > 0) navHtml += `<button onclick="loadDoaDetail(${activeArray[idx - 1].id}, ${parentFolderId})" class="w-9 h-10 flex shrink-0 items-center justify-center bg-white/20 hover:bg-white/30 rounded-xl text-white active:scale-90 transition-all"><i class="fa-solid fa-chevron-left"></i></button>`; 
@@ -1663,15 +1477,9 @@ async function renderDoaDetailLogic(id, parentFolderId = null) {
     if (window.ramCache[cacheKey]) {
         d = window.ramCache[cacheKey];
     } else {
-        c.innerHTML = `<div class="text-center py-20 animate-pulse text-teal-600 font-bold text-[10px] uppercase">Mengambil Berkah...</div>`;
-        try { 
-            const res = await fetch(info.path); 
-            d = await res.json(); 
-            window.ramCache[cacheKey] = d; 
-        } catch (e) { 
-            c.innerHTML = `<div class="text-center p-10"><i class="fa-solid fa-triangle-exclamation text-red-400 text-3xl mb-3"></i><p class="text-xs text-red-500 font-bold uppercase">Gagal memuat doa</p></div>`; 
-            return;
-        }
+        c.innerHTML = window.getLoadingHtml("MEMUAT DOA...");
+        try { const res = await fetch(info.path); d = await res.json(); window.ramCache[cacheKey] = d; } 
+        catch (e) { c.innerHTML = `<div class="text-center p-10"><i class="fa-solid fa-triangle-exclamation text-red-400 text-3xl mb-3"></i><p class="text-xs text-red-500 font-bold uppercase">Gagal memuat doa</p></div>`; return; }
     }
 
     let finalHtml = "";
@@ -1695,44 +1503,32 @@ async function renderDoaDetailLogic(id, parentFolderId = null) {
     }
     else if (d.kumpulan && Array.isArray(d.kumpulan)) {
         d.kumpulan.forEach((item, index) => {
-            let tLat = item.latin ? (Array.isArray(item.latin) ? item.latin.join('<br><br>') : item.latin) : ""; 
-            let tArt = item.arti ? (Array.isArray(item.arti) ? item.arti.join('<br><br>') : item.arti) : ""; 
-            
+            let tLat = item.latin ? (Array.isArray(item.latin) ? item.latin.join('<br><br>') : item.latin) : ""; let tArt = item.arti ? (Array.isArray(item.arti) ? item.arti.join('<br><br>') : item.arti) : ""; 
             let kt = ""; 
             if (tLat.trim() !== "" && tLat.trim() !== "-") kt += `<p class="latin-read-text text-teal-700 font-semibold mb-4 leading-relaxed text-justify">${tLat}</p>`; 
             if (tArt.trim() !== "" && tArt.trim() !== "-") kt += `<p class="translation-read-text text-slate-500 italic leading-relaxed text-justify">"${tArt}"</p>`; 
             
             const tDet = kt ? `<div class="mt-3 text-left mb-2"><button onclick="toggleTerjemahanMulti(this, 'doa-terj-${index}')" class="w-8 h-8 inline-flex items-center justify-center bg-teal-50 border border-teal-100 rounded-xl shadow-sm active:scale-95 transition-transform text-teal-700"><i class="fa-solid fa-book"></i></button></div><div id="doa-terj-${index}" style="display: none;"><div class="w-full h-[1px] bg-slate-100 my-4"></div>${kt}</div>` : ""; 
             
-            let tAr = Array.isArray(item.arab) ? item.arab.join(' ') : (item.arab || ""); 
-            tAr = tAr.replace(/۝?\s*([٠-٩]+)/g, '&nbsp;<span class="mx-1 font-sans font-bold text-teal-600 text-[0.8em]">﴿x$1﴾</span>');
-
+            let tAr = Array.isArray(item.arab) ? item.arab.join(' ') : (item.arab || ""); tAr = tAr.replace(/۝?\s*([٠-٩]+)/g, '&nbsp;<span class="mx-1 font-sans font-bold text-teal-600 text-[0.8em]">﴿x$1﴾</span>');
             let basmalahHtml = item.judul ? `<div class="text-center mb-6"><h3 class="font-kufi text-lg text-teal-700 font-bold">${item.judul}</h3></div>` : `<div class="text-center mb-6"><h3 class="font-arab text-xl text-teal-600 leading-none" lang="ar" dir="rtl">بِسْمِ اللّٰهِ الرَّحْمٰنِ الرَّحِيْمِ</h3></div>`;
-            let garisHtml = `<div class="w-full h-[1px] bg-slate-100 mb-6"></div>`;
-            let judulUtamaHtml = item.judul_utama ? `<div class="text-center mb-8"><span class="text-[10px] font-bold text-teal-700 uppercase tracking-wide block max-w-[90%] mx-auto leading-relaxed">${item.judul_utama}</span></div>` : '';
+            let garisHtml = `<div class="w-full h-[1px] bg-slate-100 mb-6"></div>`; let judulUtamaHtml = item.judul_utama ? `<div class="text-center mb-8"><span class="text-[10px] font-bold text-teal-700 uppercase tracking-wide block max-w-[90%] mx-auto leading-relaxed">${item.judul_utama}</span></div>` : '';
             let headerCard = `${basmalahHtml}${garisHtml}${judulUtamaHtml}`;
-
             finalHtml += `<div class="bg-white p-8 rounded-3xl text-center shadow-sm border border-slate-100 mb-6">${headerCard}<p class="font-arab mb-8 w-full text-right" dir="rtl" lang="ar" style="font-size: calc(28px * var(--font-scale)) !important; font-size-adjust: none !important; word-spacing: normal !important; line-height: 2.4 !important; margin-bottom: 8px;">${tAr}</p>${tDet}</div>`;
         });
     } 
     else {
-        let tLat = d.latin ? (Array.isArray(d.latin) ? d.latin.join('<br><br>') : d.latin) : ""; 
-        let tArt = d.arti ? (Array.isArray(d.arti) ? d.arti.join('<br><br>') : d.arti) : ""; 
-        
+        let tLat = d.latin ? (Array.isArray(d.latin) ? d.latin.join('<br><br>') : d.latin) : ""; let tArt = d.arti ? (Array.isArray(d.arti) ? d.arti.join('<br><br>') : d.arti) : ""; 
         let kt = ""; 
         if (tLat.trim() !== "" && tLat.trim() !== "-") kt += `<p class="latin-read-text text-teal-700 font-semibold mb-4 leading-relaxed text-justify">${tLat}</p>`; 
         if (tArt.trim() !== "" && tArt.trim() !== "-") kt += `<p class="translation-read-text text-slate-500 italic leading-relaxed text-justify">"${tArt}"</p>`; 
         
         const tDet = kt ? `<div class="mt-3 text-left mb-2"><button onclick="toggleTerjemahanMulti(this, 'doa-terj-single')" class="w-8 h-8 inline-flex items-center justify-center bg-teal-50 border border-teal-100 rounded-xl shadow-sm active:scale-95 transition-transform text-teal-700"><i class="fa-solid fa-book"></i></button></div><div id="doa-terj-single" style="display: none;"><div class="w-full h-[1px] bg-slate-100 my-4"></div>${kt}</div>` : "";
         
-        let tAr = Array.isArray(d.arab) ? d.arab.join(' ') : (d.arab || ""); 
-        tAr = tAr.replace(/۝?\s*([٠-٩]+)/g, '&nbsp;<span class="mx-1 font-sans font-bold text-teal-600 text-[0.8em]">﴿x$1﴾</span>');
-
+        let tAr = Array.isArray(d.arab) ? d.arab.join(' ') : (d.arab || ""); tAr = tAr.replace(/۝?\s*([٠-٩]+)/g, '&nbsp;<span class="mx-1 font-sans font-bold text-teal-600 text-[0.8em]">﴿x$1﴾</span>');
         let basmalahHtml = d.judul ? `<div class="text-center mb-6"><h3 class="font-kufi text-lg text-teal-700 font-bold">${d.judul}</h3></div>` : `<div class="text-center mb-6"><h3 class="font-arab text-xl text-teal-600 leading-none" lang="ar" dir="rtl">بِسْمِ اللّٰهِ الرَّحْمٰنِ الرَّحِيْمِ</h3></div>`;
-        let garisHtml = `<div class="w-full h-[1px] bg-slate-100 mb-6"></div>`;
-        let judulUtamaHtml = d.judul_utama ? `<div class="text-center mb-8"><span class="text-[10px] font-bold text-teal-700 uppercase tracking-wide block max-w-[90%] mx-auto leading-relaxed">${d.judul_utama}</span></div>` : '';
+        let garisHtml = `<div class="w-full h-[1px] bg-slate-100 mb-6"></div>`; let judulUtamaHtml = d.judul_utama ? `<div class="text-center mb-8"><span class="text-[10px] font-bold text-teal-700 uppercase tracking-wide block max-w-[90%] mx-auto leading-relaxed">${d.judul_utama}</span></div>` : '';
         let headerCard = `${basmalahHtml}${garisHtml}${judulUtamaHtml}`;
-
         finalHtml = `<div class="bg-white p-8 rounded-3xl text-center shadow-sm border border-slate-100 mb-6">${headerCard}<p class="font-arab mb-8 w-full text-right" dir="rtl" lang="ar" style="font-size: calc(28px * var(--font-scale)) !important; font-size-adjust: none !important; word-spacing: normal !important; line-height: 2.4 !important; margin-bottom: 8px;">${tAr}</p>${tDet}</div>`;
     }
 
@@ -1779,33 +1575,21 @@ async function renderPanduanSholatDetailLogic(id) {
     if (window.ramCache[cacheKey]) {
         d = window.ramCache[cacheKey];
     } else {
-        c.innerHTML = `<div class="text-center py-20 animate-pulse text-teal-600 font-bold text-[10px] uppercase">Mengambil Panduan...</div>`;
-        try { 
-            const res = await fetch(info.path); 
-            d = await res.json(); 
-            window.ramCache[cacheKey] = d;
-        } catch (e) { 
-            c.innerHTML = `<div class="text-center p-10"><i class="fa-solid fa-triangle-exclamation text-red-400 text-3xl mb-3"></i><p class="text-xs text-red-500 font-bold uppercase">Gagal memuat panduan</p></div>`; 
-            return;
-        }
+        c.innerHTML = window.getLoadingHtml("MEMUAT PANDUAN...");
+        try { const res = await fetch(info.path); d = await res.json(); window.ramCache[cacheKey] = d; } 
+        catch (e) { c.innerHTML = `<div class="text-center p-10"><i class="fa-solid fa-triangle-exclamation text-red-400 text-3xl mb-3"></i><p class="text-xs text-red-500 font-bold uppercase">Gagal memuat panduan</p></div>`; return; }
     }
 
-    let tLat = d.latin ? (Array.isArray(d.latin) ? d.latin.join('<br><br>') : d.latin) : "";
-        
-    let tArt = d.arti ? (Array.isArray(d.arti) ? d.arti.join('<br><br>') : d.arti) : ""; 
-    
+    let tLat = d.latin ? (Array.isArray(d.latin) ? d.latin.join('<br><br>') : d.latin) : ""; let tArt = d.arti ? (Array.isArray(d.arti) ? d.arti.join('<br><br>') : d.arti) : ""; 
     let kt = ""; 
     if (tLat.trim() !== "" && tLat.trim() !== "-") kt += `<p class="latin-read-text text-teal-700 font-semibold mb-4 leading-relaxed text-justify">${tLat}</p>`; 
     if (tArt.trim() !== "" && tArt.trim() !== "-") kt += `<p class="translation-read-text text-slate-500 italic leading-relaxed text-justify">"${tArt}"</p>`; 
     
     const tDet = kt ? `<div class="mt-3 text-left mb-2"><button onclick="toggleTerjemahanPanduanSholat()" id="btn-toggle-terjemahan-panduan-sholat" class="w-8 h-8 inline-flex items-center justify-center bg-teal-50 border border-teal-100 rounded-xl shadow-sm active:scale-95 transition-transform text-teal-700"><i class="fa-solid fa-book"></i></button></div><div id="panduan-sholat-terjemahan-container" style="display: none;"><div class="w-full h-[1px] bg-slate-100 my-4"></div>${kt}</div>` : "";
     
-    let tAr = Array.isArray(d.arab) ? d.arab.join(' ') : (d.arab || "");
-    tAr = tAr.replace(/۝?\s*([٠-٩]+)/g, '&nbsp;<span class="mx-1">﴿x$1﴾</span>');
-
+    let tAr = Array.isArray(d.arab) ? d.arab.join(' ') : (d.arab || ""); tAr = tAr.replace(/۝?\s*([٠-٩]+)/g, '&nbsp;<span class="mx-1">﴿x$1﴾</span>');
     let basmalahHtml = d.judul ? `<div class="text-center mb-6"><h3 class="font-arab text-xl text-teal-600 leading-none" lang="ar" dir="rtl">${d.judul}</h3></div>` : `<div class="text-center mb-6"><h3 class="font-arab text-xl text-teal-600 leading-none" lang="ar" dir="rtl">بِسْمِ اللّٰهِ الرَّحْمٰنِ الرَّحِيْمِ</h3></div>`;
-    let garisHtml = `<div class="w-full h-[1px] bg-slate-100 mb-6"></div>`;
-    let judulUtamaHtml = d.judul_utama ? `<div class="text-center mb-8"><span class="text-[10px] font-bold text-teal-700 uppercase tracking-wide block max-w-[90%] mx-auto leading-relaxed">${d.judul_utama}</span></div>` : '';
+    let garisHtml = `<div class="w-full h-[1px] bg-slate-100 mb-6"></div>`; let judulUtamaHtml = d.judul_utama ? `<div class="text-center mb-8"><span class="text-[10px] font-bold text-teal-700 uppercase tracking-wide block max-w-[90%] mx-auto leading-relaxed">${d.judul_utama}</span></div>` : '';
     let headerCard = `${basmalahHtml}${garisHtml}${judulUtamaHtml}`;
     
     c.innerHTML = `<div class="bg-white p-8 rounded-3xl text-center shadow-sm border border-slate-100">${headerCard}<p class="font-arab mb-8" dir="rtl" lang="ar" style="font-size: calc(28px * var(--font-scale)) !important; font-size-adjust: none !important; word-spacing: normal !important; line-height: 2.4 !important;">${tAr}</p>${tDet}</div>`;
@@ -1820,235 +1604,79 @@ const installBtn = document.getElementById('pwa-install-btn');
 const closeBtn = document.getElementById('pwa-close-btn');
 
 window.addEventListener('beforeinstallprompt', (e) => {
-    // Cegah mini-infobar bawaan Chrome agar tidak muncul
-    e.preventDefault();
-    // Simpan event sehingga bisa dipicu nanti
-    deferredPrompt = e;
-    
-    // Cek apakah user pernah menutup banner ini sebelumnya
+    e.preventDefault(); deferredPrompt = e;
     if (localStorage.getItem('al_mukhtar_pwa_closed') !== 'true') {
-        // Tampilkan banner dengan jeda 2 detik agar lebih halus
-        setTimeout(() => {
-            if(installBanner) {
-                installBanner.style.display = 'flex';
-                void installBanner.offsetWidth; // Trigger reflow
-                installBanner.classList.add('show');
-            }
-        }, 2000);
+        setTimeout(() => { if(installBanner) { installBanner.style.display = 'flex'; void installBanner.offsetWidth; installBanner.classList.add('show'); } }, 2000);
     }
 });
 
 if(installBtn) {
     installBtn.addEventListener('click', async () => {
         if (deferredPrompt) {
-            // Tampilkan native prompt instalasi
-            deferredPrompt.prompt();
-            // Tunggu pilihan user
-            const { outcome } = await deferredPrompt.userChoice;
-            if (outcome === 'accepted') {
-                console.log('User mengizinkan instalasi PWA');
-            }
-            // Kosongkan prompt yang tertunda
-            deferredPrompt = null;
-            // Sembunyikan banner kita
-            installBanner.classList.remove('show');
-            setTimeout(() => { installBanner.style.display = 'none'; }, 500);
+            deferredPrompt.prompt(); const { outcome } = await deferredPrompt.userChoice;
+            deferredPrompt = null; installBanner.classList.remove('show'); setTimeout(() => { installBanner.style.display = 'none'; }, 500);
         }
     });
 }
 
-if(closeBtn) {
-    closeBtn.addEventListener('click', () => {
-        installBanner.classList.remove('show');
-        setTimeout(() => { installBanner.style.display = 'none'; }, 500);
-        // Simpan ke memory HP agar tidak mengganggu lagi
-        localStorage.setItem('al_mukhtar_pwa_closed', 'true');
-    });
-}
+if(closeBtn) { closeBtn.addEventListener('click', () => { installBanner.classList.remove('show'); setTimeout(() => { installBanner.style.display = 'none'; }, 500); localStorage.setItem('al_mukhtar_pwa_closed', 'true'); }); }
 
-// Beri ucapan sukses jika berhasil terinstall
-window.addEventListener('appinstalled', () => {
-    if(installBanner) {
-        installBanner.classList.remove('show');
-        setTimeout(() => { installBanner.style.display = 'none'; }, 500);
-    }
-    showToast("Aplikasi berhasil diinstal!", "success");
-});
+window.addEventListener('appinstalled', () => { if(installBanner) { installBanner.classList.remove('show'); setTimeout(() => { installBanner.style.display = 'none'; }, 500); } showToast("Aplikasi berhasil diinstal!", "success"); });
 
-/* ==========================================================================
-   PWA INSTALL PROMPT KHUSUS iOS (SAFARI)
-   ========================================================================== */
-const isIos = () => {
-    const userAgent = window.navigator.userAgent.toLowerCase();
-    return /iphone|ipad|ipod/.test(userAgent);
-};
-// Deteksi apakah web sudah berjalan sebagai aplikasi (standalone) di iOS
+const isIos = () => /iphone|ipad|ipod/.test(window.navigator.userAgent.toLowerCase());
 const isInStandaloneMode = () => ('standalone' in window.navigator) && (window.navigator.standalone);
-
 if (isIos() && !isInStandaloneMode() && localStorage.getItem('al_mukhtar_pwa_closed') !== 'true') {
     setTimeout(() => {
         if(installBanner) {
-            // Ubah teks instruksi khusus untuk iOS
-            const pwaText = document.querySelector('.pwa-text p');
-            if(pwaText) pwaText.innerHTML = "Tap ikon <b>Share</b> <i class='fa-solid fa-arrow-up-from-bracket'></i> di bawah, lalu pilih <b>Add to Home Screen</b>.";
-            
-            // Sembunyikan tombol install karena tidak bisa dipakai di iOS
-            if(installBtn) installBtn.style.display = 'none';
-            
-            // Tampilkan banner
-            installBanner.style.display = 'flex';
-            void installBanner.offsetWidth; 
-            installBanner.classList.add('show');
+            const pwaText = document.querySelector('.pwa-text p'); if(pwaText) pwaText.innerHTML = "Tap ikon <b>Share</b> <i class='fa-solid fa-arrow-up-from-bracket'></i> di bawah, lalu pilih <b>Add to Home Screen</b>.";
+            if(installBtn) installBtn.style.display = 'none'; installBanner.style.display = 'flex'; void installBanner.offsetWidth; installBanner.classList.add('show');
         }
     }, 2500);
 }
+
 /* ==========================================================================
-   AUTO-DOWNLOADER (BACKGROUND PRE-CACHING) UNTUK MODE OFFLINE FULL
+   AUTO-DOWNLOADER & QUOTES
    ========================================================================== */
 async function downloadSemuaDataDiamDiam() {
     try {
-        const response = await fetch('database.json');
-        const data = await response.json();
-        const kumpulanLink = [];
-
-        function cariSemuaLink(obj) {
-            for (let kunci in obj) {
-                if (typeof obj[kunci] === 'object' && obj[kunci] !== null) {
-                    cariSemuaLink(obj[kunci]);
-                } else if (kunci === 'path' && typeof obj[kunci] === 'string') {
-                    kumpulanLink.push(obj[kunci]);
-                }
-            }
-        }
+        const response = await fetch('database.json'); const data = await response.json(); const kumpulanLink = [];
+        function cariSemuaLink(obj) { for (let kunci in obj) { if (typeof obj[kunci] === 'object' && obj[kunci] !== null) { cariSemuaLink(obj[kunci]); } else if (kunci === 'path' && typeof obj[kunci] === 'string') { kumpulanLink.push(obj[kunci]); } } }
         cariSemuaLink(data);
+        for (let i = 1; i <= 114; i++) { kumpulanLink.push(`quran/surah/${i}.json`); }
 
-        for (let i = 1; i <= 114; i++) {
-            kumpulanLink.push(`quran/surah/${i}.json`);
-        }
-
-        const asetDesainUtama = [
-            "https://cdn.tailwindcss.com",
-            "https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.1/css/all.min.css",
-            "https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.1/webfonts/fa-solid-900.woff2",
-            "https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.1/webfonts/fa-brands-400.woff2",
-            "https://fonts.googleapis.com/icon?family=Material+Icons+Outlined",
-            "https://fonts.googleapis.com/css2?family=Noto+Naskh+Arabic:wght@400;700&family=Reem+Kufi:wght@500;700&display=block&subset=arabic"
-        ];
+        const asetDesainUtama = [ "https://cdn.tailwindcss.com", "https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.1/css/all.min.css", "https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.1/webfonts/fa-solid-900.woff2", "https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.1/webfonts/fa-brands-400.woff2", "https://fonts.googleapis.com/icon?family=Material+Icons+Outlined", "https://fonts.googleapis.com/css2?family=Noto+Naskh+Arabic:wght@400;700&family=Reem+Kufi:wght@500;700&display=block&subset=arabic" ];
+        const semuaAntrean = [...asetDesainUtama, ...kumpulanLink]; const cache = await caches.open("almukhtar-cache-v12");
         
-        const semuaAntrean = [...asetDesainUtama, ...kumpulanLink];
-        const cache = await caches.open("almukhtar-cache-v11");
-        
-        // 💡 KODE BARU: Cek apakah notifikasi sudah pernah muncul sebelumnya
         const sudahPernahSelesai = localStorage.getItem('al_mukhtar_offline_ready');
-
-        // Munculkan notifikasi AWAL HANYA JIKA belum pernah selesai
-        if (!sudahPernahSelesai && typeof showToast === 'function') {
-            showToast("Menyiapkan Data & Desain Offline...", "info"); 
-        }
+        if (!sudahPernahSelesai && typeof showToast === 'function') { showToast("Menyiapkan Data & Desain Offline...", "info"); }
 
         for (const url of semuaAntrean) {
             try {
                 const sudahAda = await cache.match(url);
                 if (!sudahAda) {
                     let ambilData = await fetch(url).catch(() => null);
-                    if (!ambilData || !ambilData.ok) {
-                         ambilData = await fetch(url, { mode: 'no-cors' }).catch(() => null);
-                    }
-                    if (ambilData && (ambilData.ok || ambilData.type === 'opaque')) {
-                        await cache.put(url, ambilData);
-                    }
+                    if (!ambilData || !ambilData.ok) { ambilData = await fetch(url, { mode: 'no-cors' }).catch(() => null); }
+                    if (ambilData && (ambilData.ok || ambilData.type === 'opaque')) { await cache.put(url, ambilData); }
                 }
-            } catch (err) {
-                console.log("Gagal nyedot: " + url); 
-            }
+            } catch (err) { console.log("Gagal nyedot: " + url); }
         }
 
-        // 💡 KODE BARU: Munculkan notifikasi SUKSES HANYA JIKA belum pernah
         if (!sudahPernahSelesai) {
-            setTimeout(() => {
-                if(typeof showToast === 'function') showToast("Aplikasi Siap 100% Offline!", "success");
-                
-                // Gembok memori: Catat bahwa aplikasi sudah sukses mode offline
-                localStorage.setItem('al_mukhtar_offline_ready', 'true');
-            }, 1000);
+            setTimeout(() => { if(typeof showToast === 'function') showToast("Aplikasi Siap 100% Offline!", "success"); localStorage.setItem('al_mukhtar_offline_ready', 'true'); }, 1000);
         }
-
-    } catch (error) {
-        console.log("Gagal melakukan auto-download: ", error);
-    }
+    } catch (error) { console.log("Gagal melakukan auto-download: ", error); }
 }
 
-window.addEventListener('load', () => {
-    if ('caches' in window) {
-        setTimeout(downloadSemuaDataDiamDiam, 3000);
-    }
-});
+window.addEventListener('load', () => { if ('caches' in window) { setTimeout(downloadSemuaDataDiamDiam, 3000); } });
 
 function tampilkanQuoteAcak() {
     const quotes = [
-        // TEMA DZIKIR & MENGINGAT ALLAH
-        "Hanya dengan mengingat Allah hati menjadi tenteram. (QS. Ar-Ra'd: 28)",
-        "Perumpamaan orang yang mengingat Tuhannya dan yang tidak, seperti orang yang hidup dan yang mati. (HR. Bukhari)",
-        "Tiada waktu yang disesali oleh penghuni surga, kecuali waktu di dunia yang berlalu tanpa dzikir kepada Allah.",
-        "Dzikir adalah surga dunia. Barangsiapa belum memasukinya, ia tidak akan memasuki surga akhirat. (Ibn Taimiyyah)",
-        "Banyak mengingat manusia adalah penyakit, sedangkan banyak mengingat Allah adalah obat. (Umar bin Khattab)",
-        "Jangan berhenti berdzikir walaupun hatimu belum hadir, karena kelalaian tanpa dzikir lebih buruk. (Ibn Atha'illah)",
-        "Dosa itu menghancurkan hati, dan dzikir adalah penawarnya.",
-        "Setiap nafas yang dihembuskan tanpa mengingat Allah adalah sebuah kerugian yang nyata.",
-        "Barangsiapa bershalawat kepadaku satu kali, Allah akan bershalawat kepadanya sepuluh kali. (HR. Muslim)",
-        "Dzikir yang paling utama adalah 'Laa ilaaha illallaah'. (HR. Tirmidzi)",
-
-        // TEMA AMAL KEBAIKAN & AKHLAK
-        "Sebaik-baik manusia adalah yang paling bermanfaat bagi orang lain.",
-        "Jangan pernah meremehkan kebaikan sekecil apapun, walau hanya tersenyum ketika bertemu saudaramu. (HR. Muslim)",
-        "Amalan yang paling dicintai Allah adalah amalan yang berkesinambungan (istiqamah) walaupun sedikit. (HR. Bukhari)",
-        "Barangsiapa menunjukkan suatu kebaikan, maka ia mendapatkan pahala seperti orang yang melakukannya. (HR. Muslim)",
-        "Sedekah tidak akan mengurangi harta. (HR. Muslim)",
-        "Orang yang kuat bukanlah yang pandai bergulat, tapi yang bisa menahan amarahnya. (HR. Bukhari)",
-        "Sembunyikanlah kebaikanmu sebagaimana engkau menyembunyikan keburukanmu.",
-        "Balasan kebaikan tidak lain hanyalah kebaikan pula. (QS. Ar-Rahman: 60)",
-        "Kebaikan sejati adalah berbuat baik kepada orang yang pernah berbuat buruk kepadamu.",
-        "Akhlak yang mulia adalah seberat-berat timbangan di hari kiamat.",
-
-        // TEMA SABAR, SYUKUR & TAWAKKAL
-        "Sesungguhnya bersama kesulitan ada kemudahan. (QS. Al-Insyirah: 6)",
-        "Janganlah kamu bersedih, sesungguhnya Allah bersama kita. (QS. At-Taubah: 40)",
-        "Apa yang melewatkanmu tidak akan pernah menjadi takdirmu, dan apa yang ditakdirkan untukmu tidak akan pernah melewatkanmu.",
-        "Jika Allah menolong kamu, maka tak adalah orang yang dapat mengalahkan kamu. (QS. Ali 'Imran: 160)",
-        "Sabar itu ada dua: Sabar terhadap apa yang kau benci, dan sabar terhadap apa yang kau sukai. (Ali bin Abi Thalib)",
-        "Terkadang Allah mematahkan rencanamu untuk menyelamatkan dirimu.",
-        "Barangsiapa yang bertakwa kepada Allah, niscaya Dia akan memberikan jalan keluar. (QS. At-Thalaq: 2)",
-        "Syukuri apa yang kau miliki, maka Allah akan menambahkan apa yang kau butuhkan.",
-        "Tidak ada musibah yang menimpa seorang muslim kecuali Allah menjadikannya penebus dosa-dosanya. (HR. Bukhari)",
-        "Allah tidak membebani seseorang melainkan sesuai dengan kesanggupannya. (QS. Al-Baqarah: 286)",
-
-        // TEMA ILMU & WAKTU
-        "Barangsiapa menempuh jalan untuk menuntut ilmu, maka Allah mudahkan baginya jalan ke surga. (HR. Muslim)",
-        "Ilmu tanpa amal adalah kegilaan, dan amal tanpa ilmu adalah kesia-siaan. (Imam Al-Ghazali)",
-        "Dua nikmat yang sering dilalaikan manusia: Kesehatan dan waktu luang. (HR. Bukhari)",
-        "Waktu itu bagaikan pedang. Jika kau tidak memotongnya, maka ia akan memotongmu. (Imam Syafi'i)",
-        "Sampaikanlah dariku walau hanya satu ayat. (HR. Bukhari)",
-        "Bukanlah ilmu itu apa yang dihafal, melainkan apa yang memberi manfaat. (Imam Syafi'i)",
-        "Ilmu adalah sebaik-baik warisan, dan adab adalah sebaik-baik kerajinan.",
-        "Tuntutlah ilmu dari buaian hingga liang lahat.",
-
-        // TEMA DOA & PENYEJUK HATI
-        "Doa adalah senjatanya orang mukmin, tiang agama, dan cahaya langit serta bumi. (HR. Al-Hakim)",
-        "Tidak ada yang dapat menolak takdir kecuali doa. (HR. Tirmidzi)",
-        "Hati yang hancur karena Allah, adalah hati yang sedang dibangun ulang oleh-Nya.",
-        "Bila engkau memohon, mohonlah kepada Allah. Bila engkau meminta pertolongan, mintalah kepada Allah.",
-        "Air mata orang yang bertobat lebih dicintai Allah daripada tasbih orang yang sombong.",
-        "Jangan putus asa dari rahmat Allah. Sesungguhnya Allah mengampuni dosa-dosa semuanya. (QS. Az-Zumar: 53)",
-        "Jadikanlah sabar dan shalat sebagai penolongmu. (QS. Al-Baqarah: 45)",
-        "Dunia ini adalah perhiasan, dan seindah-indah perhiasan dunia adalah wanita (istri) yang shalihah. (HR. Muslim)",
-        "Cukuplah Allah menjadi Penolong kami, dan Allah adalah sebaik-baik Pelindung. (QS. Ali 'Imran: 173)",
-        "Kejujuran itu membawa ketenangan, sedangkan dusta membawa keragu-raguan. (HR. Tirmidzi)",
-        "Perbaikilah hubunganmu dengan Allah, maka Allah akan memperbaiki hubunganmu dengan manusia.",
-        "Barangsiapa yang rida dengan ketetapan Allah, maka Allah rida kepadanya."
+        "Hanya dengan mengingat Allah hati menjadi tenteram. (QS. Ar-Ra'd: 28)", "Perumpamaan orang yang mengingat Tuhannya dan yang tidak, seperti orang yang hidup dan yang mati. (HR. Bukhari)", "Tiada waktu yang disesali oleh penghuni surga, kecuali waktu di dunia yang berlalu tanpa dzikir kepada Allah.", "Dzikir adalah surga dunia. Barangsiapa belum memasukinya, ia tidak akan memasuki surga akhirat. (Ibn Taimiyyah)", "Banyak mengingat manusia adalah penyakit, sedangkan banyak mengingat Allah adalah obat. (Umar bin Khattab)", "Jangan berhenti berdzikir walaupun hatimu belum hadir, karena kelalaian tanpa dzikir lebih buruk. (Ibn Atha'illah)", "Dosa itu menghancurkan hati, dan dzikir adalah penawarnya.", "Setiap nafas yang dihembuskan tanpa mengingat Allah adalah sebuah kerugian yang nyata.", "Barangsiapa bershalawat kepadaku satu kali, Allah akan bershalawat kepadanya sepuluh kali. (HR. Muslim)", "Dzikir yang paling utama adalah 'Laa ilaaha illallaah'. (HR. Tirmidzi)",
+        "Sebaik-baik manusia adalah yang paling bermanfaat bagi orang lain.", "Jangan pernah meremehkan kebaikan sekecil apapun, walau hanya tersenyum ketika bertemu saudaramu. (HR. Muslim)", "Amalan yang paling dicintai Allah adalah amalan yang berkesinambungan (istiqamah) walaupun sedikit. (HR. Bukhari)", "Barangsiapa menunjukkan suatu kebaikan, maka ia mendapatkan pahala seperti orang yang melakukannya. (HR. Muslim)", "Sedekah tidak akan mengurangi harta. (HR. Muslim)", "Orang yang kuat bukanlah yang pandai bergulat, tapi yang bisa menahan amarahnya. (HR. Bukhari)", "Sembunyikanlah kebaikanmu sebagaimana engkau menyembunyikan keburukanmu.", "Balasan kebaikan tidak lain hanyalah kebaikan pula. (QS. Ar-Rahman: 60)", "Kebaikan sejati adalah berbuat baik kepada orang yang pernah berbuat buruk kepadamu.", "Akhlak yang mulia adalah seberat-berat timbangan di hari kiamat.",
+        "Sesungguhnya bersama kesulitan ada kemudahan. (QS. Al-Insyirah: 6)", "Janganlah kamu bersedih, sesungguhnya Allah bersama kita. (QS. At-Taubah: 40)", "Apa yang melewatkanmu tidak akan pernah menjadi takdirmu, dan apa yang ditakdirkan untukmu tidak akan pernah melewatkanmu.", "Jika Allah menolong kamu, maka tak adalah orang yang dapat mengalahkan kamu. (QS. Ali 'Imran: 160)", "Sabar itu ada dua: Sabar terhadap apa yang kau benci, dan sabar terhadap apa yang kau sukai. (Ali bin Abi Thalib)", "Terkadang Allah mematahkan rencanamu untuk menyelamatkan dirimu.", "Barangsiapa yang bertakwa kepada Allah, niscaya Dia akan memberikan jalan keluar. (QS. At-Thalaq: 2)", "Syukuri apa yang kau miliki, maka Allah akan menambahkan apa yang kau butuhkan.", "Tidak ada musibah yang menimpa seorang muslim kecuali Allah menjadikannya penebus dosa-dosanya. (HR. Bukhari)", "Allah tidak membebani seseorang melainkan sesuai dengan kesanggupannya. (QS. Al-Baqarah: 286)",
+        "Barangsiapa menempuh jalan untuk menuntut ilmu, maka Allah mudahkan baginya jalan ke surga. (HR. Muslim)", "Ilmu tanpa amal adalah kegilaan, dan amal tanpa ilmu adalah kesia-siaan. (Imam Al-Ghazali)", "Dua nikmat yang sering dilalaikan manusia: Kesehatan dan waktu luang. (HR. Bukhari)", "Waktu itu bagaikan pedang. Jika kau tidak memotongnya, maka ia akan memotongmu. (Imam Syafi'i)", "Sampaikanlah dariku walau hanya satu ayat. (HR. Bukhari)", "Bukanlah ilmu itu apa yang dihafal, melainkan apa yang memberi manfaat. (Imam Syafi'i)", "Ilmu adalah sebaik-baik warisan, dan adab adalah sebaik-baik kerajinan.", "Tuntutlah ilmu dari buaian hingga liang lahat.",
+        "Doa adalah senjatanya orang mukmin, tiang agama, dan cahaya langit serta bumi. (HR. Al-Hakim)", "Tidak ada yang dapat menolak takdir kecuali doa. (HR. Tirmidzi)", "Hati yang hancur karena Allah, adalah hati yang sedang dibangun ulang oleh-Nya.", "Bila engkau memohon, mohonlah kepada Allah. Bila engkau meminta pertolongan, mintalah kepada Allah.", "Air mata orang yang bertobat lebih dicintai Allah daripada tasbih orang yang sombong.", "Jangan putus asa dari rahmat Allah. Sesungguhnya Allah mengampuni dosa-dosa semuanya. (QS. Az-Zumar: 53)", "Jadikanlah sabar dan shalat sebagai penolongmu. (QS. Al-Baqarah: 45)", "Dunia ini adalah perhiasan, dan seindah-indah perhiasan dunia adalah wanita (istri) yang shalihah. (HR. Muslim)", "Cukuplah Allah menjadi Penolong kami, dan Allah adalah sebaik-baik Pelindung. (QS. Ali 'Imran: 173)", "Kejujuran itu membawa ketenangan, sedangkan dusta membawa keragu-raguan. (HR. Tirmidzi)", "Perbaikilah hubunganmu dengan Allah, maka Allah akan memperbaiki hubunganmu dengan manusia.", "Barangsiapa yang rida dengan ketetapan Allah, maka Allah rida kepadanya."
     ];
     const quoteElement = document.getElementById('app-quote');
-    if (quoteElement) {
-        const randomIndex = Math.floor(Math.random() * quotes.length);
-        quoteElement.innerText = `"${quotes[randomIndex]}"`;
-    }
+    if (quoteElement) { const randomIndex = Math.floor(Math.random() * quotes.length); quoteElement.innerText = `"${quotes[randomIndex]}"`; }
 }
