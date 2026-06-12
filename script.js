@@ -1766,26 +1766,18 @@ function tampilkanQuoteAcak() {
     if (quoteElement) { const randomIndex = Math.floor(Math.random() * quotes.length); quoteElement.innerText = `"${quotes[randomIndex]}"`; }
 }
 
-window.shareTafsir = function() {
-    // 1. Ambil judul (misal: "Tafsir QS. 2:2")
-    const title = document.getElementById('tafsir-title').innerText;
-    
-    // 2. Ambil seluruh teks tafsirnya
-    const bodyText = document.getElementById('tafsir-body').innerText;
-    
-    // 3. Gabungkan menjadi satu teks rapi
-    const textToShare = `${title}\n\n${bodyText}\n\n(Dibagikan dari Al-Mukhtar Digital Library)`;
+window.shareAyatQuran = function(nomorSurah, nomorAyat) {
+    const ayat = window.ayatData[`${nomorSurah}_${nomorAyat}`];
+    const textToShare = `${ayat.teksArab}\n\n${ayat.teksIndonesia}\n(QS. ${nomorSurah}:${nomorAyat})`;
 
-    // 4. Jalankan perintah Share (dengan deteksi APK)
     if (navigator.share) {
-        // Jika dibuka di browser biasa
-        navigator.share({
-            title: title,
-            text: textToShare
-        }).catch(console.error);
-    } else {
-        // Jika dibuka di dalam APK (Otomatis ke WhatsApp)
-        const waUrl = `https://api.whatsapp.com/send?text=${encodeURIComponent(textToShare)}`;
-        window.open(waUrl, '_blank');
+        navigator.share({ 
+            title: `QS. ${nomorSurah}:${nomorAyat}`, 
+            text: textToShare 
+        }).catch(console.error); 
+    } else { 
+        // JIKA DI DALAM APK
+        const waUrl = `whatsapp://send?text=${encodeURIComponent(textToShare)}`;
+        window.location.href = waUrl;
     }
 }
