@@ -217,6 +217,7 @@ body.modal-open{ overflow:hidden; }
 .date-masehi { font-weight: 700; color: #334155; }
 .date-pasaran { color: #94a3b8; text-transform: uppercase; margin-top: 1px; font-size: 7px !important; font-weight: 800; letter-spacing: 0.5px; }
 .date-today { background: #f0fdfa !important; } .date-today::after { content: ''; position: absolute; top: 5px; right: 5px; width: 6px; height: 6px; background: #007A78; border-radius: 50%; }
+.date-today { background: #f0fdfa !important; } .date-today::after { content: ''; position: absolute; top: 5px; right: 5px; width: 6px; height: 6px; background: #007A78; border-radius: 50%; }
 /* Hari Minggu: Background merah muda, teks merah */
 .is-sunday-holiday { background: #fff1f2 !important; } 
 .is-sunday-holiday .date-masehi { color: #e11d48 !important; font-weight: 800; }
@@ -359,7 +360,7 @@ body.modal-open{ overflow:hidden; }
    ========================================================================== */
 #prayer-time { font-size: clamp(20px, 8vw, 36px) !important; }
 #countdown { font-size: clamp(14px, 6vw, 22px) !important; }
-#prayer-name, .info-capsule p:not(#prayer-time, #countdown) { font-size: clamp(9px, 3vw, 13px) !important; }
+#prayer-name, .info-capsule p:not(#prayer-time, #countdown, #java-hijri, #full-date) { font-size: clamp(9px, 3vw, 13px) !important; }
 h1.font-kufi { font-size: clamp(24px, 9vw, 40px) !important; }
 .text-center.px-8 p.tracking-\[0\.3em\] { font-size: clamp(7px, 2.5vw, 10px) !important; }
 .icon-left, .icon-right { font-size: clamp(12px, 3.5vw, 14px) !important; }
