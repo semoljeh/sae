@@ -770,7 +770,14 @@ async function renderCalendar() {
         if (!namaLibur) { if (gMonth === 1 && gDay === 1) namaLibur = 'Tahun Baru Masehi'; else if (gMonth === 5 && gDay === 1) namaLibur = 'Hari Buruh Internasional'; else if (gMonth === 6 && gDay === 1) namaLibur = 'Hari Lahir Pancasila'; else if (gMonth === 8 && gDay === 17) namaLibur = 'Hari Kemerdekaan RI'; else if (gMonth === 12 && gDay === 25) namaLibur = 'Hari Raya Natal'; }
         if (!namaLibur) { if (hDay === 1 && hMonth === 1) namaLibur = 'Tahun Baru Islam'; else if (hDay === 12 && hMonth === 3) namaLibur = 'Maulid Nabi Muhammad SAW'; else if (hDay === 27 && hMonth === 7) namaLibur = 'Isra Mi’raj'; else if ((hDay === 1 || hDay === 2) && hMonth === 10) namaLibur = 'Hari Raya Idul Fitri'; else if (hDay === 10 && hMonth === 12) namaLibur = 'Hari Raya Idul Adha'; }
         if (!namaLibur && dynamicHolidaysMap[dtKey]) { namaLibur = dynamicHolidaysMap[dtKey].name; if (dynamicHolidaysMap[dtKey].type === 'cuti') isCutiBersama = true; }
-        let dateColorClass = ''; if (isSunday || (namaLibur && !isCutiBersama)) dateColorClass = 'is-real-holiday'; else if (isCutiBersama) dateColorClass = 'is-cuti-bersama';
+        let dateColorClass = ''; 
+        if (isSunday) { 
+            dateColorClass = 'is-sunday-holiday'; 
+        } else if (namaLibur && !isCutiBersama) { 
+            dateColorClass = 'is-national-holiday'; 
+        } else if (isCutiBersama) { 
+            dateColorClass = 'is-cuti-bersama'; 
+        }
         const isToday = realToday.toDateString() === dtObj.toDateString();
         grid.innerHTML += `<div class="calendar-date ${isToday ? 'date-today' : ''} ${dateColorClass}"><span class="date-masehi">${d}</span><span class="date-hijri">${toArDigits(day.hijri.day)}</span><span class="date-pasaran">${getPasaran(dtObj)}</span></div>`;
         if (namaLibur) { holEl.innerHTML += `<div class="${isCutiBersama ? 'cuti-card' : 'holiday-card'}"><div class="flex-1"><p class="text-[12px] font-bold text-slate-800">${d} ${ms[m]} - ${namaLibur}</p></div></div>`; }

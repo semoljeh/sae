@@ -217,7 +217,13 @@ body.modal-open{ overflow:hidden; }
 .date-masehi { font-weight: 700; color: #334155; }
 .date-pasaran { color: #94a3b8; text-transform: uppercase; margin-top: 1px; font-size: 7px !important; font-weight: 800; letter-spacing: 0.5px; }
 .date-today { background: #f0fdfa !important; } .date-today::after { content: ''; position: absolute; top: 5px; right: 5px; width: 6px; height: 6px; background: #007A78; border-radius: 50%; }
-.is-real-holiday { background: #fff1f2 !important; } .is-real-holiday .date-masehi { color: #e11d48 !important; font-weight: 800; }
+/* Hari Minggu: Background merah muda, teks merah */
+.is-sunday-holiday { background: #fff1f2 !important; } 
+.is-sunday-holiday .date-masehi { color: #e11d48 !important; font-weight: 800; }
+
+/* Hari Libur Nasional: Background putih biasa, teks merah */
+.is-national-holiday { background: #ffffff !important; } 
+.is-national-holiday .date-masehi { color: #e11d48 !important; font-weight: 800; }
 .is-cuti-bersama { background: #fffbeb !important; } .is-cuti-bersama .date-masehi { color: #d97706 !important; font-weight: 800; }
 .empty-date { background: #fcfdfe !important; }
 .holiday-card { display: flex; align-items: center; gap: 15px; background: #ffffff; padding: 14px; border-radius: 16px; border-left: 4px solid #e11d48; box-shadow: 0 2px 5px rgba(0,0,0,0.02); }
