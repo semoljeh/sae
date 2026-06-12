@@ -82,14 +82,18 @@
                 </div>
             </header>
 
-            <div class="info-capsule">
+<div class="info-capsule">
                 <div class="flex items-start">
-                    <div class="w-1/2 text-center border-r border-dashed border-slate-300">
+                    
+                    <div class="w-1/2 text-center">
                         <div class="flex items-start justify-center pt-1">
                             <p id="prayer-name" class="text-[13px] text-teal-600 font-black uppercase tracking-[0.15em] leading-none">DZUHUR</p>
                         </div>
                         <h2 id="prayer-time" class="text-4xl font-bold text-slate-800 tracking-tighter leading-none mt-1">11:26</h2>
                     </div>
+
+                    <div class="border-l border-dashed border-slate-300 h-20 mt-1"></div>
+
                     <div class="w-1/2 text-center">
                         <div class="flex items-start justify-center pt-1">
                             <p class="text-[13px] text-teal-600 font-black uppercase tracking-[0.15em] leading-none">MENDATANG</p>
@@ -97,8 +101,16 @@
                         <span id="countdown" class="text-[22px] font-black text-slate-900 font-mono tracking-tighter block mt-1.5 leading-none">
                             -01:52:54
                         </span>
+                        
+                        <div class="flex justify-center mt-2">
+                            <button onclick="toggleSholat()" class="text-[9px] font-bold text-teal-600 bg-teal-50 border border-teal-100 px-3 py-1 rounded-full active:scale-95 transition-all flex items-center gap-1">
+                                Selengkapnya <i class="fa-solid fa-chevron-right text-[7px]"></i>
+                            </button>
+                        </div>
                     </div>
+                    
                 </div>
+                
                 <div class="mt-4 pt-3 border-t border-dashed border-slate-300 text-center">
                     <p id="java-hijri" class="text-[11px] text-teal-600 font-bold tracking-tight mb-1">2 Dhu al-Hijjah 1447 H</p>
                     <p id="full-date" class="text-[10px] font-semibold text-slate-400 uppercase tracking-wider">SELASA LEGI, 19 MEI 2026 M</p>
@@ -122,7 +134,7 @@
             </div>
 
             <main class="menu-grid">
-                <div class="menu-item" onclick="toggleSholat()"><div class="icon-wrapper bg-blue"><i class="fa-solid fa-kaaba"></i></div><span class="menu-label">JADWAL</span></div>
+                <div class="menu-item" onclick="toggleQuran()"><div class="icon-wrapper bg-blue"><i class="fa-solid fa-book-quran"></i></div><span class="menu-label">AL-QUR'AN</span></div>
                 <div class="menu-item" onclick="openAppMenu('dzikir')"><div class="icon-wrapper bg-emerald"><i class="fa-solid fa-mosque"></i></div><span class="menu-label">DZIKIR</span></div>
                 <div class="menu-item" onclick="openAppMenu('yasin')"><div class="icon-wrapper bg-purple"><i class="fa-solid fa-book-open"></i></div><span class="menu-label">YASIN TAHLIL</span></div>
                 <div class="menu-item" onclick="openAppMenu('maulid')"><div class="icon-wrapper bg-lime"><i class="fa-solid fa-hand-holding-heart"></i></div><span class="menu-label">MAULID</span></div>
