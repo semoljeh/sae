@@ -361,9 +361,15 @@
         
         <div class="modal-content" style="background: white; width: 100%; max-width: 340px; border-radius: 20px; display: flex; flex-direction: column; box-shadow: 0 25px 50px -12px rgba(0,0,0,0.3); max-height: 65vh; transform: translateY(20px); transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1); overflow: hidden; margin-bottom: 30px;">
             
-            <div class="modal-header" style="display: flex; justify-content: space-between; align-items: center; padding: 16px 20px; border-bottom: 1px solid #e2e8f0; background: #ffffff; z-index: 10;">
+          <div class="modal-header" style="display: flex; justify-content: space-between; align-items: center; padding: 16px 20px; border-bottom: 1px solid #e2e8f0; background: #ffffff; z-index: 10;">
                 <h3 id="tafsir-title" class="modal-title" style="font-size: 14px; font-weight: 800; color: #007A78; margin: 0; text-transform: uppercase; letter-spacing: 0.5px;">Tafsir Ayat</h3>
-                <button class="close-btn" onclick="closeTafsir()" style="background: #f1f5f9; border: none; border-radius: 50%; width: 30px; height: 30px; font-size: 13px; font-weight: bold; cursor: pointer; color: #475569; display: flex; align-items: center; justify-content: center; transition: 0.2s;">✕</button>
+                
+                <div style="display: flex; gap: 8px;">
+                    <button class="share-btn" onclick="shareTafsir()" style="background: #ccfbf1; border: none; border-radius: 50%; width: 30px; height: 30px; font-size: 12px; cursor: pointer; color: #007A78; display: flex; align-items: center; justify-content: center; transition: 0.2s;">
+                        <i class="fa-solid fa-share-nodes"></i>
+                    </button>
+                    <button class="close-btn" onclick="closeTafsir()" style="background: #f1f5f9; border: none; border-radius: 50%; width: 30px; height: 30px; font-size: 13px; font-weight: bold; cursor: pointer; color: #475569; display: flex; align-items: center; justify-content: center; transition: 0.2s;">✕</button>
+                </div>
             </div>
             
             <div id="tafsir-body" class="modal-body tafsir-text" style="padding: 20px; overflow-y: auto; background: #ffffff; font-size: 13px; line-height: 1.8; color: #334155; text-align: justify;">
