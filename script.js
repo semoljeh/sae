@@ -1389,8 +1389,19 @@ window.copyAyatQuran = function(nomorSurah, nomorAyat) {
 
 window.shareAyatQuran = function(nomorSurah, nomorAyat) {
     const ayat = window.ayatData[`${nomorSurah}_${nomorAyat}`];
-    if (navigator.share) { navigator.share({ title: `QS. ${nomorSurah}:${nomorAyat}`, text: `${ayat.teksArab}\n\n${ayat.teksIndonesia}` }).catch(console.error); } 
-    else { showToast('Fitur Share belum didukung.', 'info'); }
+    const textToShare = `${ayat.teksArab}\n\n${ayat.teksIndonesia}\n(QS. ${nomorSurah}:${nomorAyat})`;
+
+    if (navigator.share) {
+        // Jika dibuka di browser biasa (Chrome/Safari)
+        navigator.share({ 
+            title: `QS. ${nomorSurah}:${nomorAyat}`, 
+            text: textToShare 
+        }).catch(console.error); 
+    } else { 
+        // JIKA DIBUKA DI DALAM APK (Otomatis lempar ke WhatsApp)
+        const waUrl = `https://api.whatsapp.com/send?text=${encodeURIComponent(textToShare)}`;
+        window.open(waUrl, '_blank');
+    }
 }
 
 window.bookmarkAyatQuran = function(nomorSurah, nomorAyat) {
