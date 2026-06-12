@@ -1766,18 +1766,37 @@ function tampilkanQuoteAcak() {
     if (quoteElement) { const randomIndex = Math.floor(Math.random() * quotes.length); quoteElement.innerText = `"${quotes[randomIndex]}"`; }
 }
 
-window.shareAyatQuran = function(nomorSurah, nomorAyat) {
-    const ayat = window.ayatData[`${nomorSurah}_${nomorAyat}`];
-    const textToShare = `${ayat.teksArab}\n\n${ayat.teksIndonesia}\n(QS. ${nomorSurah}:${nomorAyat})`;
+window.shareTafsir = function() {
+    const title = document.getElementById('tafsir-title').innerText;
+    const bodyText = document.getElementById('tafsir-body').innerText;
+    const textToShare = `${title}\n\n${bodyText}\n\n~ Al-Mukhtar Digital Library`;
 
+    // 1. Coba fitur Share bawaan HP (paling stabil untuk teks panjang)
     if (navigator.share) {
-        navigator.share({ 
-            title: `QS. ${nomorSurah}:${nomorAyat}`, 
-            text: textToShare 
-        }).catch(console.error); 
-    } else { 
-        // JIKA DI DALAM APK
-        const waUrl = `whatsapp://send?text=${encodeURIComponent(textToShare)}`;
-        window.location.href = waUrl;
+        navigator.share({
+            title: title,
+            text: textToShare
+        }).catch((err) => {
+            // Jika user membatalkan atau share gagal, fallback ke WhatsApp
+            shareViaWhatsApp(textToShare);
+        });
+    } else {
+        // 2. Jika tidak ada navigator.share, langsung ke WhatsApp
+        shareViaWhatsApp(textToShare);
+    }
+}
+
+// Fungsi bantu agar kodenya lebih rapi
+function shareViaWhatsApp(text) {
+    // Menggunakan encodeURIComponent untuk menangani teks panjang dengan aman
+    const waUrl = `https://wa.me/?text=${encodeURIComponent(text)}`;
+    
+    // Gunakan window.open dengan target _blank agar tidak terblokir di WebView APK
+    const win = window.open(waUrl, '_blank');
+    if (!win) {
+        // Jika tetap diblokir, tawarkan Copy ke Clipboard
+        navigator.clipboard.writeText(text).then(() => {
+            showToast("Tafsir disalin ke clipboard karena tidak bisa dibagikan langsung", "info");
+        });
     }
 }
