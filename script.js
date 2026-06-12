@@ -491,23 +491,90 @@ async function initDashboardJadwal() {
 function renderCountdown(timings) {
     const now = new Date();
     const currentMs = now.getHours() * 3600000 + now.getMinutes() * 60000 + now.getSeconds() * 1000;
-    const schedule = [ { name: 'SUBUH', time: timings.Fajr }, { name: 'TERBIT', time: timings.Sunrise }, { name: 'DZUHUR', time: timings.Dhuhr }, { name: 'ASHAR', time: timings.Asr }, { name: 'MAGHRIB', time: timings.Maghrib }, { name: 'ISYA', time: timings.Isha } ];
-    let nextPrayer = null; let nextPrayerMs = 0;
+    
+    const schedule = [ 
+        { name: 'SUBUH', time: timings.Fajr }, 
+        { name: 'TERBIT', time: timings.Sunrise }, 
+        { name: 'DZUHUR', time: timings.Dhuhr }, 
+        { name: 'ASHAR', time: timings.Asr }, 
+        { name: 'MAGHRIB', time: timings.Maghrib }, 
+        { name: 'ISYA', time: timings.Isha } 
+    ];
+    
+    let nextPrayer = null; 
+    let nextPrayerMs = 0; 
+    let nextIdx = 0;
+    
+    // 1. Cari sholat berikutnya (Mendatang)
     for (let i = 0; i < schedule.length; i++) {
         const [h, m] = schedule[i].time.split(':').map(Number);
         const pMs = h * 3600000 + m * 60000;
-        if (pMs > currentMs) { nextPrayer = schedule[i]; nextPrayerMs = pMs; break; }
+        if (pMs > currentMs) { 
+            nextPrayer = schedule[i]; 
+            nextPrayerMs = pMs; 
+            nextIdx = i; 
+            break; 
+        }
     }
+    // Jika tidak ada (lewat Isya), maka sholat berikutnya adalah Subuh besok
     if (!nextPrayer) {
-        nextPrayer = schedule[0]; const [h, m] = nextPrayer.time.split(':').map(Number);
-        nextPrayerMs = (h + 24) * 3600000 + m * 60000; 
+        nextPrayer = schedule[0]; 
+        nextIdx = 0; 
+        const [h, m] = nextPrayer.time.split(':').map(Number);
+        nextPrayerMs = (h + 24) * 3600000 + m * 60000;
     }
+
+    // 2. Cari sholat sebelumnya (Waktu Berlalu)
+    let prevIdx = nextIdx - 1;
+    if (prevIdx < 0) prevIdx = schedule.length - 1;
+    // Lewati waktu "Terbit" agar tulisan fokus ke sholat wajib
+    if (schedule[prevIdx].name === 'TERBIT') prevIdx--; 
+    if (prevIdx < 0) prevIdx = schedule.length - 1;
+
+    let prevPrayer = schedule[prevIdx];
+    const [ph, pm] = prevPrayer.time.split(':').map(Number);
+    let prevPrayerMs = ph * 3600000 + pm * 60000;
+    
+    // Hitung selisih waktu berlalu
+    let diffPassed = currentMs - prevPrayerMs;
+    // Jika jam saat ini lewat tengah malam, tapi sholat sebelumnya (Isya) di hari kemarin
+    if (diffPassed < 0) diffPassed += (24 * 3600000); 
+
+    const passTotalMins = Math.floor(diffPassed / 60000);
+    const passH = Math.floor(passTotalMins / 60);
+    const passM = passTotalMins % 60;
+
+// Menentukan Teks Waktu Berlalu
+    let textPassed = "";
+    
+    // Jika waktu berlalunya mulai dari 0 sampai 10 menit
+    if (passTotalMins <= 10) {
+        textPassed = `<span class="text-teal-600">SEKARANG WAKTUNYA ${prevPrayer.name}</span>`;
+    } 
+    // Jika sudah lewat dari 10 menit
+    else {
+        let strTime = "";
+        if (passH > 0) strTime += `${passH} jam `;
+        strTime += `${passM} mnt`;
+        textPassed = `${prevPrayer.name} ${strTime.trim()} lalu`;
+    }
+
+    // 3. Kalkulasi sisa hitung mundur (Mendatang)
     const diff = nextPrayerMs - currentMs;
-    const s = Math.floor((diff / 1000) % 60); const m = Math.floor((diff / 1000 / 60) % 60); const h = Math.floor((diff / 1000 / 60 / 60));
-    const pNameEl = document.getElementById('prayer-name'); const pTimeEl = document.getElementById('prayer-time'); const pCountEl = document.getElementById('countdown');
+    const s = Math.floor((diff / 1000) % 60); 
+    const m = Math.floor((diff / 1000 / 60) % 60); 
+    const h = Math.floor((diff / 1000 / 60 / 60));
+    
+    // 4. Masukkan data ke dalam HTML
+    const pNameEl = document.getElementById('prayer-name'); 
+    const pTimeEl = document.getElementById('prayer-time'); 
+    const pCountEl = document.getElementById('countdown');
+    const pPassedEl = document.getElementById('prayer-passed'); // Menyambung ke HTML baru
+
     if(pNameEl) pNameEl.innerText = nextPrayer.name;
     if(pTimeEl) pTimeEl.innerText = nextPrayer.time;
     if(pCountEl) pCountEl.innerText = `-${String(h).padStart(2, '0')}:${String(m).padStart(2, '0')}:${String(s).padStart(2, '0')}`;
+    if(pPassedEl) pPassedEl.innerHTML = textPassed;
 }
 
 /* ==========================================================================

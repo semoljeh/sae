@@ -83,26 +83,34 @@
             </header>
 
 <div class="info-capsule">
-                <div class="flex items-start">
+                <div class="flex items-stretch w-full">
                     
-                    <div class="w-1/2 text-center">
-                        <div class="flex items-start justify-center pt-1">
-                            <p id="prayer-name" class="text-[13px] text-teal-600 font-black uppercase tracking-[0.15em] leading-none">DZUHUR</p>
+                    <div class="w-1/2 flex flex-col justify-between text-center">
+                        <div>
+                            <div class="flex items-start justify-center pt-1">
+                                <p id="prayer-name" class="text-[13px] text-teal-600 font-black uppercase tracking-[0.15em] leading-none">DZUHUR</p>
+                            </div>
+                            <h2 id="prayer-time" class="text-4xl font-bold text-slate-800 tracking-tighter leading-none mt-1">11:26</h2>
                         </div>
-                        <h2 id="prayer-time" class="text-4xl font-bold text-slate-800 tracking-tighter leading-none mt-1">11:26</h2>
+                        
+                        <div class="flex justify-center mt-auto pt-3">
+                            <span id="prayer-passed" class="text-[9px] font-bold text-slate-500 bg-slate-50 border border-slate-100 px-3 py-1 rounded-full uppercase tracking-wide whitespace-nowrap"></span>
+                        </div>
                     </div>
 
-                    <div class="border-l border-dashed border-slate-300 h-20 mt-1"></div>
+                    <div class="border-l border-dashed border-slate-300 h-12 my-auto"></div>
 
-                    <div class="w-1/2 text-center">
-                        <div class="flex items-start justify-center pt-1">
-                            <p class="text-[13px] text-teal-600 font-black uppercase tracking-[0.15em] leading-none">MENDATANG</p>
+                    <div class="w-1/2 flex flex-col justify-between text-center">
+                        <div>
+                            <div class="flex items-start justify-center pt-1">
+                                <p class="text-[13px] text-teal-600 font-black uppercase tracking-[0.15em] leading-none">MENDATANG</p>
+                            </div>
+                            <span id="countdown" class="text-[22px] font-black text-slate-900 font-mono tracking-tighter block mt-1.5 leading-none">
+                                -01:52:54
+                            </span>
                         </div>
-                        <span id="countdown" class="text-[22px] font-black text-slate-900 font-mono tracking-tighter block mt-1.5 leading-none">
-                            -01:52:54
-                        </span>
                         
-                        <div class="flex justify-center mt-2">
+                        <div class="flex justify-center mt-auto pt-3">
                             <button onclick="toggleSholat()" class="text-[9px] font-bold text-teal-600 bg-teal-50 border border-teal-100 px-3 py-1 rounded-full active:scale-95 transition-all flex items-center gap-1">
                                 Selengkapnya <i class="fa-solid fa-chevron-right text-[7px]"></i>
                             </button>
