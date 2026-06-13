@@ -1857,9 +1857,9 @@ window.toggleFiqih = function() {
         }
         el.classList.add('modal-show'); 
         
-        // --- KODE BARU PENAMBAHAN ---
-        // Reset status agar semua sub-bab kembali tertutup saat dibuka ulang
+        // Reset sub-bab dan scroll ketika Fiqih baru dibuka dari Beranda
         currentFiqihParentFolderId = null; 
+        window.lastFiqihScroll = 0;
         
         const searchInput = document.getElementById('fiqih-search-input');
         if(searchInput) searchInput.value = '';
@@ -1880,7 +1880,16 @@ window.goBackFiqih = function() {
         const keyword = document.getElementById('fiqih-search-input').value;
         searchFiqih(keyword); 
         
-        document.getElementById('fiqih-content').scrollTo({ top: 0, behavior: 'smooth' }); 
+        // MENGEMBALIKAN POSISI SCROLL SEPERTI SEMULA
+        setTimeout(() => {
+            const contentScroll = document.getElementById('fiqih-content');
+            if (window.lastFiqihScroll !== undefined) {
+                contentScroll.scrollTop = window.lastFiqihScroll;
+            } else {
+                contentScroll.scrollTo({ top: 0, behavior: 'smooth' });
+            }
+        }, 10);
+        
     } else { 
         document.getElementById('fiqih-modal').classList.remove('modal-show'); 
         resetNavToBeranda(); 
@@ -2077,13 +2086,15 @@ window.openFiqihDetail = function(id) {
     if (!item) return;
 
     const contentScroll = document.getElementById('fiqih-content');
+    
+    // SIMPAN POSISI LAYAR TERAKHIR SEBELUM PINDAH
+    window.lastFiqihScroll = contentScroll.scrollTop;
     contentScroll.scrollTop = 0;
     
     document.getElementById('fiqih-search-container').style.display = 'none';
     
     const listContainer = document.getElementById('fiqih-list-container');
     
-    // FUNGSI FORMAT TEKS SUPER RAPI
     const formatTeks = (text) => {
         if (!text) return '';
         let txt = text.replace(/\s+/g, ' ').trim();
@@ -2101,12 +2112,10 @@ window.openFiqihDetail = function(id) {
             </div>
     `;
 
-    // Tambahkan Judul jika ada
     if (item.judul) {
         htmlContent += `<div class="mb-4 text-center"><h3 class="font-bold text-slate-800 text-[15px]">${item.judul}</h3></div>`;
     }
 
-    // Tambahkan Deskripsi permasalahan jika ada
     if (item.deskripsi && item.deskripsi.trim() !== "") {
         htmlContent += `
             <div class="mb-4 bg-slate-50 p-3 rounded-lg border border-slate-100">
