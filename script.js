@@ -2019,6 +2019,17 @@ function renderFiqihAccordion() {
             
             html += `</div></div></div>`;
         });
+
+        // ==============================================================
+        // TAMBAHAN KETERANGAN DI PALING BAWAH DAFTAR BAB
+        // ==============================================================
+        html += `
+        <div class="text-center mt-8 mb-6 opacity-70">
+            <span class="text-[10px] font-bold text-slate-400 uppercase tracking-[0.15em] flex flex-col items-center gap-1.5">
+                <i class="fa-solid fa-pen-nib text-slate-300 text-lg"></i>
+                Santri Salaf Menjawab <br>Tim Kajian Fiqih Pondok Pesantren Sidogiri
+            </span>
+        </div>`;
     }
     
     listContainer.innerHTML = html;
