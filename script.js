@@ -1727,13 +1727,43 @@ if (isIos() && !isInStandaloneMode() && localStorage.getItem('al_mukhtar_pwa_clo
    ========================================================================== */
 async function downloadSemuaDataDiamDiam() {
     try {
-        const response = await fetch('database.json'); const data = await response.json(); const kumpulanLink = [];
-        function cariSemuaLink(obj) { for (let kunci in obj) { if (typeof obj[kunci] === 'object' && obj[kunci] !== null) { cariSemuaLink(obj[kunci]); } else if (kunci === 'path' && typeof obj[kunci] === 'string') { kumpulanLink.push(obj[kunci]); } } }
+        const response = await fetch('database.json'); 
+        const data = await response.json(); 
+        const kumpulanLink = [];
+        
+        function cariSemuaLink(obj) { 
+            for (let kunci in obj) { 
+                if (typeof obj[kunci] === 'object' && obj[kunci] !== null) { 
+                    cariSemuaLink(obj[kunci]); 
+                } else if (kunci === 'path' && typeof obj[kunci] === 'string') { 
+                    kumpulanLink.push(obj[kunci]); 
+                } 
+            } 
+        }
         cariSemuaLink(data);
-        for (let i = 1; i <= 114; i++) { kumpulanLink.push(`quran/surah/${i}.json`); }
+        
+        // Memasukkan 114 Surah Al-Qur'an ke antrean download
+        for (let i = 1; i <= 114; i++) { 
+            kumpulanLink.push(`quran/surah/${i}.json`); 
+        }
+
+        // ===============================================================
+        // KODE BARU: Memasukkan File Fiqih ke Antrean Download Cache
+        // ===============================================================
+        kumpulanLink.push('datafiqih_full.json');
+
+        // KODE BARU: Simpan langsung Fiqih ke LocalStorage di Background
+        // Agar jika Service Worker HP mati, data tetap ada di memori HP
+        fetch('datafiqih_full.json?v=' + new Date().getTime())
+            .then(res => res.json())
+            .then(fiqihData => {
+                localStorage.setItem('al_mukhtar_fiqih_offline', JSON.stringify(fiqihData));
+            }).catch(e => console.log("Sedot data Fiqih background gagal", e));
+        // ===============================================================
 
         const asetDesainUtama = [ "https://cdn.tailwindcss.com", "https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.1/css/all.min.css", "https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.1/webfonts/fa-solid-900.woff2", "https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.1/webfonts/fa-brands-400.woff2", "https://fonts.googleapis.com/icon?family=Material+Icons+Outlined", "https://fonts.googleapis.com/css2?family=Noto+Naskh+Arabic:wght@400;700&family=Reem+Kufi:wght@500;700&display=block&subset=arabic" ];
-        const semuaAntrean = [...asetDesainUtama, ...kumpulanLink]; const cache = await caches.open("almukhtar-cache-v12");
+        const semuaAntrean = [...asetDesainUtama, ...kumpulanLink]; 
+        const cache = await caches.open("almukhtar-cache-v12");
         
         const sudahPernahSelesai = localStorage.getItem('al_mukhtar_offline_ready');
         if (!sudahPernahSelesai && typeof showToast === 'function') { showToast("Menyiapkan Data & Desain Offline...", "info"); }
@@ -1805,10 +1835,12 @@ function shareViaWhatsApp(text) {
 }
 
 /* ==========================================================================
-   DATA & MESIN FIQIH (FIX POSISI & ANTI-LUBER)
+   DATA & MESIN FIQIH (FIX POSISI & ANTI-LUBER + ACCORDION)
    ========================================================================== */
 let currentFiqihView = 'list';
 let dataFiqihGlobal = [];
+let rawFiqihData = null; // Menyimpan data mentah untuk accordion
+let currentFiqihParentFolderId = null;
 
 window.handleFiqihScroll = function(el) { 
     document.getElementById('fiqih-sticky-header').classList.toggle('doa-header-slim', el.scrollTop > 50); 
@@ -1824,6 +1856,10 @@ window.toggleFiqih = function() {
             else history.pushState({ modal: 'fiqih' }, '', '#fiqih'); 
         }
         el.classList.add('modal-show'); 
+        
+        // --- KODE BARU PENAMBAHAN ---
+        // Reset status agar semua sub-bab kembali tertutup saat dibuka ulang
+        currentFiqihParentFolderId = null; 
         
         const searchInput = document.getElementById('fiqih-search-input');
         if(searchInput) searchInput.value = '';
@@ -1852,44 +1888,131 @@ window.goBackFiqih = function() {
     checkZoomBtnVisibility();
 }
 
-// Fungsi bantu untuk menampilkan gambar/ikon dan teks deskripsi awal
-function getFiqihPlaceholderHtml() {
-    return `
-    <div class="text-center pt-8 pb-10 w-full flex flex-col items-center justify-center px-4" style="box-sizing: border-box;">
-        
-        <div class="opacity-50 flex flex-col items-center">
-            <i class="fa-solid fa-book-open-reader text-5xl mb-4 text-slate-400"></i>
-            <p class="text-[11px] font-bold uppercase tracking-widest text-slate-500">Mulai ketik (misal: sholat)</p>
-            <p class="text-[10px] text-slate-400 mt-1 mb-6">untuk mencari tanya jawab fiqih</p>
-        </div>
-        
-        <div class="mt-2 bg-slate-50/50 border border-slate-100 p-4 rounded-xl max-w-[90%]">
-            <p class="text-[11px] text-slate-500 leading-relaxed font-medium">
-                Tanya jawab seputar fiqih sehari-hari yang dirangkum dari hasil tanya jawab santri di Pesantren Sidogiri.
-            </p>
-        </div>
-        
-    </div>`;
-}
-
 async function loadFiqihData() {
     const listContainer = document.getElementById('fiqih-list-container');
     document.getElementById('fiqih-search-container').style.display = 'block'; 
     
-    // Posisi gambar instruksi awal disetel mepet ke atas (pt-2) agar pas di bawah kolom pencarian
-    listContainer.innerHTML = getFiqihPlaceholderHtml();
+    // Jika data sudah dimuat sebelumnya, langsung tampilkan agar tidak loading dua kali
+    if (dataFiqihGlobal.length > 0 && rawFiqihData) {
+        renderFiqihAccordion(); 
+        return;
+    }
+    
+    listContainer.innerHTML = window.getLoadingHtml("MEMUAT FIQIH...");
     
     try {
-        const response = await fetch('data_fiqih.json?v=' + new Date().getTime());
-        const rawData = await response.json();
+        // MENGAMBIL DATA DARI SERVER (ONLINE)
+        const response = await fetch('datafiqih_full.json?v=' + new Date().getTime());
+        rawFiqihData = await response.json();
         
-        dataFiqihGlobal = rawData.map((item, index) => ({
-            ...item,
-            id: 'fiqih_' + index
-        }));
+        // SIMPAN KE MEMORI HP AGAR BISA OFFLINE KELAK
+        localStorage.setItem('al_mukhtar_fiqih_offline', JSON.stringify(rawFiqihData));
+        
     } catch (error) {
-        listContainer.innerHTML = `<div class="text-center py-20"><i class="fa-solid fa-triangle-exclamation text-red-400 text-3xl mb-3"></i><p class="text-red-500 font-bold text-xs uppercase">Gagal Memuat Data Fiqih</p></div>`;
+        // JIKA OFFLINE / GAGAL FETCH, AMBIL DARI MEMORI HP
+        console.log("Koneksi terputus! Mengambil data fiqih dari memori HP...");
+        const cachedFiqih = localStorage.getItem('al_mukhtar_fiqih_offline');
+        
+        if (cachedFiqih) {
+            rawFiqihData = JSON.parse(cachedFiqih);
+        } else {
+            // Jika memori HP masih kosong (belum pernah dibuka online sama sekali)
+            listContainer.innerHTML = `<div class="text-center py-20"><i class="fa-solid fa-triangle-exclamation text-red-400 text-3xl mb-3"></i><p class="text-red-500 font-bold text-xs uppercase">Gagal Memuat Data.<br>Buka aplikasi ini dengan koneksi internet untuk pertama kali.</p></div>`;
+            return;
+        }
     }
+    
+    // Proses perataan data (flattening) untuk fitur pencarian
+    let flatIndex = 0;
+    dataFiqihGlobal = [];
+    
+    if(rawFiqihData && rawFiqihData.bab) {
+        rawFiqihData.bab.forEach((b) => {
+            if(b.subbab) {
+                b.subbab.forEach((sb) => {
+                    const flatId = 'fiqih_' + flatIndex;
+                    dataFiqihGlobal.push({
+                        ...sb,
+                        id: flatId,
+                        kategori: b.nama_bab
+                    });
+                    sb.flatId = flatId; // Simpan id datar ke data asli
+                    flatIndex++;
+                });
+            }
+        });
+    }
+    
+    renderFiqihAccordion();
+}
+
+window.toggleFiqihAccordion = function(element, folderId) {
+    const wrapper = element.parentElement.querySelector('.submenu-wrapper'); 
+    const arrow = element.querySelector('.arrow-icon'); 
+    const isOpen = !wrapper.classList.contains('max-h-0');
+    
+    document.querySelectorAll('#fiqih-list-container .submenu-container').forEach(sub => {
+        const otherWrapper = sub.querySelector('.submenu-wrapper'); 
+        const otherArrow = sub.querySelector('.arrow-icon');
+        if (otherWrapper) { 
+            otherWrapper.style.maxHeight = '0px'; 
+            otherWrapper.classList.add('max-h-0'); 
+            otherWrapper.classList.remove('border-slate-200/60', 'mt-1'); 
+        }
+        if (otherArrow) { otherArrow.classList.remove('rotate-180'); }
+    });
+    
+    if (!isOpen) { 
+        wrapper.classList.remove('max-h-0'); 
+        wrapper.classList.add('border-slate-200/60', 'mt-1'); 
+        wrapper.style.maxHeight = wrapper.scrollHeight + 'px'; 
+        arrow.classList.add('rotate-180'); 
+        currentFiqihParentFolderId = folderId; 
+    } else { 
+        currentFiqihParentFolderId = null; 
+    }
+}
+
+function renderFiqihAccordion() {
+    currentFiqihView = 'list';
+    const listContainer = document.getElementById('fiqih-list-container');
+    let html = '';
+    
+    if(rawFiqihData && rawFiqihData.bab) {
+        rawFiqihData.bab.forEach((b, i) => {
+            const isOpened = (b.id === currentFiqihParentFolderId);
+            const wrapperClass = isOpened ? "submenu-wrapper overflow-hidden transition-all duration-300 bg-slate-50/50 rounded-b-2xl border-x border-b border-slate-200/60 mt-1" : "submenu-wrapper max-h-0 overflow-hidden transition-all duration-300 bg-slate-50/50 rounded-b-2xl border-x border-b border-transparent";
+            const arrowClass = isOpened ? "fa-solid fa-chevron-down text-teal-600 text-[10px] transition-transform duration-300 arrow-icon rotate-180" : "fa-solid fa-chevron-down text-teal-600 text-[10px] transition-transform duration-300 arrow-icon";
+            const maxH = isOpened ? 'style="max-height: 2000px;"' : '';
+            
+            html += `<div class="submenu-container mb-3">
+                <div onclick="toggleFiqihAccordion(this, ${b.id})" class="doa-item-card !mb-0 cursor-pointer">
+                    <div class="doa-number shrink-0"><i class="fa-solid fa-book-open-reader text-[10px]"></i></div>
+                    <span class="doa-title-text font-bold truncate">${b.nama_bab}</span>
+                    <span class="text-[9px] text-teal-600 bg-teal-50 px-2 py-0.5 rounded-full ml-auto mr-3 shrink-0 font-bold">${b.subbab ? b.subbab.length : 0} Tanya</span>
+                    <i class="${arrowClass} shrink-0"></i>
+                </div>
+                <div class="${wrapperClass}" ${maxH}>
+                    <div class="p-2 space-y-2">`;
+            
+            if(b.subbab) {
+                b.subbab.forEach((sb, j) => {
+                    let teksJudul = sb.judul ? sb.judul.replace(/\s+/g, ' ').replace(/\n/g, ' ').trim() : 'Tanpa Judul';
+                    html += `<div onclick="openFiqihDetail('${sb.flatId}')" class="doa-item-card sub-item-card !mb-0 last:mb-0 cursor-pointer flex items-stretch w-full overflow-hidden" style="max-width: 100%; box-sizing: border-box; display: flex !important;">
+                        <div class="doa-number !bg-teal-50/60 !text-teal-600 !border-teal-100 shrink-0 flex items-start justify-center mt-1" style="flex-shrink: 0;">${j+1}</div>
+                        <div class="flex-1 min-w-0 flex flex-col gap-1 pl-3 pr-2 py-0.5 overflow-hidden justify-center" style="flex: 1; min-w: 0; overflow: hidden;">
+                            <span class="doa-title-text !text-[12px] !leading-relaxed text-slate-700" style="display: -webkit-box; -webkit-line-clamp: 2; -webkit-box-orient: vertical; overflow: hidden; word-wrap: break-word; overflow-wrap: break-word; white-space: normal !important; max-width: 100%;">${teksJudul}</span>
+                        </div>
+                        <div class="shrink-0 pl-1 flex items-center justify-center" style="flex-shrink: 0;"><i class="fa-solid fa-chevron-right text-slate-300 text-[10px]"></i></div>
+                    </div>`;
+                });
+            }
+            
+            html += `</div></div></div>`;
+        });
+    }
+    
+    listContainer.innerHTML = html;
 }
 
 function renderFiqihList(dataToRender) {
@@ -1903,19 +2026,19 @@ function renderFiqihList(dataToRender) {
     
     let html = '';
     dataToRender.forEach((item) => {
-        let teksPertanyaan = item.pertanyaan ? item.pertanyaan.replace(/\n/g, ' ') : 'Tanpa Pertanyaan';
+        let teksJudul = item.judul ? item.judul.replace(/\s+/g, ' ').replace(/\n/g, ' ').trim() : 'Tanpa Judul';
         
         html += `
-        <div onclick="openFiqihDetail('${item.id}')" class="doa-item-card mb-3 cursor-pointer flex items-center w-full overflow-hidden" style="max-width: 100%; box-sizing: border-box; display: flex !important;">
+        <div onclick="openFiqihDetail('${item.id}')" class="doa-item-card mb-3 cursor-pointer flex items-stretch w-full overflow-hidden" style="max-width: 100%; box-sizing: border-box; display: flex !important;">
             
-            <div class="doa-number shrink-0 flex items-center justify-center" style="flex-shrink: 0;"><i class="fa-solid fa-scale-balanced text-[10px]"></i></div>
+            <div class="doa-number shrink-0 flex items-start justify-center mt-1" style="flex-shrink: 0;"><i class="fa-solid fa-scale-balanced text-[10px]"></i></div>
             
-            <div class="flex-1 min-w-0 flex flex-col gap-1 pl-3 pr-2 overflow-hidden" style="flex: 1; min-w: 0; overflow: hidden;">
+            <div class="flex-1 min-w-0 flex flex-col gap-1.5 pl-3 pr-2 py-0.5 overflow-hidden" style="flex: 1; min-w: 0; overflow: hidden;">
                 <span class="text-[9px] font-bold text-teal-600 bg-teal-50 w-fit px-2 py-0.5 rounded uppercase shrink-0" style="flex-shrink: 0;">${item.kategori || 'Fiqih'}</span>
                 
-                <span class="doa-title-text !text-[12px] !leading-snug text-slate-700" 
-                      style="display: -webkit-box; -webkit-line-clamp: 2; -webkit-box-orient: vertical; overflow: hidden; word-wrap: break-word; overflow-wrap: break-word; word-break: break-all; white-space: normal !important; max-width: 100%;">
-                    ${teksPertanyaan}
+                <span class="doa-title-text !text-[12px] !leading-relaxed text-slate-700 text-justify" 
+                      style="display: -webkit-box; -webkit-line-clamp: 2; -webkit-box-orient: vertical; overflow: hidden; word-wrap: break-word; overflow-wrap: break-word; white-space: normal !important; max-width: 100%;">
+                    ${teksJudul}
                 </span>
             </div>
             
@@ -1930,7 +2053,7 @@ window.searchFiqih = function(keyword) {
     const listContainer = document.getElementById('fiqih-list-container');
     
     if (!keyword || keyword.trim() === '') {
-        listContainer.innerHTML = getFiqihPlaceholderHtml();
+        renderFiqihAccordion(); // Kembali ke tampilan menu bab (accordion)
         return;
     }
     
@@ -1938,7 +2061,9 @@ window.searchFiqih = function(keyword) {
     const filteredData = dataFiqihGlobal.filter(item => {
         const tanya = item.pertanyaan ? item.pertanyaan.toLowerCase() : '';
         const jawab = item.jawaban ? item.jawaban.toLowerCase() : '';
-        return tanya.includes(lowerKeyword) || jawab.includes(lowerKeyword);
+        const judul = item.judul ? item.judul.toLowerCase() : '';
+        const deskripsi = item.deskripsi ? item.deskripsi.toLowerCase() : '';
+        return tanya.includes(lowerKeyword) || jawab.includes(lowerKeyword) || judul.includes(lowerKeyword) || deskripsi.includes(lowerKeyword);
     });
     
     renderFiqihList(filteredData);
@@ -1958,34 +2083,40 @@ window.openFiqihDetail = function(id) {
     
     const listContainer = document.getElementById('fiqih-list-container');
     
-    // FUNGSI FORMAT TEKS SUPER RAPI (Pendeteksi Nomor & Huruf Otomatis)
+    // FUNGSI FORMAT TEKS SUPER RAPI
     const formatTeks = (text) => {
         if (!text) return '';
-        
-        // 1. Bersihkan spasi berlebih bawaan JSON
         let txt = text.replace(/\s+/g, ' ').trim();
-        
-        // 2. Ubah enter bawaan (\n) menjadi baris baru (<br>)
         txt = txt.replace(/\\n|\n/g, '<br>');
-        
-        // 3. Deteksi angka (1., 2., 3.) agar otomatis turun baris, tebal, & warna hijau
         txt = txt.replace(/(?:^|\s|<br>)(\d+\.)\s/g, '<br><br><b class="text-teal-700">$1</b> ');
-        
-        // 4. Deteksi abjad (a., b., c.) agar otomatis turun baris & menjorok sedikit
         txt = txt.replace(/(?:^|\s|<br>)([a-z]\.)\s/g, '<br><span class="ml-3"><b class="text-teal-600">$1</b></span> ');
-        
-        // 5. Bersihkan <br> yang menumpuk di paling atas agar tidak ada ruang kosong
         txt = txt.replace(/^(<br>\s*)+/, '');
-        
         return txt;
     };
     
-    listContainer.innerHTML = `
+    let htmlContent = `
         <div class="bg-white p-4 md:p-6 rounded-2xl shadow-sm border border-slate-100 w-full" style="max-width: 100%; box-sizing: border-box;">
             <div class="text-center mb-4">
                 <span class="bg-teal-100 text-teal-700 text-[10px] font-bold px-3 py-1 rounded-full uppercase tracking-wider">${item.kategori || 'Fiqih'}</span>
             </div>
+    `;
+
+    // Tambahkan Judul jika ada
+    if (item.judul) {
+        htmlContent += `<div class="mb-4 text-center"><h3 class="font-bold text-slate-800 text-[15px]">${item.judul}</h3></div>`;
+    }
+
+    // Tambahkan Deskripsi permasalahan jika ada
+    if (item.deskripsi && item.deskripsi.trim() !== "") {
+        htmlContent += `
+            <div class="mb-4 bg-slate-50 p-3 rounded-lg border border-slate-100">
+                <div class="text-slate-600 text-[12px] text-justify leading-relaxed">
+                    ${formatTeks(item.deskripsi)}
+                </div>
+            </div>`;
+    }
             
+    htmlContent += `
             <div class="mb-5 w-full">
                 <div class="flex items-start gap-2.5 w-full">
                     <i class="fa-solid fa-circle-question text-teal-500 mt-1 shrink-0"></i>
@@ -2010,5 +2141,7 @@ window.openFiqihDetail = function(id) {
             </div>
         </div>
     `;
+    
+    listContainer.innerHTML = htmlContent;
     checkZoomBtnVisibility();
 }
