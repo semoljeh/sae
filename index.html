@@ -220,11 +220,11 @@
                 <span class="nav-label">Kalender</span>
             </div>
 
-            <!-- Posisi Quran sekarang di urutan ketiga -->
-            <div class="nav-item" id="nav-quran" onclick="toggleQuran()">
-                <span class="material-icons-outlined">auto_stories</span>
-                <span class="nav-label">Quran</span>
-            </div>
+            <!-- Posisi fiqih sekarang di urutan ketiga -->
+          <div class="nav-item" id="nav-fiqih" onclick="toggleFiqih()">
+    <span class="material-icons-outlined">menu_book</span>
+    <span class="nav-label">Fiqih</span>
+</div>
             
             <div class="nav-item" id="nav-doa" onclick="toggleDoa()">
                 <span class="flex items-center justify-center h-[22px] text-[20px]"><i class="fa-solid fa-hands-praying"></i></span>
@@ -335,6 +335,36 @@
             </div>
             <div id="doa-content" onscroll="handleDoaScroll(this)" class="flex-1 overflow-y-auto p-5 pb-24"></div>
         </div>
+		
+		
+		<div id="fiqih-modal" class="modal-full bg-slate-50">
+    <div id="fiqih-sticky-header" class="doa-header-premium">
+        <div class="flex items-center justify-between w-full min-h-[40px] gap-2">
+            <div class="shrink-0 flex justify-start">
+                <button onclick="goBackFiqih()" class="w-10 h-10 flex shrink-0 items-center justify-center bg-white/10 rounded-xl text-white hover:bg-white/20 active:scale-90 transition-transform"><i class="fa-solid fa-arrow-left"></i></button>
+            </div>
+            <div class="flex-1 flex justify-center min-w-0">
+                <div class="doa-glassbox !m-0 !py-1.5 !px-3 md:!px-4 w-fit max-w-full flex justify-center items-center">
+                    <h2 class="text-white text-[11px] md:text-xs font-extrabold uppercase tracking-wide leading-tight mt-[1px] text-center">FIQIH IBADAH</h2>
+                </div>
+            </div>
+            <div class="shrink-0 min-w-[40px]"></div>
+        </div>
+    </div>
+    
+    <div id="fiqih-content" onscroll="handleFiqihScroll(this)" class="flex-1 overflow-y-auto p-5 pb-24">
+        
+        <div id="fiqih-search-container" class="mb-5 relative">
+            <span class="material-icons-outlined absolute left-3 top-1/2 -translate-y-1/2 text-slate-400 text-[18px]">search</span>
+            <input type="text" id="fiqih-search-input" oninput="searchFiqih(this.value)" placeholder="Cari bab atau masalah fiqih..." class="w-full bg-white border border-slate-200 text-slate-700 placeholder:text-slate-400 text-[12px] font-semibold rounded-xl pl-10 pr-4 py-3 focus:outline-none focus:border-teal-400 focus:ring-1 focus:ring-teal-400 transition-all shadow-sm">
+        </div>
+
+        <div id="fiqih-list-container"></div>
+        
+    </div>
+</div>
+		
+		
 
         <div id="panduan-sholat-modal" class="modal-full bg-slate-50">
             <div id="panduan-sholat-sticky-header" class="panduan-sholat-header-premium">

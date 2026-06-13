@@ -146,13 +146,16 @@ window.addEventListener('popstate', function(event) {
         isPopping = false; checkZoomBtnVisibility(); return;
     }
 
+    // --- PASTIKAN SEMUA PENGECEKAN MODAL ADA DI SINI ---
     if (document.getElementById('quran-modal')?.classList.contains('modal-show')) { goBackQuran(); isPopping = false; checkZoomBtnVisibility(); return; }
+    if (document.getElementById('fiqih-modal')?.classList.contains('modal-show')) { goBackFiqih(); isPopping = false; checkZoomBtnVisibility(); return; } // <--- Fiqih ditaruh di sini
     if (document.getElementById('doa-modal')?.classList.contains('modal-show')) { goBackDoa(); isPopping = false; checkZoomBtnVisibility(); return; }
     if (document.getElementById('panduan-sholat-modal')?.classList.contains('modal-show')) { goBackPanduanSholat(); isPopping = false; checkZoomBtnVisibility(); return; }
     if (document.getElementById('calendar-modal')?.classList.contains('modal-show')) { toggleCalendar(); isPopping = false; checkZoomBtnVisibility(); return; }
     if (document.getElementById('sholat-modal')?.classList.contains('modal-show')) { goBackSholat(); isPopping = false; checkZoomBtnVisibility(); return; }
     if (document.getElementById('app-modal')?.classList.contains('modal-show')) { goBackAppMenu(); isPopping = false; checkZoomBtnVisibility(); return; }
 
+    // --- BLOK KELUAR APLIKASI HARUS ADA DI PALING BAWAH ---
     if (typeof Android !== 'undefined' && Android.exitApp) { 
         Android.exitApp(); 
     } else if (navigator.app && navigator.app.exitApp) {
@@ -166,7 +169,7 @@ window.addEventListener('popstate', function(event) {
 });
 
 function closeAllModals() {
-    ['quran-modal', 'doa-modal', 'panduan-sholat-modal', 'calendar-modal', 'sholat-modal', 'app-modal'].forEach(id => {
+    ['quran-modal', 'doa-modal', 'panduan-sholat-modal', 'calendar-modal', 'sholat-modal', 'app-modal', 'fiqih-modal'].forEach(id => {
         const m = document.getElementById(id); if (m) m.classList.remove('modal-show');
     });
     stopAudio(); 
@@ -1799,4 +1802,213 @@ function shareViaWhatsApp(text) {
             showToast("Tafsir disalin ke clipboard karena tidak bisa dibagikan langsung", "info");
         });
     }
+}
+
+/* ==========================================================================
+   DATA & MESIN FIQIH (FIX POSISI & ANTI-LUBER)
+   ========================================================================== */
+let currentFiqihView = 'list';
+let dataFiqihGlobal = [];
+
+window.handleFiqihScroll = function(el) { 
+    document.getElementById('fiqih-sticky-header').classList.toggle('doa-header-slim', el.scrollTop > 50); 
+}
+
+window.toggleFiqih = function() {
+    const el = document.getElementById('fiqih-modal');
+    if (!el.classList.contains('modal-show')) {
+        const wasOpen = document.querySelectorAll('.modal-show').length > 0;
+        closeAllModals(); 
+        if (!isPopping) { 
+            if (wasOpen) history.replaceState({ modal: 'fiqih' }, '', '#fiqih'); 
+            else history.pushState({ modal: 'fiqih' }, '', '#fiqih'); 
+        }
+        el.classList.add('modal-show'); 
+        
+        const searchInput = document.getElementById('fiqih-search-input');
+        if(searchInput) searchInput.value = '';
+        
+        loadFiqihData(); 
+        checkZoomBtnVisibility();
+    } else { 
+        goBackFiqih(); 
+    }
+}
+
+window.goBackFiqih = function() {
+    if (!isPopping) { history.back(); return; }
+    if (currentFiqihView === 'detail') { 
+        currentFiqihView = 'list'; 
+        document.getElementById('fiqih-search-container').style.display = 'block'; 
+        
+        const keyword = document.getElementById('fiqih-search-input').value;
+        searchFiqih(keyword); 
+        
+        document.getElementById('fiqih-content').scrollTo({ top: 0, behavior: 'smooth' }); 
+    } else { 
+        document.getElementById('fiqih-modal').classList.remove('modal-show'); 
+        resetNavToBeranda(); 
+    }
+    checkZoomBtnVisibility();
+}
+
+// Fungsi bantu untuk menampilkan gambar/ikon dan teks deskripsi awal
+function getFiqihPlaceholderHtml() {
+    return `
+    <div class="text-center pt-8 pb-10 w-full flex flex-col items-center justify-center px-4" style="box-sizing: border-box;">
+        
+        <div class="opacity-50 flex flex-col items-center">
+            <i class="fa-solid fa-book-open-reader text-5xl mb-4 text-slate-400"></i>
+            <p class="text-[11px] font-bold uppercase tracking-widest text-slate-500">Mulai ketik (misal: sholat)</p>
+            <p class="text-[10px] text-slate-400 mt-1 mb-6">untuk mencari tanya jawab fiqih</p>
+        </div>
+        
+        <div class="mt-2 bg-slate-50/50 border border-slate-100 p-4 rounded-xl max-w-[90%]">
+            <p class="text-[11px] text-slate-500 leading-relaxed font-medium">
+                Tanya jawab seputar fiqih sehari-hari yang dirangkum dari hasil tanya jawab santri di Pesantren Sidogiri.
+            </p>
+        </div>
+        
+    </div>`;
+}
+
+async function loadFiqihData() {
+    const listContainer = document.getElementById('fiqih-list-container');
+    document.getElementById('fiqih-search-container').style.display = 'block'; 
+    
+    // Posisi gambar instruksi awal disetel mepet ke atas (pt-2) agar pas di bawah kolom pencarian
+    listContainer.innerHTML = getFiqihPlaceholderHtml();
+    
+    try {
+        const response = await fetch('data_fiqih.json?v=' + new Date().getTime());
+        const rawData = await response.json();
+        
+        dataFiqihGlobal = rawData.map((item, index) => ({
+            ...item,
+            id: 'fiqih_' + index
+        }));
+    } catch (error) {
+        listContainer.innerHTML = `<div class="text-center py-20"><i class="fa-solid fa-triangle-exclamation text-red-400 text-3xl mb-3"></i><p class="text-red-500 font-bold text-xs uppercase">Gagal Memuat Data Fiqih</p></div>`;
+    }
+}
+
+function renderFiqihList(dataToRender) {
+    currentFiqihView = 'list';
+    const listContainer = document.getElementById('fiqih-list-container');
+    
+    if (!dataToRender || dataToRender.length === 0) {
+        listContainer.innerHTML = `<div class="text-center py-10"><p class="text-slate-400 text-[11px] font-bold uppercase tracking-widest">Pencarian tidak ditemukan.</p></div>`;
+        return;
+    }
+    
+    let html = '';
+    dataToRender.forEach((item) => {
+        let teksPertanyaan = item.pertanyaan ? item.pertanyaan.replace(/\n/g, ' ') : 'Tanpa Pertanyaan';
+        
+        html += `
+        <div onclick="openFiqihDetail('${item.id}')" class="doa-item-card mb-3 cursor-pointer flex items-center w-full overflow-hidden" style="max-width: 100%; box-sizing: border-box; display: flex !important;">
+            
+            <div class="doa-number shrink-0 flex items-center justify-center" style="flex-shrink: 0;"><i class="fa-solid fa-scale-balanced text-[10px]"></i></div>
+            
+            <div class="flex-1 min-w-0 flex flex-col gap-1 pl-3 pr-2 overflow-hidden" style="flex: 1; min-w: 0; overflow: hidden;">
+                <span class="text-[9px] font-bold text-teal-600 bg-teal-50 w-fit px-2 py-0.5 rounded uppercase shrink-0" style="flex-shrink: 0;">${item.kategori || 'Fiqih'}</span>
+                
+                <span class="doa-title-text !text-[12px] !leading-snug text-slate-700" 
+                      style="display: -webkit-box; -webkit-line-clamp: 2; -webkit-box-orient: vertical; overflow: hidden; word-wrap: break-word; overflow-wrap: break-word; word-break: break-all; white-space: normal !important; max-width: 100%;">
+                    ${teksPertanyaan}
+                </span>
+            </div>
+            
+            <div class="shrink-0 pl-1 flex items-center justify-center" style="flex-shrink: 0;"><i class="fa-solid fa-chevron-right text-slate-300 text-[10px]"></i></div>
+            
+        </div>`;
+    });
+    listContainer.innerHTML = html;
+}
+
+window.searchFiqih = function(keyword) {
+    const listContainer = document.getElementById('fiqih-list-container');
+    
+    if (!keyword || keyword.trim() === '') {
+        listContainer.innerHTML = getFiqihPlaceholderHtml();
+        return;
+    }
+    
+    const lowerKeyword = keyword.toLowerCase();
+    const filteredData = dataFiqihGlobal.filter(item => {
+        const tanya = item.pertanyaan ? item.pertanyaan.toLowerCase() : '';
+        const jawab = item.jawaban ? item.jawaban.toLowerCase() : '';
+        return tanya.includes(lowerKeyword) || jawab.includes(lowerKeyword);
+    });
+    
+    renderFiqihList(filteredData);
+}
+
+window.openFiqihDetail = function(id) {
+    if (!isPopping) history.pushState({ page: 'fiqih_detail' }, '', '#fiqih-detail');
+    currentFiqihView = 'detail';
+    
+    const item = dataFiqihGlobal.find(x => x.id === id);
+    if (!item) return;
+
+    const contentScroll = document.getElementById('fiqih-content');
+    contentScroll.scrollTop = 0;
+    
+    document.getElementById('fiqih-search-container').style.display = 'none';
+    
+    const listContainer = document.getElementById('fiqih-list-container');
+    
+    // FUNGSI FORMAT TEKS SUPER RAPI (Pendeteksi Nomor & Huruf Otomatis)
+    const formatTeks = (text) => {
+        if (!text) return '';
+        
+        // 1. Bersihkan spasi berlebih bawaan JSON
+        let txt = text.replace(/\s+/g, ' ').trim();
+        
+        // 2. Ubah enter bawaan (\n) menjadi baris baru (<br>)
+        txt = txt.replace(/\\n|\n/g, '<br>');
+        
+        // 3. Deteksi angka (1., 2., 3.) agar otomatis turun baris, tebal, & warna hijau
+        txt = txt.replace(/(?:^|\s|<br>)(\d+\.)\s/g, '<br><br><b class="text-teal-700">$1</b> ');
+        
+        // 4. Deteksi abjad (a., b., c.) agar otomatis turun baris & menjorok sedikit
+        txt = txt.replace(/(?:^|\s|<br>)([a-z]\.)\s/g, '<br><span class="ml-3"><b class="text-teal-600">$1</b></span> ');
+        
+        // 5. Bersihkan <br> yang menumpuk di paling atas agar tidak ada ruang kosong
+        txt = txt.replace(/^(<br>\s*)+/, '');
+        
+        return txt;
+    };
+    
+    listContainer.innerHTML = `
+        <div class="bg-white p-4 md:p-6 rounded-2xl shadow-sm border border-slate-100 w-full" style="max-width: 100%; box-sizing: border-box;">
+            <div class="text-center mb-4">
+                <span class="bg-teal-100 text-teal-700 text-[10px] font-bold px-3 py-1 rounded-full uppercase tracking-wider">${item.kategori || 'Fiqih'}</span>
+            </div>
+            
+            <div class="mb-5 w-full">
+                <div class="flex items-start gap-2.5 w-full">
+                    <i class="fa-solid fa-circle-question text-teal-500 mt-1 shrink-0"></i>
+                    <div class="font-bold text-slate-800 text-[14px] text-justify flex-1" 
+                         style="word-wrap: break-word; white-space: normal;">
+                        ${formatTeks(item.pertanyaan)}
+                    </div>
+                </div>
+            </div>
+            
+            <div class="w-full h-[1px] bg-slate-200 mb-5"></div>
+            
+            <div class="bg-slate-50 p-4 rounded-xl border border-slate-100 w-full" style="max-width: 100%; box-sizing: border-box;">
+                <span class="font-bold text-teal-600 block mb-3 uppercase tracking-wide text-[11px]">
+                    <i class="fa-solid fa-quote-left mr-1"></i> Jawaban:
+                </span>
+                <div class="text-slate-600 text-[13px] leading-relaxed text-justify font-sans w-full" 
+                     dir="auto" 
+                     style="word-wrap: break-word; overflow-wrap: break-word; white-space: normal;">
+                    ${formatTeks(item.jawaban)}
+                </div>
+            </div>
+        </div>
+    `;
+    checkZoomBtnVisibility();
 }
