@@ -81,6 +81,8 @@ function checkZoomBtnVisibility() {
     else if (document.getElementById('doa-modal')?.classList.contains('modal-show') && currentDoaView === 'detail') isReadingMode = true;
     else if (document.getElementById('panduan-sholat-modal')?.classList.contains('modal-show') && currentPanduanSholatView === 'detail') isReadingMode = true;
     else if (document.getElementById('app-modal')?.classList.contains('modal-show') && currentAppMenuView === 'detail') isReadingMode = true;
+    // KODE BARU: Deteksi jika modal fiqih sedang menampilkan halaman detail bacaan
+    else if (document.getElementById('fiqih-modal')?.classList.contains('modal-show') && currentFiqihView === 'detail') isReadingMode = true;
 
     if(isReadingMode) { 
         btn.style.display = 'flex'; 
@@ -2106,6 +2108,7 @@ window.openFiqihDetail = function(id) {
     
     const listContainer = document.getElementById('fiqih-list-container');
     
+    // FUNGSI FORMAT TEKS SUPER RAPI
     const formatTeks = (text) => {
         if (!text) return '';
         let txt = text.replace(/\s+/g, ' ').trim();
@@ -2123,14 +2126,15 @@ window.openFiqihDetail = function(id) {
             </div>
     `;
 
+    // RESPONSIVE ZOOM: Ditambahkan rumus font-size dinamis calc(... * var(--font-scale))
     if (item.judul) {
-        htmlContent += `<div class="mb-4 text-center"><h3 class="font-bold text-slate-800 text-[15px]">${item.judul}</h3></div>`;
+        htmlContent += `<div class="mb-4 text-center"><h3 class="font-bold text-slate-800" style="font-size: calc(16px * var(--font-scale)) !important; line-height: 1.4;">${item.judul}</h3></div>`;
     }
 
     if (item.deskripsi && item.deskripsi.trim() !== "") {
         htmlContent += `
             <div class="mb-4 bg-slate-50 p-3 rounded-lg border border-slate-100">
-                <div class="text-slate-600 text-[12px] text-justify leading-relaxed">
+                <div class="text-slate-600 text-justify leading-relaxed" style="font-size: calc(13px * var(--font-scale)) !important;">
                     ${formatTeks(item.deskripsi)}
                 </div>
             </div>`;
@@ -2140,8 +2144,8 @@ window.openFiqihDetail = function(id) {
             <div class="mb-5 w-full">
                 <div class="flex items-start gap-2.5 w-full">
                     <i class="fa-solid fa-circle-question text-teal-500 mt-1 shrink-0"></i>
-                    <div class="font-bold text-slate-800 text-[14px] text-justify flex-1" 
-                         style="word-wrap: break-word; white-space: normal;">
+                    <div class="font-bold text-slate-800 text-justify flex-1" 
+                         style="font-size: calc(15px * var(--font-scale)) !important; word-wrap: break-word; white-space: normal; line-height: 1.5;">
                         ${formatTeks(item.pertanyaan)}
                     </div>
                 </div>
@@ -2153,9 +2157,9 @@ window.openFiqihDetail = function(id) {
                 <span class="font-bold text-teal-600 block mb-3 uppercase tracking-wide text-[11px]">
                     <i class="fa-solid fa-quote-left mr-1"></i> Jawaban:
                 </span>
-                <div class="text-slate-600 text-[13px] leading-relaxed text-justify font-sans w-full" 
+                <div class="text-slate-600 leading-relaxed text-justify font-sans w-full" 
                      dir="auto" 
-                     style="word-wrap: break-word; overflow-wrap: break-word; white-space: normal;">
+                     style="font-size: calc(14px * var(--font-scale)) !important; word-wrap: break-word; overflow-wrap: break-word; white-space: normal; line-height: 1.6;">
                     ${formatTeks(item.jawaban)}
                 </div>
             </div>
