@@ -1995,8 +1995,8 @@ function renderFiqihAccordion() {
             const maxH = isOpened ? 'style="max-height: 2000px;"' : '';
             
             html += `<div class="submenu-container mb-3">
-                <div onclick="toggleFiqihAccordion(this, ${b.id})" class="doa-item-card !mb-0 cursor-pointer">
-                    <div class="doa-number shrink-0"><i class="fa-solid fa-book-open-reader text-[10px]"></i></div>
+                <div onclick="toggleFiqihAccordion(this, ${b.id})" class="doa-item-card !mb-0 cursor-pointer items-center">
+                    <div class="doa-number shrink-0 flex items-center justify-center"><i class="fa-solid fa-book-open-reader text-[10px]"></i></div>
                     <span class="doa-title-text font-bold truncate">${b.nama_bab}</span>
                     <span class="text-[9px] text-teal-600 bg-teal-50 px-2 py-0.5 rounded-full ml-auto mr-3 shrink-0 font-bold">${b.subbab ? b.subbab.length : 0} Tanya</span>
                     <i class="${arrowClass} shrink-0"></i>
@@ -2007,9 +2007,11 @@ function renderFiqihAccordion() {
             if(b.subbab) {
                 b.subbab.forEach((sb, j) => {
                     let teksJudul = sb.judul ? sb.judul.replace(/\s+/g, ' ').replace(/\n/g, ' ').trim() : 'Tanpa Judul';
-                    html += `<div onclick="openFiqihDetail('${sb.flatId}')" class="doa-item-card sub-item-card !mb-0 last:mb-0 cursor-pointer flex items-stretch w-full overflow-hidden" style="max-width: 100%; box-sizing: border-box; display: flex !important;">
-                        <div class="doa-number !bg-teal-50/60 !text-teal-600 !border-teal-100 shrink-0 flex items-start justify-center mt-1" style="flex-shrink: 0;">${j+1}</div>
-                        <div class="flex-1 min-w-0 flex flex-col gap-1 pl-3 pr-2 py-0.5 overflow-hidden justify-center" style="flex: 1; min-w: 0; overflow: hidden;">
+                    
+                    // PERUBAHAN CSS: Flex container dibuat items-center, mt-1 dihapus dari nomor
+                    html += `<div onclick="openFiqihDetail('${sb.flatId}')" class="doa-item-card sub-item-card !mb-0 last:mb-0 cursor-pointer flex items-center w-full overflow-hidden" style="max-width: 100%; box-sizing: border-box; display: flex !important;">
+                        <div class="doa-number !bg-teal-50/60 !text-teal-600 !border-teal-100 shrink-0 flex items-center justify-center" style="flex-shrink: 0;">${j+1}</div>
+                        <div class="flex-1 min-w-0 flex flex-col pl-3 pr-2 overflow-hidden justify-center" style="flex: 1; min-w: 0; overflow: hidden;">
                             <span class="doa-title-text !text-[12px] !leading-relaxed text-slate-700" style="display: -webkit-box; -webkit-line-clamp: 2; -webkit-box-orient: vertical; overflow: hidden; word-wrap: break-word; overflow-wrap: break-word; white-space: normal !important; max-width: 100%;">${teksJudul}</span>
                         </div>
                         <div class="shrink-0 pl-1 flex items-center justify-center" style="flex-shrink: 0;"><i class="fa-solid fa-chevron-right text-slate-300 text-[10px]"></i></div>
@@ -2020,14 +2022,11 @@ function renderFiqihAccordion() {
             html += `</div></div></div>`;
         });
 
-        // ==============================================================
-        // TAMBAHAN KETERANGAN DI PALING BAWAH DAFTAR BAB
-        // ==============================================================
         html += `
         <div class="text-center mt-8 mb-6 opacity-70">
             <span class="text-[10px] font-bold text-slate-400 uppercase tracking-[0.15em] flex flex-col items-center gap-1.5">
                 <i class="fa-solid fa-pen-nib text-slate-300 text-lg"></i>
-                Santri Salaf Menjawab <br>Tim Kajian Fiqih Pondok Pesantren Sidogiri
+                Santri Salaf Menjawab
             </span>
         </div>`;
     }
@@ -2048,12 +2047,13 @@ function renderFiqihList(dataToRender) {
     dataToRender.forEach((item) => {
         let teksJudul = item.judul ? item.judul.replace(/\s+/g, ' ').replace(/\n/g, ' ').trim() : 'Tanpa Judul';
         
+        // PERUBAHAN CSS: items-center pada box utama, dan flex item center pada nomor/ikon
         html += `
-        <div onclick="openFiqihDetail('${item.id}')" class="doa-item-card mb-3 cursor-pointer flex items-stretch w-full overflow-hidden" style="max-width: 100%; box-sizing: border-box; display: flex !important;">
+        <div onclick="openFiqihDetail('${item.id}')" class="doa-item-card mb-3 cursor-pointer flex items-center w-full overflow-hidden" style="max-width: 100%; box-sizing: border-box; display: flex !important;">
             
-            <div class="doa-number shrink-0 flex items-start justify-center mt-1" style="flex-shrink: 0;"><i class="fa-solid fa-scale-balanced text-[10px]"></i></div>
+            <div class="doa-number shrink-0 flex items-center justify-center" style="flex-shrink: 0;"><i class="fa-solid fa-scale-balanced text-[10px]"></i></div>
             
-            <div class="flex-1 min-w-0 flex flex-col gap-1.5 pl-3 pr-2 py-0.5 overflow-hidden" style="flex: 1; min-w: 0; overflow: hidden;">
+            <div class="flex-1 min-w-0 flex flex-col gap-1.5 pl-3 pr-2 overflow-hidden justify-center" style="flex: 1; min-w: 0; overflow: hidden;">
                 <span class="text-[9px] font-bold text-teal-600 bg-teal-50 w-fit px-2 py-0.5 rounded uppercase shrink-0" style="flex-shrink: 0;">${item.kategori || 'Fiqih'}</span>
                 
                 <span class="doa-title-text !text-[12px] !leading-relaxed text-slate-700 text-justify" 
