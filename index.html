@@ -221,9 +221,9 @@
             </div>
 
             <!-- Posisi fiqih sekarang di urutan ketiga -->
-          <div class="nav-item" id="nav-fiqih" onclick="toggleFiqih()">
-    <span class="material-icons-outlined">menu_book</span>
-    <span class="nav-label">Fiqih</span>
+<div class="nav-item" id="nav-ai" onclick="toggleAi()">
+    <span class="material-icons-outlined">smart_toy</span>
+    <span class="nav-label">Tanya AI</span>
 </div>
             
             <div class="nav-item" id="nav-doa" onclick="toggleDoa()">
@@ -337,30 +337,33 @@
         </div>
 		
 		
-		<div id="fiqih-modal" class="modal-full bg-slate-50">
-    <div id="fiqih-sticky-header" class="doa-header-premium">
+<div id="ai-modal" class="modal-full bg-slate-50">
+    <div id="ai-sticky-header" class="doa-header-premium">
         <div class="flex items-center justify-between w-full min-h-[40px] gap-2">
             <div class="shrink-0 flex justify-start">
-                <button onclick="goBackFiqih()" class="w-10 h-10 flex shrink-0 items-center justify-center bg-white/10 rounded-xl text-white hover:bg-white/20 active:scale-90 transition-transform"><i class="fa-solid fa-arrow-left"></i></button>
+                <button onclick="goBackAi()" class="w-10 h-10 flex shrink-0 items-center justify-center bg-white/10 rounded-xl text-white hover:bg-white/20 active:scale-90 transition-transform"><i class="fa-solid fa-arrow-left"></i></button>
             </div>
             <div class="flex-1 flex justify-center min-w-0">
                 <div class="doa-glassbox !m-0 !py-1.5 !px-3 md:!px-4 w-fit max-w-full flex justify-center items-center">
-                    <h2 class="text-white text-[11px] md:text-xs font-extrabold uppercase tracking-wide leading-tight mt-[1px] text-center">FIQIH IBADAH</h2>
+                    <h2 class="text-white text-[11px] md:text-xs font-extrabold uppercase tracking-wide leading-tight mt-[1px] text-center">TANYA USTAZ AI</h2>
                 </div>
             </div>
             <div class="shrink-0 min-w-[40px]"></div>
         </div>
     </div>
     
-    <div id="fiqih-content" onscroll="handleFiqihScroll(this)" class="flex-1 overflow-y-auto p-5 pb-24">
-        
-        <div id="fiqih-search-container" class="mb-5 relative">
-            <span class="material-icons-outlined absolute left-3 top-1/2 -translate-y-1/2 text-slate-400 text-[18px]">search</span>
-            <input type="text" id="fiqih-search-input" oninput="searchFiqih(this.value)" placeholder="Santri Salaf Menjawab" class="w-full bg-white border border-slate-200 text-slate-700 placeholder:text-slate-400 text-[12px] font-semibold rounded-xl pl-10 pr-4 py-3 focus:outline-none focus:border-teal-400 focus:ring-1 focus:ring-teal-400 transition-all shadow-sm">
+<div id="ai-chat-content" class="flex-1 overflow-y-auto p-5 pb-24 flex flex-col gap-4">
+        <div class="chat-bubble-ai">
+            <strong>Assalamu'alaikum!</strong> <i class="fa-solid fa-hands-praying text-teal-600"></i><br>
+            Saya adalah Asisten AI Al-Mukhtar yang siap merangkum jawaban seputar ilmu fiqih, amalan, dan doa berdasarkan sumber tepercaya manhaj Ahlussunnah wal Jamaah (NU Online).<br><br>Ada hal yang ingin Anda tanyakan hari ini?
         </div>
+    </div>
 
-        <div id="fiqih-list-container"></div>
-        
+    <div class="absolute bottom-0 left-0 w-full bg-white border-t border-slate-200 p-3 px-4 flex gap-2 items-end z-50">
+        <textarea id="ai-chat-input" placeholder="Tulis pertanyaan fiqih/amalan..." class="w-full bg-slate-50 border border-slate-200 text-slate-700 placeholder:text-slate-400 text-[13px] rounded-2xl p-3 max-h-[100px] focus:outline-none focus:border-teal-400 focus:ring-1 focus:ring-teal-400 transition-all resize-none" rows="1"></textarea>
+        <button onclick="sendMessageAi()" id="btn-send-ai" class="w-12 h-12 shrink-0 bg-teal-600 text-white rounded-2xl flex items-center justify-center active:scale-90 transition-transform shadow-md disabled:bg-slate-300 disabled:cursor-not-allowed">
+            <i class="fa-solid fa-paper-plane"></i>
+        </button>
     </div>
 </div>
 		
