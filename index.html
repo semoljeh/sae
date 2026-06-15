@@ -363,11 +363,17 @@
         </div>
     </div>
 
-    <div class="absolute bottom-0 left-0 w-full bg-white border-t border-slate-200 p-3 px-4 flex gap-2 items-end z-50">
-        <textarea id="ai-chat-input" placeholder="Tulis pertanyaan fiqih/amalan..." class="w-full bg-slate-50 border border-slate-200 text-slate-700 placeholder:text-slate-400 text-[13px] rounded-2xl p-3 max-h-[100px] focus:outline-none focus:border-teal-400 focus:ring-1 focus:ring-teal-400 transition-all resize-none" rows="1"></textarea>
-        <button onclick="sendMessageAi()" id="btn-send-ai" class="w-12 h-12 shrink-0 bg-teal-600 text-white rounded-2xl flex items-center justify-center active:scale-90 transition-transform shadow-md disabled:bg-slate-300 disabled:cursor-not-allowed">
-            <i class="fa-solid fa-paper-plane"></i>
-        </button>
+    <div class="absolute bottom-0 left-0 w-full bg-white border-t border-slate-200 px-4 pt-3 pb-2 z-50 flex flex-col">
+        <div class="flex gap-2 items-end w-full">
+            <textarea id="ai-chat-input" placeholder="Tulis pertanyaan fiqih/amalan..." class="w-full bg-slate-50 border border-slate-200 text-slate-700 placeholder:text-slate-400 text-[13px] rounded-2xl p-3 max-h-[100px] focus:outline-none focus:border-teal-400 focus:ring-1 focus:ring-teal-400 transition-all resize-none" rows="1"></textarea>
+            <button onclick="sendMessageAi()" id="btn-send-ai" class="w-12 h-12 shrink-0 bg-teal-600 text-white rounded-2xl flex items-center justify-center active:scale-90 transition-transform shadow-md disabled:bg-slate-300 disabled:cursor-not-allowed">
+                <i class="fa-solid fa-paper-plane"></i>
+            </button>
+        </div>
+        
+        <p class="text-[9px] md:text-[10px] text-center text-slate-400 mt-2 mb-0 leading-tight px-1 font-sans">
+            <i class="fa-solid fa-triangle-exclamation mr-1"></i> Ustaz AI adalah sistem yang bisa keliru. Jadikan ini referensi awal saja, utamakan ngaji dan bertanya langsung pada Guru, Kiai, atau Ulama.
+        </p>
     </div>
 </div>
 		
