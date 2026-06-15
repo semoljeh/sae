@@ -1981,14 +1981,55 @@ window.sendMessageAi = async function() {
 function appendMessageAi(sender, text) {
     const chatContent = document.getElementById('ai-chat-content');
     const div = document.createElement('div');
-    if(sender === 'user') {
+    
+    if (sender === 'user') {
+        // Pesan dari User langsung dimunculkan (tanpa efek ngetik)
         div.className = 'chat-bubble-user';
         div.innerText = text; 
+        chatContent.appendChild(div);
     } else {
+        // Pesan dari AI diberi efek mengetik
         div.className = 'chat-bubble-ai';
-        div.innerHTML = text; 
+        chatContent.appendChild(div);
+        
+        // --- MESIN EFEK NGETIK PINTAR ---
+        let i = 0;
+        let isTag = false;
+        let currentText = "";
+        let typingSpeed = 10; // Kecepatan ngetik dalam milidetik (bisa diubah, makin kecil makin cepat)
+
+        function typeWriter() {
+            if (i < text.length) {
+                let char = text.charAt(i);
+                currentText += char;
+                
+                // Deteksi jika sedang menulis tag kode HTML agar desain tidak hancur
+                if (char === '<') isTag = true;
+                if (char === '>') isTag = false;
+                
+                div.innerHTML = currentText;
+                i++;
+                
+                // Auto-scroll ke bawah mengikuti teks yang sedang diketik
+                if (i % 4 === 0) {
+                    chatContent.scrollTop = chatContent.scrollHeight;
+                }
+                
+                // Jika berupa tag HTML, eksekusi instan tanpa jeda. Jika teks biasa, beri jeda ngetik.
+                if (isTag) {
+                    typeWriter();
+                } else {
+                    setTimeout(typeWriter, typingSpeed);
+                }
+            } else {
+                // Selesai ngetik, pastikan layar scroll penuh ke bawah
+                chatContent.scrollTo({ top: chatContent.scrollHeight, behavior: 'smooth' });
+            }
+        }
+        
+        // Mulai jalankan efek ngetiknya
+        typeWriter();
     }
-    chatContent.appendChild(div);
 }
 
 function appendTypingIndicatorAi(id) {
