@@ -1845,137 +1845,256 @@ function shareViaWhatsApp(text) {
 }
 
 /* ==========================================================================
-   MESIN AI CHATBOT (GEMINI API BERGAYA NU ONLINE)
+   MESIN AI CHATBOT (GEMINI API BERGAYA NU ONLINE VIA CLOUDFLARE)
    ========================================================================== */
-// ⚠️ MASUKKAN API KEY ANDA DI SINI (Dapatkan gratis di aistudio.google.com)
-const GEMINI_API_KEY = "AQ.Ab8RN6L8c_M65t_gtXFHyisoma3M9GAP1MgJwjalsuKtXuVeNQ";
 
+// 1. FUNGSI NAVIGASI MODAL AI (MEMBUKA & MENUTUP JENDELA CHAT)
 window.toggleAi = function() {
-    const el = document.getElementById('ai-modal');
-    if (!el.classList.contains('modal-show')) {
-        const wasOpen = document.querySelectorAll('.modal-show').length > 0;
-        closeAllModals(); 
-        if (!isPopping) { 
-            if (wasOpen) history.replaceState({ modal: 'ai' }, '', '#ai'); 
-            else history.pushState({ modal: 'ai' }, '', '#ai'); 
+    const el = document.getElementById('ai-modal'); //
+    if (!el.classList.contains('modal-show')) { //[cite: 3]
+        const wasOpen = document.querySelectorAll('.modal-show').length > 0; //[cite: 3]
+        closeAllModals(); //[cite: 3]
+        if (!isPopping) { //[cite: 3]
+            if (wasOpen) history.replaceState({ modal: 'ai' }, '', '#ai'); //[cite: 3]
+            else history.pushState({ modal: 'ai' }, '', '#ai'); //[cite: 3]
         }
-        el.classList.add('modal-show'); 
-        checkZoomBtnVisibility();
+        el.classList.add('modal-show'); //[cite: 3]
+        checkZoomBtnVisibility(); //[cite: 3]
         
-        // KODE BARU: Sembunyikan menu navigasi bawah
-        const bNav = document.querySelector('.bottom-nav');
-        if(bNav) bNav.style.display = 'none';
+        // Sembunyikan menu navigasi bawah agar chat terlihat penuh
+        const bNav = document.querySelector('.bottom-nav'); //[cite: 3]
+        if(bNav) bNav.style.display = 'none'; //[cite: 3]
         
-    } else { 
-        goBackAi(); 
+    } else { //[cite: 3]
+        goBackAi(); //[cite: 3]
     }
 }
 
 window.goBackAi = function() {
-    if (!isPopping) { history.back(); return; }
-    document.getElementById('ai-modal').classList.remove('modal-show'); 
-    resetNavToBeranda(); 
-    checkZoomBtnVisibility();
+    if (!isPopping) { history.back(); return; } //[cite: 3]
+    document.getElementById('ai-modal').classList.remove('modal-show'); //[cite: 3]
+    resetNavToBeranda(); //[cite: 3]
+    checkZoomBtnVisibility(); //[cite: 3]
     
-    // KODE BARU: Munculkan kembali menu navigasi bawah saat ditutup
-    const bNav = document.querySelector('.bottom-nav');
-    if(bNav) bNav.style.display = 'flex';
+    // Munculkan kembali menu navigasi bawah saat keluar dari menu AI
+    const bNav = document.querySelector('.bottom-nav'); //[cite: 3]
+    if(bNav) bNav.style.display = 'flex'; //[cite: 3]
 }
 
-// Auto-resize textarea input
+// 2. SISTEM OTOMATIS PELEBARAN KOTAK INPUT CHAT (AUTO-RESIZE TEXTAREA)
 document.addEventListener('DOMContentLoaded', () => {
-    const chatInput = document.getElementById('ai-chat-input');
-    if(chatInput) {
-        chatInput.addEventListener('input', function() {
-            this.style.height = 'auto';
-            this.style.height = (this.scrollHeight) + 'px';
+    const chatInput = document.getElementById('ai-chat-input'); //[cite: 3]
+    if(chatInput) { //[cite: 3]
+        chatInput.addEventListener('input', function() { //[cite: 3]
+            this.style.height = 'auto'; //[cite: 3]
+            this.style.height = (this.scrollHeight) + 'px'; //[cite: 3]
         });
     }
 });
 
+// Variabel global untuk mengontrol pembatalan request pesan
+let currentController = null; //[cite: 3]
+
+// 3. FUNGSI UTAMA PENGIRIMAN PESAN KE PROXY SERVER CLOUDFLARE
 window.sendMessageAi = async function() {
-    const inputEl = document.getElementById('ai-chat-input');
-    const btnEl = document.getElementById('btn-send-ai');
-    const chatContent = document.getElementById('ai-chat-content');
-    const message = inputEl.value.trim();
+    const inputEl = document.getElementById('ai-chat-input'); //[cite: 3]
+    const btnEl = document.getElementById('btn-send-ai'); //[cite: 3]
+    const chatContent = document.getElementById('ai-chat-content'); //[cite: 3]
+    const message = inputEl.value.trim(); //[cite: 3]
 
-    if(!message) return;
-
-    // Tampilkan pesan user
-    appendMessageAi('user', message);
-    inputEl.value = '';
-    inputEl.style.height = 'auto';
-    
-    const typingId = 'typing-' + Date.now();
-    appendTypingIndicatorAi(typingId);
-    chatContent.scrollTo({ top: chatContent.scrollHeight, behavior: 'smooth' });
-
-    inputEl.disabled = true;
-    btnEl.disabled = true;
-
-    try {
-        const url = `https://generativelanguage.googleapis.com/v1beta/models/gemini-2.5-flash:generateContent?key=${GEMINI_API_KEY}`;
-// PROMPT KHUSUS: Mengubah AI menjadi Ustaz Super Pintar & Pembuat Naskah
-        const systemInstruction = "Kamu adalah Ustaz AI Al-Mukhtar, asisten cerdas dan cendekiawan muslim ahli fiqih madzhab Syafi'i bermanhaj Ahlussunnah wal Jamaah (Asy'ariyah/Maturidiyah). JAWABLAH LANGSUNG layaknya seorang kiai/ustaz kepada jamaahnya di aplikasi chat. DILARANG KERAS menggunakan kalimat pengantar robot seperti 'Baik', 'Tentu', atau 'Berikut adalah'. TUGAS UTAMAMU: 1) Mampu membuat naskah pidato, khutbah Jumat/Idul Fitri, dan teks MC Islami yang memukau. 2) Menjawab segala macam pertanyaan agama dan fiqih secara mendalam dan komprehensif. 3) Wajib menyertakan dalil Al-Qur'an, Hadits, Ijma', dan Qiyas (beserta teks Arab dan terjemahannya) jika ditanya soal hukum. 4) Prioritaskan rujukan kitab kuning, bahtsulah masail, dan fatwa dari situs: santriai.com/perpus_digital/, nu.or.id, quran.nu.or.id, annajahsidogiri.id, sidogiri.net, dan lirboyo.net. Gunakan bahasa Indonesia yang santun, menyejukkan, dan paragraf yang tertata rapi. Selalu akhiri setiap jawabanmu dengan kalimat: 'Wallahu a'lam bissawab. (Referensi dirangkum dari khazanah Kitab Kuning / NU / Sidogiri / Lirboyo / SantriAI)'. Pertanyaan jamaah: ";
-
-        const response = await fetch(url, {
-            method: 'POST',
-            headers: { 'Content-Type': 'application/json' },
-            body: JSON.stringify({
-                contents: [{ role: "user", parts: [{ text: systemInstruction + message }] }]
-            })
-        });
-
-        const data = await response.json();
-        
-        // MEMUNCULKAN PESAN ASLI DARI GOOGLE DI CONSOLE (F12)
-        console.log("Respon dari Server Google:", data);
-
-        removeTypingIndicatorAi(typingId);
-
-        if (!response.ok) {
-            // Jika API Key salah atau kuota habis, akan masuk ke sini
-            let errorMsg = data.error ? data.error.message : "Ditolak oleh server Google";
-            appendMessageAi('ai', `🚨 <strong>Gagal (${response.status}):</strong> ${errorMsg}`);
-        } 
-       else if (data && data.candidates && data.candidates.length > 0) {
-            let aiResponseText = data.candidates[0].content.parts[0].text;
-            
-        
-       // KODE BARU 1: Deteksi otomatis huruf Arab dan ubah ke font LPMQ
-            const arabicRegex = /([\u0600-\u06FF\u0750-\u077F\u08A0-\u08FF\uFB50-\uFDFF\uFE70-\uFEFF\u0610-\u061A\u064B-\u065F\u0670\u06D6-\u06DC\u06DF-\u06E8\u06EA-\u06ED\s]+)/g;
-            aiResponseText = aiResponseText.replace(arabicRegex, function(match) {
-                // Abaikan jika hanya berupa spasi kosong
-                if (match.trim().length === 0 || !/[\u0600-\u06FF]/.test(match)) {
-                    return match;
-                }
-                // HANYA PANGGIL CLASS .font-arab AGAR UKURAN & SPASI PERSIS SEPERTI MENU DOA/RATIB
-                return `<div dir="rtl" lang="ar" class="font-arab w-full">${match.trim()}</div>`;
-            });
-
-            // KODE BARU 2: Format Teks Bawaan (Tebal, Miring, dan Baris Baru)
-            aiResponseText = aiResponseText.replace(/\*\*(.*?)\*\*/g, '<strong>$1</strong>'); // Cetak tebal
-            aiResponseText = aiResponseText.replace(/\*(.*?)\*/g, '<em class="text-slate-500">$1</em>'); // Cetak miring (latin)
-            aiResponseText = aiResponseText.replace(/\n/g, '<br>');
-            
-            // Bersihkan sisa <br> ganda setelah elemen div Arab agar tidak terlalu renggang
-            aiResponseText = aiResponseText.replace(/<\/div><br>/g, '</div>');
-
-            appendMessageAi('ai', aiResponseText);
+    // Jika tombol ditekan dalam mode "STOP"
+    if (btnEl.dataset.mode === 'stop') { //[cite: 3]
+        if (currentController) { //[cite: 3]
+            currentController.abort(); //[cite: 3]
+            currentController = null; //[cite: 3]
         }
-		else {
-            appendMessageAi('ai', "Maaf, server sedang sibuk. Silakan coba lagi.");
-        }
-    } catch (error) {
-        removeTypingIndicatorAi(typingId);
-        appendMessageAi('ai', "🚨 <strong>Koneksi Terputus:</strong> Cek koneksi internet Anda atau matikan ekstensi AdBlocker/Anti-Iklan.");
-        console.error("Fetch Error:", error);
+        resetButtonMode(); //[cite: 3]
+        appendMessageAi('ai', "_Ananda, jawaban Ustaz hentikan sementara. Semoga tetap bermanfaat ya._"); //[cite: 3]
+        return;
     }
 
-    inputEl.disabled = false;
-    btnEl.disabled = false;
-    inputEl.focus();
-    chatContent.scrollTo({ top: chatContent.scrollHeight, behavior: 'smooth' });
+    if (!message) return; //[cite: 3]
+
+    // Tampilkan pesan user di layar chat
+    appendMessageAi('user', message); //[cite: 3]
+    inputEl.value = ''; //[cite: 3]
+    inputEl.style.height = 'auto'; //[cite: 3]
+    
+    setButtonMode('stop'); //[cite: 3]
+    
+    const typingId = 'typing-' + Date.now(); //[cite: 3]
+    appendTypingIndicatorAi(typingId); //[cite: 3]
+    chatContent.scrollTo({ top: chatContent.scrollHeight, behavior: 'smooth' }); //[cite: 3]
+
+    currentController = new AbortController(); //[cite: 3]
+
+    try {
+        // MENGARAHKAN LANGSUNG KE PROXY SERVER CLOUDFLARE AKANG
+        const CLOUDFLARE_URL = "https://almukhtar-ai.aromtemplate.workers.dev";
+        
+        const response = await fetch(CLOUDFLARE_URL, {
+            method: 'POST',
+            headers: { 'Content-Type': 'application/json' },
+            body: JSON.stringify({ message: message }),
+            signal: currentController.signal //[cite: 3]
+        });
+
+        const data = await response.json(); //[cite: 3]
+        removeTypingIndicatorAi(typingId); //[cite: 3]
+
+        // Jika diblokir oleh sistem perlindungan Anti-Spam Cloudflare Workers
+        if (!response.ok && data.error) {
+            appendMessageAi('ai', `⏳ ${data.error}`);
+            return;
+        }
+
+        if (data && data.candidates && data.candidates.length > 0) { //[cite: 3]
+            let aiResponseText = data.candidates[0].content.parts[0].text; //[cite: 3]
+            
+            // Pembersihan dan Formatting teks Arab (RTL) serta cetak tebal/miring
+            const arabicRegex = /([\u0600-\u06FF\u0750-\u077F\u08A0-\u08FF\uFB50-\uFDFF\uFE70-\uFEFF\u0610-\u061A\u064B-\u065F\u0670\u06D6-\u06DC\u06DF-\u06E8\u06EA-\u06ED\s]+)/g; //[cite: 3]
+            aiResponseText = aiResponseText.replace(arabicRegex, match => { //[cite: 3]
+                if (match.trim().length === 0 || !/[\u0600-\u06FF]/.test(match)) return match; //[cite: 3]
+                return `<div dir="rtl" lang="ar" class="font-arab w-full">${match.trim()}</div>`; //[cite: 3]
+            });
+
+            aiResponseText = aiResponseText.replace(/\*\*(.*?)\*\*/g, '<strong>$1</strong>'); //[cite: 3]
+            aiResponseText = aiResponseText.replace(/\*(.*?)\*/g, '<em class="text-slate-500">$1</em>'); //[cite: 3]
+            aiResponseText = aiResponseText.replace(/\n/g, '<br>'); //[cite: 3]
+            aiResponseText = aiResponseText.replace(/<\/div><br>/g, '</div>'); //[cite: 3]
+
+            appendMessageAi('ai', aiResponseText); //[cite: 3]
+        } else {
+            appendMessageAi('ai', "Maaf Ananda, sepertinya ada sedikit kendala. Silakan coba kembali ya."); //[cite: 3]
+        }
+    } catch (error) {
+        if (error.name !== 'AbortError') { //[cite: 3]
+            removeTypingIndicatorAi(typingId); //[cite: 3]
+            appendMessageAi('ai', "🚨 <strong>Koneksi Terputus:</strong> Hubungan ke server terganggu."); //[cite: 3]
+        }
+    } finally {
+        resetButtonMode(); //[cite: 3]
+        inputEl.focus(); //[cite: 3]
+    }
+};
+
+// 4. FUNGSI PENDUKUNG (TAMPILAN TOMBOL, BUBBLE CHAT & INDIKATOR KETIK)
+function setButtonMode(mode) {
+    const btn = document.getElementById('btn-send-ai'); //[cite: 3]
+    if (mode === 'stop') { //[cite: 3]
+        btn.dataset.mode = 'stop'; //[cite: 3]
+        btn.classList.replace('bg-teal-600', 'bg-red-600'); //[cite: 3]
+        btn.innerHTML = '<i class="fa-solid fa-stop"></i>'; //[cite: 3]
+    }
+}
+
+function resetButtonMode() {
+    const btn = document.getElementById('btn-send-ai'); //[cite: 3]
+    btn.dataset.mode = 'send'; //[cite: 3]
+    btn.classList.replace('bg-red-600', 'bg-teal-600'); //[cite: 3]
+    btn.innerHTML = '<i class="fa-solid fa-paper-plane"></i>'; //[cite: 3]
+}
+
+function appendMessageAi(sender, text) {
+    const chatContent = document.getElementById('ai-chat-content'); //[cite: 3]
+    const div = document.createElement('div');
+    
+    if (sender === 'user') {
+        div.className = 'chat-bubble-user'; //[cite: 3]
+        div.innerText = text; //[cite: 3]
+        chatContent.appendChild(div);
+    } else {
+        div.className = 'chat-bubble-ai'; //[cite: 3]
+        chatContent.appendChild(div);
+        
+        let i = 0;
+        let isTag = false;
+        let currentText = "";
+        let typingSpeed = 10; //[cite: 3]
+
+        function typeWriter() {
+            if (i < text.length) {
+                let char = text.charAt(i);
+                currentText += char;
+                if (char === '<') isTag = true;
+                if (char === '>') isTag = false;
+                div.innerHTML = currentText;
+                i++;
+                if (i % 4 === 0) chatContent.scrollTop = chatContent.scrollHeight; //[cite: 3]
+                if (isTag) typeWriter();
+                else setTimeout(typeWriter, typingSpeed);
+            } else {
+                chatContent.scrollTo({ top: chatContent.scrollHeight, behavior: 'smooth' }); //[cite: 3]
+            }
+        }
+        typeWriter();
+    }
+}
+
+function appendTypingIndicatorAi(id) {
+    const chatContent = document.getElementById('ai-chat-content'); //[cite: 3]
+    const div = document.createElement('div');
+    div.id = id; //[cite: 3]
+    div.className = 'chat-bubble-ai flex items-center justify-center py-3'; //[cite: 3]
+    div.innerHTML = '<div class="typing-indicator"><span></span><span></span><span></span></div>'; //[cite: 3]
+    chatContent.appendChild(div);
+}
+
+function removeTypingIndicatorAi(id) {
+    const el = document.getElementById(id); //[cite: 3]
+    if(el) el.remove(); //[cite: 3]
+}
+
+// 5. FUNGSI SHARE (MEMBAGIKAN RINGKASAN OBROLAN KE WHATSAPP)
+window.shareChatConversations = function() {
+    const chatContent = document.getElementById('ai-chat-content'); //[cite: 3]
+    if (!chatContent) return; //[cite: 3]
+
+    const bubbles = chatContent.querySelectorAll('.chat-bubble-user, .chat-bubble-ai'); //[cite: 3]
+    let textToShare = "*📢 RANGKUMAN TANYA JAWAB USTAZ AI*\n\n";
+    let adaPercakapan = false;
+
+    bubbles.forEach((bubble, index) => {
+        if (index === 0 && bubble.classList.contains('chat-bubble-ai')) return; //[cite: 3]
+        if (bubble.classList.contains('chat-bubble-user')) {
+            textToShare += `❓ *Tanya:* ${bubble.innerText}\n`; //[cite: 3]
+        } else if (bubble.classList.contains('chat-bubble-ai')) {
+            textToShare += `✅ *Jawab:* ${bubble.innerText}\n\n`; //[cite: 3]
+            adaPercakapan = true; //[cite: 3]
+        }
+    });
+
+    textToShare += "_Referensi dirangkum via Aplikasi Al-Mukhtar Digital Library_"; //[cite: 3]
+
+    if (!adaPercakapan) {
+        showToast("Belum ada obrolan hukum yang bisa dibagikan.", "info"); //[cite: 3]
+        return;
+    }
+
+    if (navigator.share) {
+        navigator.share({ title: 'Rangkuman Tanya Jawab Al-Mukhtar AI', text: textToShare }) //[cite: 3]
+        .catch((err) => console.log('Batal berbagi:', err)); //[cite: 3]
+    } else {
+        const waUrl = `https://api.whatsapp.com/send?text=${encodeURIComponent(textToShare)}`; //[cite: 3]
+        window.open(waUrl, '_blank'); //[cite: 3]
+    }
+}
+
+// Fungsi pembantu untuk ubah tampilan tombol (Send vs Stop)
+function setButtonMode(mode) {
+    const btn = document.getElementById('btn-send-ai');
+    if (mode === 'stop') {
+        btn.dataset.mode = 'stop';
+        btn.classList.replace('bg-teal-600', 'bg-red-600');
+        btn.innerHTML = '<i class="fa-solid fa-stop"></i>';
+    }
+}
+
+function resetButtonMode() {
+    const btn = document.getElementById('btn-send-ai');
+    btn.dataset.mode = 'send';
+    btn.classList.replace('bg-red-600', 'bg-teal-600');
+    btn.innerHTML = '<i class="fa-solid fa-paper-plane"></i>';
 }
 
 function appendMessageAi(sender, text) {
@@ -2044,4 +2163,49 @@ function appendTypingIndicatorAi(id) {
 function removeTypingIndicatorAi(id) {
     const el = document.getElementById(id);
     if(el) el.remove();
+}
+// Fungsi membagikan rangkuman percakapan Chat AI (Support PWA & APK)
+window.shareChatConversations = function() {
+    const chatContent = document.getElementById('ai-chat-content');
+    if (!chatContent) return;
+
+    // Ambil semua bubble chat user dan AI
+    const bubbles = chatContent.querySelectorAll('.chat-bubble-user, .chat-bubble-ai');
+    let textToShare = "*📢 RANGKUMAN TANYA JAWAB USTAZ AI*\n\n";
+    let adaPercakapan = false;
+
+    bubbles.forEach((bubble, index) => {
+        // Lewati pesan sambutan pembuka Ustaz AI yang paling pertama
+        if (index === 0 && bubble.classList.contains('chat-bubble-ai')) return;
+
+        if (bubble.classList.contains('chat-bubble-user')) {
+            textToShare += `❓ *Tanya:* ${bubble.innerText}\n`;
+        } else if (bubble.classList.contains('chat-bubble-ai')) {
+            // Mengambil teks bersih dari bubble AI (otomatis mengabaikan tag HTML seperti <br> / <div>)
+            textToShare += `✅ *Jawab:* ${bubble.innerText}\n\n`;
+            adaPercakapan = true;
+        }
+    });
+
+    textToShare += "_Referensi dirangkum via Aplikasi Al-Mukhtar Digital Library_";
+
+    // Validasi jika belum ada chat dari user
+    if (!adaPercakapan) {
+        showToast("Belum ada obrolan hukum yang bisa dibagikan.", "info");
+        return;
+    }
+
+    // Eksekusi Share system (Sangat optimal untuk PWA dan APK WebView)
+    if (navigator.share) {
+        navigator.share({
+            title: 'Rangkuman Tanya Jawab Al-Mukhtar AI',
+            text: textToShare
+        })
+        .then(() => console.log('Sukses berbagi chat!'))
+        .catch((err) => console.log('Batal berbagi:', err));
+    } else {
+        // Fallback otomatis buka WhatsApp jika dibuka di browser/perangkat tua
+        const waUrl = `https://api.whatsapp.com/send?text=${encodeURIComponent(textToShare)}`;
+        window.open(waUrl, '_blank');
+    }
 }
