@@ -1881,13 +1881,25 @@ window.goBackAi = function() {
     if(bNav) bNav.style.display = 'flex'; //
 }
 
-// 2. SISTEM OTOMATIS PELEBARAN KOTAK INPUT CHAT (AUTO-RESIZE TEXTAREA)
+// 2. SISTEM OTOMATIS PELEBARAN KOTAK INPUT CHAT & SCROLL KEYBOARD
 document.addEventListener('DOMContentLoaded', () => {
-    const chatInput = document.getElementById('ai-chat-input'); //
-    if(chatInput) { //
-        chatInput.addEventListener('input', function() { //
-            this.style.height = 'auto'; //
-            this.style.height = (this.scrollHeight) + 'px'; //
+    const chatInput = document.getElementById('ai-chat-input');
+    const chatContent = document.getElementById('ai-chat-content');
+    
+    if(chatInput) {
+        // Auto-resize textarea
+        chatInput.addEventListener('input', function() {
+            this.style.height = 'auto';
+            this.style.height = (this.scrollHeight) + 'px';
+        });
+
+        // Paksa scroll ke bawah saat keyboard muncul (fokus ke input)
+        chatInput.addEventListener('focus', () => {
+            setTimeout(() => {
+                if(chatContent) {
+                    chatContent.scrollTo({ top: chatContent.scrollHeight, behavior: 'smooth' });
+                }
+            }, 300); // Jeda 300ms menunggu animasi keyboard HP selesai naik
         });
     }
 });
