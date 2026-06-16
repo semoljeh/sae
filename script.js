@@ -2169,40 +2169,46 @@ window.goBackAi = function() {
 }
 
 // ==========================================================================
-// RADAR KEYBOARD PRESISI (FINAL: Anti Melayang & Cerdas Deteksi APK)
+// RADAR KEYBOARD PRESISI (FINAL: Anti Melayang Saat Keyboard Turun)
 // ==========================================================================
 
-// 1. Paksa body ke atas via JS agar tidak melayang
+// 1. Paksa body ke atas via JS agar tidak melayang di tengah layar
 document.body.style.setProperty('align-items', 'flex-start', 'important');
 
 let maxScreenHeight = window.innerHeight;
+let isLayarBisaMengecil = false; // Sensor Memori Cerdas
 
-// 2. Fungsi cerdas pendeteksi layar & penyesuaian tinggi
 function sesuaikanLayar() {
     const vh = window.visualViewport ? window.visualViewport.height : window.innerHeight;
-    if (vh > maxScreenHeight) maxScreenHeight = vh; // Rekam tinggi maksimal HP
+    
+    // Merekam tinggi layar terbesar yang tersedia
+    if (vh > maxScreenHeight) maxScreenHeight = vh;
+    
+    // KUNCI UTAMA: Jika layar terbukti bisa mengecil (Browser/PWA), catat secara permanen!
+    if (vh < maxScreenHeight - 100) {
+        isLayarBisaMengecil = true;
+    }
 
     // Potong kontainer utama pas di atas keyboard
     const appContainer = document.querySelector('.app-container');
     if (appContainer) appContainer.style.height = vh + 'px';
 
-    const isMobile = /Android|webOS|iPhone|iPad|iPod|BlackBerry|IEMobile|Opera Mini/i.test(navigator.userAgent);
-    
-    // RUMUS CERDAS: Jika tinggi saat ini masih sama dengan tinggi maksimal (layar tidak menyusut),
-    // berarti ini APK kaku. Jika menyusut, berarti ini Google Chrome.
-    const isLayarKaku = isMobile && (vh >= maxScreenHeight - 50);
-    
+    const aiModal = document.getElementById('ai-modal');
+    if (aiModal) aiModal.style.height = vh + 'px';
+
     const chatInput = document.getElementById('ai-chat-input');
     const isFokus = document.activeElement === chatInput;
-    const aiModal = document.getElementById('ai-modal');
 
     if (aiModal && aiModal.classList.contains('modal-show')) {
-        if (isLayarKaku && isFokus) {
-            aiModal.style.paddingBottom = '42vh'; // Dorong paksa KHUSUS di APK kaku
+        // LOGIKA BARU: JIKA layar kaku (APK) DAN sedang ngetik, baru didorong.
+        // TAPI jika layar sudah terbukti bisa mengecil alami, JANGAN PERNAH DIDORONG LAGI.
+        if (isFokus && !isLayarBisaMengecil) {
+            aiModal.style.paddingBottom = '42vh';
         } else {
-            aiModal.style.paddingBottom = '0px'; // Normal di Browser Chrome (TIDAK DOBEL)
+            aiModal.style.paddingBottom = '0px'; 
         }
 
+        // Dorong isi chat agar yang terbaru terlihat
         const chatContent = document.getElementById('ai-chat-content');
         if (chatContent) {
             setTimeout(() => {
@@ -2212,21 +2218,25 @@ function sesuaikanLayar() {
     }
 }
 
-// 3. Pasang telinga (listener) pergerakan layar
+// Pasang telinga pergerakan ukuran layar
 if (window.visualViewport) {
     window.visualViewport.addEventListener('resize', sesuaikanLayar);
 }
 
-// 4. Pemicu saat kolom ketik disentuh jamaah
+// Pemicu saat kolom ketik disentuh atau ditinggalkan
 const chatInput = document.getElementById('ai-chat-input');
 if (chatInput) {
     chatInput.addEventListener('focus', () => setTimeout(sesuaikanLayar, 300));
-    chatInput.addEventListener('blur', () => setTimeout(sesuaikanLayar, 100));
+    chatInput.addEventListener('blur', () => {
+        // PENGAMAN EKSTRA: Pastikan ganjalan hilang 100% saat selesai ngetik
+        const aiModal = document.getElementById('ai-modal');
+        if (aiModal) aiModal.style.paddingBottom = '0px';
+    });
 }
 
 sesuaikanLayar();
 
-// 5. Kembalikan ukuran normal saat keluar menu AI
+// Kembalikan ukuran normal saat keluar menu AI
 if (!window.originalGoBackAiSaved) {
     window.originalGoBackAiSaved = window.goBackAi;
     window.goBackAi = function() {
@@ -2234,6 +2244,6 @@ if (!window.originalGoBackAiSaved) {
         if (aiModal) aiModal.style.paddingBottom = '0px'; // Lepas ganjalan
         
         window.originalGoBackAiSaved(); 
-        if (typeof aiChatHistory !== 'undefined') aiChatHistory = []; // Hapus memori
+        if (typeof aiChatHistory !== 'undefined') aiChatHistory = []; // Hapus memori obrolan
     }
 }
