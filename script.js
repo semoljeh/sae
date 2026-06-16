@@ -1881,36 +1881,55 @@ window.goBackAi = function() {
     if(bNav) bNav.style.display = 'flex'; //
 }
 
-// 2. SISTEM OTOMATIS PELEBARAN KOTAK INPUT CHAT & SCROLL KEYBOARD
+// 2. SISTEM OTOMATIS PELEBARAN KOTAK INPUT CHAT & RADAR KEYBOARD APK
 document.addEventListener('DOMContentLoaded', () => {
     const chatInput = document.getElementById('ai-chat-input');
     const chatContent = document.getElementById('ai-chat-content');
     
     if(chatInput) {
-        // Auto-resize textarea
+        // Auto-resize textarea saat mengetik panjang
         chatInput.addEventListener('input', function() {
             this.style.height = 'auto';
             this.style.height = (this.scrollHeight) + 'px';
         });
 
-        // Paksa scroll ke bawah saat keyboard muncul (fokus ke input)
+        // =========================================================
+        // HACK KHUSUS APK: Paksa obrolan naik jika layar kaku
+        // =========================================================
         chatInput.addEventListener('focus', () => {
             setTimeout(() => {
-                if(chatContent) {
-                    chatContent.scrollTo({ top: chatContent.scrollHeight, behavior: 'smooth' });
+                // 1. KUNCI PERBAIKAN: Cek apakah pengguna menggunakan HP/Tablet
+                const isMobile = /Android|webOS|iPhone|iPad|iPod|BlackBerry|IEMobile|Opera Mini/i.test(navigator.userAgent);
+                
+                // 2. Trik ganjal layar hanya aktif jika terdeteksi di HP DAN layarnya kaku (APK)
+                const isLayarKaku = isMobile && (!window.visualViewport || window.visualViewport.height >= window.innerHeight - 100);
+                
+                if (isLayarKaku) {
+                    // Ganjal bagian bawah modal setinggi 45vh (perkiraan tinggi keyboard HP)
+                    const modalAi = document.getElementById('ai-modal');
+                    if (modalAi) {
+                        modalAi.style.paddingBottom = '45vh'; 
+                        modalAi.style.transition = 'padding 0.3s ease';
+                    }
                 }
-            }, 300); // Jeda 300ms menunggu animasi keyboard HP selesai naik
+                
+                // Posisikan scroll agar kotak ketik dan obrolan terlihat
+                if(chatContent) chatContent.scrollTo({ top: chatContent.scrollHeight, behavior: 'smooth' });
+            }, 300); // Tunggu keyboard selesai muncul
+        });
+
+        // Kembalikan layar ke ukuran normal saat keyboard ditutup
+        chatInput.addEventListener('blur', () => {
+            const modalAi = document.getElementById('ai-modal');
+            if (modalAi) modalAi.style.paddingBottom = '0px';
         });
 
         // =========================================================
-        // FUNGSI BARU: MENGIRIM PESAN DENGAN TOMBOL ENTER KEYBOARD
+        // FUNGSI MENGIRIM PESAN DENGAN TOMBOL ENTER KEYBOARD
         // =========================================================
         chatInput.addEventListener('keydown', function(e) {
-            // Jika tombol Enter ditekan tanpa menahan tombol Shift
             if (e.key === 'Enter' && !e.shiftKey) {
                 e.preventDefault(); // Mencegah teks turun ke baris baru
-                
-                // Pastikan tombol kirim sedang tidak dalam mode 'stop'
                 const btnEl = document.getElementById('btn-send-ai');
                 if (btnEl && btnEl.dataset.mode !== 'stop') {
                     sendMessageAi(); // Eksekusi fungsi kirim
