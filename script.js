@@ -1897,7 +1897,6 @@ let currentController = null; //
 
 // 3. FUNGSI UTAMA PENGIRIMAN PESAN (VERSI PUNCAK: ANTI-CRASH & MEMORI CERDAS)
 
-
 // Array global memori percakapan
 let aiChatHistory = [];
 
@@ -1940,64 +1939,50 @@ window.sendMessageAi = async function() {
     let historyToSend = aiChatHistory.slice(-10);
 
     try {
-     
-const CLOUDFLARE_URL = "https://sae.aromterate.workers.dev";
+        // URL API RAG Ustaz AI Baru (Menggunakan GET)
+        const CLOUDFLARE_URL = `https://ustaz-ai-rag.aromkeyapi.workers.dev/?q=${encodeURIComponent(message)}`;
+        
         const response = await fetch(CLOUDFLARE_URL, {
-            method: 'POST',
-            headers: { 'Content-Type': 'application/json' },
-            body: JSON.stringify({ history: historyToSend }),
+            method: 'GET',
             signal: currentController.signal
         });
 
-        // Amankan jika Cloudflare tiba-tiba mengirim HTML (bukan JSON)
-        const contentType = response.headers.get("content-type");
-        if (!contentType || !contentType.includes("application/json")) {
-            throw new Error("Server Sibuk"); 
-        }
-
-        const data = await response.json();
+        // Karena API baru kita langsung mengembalikan teks murni, gunakan .text()
+        const rawAiText = await response.text();
         removeTypingIndicatorAi(typingId);
 
         // Jika error dari server
-        if (!response.ok || data.error) {
-            appendMessageAi('ai', `⏳ ${data.error || "Afwan Ananda, pusat keilmuan sedang sibuk."}`);
+        if (!response.ok || rawAiText.includes("Terjadi kesalahan") || rawAiText.includes("Terjadi kendala")) {
+            appendMessageAi('ai', `⏳ Afwan Ananda, pusat keilmuan sedang sibuk: ${rawAiText}`);
             aiChatHistory.pop(); // Mundurkan memori otomatis
             return;
         }
 
-        // Jika berhasil
-        if (data && data.candidates && data.candidates.length > 0) {
-            const candidate = data.candidates[0];
-            
-            // Pengamanan Blokir Kata Sensitif dari Google
-            if (candidate.finishReason === "SAFETY" || !candidate.content || !candidate.content.parts) {
-                appendMessageAi('ai', "Maaf Ananda, Ustaz belum bisa menjawab karena terbatasnya referensi mengenai hal tersebut.");
-                aiChatHistory.pop();
-                return;
-            }
-
-            let rawAiText = candidate.content.parts[0].text;
-            
-            // Simpan ke memori permanen
-            aiChatHistory.push({ role: "model", parts: [{ text: rawAiText }] });
-
-            let aiResponseText = rawAiText;
-            const arabicRegex = /([\u0600-\u06FF\u0750-\u077F\u08A0-\u08FF\uFB50-\uFDFF\uFE70-\uFEFF\u0610-\u061A\u064B-\u065F\u0670\u06D6-\u06DC\u06DF-\u06E8\u06EA-\u06ED\s]+)/g;
-            aiResponseText = aiResponseText.replace(arabicRegex, match => {
-                if (match.trim().length === 0 || !/[\u0600-\u06FF]/.test(match)) return match;
-                return `<div dir="rtl" lang="ar" class="font-arab w-full">${match.trim()}</div>`;
-            });
-
-            aiResponseText = aiResponseText.replace(/\*\*(.*?)\*\*/g, '<strong>$1</strong>');
-            aiResponseText = aiResponseText.replace(/\*(.*?)\*/g, '<em class="text-slate-500">$1</em>');
-            aiResponseText = aiResponseText.replace(/\n/g, '<br>');
-            aiResponseText = aiResponseText.replace(/<\/div><br>/g, '</div>');
-
-            appendMessageAi('ai', aiResponseText);
-        } else {
+        // Jika teks kosong
+        if (!rawAiText || rawAiText.trim() === "") {
             appendMessageAi('ai', "Maaf Ananda, Ustaz belum menemukan jawaban. Silakan ulangi kembali.");
             aiChatHistory.pop();
+            return;
         }
+            
+        // Simpan ke memori permanen
+        aiChatHistory.push({ role: "model", parts: [{ text: rawAiText }] });
+
+        let aiResponseText = rawAiText;
+        // Percantik teks Arab dan Format Miring/Tebal
+        const arabicRegex = /([\u0600-\u06FF\u0750-\u077F\u08A0-\u08FF\uFB50-\uFDFF\uFE70-\uFEFF\u0610-\u061A\u064B-\u065F\u0670\u06D6-\u06DC\u06DF-\u06E8\u06EA-\u06ED\s]+)/g;
+        aiResponseText = aiResponseText.replace(arabicRegex, match => {
+            if (match.trim().length === 0 || !/[\u0600-\u06FF]/.test(match)) return match;
+            return `<div dir="rtl" lang="ar" class="font-arab w-full">${match.trim()}</div>`;
+        });
+
+        aiResponseText = aiResponseText.replace(/\*\*(.*?)\*\*/g, '<strong>$1</strong>');
+        aiResponseText = aiResponseText.replace(/\*(.*?)\*/g, '<em class="text-slate-500">$1</em>');
+        aiResponseText = aiResponseText.replace(/\n/g, '<br>');
+        aiResponseText = aiResponseText.replace(/<\/div><br>/g, '</div>');
+
+        appendMessageAi('ai', aiResponseText);
+        
     } catch (error) {
         removeTypingIndicatorAi(typingId);
         aiChatHistory.pop(); // Wajib buang riwayat terakhir jika gagal agar chat tetap bisa jalan
