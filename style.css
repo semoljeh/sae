@@ -66,7 +66,7 @@ body {
 
 /* Background utama putih bersih agar menyatu dengan navigasi OS Android */
 html, body{ width:100%; height:100%; overflow:hidden; background-color: #ffffff !important; }
-body{ display:flex; justify-content:center; align-items:center; }
+body{ display:flex; justify-content:center; align-items:flex-start !important; }
 
 /* APP CONTAINER */
 .app-container{ width:100%; max-width:412px; height:100%; background:#f8fafc; position:relative; display:flex; flex-direction:column; overflow:hidden; box-shadow:0 12px 40px rgba(0,0,0,.12); }
@@ -896,20 +896,17 @@ h1.font-kufi { font-size: clamp(24px, 9vw, 40px) !important; }
 .typing-indicator span:nth-child(3) { animation-delay: 0.4s; }
 @keyframes typing { 0%, 80%, 100% { transform: scale(0); } 40% { transform: scale(1); } }
 
-/* ==========================================================================
-   HACK KHUSUS TAMPILAN NATIVE UNTUK CHAT AI
-   ========================================================================== */
-#ai-modal {
-    position: absolute !important;
-    top: 0 !important;
-    left: 0 !important;
-    width: 100% !important;
-    height: 100% !important;
-    overscroll-behavior: none !important; /* Mengunci latar belakang modal AI */
-    contain: strict !important;           /* Melarang konten merusak/menggeser layout luar */
+#ai-chat-content {
+    overscroll-behavior-y: contain !important; /* MENGURUNG EFEK TARIKAN AGAR TIDAK MEMBAL */
+    -webkit-overflow-scrolling: touch !important;
+}
+
+/* KUNCI ANTI MELAYANG KE TENGAH */
+body {
+    align-items: flex-start !important;
 }
 
 #ai-chat-content {
-    overscroll-behavior-y: contain !important; /* MENGURUNG EFEK TARIKAN AGAR TIDAK MEMBAL */
+    overscroll-behavior-y: contain !important; 
     -webkit-overflow-scrolling: touch !important;
 }

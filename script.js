@@ -1881,47 +1881,26 @@ window.goBackAi = function() {
     if(bNav) bNav.style.display = 'flex'; //
 }
 
-// 2. SISTEM OTOMATIS PELEBARAN KOTAK INPUT CHAT & RADAR KEYBOARD APK
-// 2. SISTEM OTOMATIS PELEBARAN KOTAK INPUT CHAT & SENSOR KEYBOARD
+// 2. SISTEM KOTAK INPUT CHAT BERSIH
 document.addEventListener('DOMContentLoaded', () => {
     const chatInput = document.getElementById('ai-chat-input');
     const chatContent = document.getElementById('ai-chat-content');
     
     if(chatInput) {
-        // Auto-resize textarea saat ngetik panjang
+        // Auto-resize kotak ketik saat ngetik panjang
         chatInput.addEventListener('input', function() {
             this.style.height = 'auto';
             this.style.height = (this.scrollHeight) + 'px';
         });
 
-        // Saat diklik (Keyboard Naik)
+        // Fokus otomatis scroll ke bawah
         chatInput.addEventListener('focus', () => {
             setTimeout(() => {
-                // Deteksi apakah dibuka di HP atau Laptop
-                const isMobile = /Android|webOS|iPhone|iPad|iPod|BlackBerry|IEMobile|Opera Mini/i.test(navigator.userAgent);
-                
-                // Deteksi apakah ini APK yang layarnya kaku (Tinggi viewport tidak menyusut)
-                const isApkKaku = isMobile && (!window.visualViewport || window.visualViewport.height >= window.innerHeight - 50);
-                
-                // Jika ini di dalam APK yang kaku, ganjal layarnya agar tidak ketutup
-                const modalAi = document.getElementById('ai-modal');
-                if (isApkKaku && modalAi) {
-                    modalAi.style.paddingBottom = '42vh'; // Ganjalan presisi untuk APK
-                    modalAi.style.transition = 'padding 0.3s ease';
-                }
-                
-                // Otomatis scroll obrolan ke bawah
                 if(chatContent) chatContent.scrollTo({ top: chatContent.scrollHeight, behavior: 'smooth' });
             }, 300);
         });
 
-        // Saat selesai ngetik (Keyboard Turun)
-        chatInput.addEventListener('blur', () => {
-            const modalAi = document.getElementById('ai-modal');
-            if (modalAi) modalAi.style.paddingBottom = '0px'; // Lepas ganjalan
-        });
-
-        // Fungsi Tombol Enter Keyboard
+        // Tombol Enter untuk kirim
         chatInput.addEventListener('keydown', function(e) {
             if (e.key === 'Enter' && !e.shiftKey) {
                 e.preventDefault(); 
@@ -2190,22 +2169,71 @@ window.goBackAi = function() {
 }
 
 // ==========================================================================
-// RADAR KEYBOARD HP (Mencegah input tertutup)
+// RADAR KEYBOARD PRESISI (FINAL: Anti Melayang & Cerdas Deteksi APK)
 // ==========================================================================
-if (window.visualViewport) {
-    window.visualViewport.addEventListener('resize', function() {
-        const appContainer = document.querySelector('.app-container');
-        if (appContainer) {
-            // Paksa tinggi aplikasi menyesuaikan sisa layar saat keyboard muncul
-            appContainer.style.height = window.visualViewport.height + 'px';
+
+// 1. Paksa body ke atas via JS agar tidak melayang
+document.body.style.setProperty('align-items', 'flex-start', 'important');
+
+let maxScreenHeight = window.innerHeight;
+
+// 2. Fungsi cerdas pendeteksi layar & penyesuaian tinggi
+function sesuaikanLayar() {
+    const vh = window.visualViewport ? window.visualViewport.height : window.innerHeight;
+    if (vh > maxScreenHeight) maxScreenHeight = vh; // Rekam tinggi maksimal HP
+
+    // Potong kontainer utama pas di atas keyboard
+    const appContainer = document.querySelector('.app-container');
+    if (appContainer) appContainer.style.height = vh + 'px';
+
+    const isMobile = /Android|webOS|iPhone|iPad|iPod|BlackBerry|IEMobile|Opera Mini/i.test(navigator.userAgent);
+    
+    // RUMUS CERDAS: Jika tinggi saat ini masih sama dengan tinggi maksimal (layar tidak menyusut),
+    // berarti ini APK kaku. Jika menyusut, berarti ini Google Chrome.
+    const isLayarKaku = isMobile && (vh >= maxScreenHeight - 50);
+    
+    const chatInput = document.getElementById('ai-chat-input');
+    const isFokus = document.activeElement === chatInput;
+    const aiModal = document.getElementById('ai-modal');
+
+    if (aiModal && aiModal.classList.contains('modal-show')) {
+        if (isLayarKaku && isFokus) {
+            aiModal.style.paddingBottom = '42vh'; // Dorong paksa KHUSUS di APK kaku
+        } else {
+            aiModal.style.paddingBottom = '0px'; // Normal di Browser Chrome (TIDAK DOBEL)
         }
-        
-        // Otomatis dorong obrolan ke paling bawah agar tidak tertutup
+
         const chatContent = document.getElementById('ai-chat-content');
-        if (chatContent && document.getElementById('ai-modal').classList.contains('modal-show')) {
+        if (chatContent) {
             setTimeout(() => {
-                chatContent.scrollTo({ top: chatContent.scrollHeight, behavior: 'smooth' });
-            }, 100);
+                chatContent.scrollTo({ top: chatContent.scrollHeight, behavior: 'instant' });
+            }, 50);
         }
-    });
+    }
+}
+
+// 3. Pasang telinga (listener) pergerakan layar
+if (window.visualViewport) {
+    window.visualViewport.addEventListener('resize', sesuaikanLayar);
+}
+
+// 4. Pemicu saat kolom ketik disentuh jamaah
+const chatInput = document.getElementById('ai-chat-input');
+if (chatInput) {
+    chatInput.addEventListener('focus', () => setTimeout(sesuaikanLayar, 300));
+    chatInput.addEventListener('blur', () => setTimeout(sesuaikanLayar, 100));
+}
+
+sesuaikanLayar();
+
+// 5. Kembalikan ukuran normal saat keluar menu AI
+if (!window.originalGoBackAiSaved) {
+    window.originalGoBackAiSaved = window.goBackAi;
+    window.goBackAi = function() {
+        const aiModal = document.getElementById('ai-modal');
+        if (aiModal) aiModal.style.paddingBottom = '0px'; // Lepas ganjalan
+        
+        window.originalGoBackAiSaved(); 
+        if (typeof aiChatHistory !== 'undefined') aiChatHistory = []; // Hapus memori
+    }
 }
