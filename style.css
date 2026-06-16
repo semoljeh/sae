@@ -41,7 +41,9 @@
 *{ margin:0; padding:0; box-sizing:border-box; font-family:-apple-system,BlinkMacSystemFont,"Segoe UI",Roboto,sans-serif; -webkit-tap-highlight-color:transparent; -webkit-user-select:none; user-select:none; }
 
 /* Background utama putih bersih agar menyatu dengan navigasi OS Android */
-html, body{ width:100%; min-height:100%; overflow-x:hidden; scroll-behavior:smooth; background-color: #ffffff !important; }
+html, body{ width:100%; height:100%; overflow:hidden; background-color: #ffffff !important; }
+body{ display:flex; justify-content:center; align-items:center; }
+.app-container{ width:100%; max-width:412px; height:100%; background:#f8fafc; position:relative; display:flex; flex-direction:column; overflow:hidden; box-shadow:0 12px 40px rgba(0,0,0,.12); }
 body{ display:flex; justify-content:center; align-items:center; }
 
 /* APP CONTAINER */

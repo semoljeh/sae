@@ -2161,3 +2161,24 @@ window.goBackAi = function() {
     originalGoBackAi();
     aiChatHistory = []; // Reset memori chat ke kosong
 }
+
+// ==========================================================================
+// RADAR KEYBOARD HP (Mencegah input tertutup)
+// ==========================================================================
+if (window.visualViewport) {
+    window.visualViewport.addEventListener('resize', function() {
+        const appContainer = document.querySelector('.app-container');
+        if (appContainer) {
+            // Paksa tinggi aplikasi menyesuaikan sisa layar saat keyboard muncul
+            appContainer.style.height = window.visualViewport.height + 'px';
+        }
+        
+        // Otomatis dorong obrolan ke paling bawah agar tidak tertutup
+        const chatContent = document.getElementById('ai-chat-content');
+        if (chatContent && document.getElementById('ai-modal').classList.contains('modal-show')) {
+            setTimeout(() => {
+                chatContent.scrollTo({ top: chatContent.scrollHeight, behavior: 'smooth' });
+            }, 100);
+        }
+    });
+}
