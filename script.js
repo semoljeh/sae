@@ -1901,11 +1901,24 @@ document.addEventListener('DOMContentLoaded', () => {
                 }
             }, 300); // Jeda 300ms menunggu animasi keyboard HP selesai naik
         });
+
+        // =========================================================
+        // FUNGSI BARU: MENGIRIM PESAN DENGAN TOMBOL ENTER KEYBOARD
+        // =========================================================
+        chatInput.addEventListener('keydown', function(e) {
+            // Jika tombol Enter ditekan tanpa menahan tombol Shift
+            if (e.key === 'Enter' && !e.shiftKey) {
+                e.preventDefault(); // Mencegah teks turun ke baris baru
+                
+                // Pastikan tombol kirim sedang tidak dalam mode 'stop'
+                const btnEl = document.getElementById('btn-send-ai');
+                if (btnEl && btnEl.dataset.mode !== 'stop') {
+                    sendMessageAi(); // Eksekusi fungsi kirim
+                }
+            }
+        });
     }
 });
-
-// Variabel global untuk mengontrol pembatalan request pesan
-let currentController = null; //
 
 // 3. FUNGSI UTAMA PENGIRIMAN PESAN (VERSI PUNCAK: ANTI-CRASH & MEMORI CERDAS)
 
