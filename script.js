@@ -2169,80 +2169,82 @@ window.goBackAi = function() {
 }
 
 // ==========================================================================
-// RADAR KEYBOARD PRESISI (FINAL: Anti Melayang Saat Keyboard Turun)
+// RADAR KEYBOARD NATIVE & ANTI NYANGKUT (BULLETPROOF)
 // ==========================================================================
 
-// 1. Paksa body ke atas via JS agar tidak melayang di tengah layar
+// Paksa aplikasi selalu menempel di atap layar
 document.body.style.setProperty('align-items', 'flex-start', 'important');
 
-let maxScreenHeight = window.innerHeight;
-let isLayarBisaMengecil = false; // Sensor Memori Cerdas
-
 function sesuaikanLayar() {
+    // Ambil tinggi layar yang benar-benar tersisa
     const vh = window.visualViewport ? window.visualViewport.height : window.innerHeight;
+    const aiModal = document.getElementById('ai-modal');
     
-    // Merekam tinggi layar terbesar yang tersedia
-    if (vh > maxScreenHeight) maxScreenHeight = vh;
-    
-    // KUNCI UTAMA: Jika layar terbukti bisa mengecil (Browser/PWA), catat secara permanen!
-    if (vh < maxScreenHeight - 100) {
-        isLayarBisaMengecil = true;
+    if (aiModal) {
+        // Gunakan !important lewat JS agar tidak bisa dilawan oleh CSS manapun
+        aiModal.style.setProperty('height', vh + 'px', 'important');
+        aiModal.style.setProperty('padding-bottom', '0px', 'important');
     }
 
-    // Potong kontainer utama pas di atas keyboard
-    const appContainer = document.querySelector('.app-container');
-    if (appContainer) appContainer.style.height = vh + 'px';
-
-    const aiModal = document.getElementById('ai-modal');
-    if (aiModal) aiModal.style.height = vh + 'px';
-
-    const chatInput = document.getElementById('ai-chat-input');
-    const isFokus = document.activeElement === chatInput;
-
-    if (aiModal && aiModal.classList.contains('modal-show')) {
-        // LOGIKA BARU: JIKA layar kaku (APK) DAN sedang ngetik, baru didorong.
-        // TAPI jika layar sudah terbukti bisa mengecil alami, JANGAN PERNAH DIDORONG LAGI.
-        if (isFokus && !isLayarBisaMengecil) {
-            aiModal.style.paddingBottom = '42vh';
-        } else {
-            aiModal.style.paddingBottom = '0px'; 
-        }
-
-        // Dorong isi chat agar yang terbaru terlihat
-        const chatContent = document.getElementById('ai-chat-content');
-        if (chatContent) {
-            setTimeout(() => {
-                chatContent.scrollTo({ top: chatContent.scrollHeight, behavior: 'instant' });
-            }, 50);
-        }
+    // Dorong isi obrolan ke bawah secara instan
+    const chatContent = document.getElementById('ai-chat-content');
+    if (chatContent && aiModal && aiModal.classList.contains('modal-show')) {
+        setTimeout(() => {
+            chatContent.scrollTo({ top: chatContent.scrollHeight, behavior: 'instant' });
+        }, 50);
     }
 }
 
-// Pasang telinga pergerakan ukuran layar
+// Pantau pergerakan naik-turun keyboard secara real-time
 if (window.visualViewport) {
     window.visualViewport.addEventListener('resize', sesuaikanLayar);
+} else {
+    window.addEventListener('resize', sesuaikanLayar);
 }
 
-// Pemicu saat kolom ketik disentuh atau ditinggalkan
 const chatInput = document.getElementById('ai-chat-input');
 if (chatInput) {
-    chatInput.addEventListener('focus', () => setTimeout(sesuaikanLayar, 300));
+    // Saat kotak disentuh (Keyboard Naik)
+    chatInput.addEventListener('focus', () => {
+        setTimeout(() => {
+            sesuaikanLayar();
+            chatInput.scrollIntoView({ behavior: 'smooth', block: 'nearest' });
+        }, 300);
+    });
+    
+    // KUNCI PENYEMBUH: Saat selesai ngetik (Keyboard Turun)
     chatInput.addEventListener('blur', () => {
-        // PENGAMAN EKSTRA: Pastikan ganjalan hilang 100% saat selesai ngetik
-        const aiModal = document.getElementById('ai-modal');
-        if (aiModal) aiModal.style.paddingBottom = '0px';
+        setTimeout(() => {
+            const aiModal = document.getElementById('ai-modal');
+            if (aiModal) {
+                // PAKSA layar membentang penuh 100% menyentuh dasar HP!
+                aiModal.style.setProperty('height', '100%', 'important');
+                aiModal.style.setProperty('padding-bottom', '0px', 'important');
+            }
+        }, 100);
+    });
+}
+
+// PENGAMAN EKSTRA: Jika jamaah menyentuh area obrolan (background)
+const chatContent = document.getElementById('ai-chat-content');
+if (chatContent) {
+    chatContent.addEventListener('click', (e) => {
+        if (e.target.id !== 'ai-chat-input' && chatInput) {
+            chatInput.blur(); // Perintah mematikan kursor (Keyboard otomatis turun & layar reset 100%)
+        }
     });
 }
 
 sesuaikanLayar();
 
-// Kembalikan ukuran normal saat keluar menu AI
+// Kembalikan ukuran normal saat tombol kembali/keluar ditekan
 if (!window.originalGoBackAiSaved) {
     window.originalGoBackAiSaved = window.goBackAi;
     window.goBackAi = function() {
         const aiModal = document.getElementById('ai-modal');
-        if (aiModal) aiModal.style.paddingBottom = '0px'; // Lepas ganjalan
-        
+        if (aiModal) {
+            aiModal.style.setProperty('height', '100%', 'important');
+        }
         window.originalGoBackAiSaved(); 
         if (typeof aiChatHistory !== 'undefined') aiChatHistory = []; // Hapus memori obrolan
     }
