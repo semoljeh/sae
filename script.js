@@ -1882,57 +1882,52 @@ window.goBackAi = function() {
 }
 
 // 2. SISTEM OTOMATIS PELEBARAN KOTAK INPUT CHAT & RADAR KEYBOARD APK
+// 2. SISTEM OTOMATIS PELEBARAN KOTAK INPUT CHAT & SENSOR KEYBOARD
 document.addEventListener('DOMContentLoaded', () => {
     const chatInput = document.getElementById('ai-chat-input');
     const chatContent = document.getElementById('ai-chat-content');
     
     if(chatInput) {
-        // Auto-resize textarea saat mengetik panjang
+        // Auto-resize textarea saat ngetik panjang
         chatInput.addEventListener('input', function() {
             this.style.height = 'auto';
             this.style.height = (this.scrollHeight) + 'px';
         });
 
-        // =========================================================
-        // HACK KHUSUS APK: Paksa obrolan naik jika layar kaku
-        // =========================================================
+        // Saat diklik (Keyboard Naik)
         chatInput.addEventListener('focus', () => {
             setTimeout(() => {
-                // 1. KUNCI PERBAIKAN: Cek apakah pengguna menggunakan HP/Tablet
+                // Deteksi apakah dibuka di HP atau Laptop
                 const isMobile = /Android|webOS|iPhone|iPad|iPod|BlackBerry|IEMobile|Opera Mini/i.test(navigator.userAgent);
                 
-                // 2. Trik ganjal layar hanya aktif jika terdeteksi di HP DAN layarnya kaku (APK)
-                const isLayarKaku = isMobile && (!window.visualViewport || window.visualViewport.height >= window.innerHeight - 100);
+                // Deteksi apakah ini APK yang layarnya kaku (Tinggi viewport tidak menyusut)
+                const isApkKaku = isMobile && (!window.visualViewport || window.visualViewport.height >= window.innerHeight - 50);
                 
-                if (isLayarKaku) {
-                    // Ganjal bagian bawah modal setinggi 45vh (perkiraan tinggi keyboard HP)
-                    const modalAi = document.getElementById('ai-modal');
-                    if (modalAi) {
-                        modalAi.style.paddingBottom = '45vh'; 
-                        modalAi.style.transition = 'padding 0.3s ease';
-                    }
+                // Jika ini di dalam APK yang kaku, ganjal layarnya agar tidak ketutup
+                const modalAi = document.getElementById('ai-modal');
+                if (isApkKaku && modalAi) {
+                    modalAi.style.paddingBottom = '42vh'; // Ganjalan presisi untuk APK
+                    modalAi.style.transition = 'padding 0.3s ease';
                 }
                 
-                // Posisikan scroll agar kotak ketik dan obrolan terlihat
+                // Otomatis scroll obrolan ke bawah
                 if(chatContent) chatContent.scrollTo({ top: chatContent.scrollHeight, behavior: 'smooth' });
-            }, 300); // Tunggu keyboard selesai muncul
+            }, 300);
         });
 
-        // Kembalikan layar ke ukuran normal saat keyboard ditutup
+        // Saat selesai ngetik (Keyboard Turun)
         chatInput.addEventListener('blur', () => {
             const modalAi = document.getElementById('ai-modal');
-            if (modalAi) modalAi.style.paddingBottom = '0px';
+            if (modalAi) modalAi.style.paddingBottom = '0px'; // Lepas ganjalan
         });
 
-        // =========================================================
-        // FUNGSI MENGIRIM PESAN DENGAN TOMBOL ENTER KEYBOARD
-        // =========================================================
+        // Fungsi Tombol Enter Keyboard
         chatInput.addEventListener('keydown', function(e) {
             if (e.key === 'Enter' && !e.shiftKey) {
-                e.preventDefault(); // Mencegah teks turun ke baris baru
+                e.preventDefault(); 
                 const btnEl = document.getElementById('btn-send-ai');
                 if (btnEl && btnEl.dataset.mode !== 'stop') {
-                    sendMessageAi(); // Eksekusi fungsi kirim
+                    sendMessageAi(); 
                 }
             }
         });
