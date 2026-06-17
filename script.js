@@ -1974,11 +1974,15 @@ window.sendMessageAi = async function() {
         const rawAiText = await response.text();
         removeTypingIndicatorAi(typingId);
 
-        if (!response.ok || rawAiText.includes("Terjadi kesalahan")) {
-            appendMessageAi('ai', `⏳ Afwan Ananda, pusat keilmuan sedang sibuk. Coba ulangi lagi.`);
-            aiChatHistory.pop(); 
-            return;
-        }
+if (!response.ok) {
+    appendMessageAi(
+        'ai',
+        `<pre style="white-space:pre-wrap;font-size:11px">${rawAiText}</pre>`
+    );
+
+    aiChatHistory.pop();
+    return;
+}
 
         if (!rawAiText || rawAiText.trim() === "") {
             appendMessageAi('ai', "Maaf Ananda, Ustaz belum menemukan jawaban. Silakan ulangi kembali.");
