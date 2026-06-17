@@ -1913,7 +1913,7 @@ document.addEventListener('DOMContentLoaded', () => {
     }
 });
 
-// 3. FUNGSI UTAMA PENGIRIMAN PESAN (VERSI PUNCAK: ANTI-CRASH & MEMORI CERDAS)
+// 3. FUNGSI UTAMA PENGIRIMAN PESAN (VERSI MEMORI PENUH & GURU BIJAK)
 
 // Array global memori percakapan
 let aiChatHistory = [];
@@ -1950,44 +1950,47 @@ window.sendMessageAi = async function() {
 
     currentController = new AbortController();
 
-    // Simpan pesan user
+    // Simpan pesan user ke memori asli
     aiChatHistory.push({ role: "user", parts: [{ text: message }] });
 
-    // Ambil maksimal 10 obrolan terakhir agar beban jaringan sangat ringan
-    let historyToSend = aiChatHistory.slice(-10);
+    // Format ulang memori 10 obrolan terakhir agar cocok dibaca oleh Groq API
+    let historyToSend = aiChatHistory.slice(-10).map(msg => ({
+        role: msg.role === 'model' ? 'assistant' : 'user', 
+        content: msg.parts[0].text
+    }));
 
     try {
-        // URL API RAG Ustaz AI Baru (Menggunakan GET)
-        const CLOUDFLARE_URL = `https://ustaz-ai-rag.aromkeyapi.workers.dev/?q=${encodeURIComponent(message)}`;
+        // Ganti dengan link Cloudflare Worker Akang yang asli (Pastikan linknya benar)
+        const CLOUDFLARE_URL = `https://ustaz-ai-rag.aromkeyapi.workers.dev/`;
         
+        // SEKARANG KITA PAKAI METODE POST UNTUK MENGIRIM SELURUH MEMORI
         const response = await fetch(CLOUDFLARE_URL, {
-            method: 'GET',
+            method: 'POST',
+            headers: { 'Content-Type': 'application/json' },
+            body: JSON.stringify({ messages: historyToSend }),
             signal: currentController.signal
         });
 
-        // Karena API baru kita langsung mengembalikan teks murni, gunakan .text()
         const rawAiText = await response.text();
         removeTypingIndicatorAi(typingId);
 
-        // Jika error dari server
-        if (!response.ok || rawAiText.includes("Terjadi kesalahan") || rawAiText.includes("Terjadi kendala")) {
-            appendMessageAi('ai', `⏳ Afwan Ananda, pusat keilmuan sedang sibuk: ${rawAiText}`);
-            aiChatHistory.pop(); // Mundurkan memori otomatis
+        if (!response.ok || rawAiText.includes("Terjadi kesalahan")) {
+            appendMessageAi('ai', `⏳ Afwan Ananda, pusat keilmuan sedang sibuk. Coba ulangi lagi.`);
+            aiChatHistory.pop(); 
             return;
         }
 
-        // Jika teks kosong
         if (!rawAiText || rawAiText.trim() === "") {
             appendMessageAi('ai', "Maaf Ananda, Ustaz belum menemukan jawaban. Silakan ulangi kembali.");
             aiChatHistory.pop();
             return;
         }
             
-        // Simpan ke memori permanen
+        // Simpan jawaban sukses ke memori permanen
         aiChatHistory.push({ role: "model", parts: [{ text: rawAiText }] });
 
         let aiResponseText = rawAiText;
-        // Percantik teks Arab dan Format Miring/Tebal
+        // Percantik teks Arab dan Format
         const arabicRegex = /([\u0600-\u06FF\u0750-\u077F\u08A0-\u08FF\uFB50-\uFDFF\uFE70-\uFEFF\u0610-\u061A\u064B-\u065F\u0670\u06D6-\u06DC\u06DF-\u06E8\u06EA-\u06ED\s]+)/g;
         aiResponseText = aiResponseText.replace(arabicRegex, match => {
             if (match.trim().length === 0 || !/[\u0600-\u06FF]/.test(match)) return match;
@@ -2003,7 +2006,7 @@ window.sendMessageAi = async function() {
         
     } catch (error) {
         removeTypingIndicatorAi(typingId);
-        aiChatHistory.pop(); // Wajib buang riwayat terakhir jika gagal agar chat tetap bisa jalan
+        aiChatHistory.pop(); 
 
         if (error.name !== 'AbortError') {
              appendMessageAi('ai', "🚨 <strong>Koneksi Kurang Stabil:</strong> Mohon tunggu beberapa saat, lalu kirim ulang pertanyaan Ananda.");
